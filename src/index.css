@@ -1,0 +1,17 @@
+@import "tailwindcss";
+@import "swiper/css";
+
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&display=swap');
+
+
+.inspiration-regular {
+    font-family: "Inspiration", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+@layer components {
+  .custom-gradient {
+    background: linear-gradient(180deg, #2C2C2C1A 10%, #22212189 52.89%, #0F0F0F 100%);
+  }
+}

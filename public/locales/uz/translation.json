@@ -1,0 +1,164 @@
+{
+  "navbar": {
+    "news": "Yangiliklar",
+    "magazines": "Jurnallar",
+    "article": "Maqolalar",
+    "hotels": "Mehmonxonalar",
+    "travelDestination": "Sayohat yo'nalishlari",
+    "historicalAndCulturalPlaces": "Tarixiy va madaniy joylar",
+    "forNatureLovers": "Tabiat sevuvchilar uchun",
+    "exoticAndUniquePlaces": "Ekzotik va noyob joylar",
+    "culturalEventsAndFestivals": "Madaniy tadbirlar va festivallar",
+    "cities": "Shaharlar",
+    "samarqand": "Samarqand",
+    "buxoro": "Buxoro",
+    "xiva": "Xiva",
+    "toshkent": "Toshkent",
+    "shahrisabz": "Shahrisabz",
+    "documents": "Hujjatlar",
+    "maps": "Xaritalar",
+    "services": "Xizmatlar",
+    "home": "Bosh sahifa",
+    "media": "Media"
+  },
+  "subNavbar": {
+    "home": "Bosh sahifa",
+    "media": "Media",
+    "hotels": "Mehmonxonalar",
+    "travelDestination": "Sayohat yo'nalishlari"
+  },
+  "carousel": {
+    "slides": [
+      {
+        "name": "Radisson Blu Mehmonxonasi Toshkent",
+        "category": "Mehmonxonalar"
+      },
+      {
+        "name": "Intercontinental Toshkent",
+        "category": "Mehmonxonalar"
+      },
+      {
+        "name": "Cornucopia onlayn maqola",
+        "category": "Jurnallar"
+      }
+    ]
+  },
+  "newsArticle": {
+    "title": "Yangiliklar va Maqolalar",
+    "article": "Maqola",
+    "error": "Ma'lumotlarni olishda xatolik yuz berdi"
+  },
+  "breadcrumb": {
+    "home": "Bosh sahifa",
+    "article": "Maqolalar",
+    "magazines": "Jurnallar",
+    "hotels": "Mehmonxonalar",
+    "documents": "Hujjatlar",
+    "services": "Xizmatlar"
+  },
+  "article": {
+    "title": "Maqolalar",
+    "readTime": "2 daqiqa o‘qish"
+  },
+  "magazine": {
+    "title": "Mehmonxona jurnallari",
+    "booksIn": "{{year}} yil kitoblari",
+    "view_pdf": "PDF ko'rish",
+    "ts": "Tavsif",
+    "see": "Ko'rish uchun bosing"
+
+  },
+  "hotels": {
+    "title": "Mehmonxonalar",
+    "searchPlaceholder": "Mehmonxonani qidiring...",
+    "noResult": "Hech narsa topilmadi.",
+    "the_suite_hotels": "Zamonaviy Mehmonxonalar"
+  },
+  "travel": {
+    "title": "Sayohat yo'nalishlari",
+    "travel_collections": "Sayohat manzillari",
+    "loading": "Yuklanmoqda...",
+    "fetch_error": "Ma'lumotlarni olishda xatolik yuz berdi.",
+    "nearby_travel_places": "Yaqindagi sayohat maskanlari",
+    "search_placeholder": "Sayohat joylarini qidiring...",
+    "select_city": "Shaharni tanlang",
+    "location": "Joylashuvi"
+  },
+  "map": {
+    "breadcrumb": "Xarita",
+    "title": "Yaqin joylar",
+    "viewButton": "Ko‘rish"
+  },
+  "hotelDetail": {
+    "amenities": "Quyidagi imkoniyatlar",
+    "no_amenities": "Imkoniyatlar ko‘rsatilmagan.",
+    "location_map": "Joylashuv xaritasi",
+    "contact": "Bog‘lanish",
+    "of": "dan"
+  },
+  "documents": {
+    "tourism_laws": "Turizm qonunlari",
+    "search_documents": "Hujjatlarni qidiring...",
+    "categories": "Kategoriyalar",
+    "no_documents_found": "Hujjat topilmadi.",
+    "number": "Raqam",
+    "date": "Sana",
+    "view_document": "Hujjatni ko‘rish"
+  },
+  "services": {
+    "title": "Xizmatlar",
+    "hotels": "Mehmonxonalar",
+    "resort": "Kurort",
+    "tour-firm": "Sayohat firmalari",
+    "banks": "Banklar",
+    "clinic": "Shifoxona",
+    "market": "Supermarket"
+  },
+  "common": {
+    "loading": "Yuklanmoqda...",
+    "address": "Manzil",
+    "description": "Tavsif",
+    "details": "Batafsil ma'lumot",
+    "noData": "Ma'lumot topilmadi",
+    "errorLoading": "Ma'lumotni yuklashda xatolik",
+    "resort": "Dam olish maskani"
+  },
+  "media": {
+    "title": "Media",
+    "category": "Barcha kategoriyalar",
+    "full": "Batafsil o'qish",
+    "meet": "Eng so'nggi yangiliklar va maqolalar bilan tanishing",
+    "news": "So'nggi Yangiliklar",
+    "import": "Eng muhim voqealar va xabarlar",
+    "articles": "Maqolalar",
+     "show_less": "Показать меньше",
+  "show_more": "Показать больше",
+  "no_results": "bo'yicha natija topilmadi",
+  "total_articles": "Jami maqolalar soni",
+  "no_results_hint": "Qidiruv so'zingizni o'zgartiring yoki boshqa kategoriyani tanlang",
+   "next": "Keyingi",
+  "previous": "Oldingi"
+  },
+  "placeholder": {
+    "travel": "Sayohat Firmalarini Qidirish",
+    "bank": "Banklarni Qidirish",
+    "clinic": "Shifoxonalarni Qidirish",
+    "resort": "Kurortlarni Qidiring",
+    "market": "Savdo Marketlarini Qidirish",
+    "hotel": "Mehmonxona Qidirish",
+    "news": "Yangiliklarni qidiring",
+    "articles": "Maqolalar ichidan qidirish"
+  },
+  "tips": {
+    "tip": "💡 Tip:",
+    "navigation": "Navigator:",
+    "google": "Google:",
+    "yandex": "Yandex:"
+  },
+  "navigation": {
+    "tip": "Marker'ni bosing va navigatsiya tugmalaridan foydalaning:",
+    "navigator": "Telefoningizda navigator dasturini ochadi",
+    "google": "Google Maps da yo'l ko'rsatadi",
+    "yandex": "Yandex Maps da yo'l ko'rsatadi"
+  }
+}

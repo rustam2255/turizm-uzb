@@ -1,0 +1,163 @@
+{
+  "navbar": {
+    "news": "News",
+    "magazines": "Magazines",
+    "article": "Article",
+    "hotels": "Hotels",
+    "travelDestination": "Travel destination",
+    "historicalAndCulturalPlaces": "Historical and cultural places",
+    "forNatureLovers": "For nature lovers",
+    "exoticAndUniquePlaces": "Exotic and unique places",
+    "culturalEventsAndFestivals": "Cultural events and festivals",
+    "cities": "Cities",
+    "samarqand": "Samarqand",
+    "buxoro": "Bukhara",
+    "xiva": "Khiva",
+    "toshkent": "Tashkent",
+    "shahrisabz": "Shakhrisabz",
+    "documents": "Documents",
+    "maps": "Maps",
+    "services": "Services",
+    "home": "Home",
+    "media": "Media"
+  },
+  "subNavbar": {
+    "home": "Home",
+    "media": "Media",
+    "hotels": "Hotels",
+    "travelDestination": "Travel Destinations"
+  },
+  "carousel": {
+    "slides": [
+      {
+        "name": "Radisson Blue Hotel Tashkent",
+        "category": "Hotels"
+      },
+      {
+        "name": "Intercontinental Tashkent By Ihg",
+        "category": "Hotels"
+      },
+      {
+        "name": "Cornucopia online article",
+        "category": "Magazines"
+      }
+    ]
+  },
+  "newsArticle": {
+    "title": "News & Article",
+    "article": "Article",
+    "error": "An error occurred while fetching data"
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "article": "Article",
+    "magazines": "Magazines",
+    "hotels": "Hotels",
+    "documents": "Documents",
+    "services": "Services"
+  },
+  "article": {
+    "title": "Articles",
+    "readTime": "2 min read"
+  },
+  "magazine": {
+    "title": "Hotel Magazines",
+    "booksIn": "Books in {{year}}",
+    "view_pdf": "View PDF",
+    "ts": "Description",
+    "see": "Click to view"
+  },
+  "hotels": {
+    "title": "Hotels",
+    "searchPlaceholder": "Search hotels...",
+    "noResult": "No results found.",
+    "the_suite_hotels": "The Suite Hotels"
+  },
+  "travel": {
+    "title": "Travel destination",
+    "travel_collections": "Travel Collections",
+    "loading": "Loading...",
+    "fetch_error": "Error fetching data.",
+    "nearby_travel_places": "Nearby Travel Places",
+    "search_placeholder": "Search travel destinations...",
+    "select_city": "Select a city",
+    "location": "Location"
+  },
+  "map": {
+    "breadcrumb": "Map",
+    "title": "Nearby places",
+    "viewButton": "View"
+  },
+  "hotelDetail": {
+    "amenities": "Amenities",
+    "no_amenities": "No amenities listed.",
+    "location_map": "Location map",
+    "contact": "Contact",
+    "of": "of"
+  },
+  "documents": {
+    "tourism_laws": "Tourism Laws",
+    "search_documents": "Search documents...",
+    "categories": "Categories",
+    "no_documents_found": "No documents found.",
+    "number": "Number",
+    "date": "Date",
+    "view_document": "View Document"
+  },
+  "services": {
+    "title": "Services",
+    "hotels": "Hotels",
+    "resort": "Resort",
+    "tour-firm": "Tour Firm",
+    "banks": "Banks",
+    "clinic": "Clinic",
+    "market": "Supermarket"
+  },
+  "common": {
+    "loading": "Loading...",
+    "address": "Address",
+    "description": "Description",
+    "details": "Details",
+    "noData": "No data found",
+    "errorLoading": "Error loading data",
+    "resort": "Resort"
+  },
+  "media": {
+    "title": "Media",
+    "category": "All categories",
+    "full": "Read More",
+    "meet": "Discover the latest news and articles",
+    "news": "Latest News",
+    "import": "Most important events and updates",
+    "articles": "Articles",
+    "show_less": "Show less",
+    "show_more": "Show more",
+    "no_results": "no results found",
+    "total_articles": "Total number of articles",
+    "no_results_hint": "Change your search term or select a different category",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "placeholder": {
+    "travel": "Search for travel agencies",
+    "bank": "Search for banks",
+    "clinic": "Search for clinics",
+    "resort": "Search for resorts",
+    "market": "Search for markets",
+    "hotel": "Search for hotels",
+    "news": "Search for news",
+    "articles": "Search through articles"
+  },
+  "tips": {
+    "tip": "💡 Tip:",
+    "navigation": "Navigator:",
+    "google": "Google:",
+    "yandex": "Yandex:"
+  },
+  "navigation": {
+    "tip": "Click on the marker and use the navigation buttons:",
+    "navigator": " Opens the navigator app on your phone",
+    "google": " Shows route in Google Maps",
+    "yandex": " Shows route in Yandex Maps"
+  }
+}
