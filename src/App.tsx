@@ -31,7 +31,6 @@ const Hotels = lazy(() => import('@pages/hotels'));
 const TravelDestination = lazy(() => import('@/pages/travelDestination'));
 const Documents = lazy(() => import('@/pages/documents'));
 const NotFound = lazy(() => import('@pages/notFound'));
-const News = lazy(() => import('@pages/news'));
 const Maps = lazy(() => import('@pages/maps'));
 
 const knownPaths = [
@@ -58,7 +57,6 @@ const AppContent = () => {
       <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/news" element={<News />} />
           <Route path="/news/:idSlug" element={<NewsDetail />} />
           <Route path="/magazines" element={<Magazines />} />
           <Route path="/article" element={<Article />} />
