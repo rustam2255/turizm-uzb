@@ -35,14 +35,14 @@ const SubNavbar: React.FC<SubNavbarProps> = ({ activeSection, setActiveSection }
 
   return (
     <div className="w-full py-4">
-      <div className="flex justify-center items-center rounded-full p-1 bg-white/80  backdrop-blur-sm shadow-lg mx-auto max-w-fit">
+      <div className="flex justify-center items-center rounded-2xl p-1 bg-white/80  backdrop-blur-sm shadow-lg mx-auto ">
         <div className="flex items-center justify-center gap-0 px-2 py-1 overflow-x-auto whitespace-nowrap scrollbar-hide">
           {NavbarItem.map((item) => (
             <button
               key={item.id}
               onClick={() => handleScroll(item.id)}
               className={`
-                relative px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium 
+                relative px-4 sm:px-6 py-2 sm:py-3 text-[9px] sm:text-base font-medium 
                 transition-all duration-300 hover:cursor-pointer
                 min-w-fit flex-shrink-0 rounded-full
                 ${activeSection === item.id

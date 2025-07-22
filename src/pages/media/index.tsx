@@ -10,7 +10,7 @@ const Media: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="pt-[79px] bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div className="pt-[79px]  bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
       <div className='max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-8'>
         {/* Breadcrumb */}
         <nav className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2" aria-label="Breadcrumb">

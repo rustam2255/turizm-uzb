@@ -62,13 +62,13 @@ const Home = () => {
         
         {/* SubNavbar positioned at the bottom of carousel */}
         <div className={`
-          w-full z-50 transition-all duration-300 ease-in-out
+          w-full z-50 transition-all  duration-300 ease-in-out
           ${isSticky 
             ? 'fixed top-0 left-0 bg-black/90 backdrop-blur-sm shadow-lg' 
             : 'absolute bottom-0 left-0 transform translate-y-1/2'
           }
         `}>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
             <SubNavbar 
               activeSection={activeSection} 
               setActiveSection={setActiveSection} 
@@ -78,8 +78,8 @@ const Home = () => {
       </div>
 
       {/* Content Sections */}
-      <div className={`${isSticky ? 'pt-5' : 'pt-5'} md:pt-20 lg:pt-5 font-serif transition-all duration-300`}>
-        <div id="media" className="scroll-mt-20">
+      <div className={`${isSticky ? 'pt-1' : 'pt-1'} md:pt-5 lg:pt-5 font-serif transition-all duration-300`}>
+        <div id="media" className="scroll-mt-10">
           <NewsArticle />
         </div>
         

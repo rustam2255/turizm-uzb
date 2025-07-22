@@ -45,77 +45,245 @@ const NewsArticle: React.FC = () => {
   const articles = articlesData?.results ?? [];
 
   return (
-    <div className="w-full px-4 font-serif pt-[65px] md:pt-[60px] md:min-h-screen lg:px-[80px] mb-8" id="media">
-      <h1 className="text-[24px] text-[#161616] leading-[100%] mb-1.5 md:leading-[50px] md:text-[40px] font-serif text-start md:text-center md:mb-8">
+    <div className="w-full px-4 font-serif pt-[65px] md:pt-[60px] md:min-h-screen lg:px-[80px] mb-8 animate-fade-in" id="media">
+      <h1 className="text-[24px] text-[#161616] text-center leading-[100%] mb-1.5 md:leading-[50px] md:text-[40px] font-serif md:text-center md:mb-8 animate-slide-down hover:scale-105 transition-all duration-500 ease-out">
         {t("newsArticle.title")}
       </h1>
 
       {loading ? (
-        <NewsSkeleton />
+        <div className="animate-pulse">
+          <NewsSkeleton />
+        </div>
       ) : error ? (
-        <div className="text-red-500 text-center">{t("newsArticle.error")}</div>
+        <div className="text-red-500 text-center animate-shake">{t("newsArticle.error")}</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-[1.5fr_3fr_1.5fr] gap-x-4">
-          <div className="md:col-span-1 md:border-gray-300 md:border-r md:pr-4">
-            {newsdata?.slice(0, 2).map((item) => (
-
-
-              <HotelCard
+        <div className="grid grid-cols-1 md:grid-cols-[1.5fr_3fr_1.5fr] gap-x-4 animate-fade-in-up">
+          <div className="md:col-span-1 md:border-gray-300 md:border-r md:pr-4 space-y-4">
+            {newsdata?.slice(0, 2).map((item, index) => (
+              <div 
                 key={item.id}
-                id={item.id}
-                images={item.image || ''}
-                title={getLocalizedText(item.title)}
-                description={getLocalizedText(item.description)}
-              />
-
-            ))}
-          </div>
-
-          <div className="md:col-span-1 md:border-gray-300 md:border-r md:pr-4">
-            {newsdata?.slice(2, 3).map((item) => (
-              <Travel
-                key={item.id}
-                id={item.id}
-                title={getLocalizedText(item.title)}
-                description={getLocalizedText(item.description)}
-                image={item.image || ''}
-              />
-            ))}
-            <div>
-              {newsdata?.slice(3, 4).map((item) => (
+                className="animate-slide-in-left hover:scale-105 transition-all duration-300 ease-out hover:shadow-lg"
+                style={{
+                  animationDelay: `${index * 150}ms`,
+                  animationFillMode: 'both'
+                }}
+              >
                 <HotelCard
-                  key={item.id}
                   id={item.id}
                   images={item.image || ''}
                   title={getLocalizedText(item.title)}
                   description={getLocalizedText(item.description)}
                 />
+              </div>
+            ))}
+          </div>
 
+          <div className="md:col-span-1 md:border-gray-300 md:border-r md:pr-4 space-y-4">
+            {newsdata?.slice(2, 3).map((item) => (
+              <div 
+                key={item.id}
+                className="animate-slide-in-up hover:scale-105 transition-all duration-300 ease-out hover:shadow-xl"
+                style={{
+                  animationDelay: '300ms',
+                  animationFillMode: 'both'
+                }}
+              >
+                <Travel
+                  id={item.id}
+                  title={getLocalizedText(item.title)}
+                  description={getLocalizedText(item.description)}
+                  image={item.image || ''}
+                />
+              </div>
+            ))}
+            <div>
+              {newsdata?.slice(3, 4).map((item) => (
+                <div 
+                  key={item.id}
+                  className="animate-slide-in-up hover:scale-105 transition-all duration-300 ease-out hover:shadow-lg"
+                  style={{
+                    animationDelay: '450ms',
+                    animationFillMode: 'both'
+                  }}
+                >
+                  <HotelCard
+                    id={item.id}
+                    images={item.image || ''}
+                    title={getLocalizedText(item.title)}
+                    description={getLocalizedText(item.description)}
+                  />
+                </div>
               ))}
             </div>
           </div>
 
           <div className="md:col-span-1">
-            <div className="pt-4 md:pt-0">
-              <h3 className="text-[16px] leading-[100%] text-[#DE5D26] mb-1.5 md:mb-3">
+            <div className="pt-4 md:pt-0 animate-slide-in-right" style={{animationDelay: '600ms', animationFillMode: 'both'}}>
+              <h3 className="text-[16px] leading-[100%] text-[#DE5D26] mb-1.5 md:mb-3 animate-pulse-slow hover:text-[#FF6B35] transition-colors duration-300">
                 {t("newsArticle.article")}
               </h3>
-              {articles.slice(0, 5).map((article) => (
-                <ArticleCard
-                  id={article.id}
-                  key={article.id}
-                  title={getLocalizedText(article.title)}
-                  author={(article.author)}
-                  created_at={article.created_at}
-                  article_image={article.article_image || ''}
-                />
-              ))}
+              <div className="space-y-3">
+                {articles.slice(0, 5).map((article, index) => (
+                  <div
+                    key={article.id}
+                    className="animate-fade-in-stagger hover:scale-102 transition-all duration-300 ease-out hover:shadow-md border-l-2 border-transparent hover:border-[#DE5D26] pl-2"
+                    style={{
+                      animationDelay: `${700 + index * 100}ms`,
+                      animationFillMode: 'both'
+                    }}
+                  >
+                    <ArticleCard
+                      id={article.id}
+                      title={getLocalizedText(article.title)}
+                      author={(article.author)}
+                      created_at={article.created_at}
+                      article_image={article.article_image || ''}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       )}
 
+      <style>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
 
+        @keyframes slide-down {
+          from {
+            opacity: 0;
+            transform: translateY(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes slide-in-left {
+          from {
+            opacity: 0;
+            transform: translateX(-50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes slide-in-right {
+          from {
+            opacity: 0;
+            transform: translateX(50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes slide-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fade-in-stagger {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes shake {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          10%, 30%, 50%, 70%, 90% {
+            transform: translateX(-5px);
+          }
+          20%, 40%, 60%, 80% {
+            transform: translateX(5px);
+          }
+        }
+
+        @keyframes pulse-slow {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.7;
+          }
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.6s ease-out;
+        }
+
+        .animate-slide-down {
+          animation: slide-down 0.8s ease-out;
+        }
+
+        .animate-slide-in-left {
+          animation: slide-in-left 0.6s ease-out;
+        }
+
+        .animate-slide-in-right {
+          animation: slide-in-right 0.6s ease-out;
+        }
+
+        .animate-slide-in-up {
+          animation: slide-in-up 0.6s ease-out;
+        }
+
+        .animate-fade-in-up {
+          animation: fade-in-up 0.8s ease-out;
+        }
+
+        .animate-fade-in-stagger {
+          animation: fade-in-stagger 0.5s ease-out;
+        }
+
+        .animate-shake {
+          animation: shake 0.5s ease-in-out;
+        }
+
+        .animate-pulse-slow {
+          animation: pulse-slow 2s ease-in-out infinite;
+        }
+
+        .hover\\:scale-102:hover {
+          transform: scale(1.02);
+        }
+      `}</style>
     </div>
   );
 };

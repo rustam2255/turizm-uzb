@@ -73,11 +73,11 @@ const MagazineDetailUI: React.FC = () => {
     );
   }
 
-  // Rasmlar ro'yxatini tayyor qilish
+ 
   const imagesList = magzineImage?.results?.map((item) => item.image) || [];
 
   return (
-    <div className="max-w-[1500px] mx-auto py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
+    <div className="max-w-[1000px] ml-[20px] py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
       {/* Breadcrumb */}
       <nav className="flex items-center text-[14px] font-medium md:text-[18px] gap-2 mb-8">
         <Link 
@@ -95,9 +95,8 @@ const MagazineDetailUI: React.FC = () => {
         </Link>
       </nav>
 
-      {/* Content Container */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        {/* Header Section */}
+   
         <div className="p-6 sm:p-8 border-b border-gray-100">
           <h1 className="text-[24px] md:text-[32px] text-gray-900 font-bold leading-[110%] mb-3 animate-slideInLeft">
             {getLocalizedText(magazine.title)}
@@ -107,15 +106,15 @@ const MagazineDetailUI: React.FC = () => {
           </div>
         </div>
 
-        {/* Main Content */}
+
         <div className="p-6 sm:p-8">
-          {/* Magazine Image */}
+     
           <div className="group relative mb-8 animate-slideInUp">
             <div className="overflow-hidden rounded-xl shadow-lg group-hover:shadow-xl transition-shadow duration-300">
               <img
                 src={magazine.card || IMAGE}
                 alt={getLocalizedText(magazine.title)}
-                className="w-full max-h-96 hover:cursor-pointer object-cover group-hover:scale-105 transition-transform duration-500"
+                className="w-fit mx-auto max-h-[500px]   hover:cursor-pointer  group-hover:scale-105 transition-transform duration-500"
                 onClick={handleImageClick}
                 onError={(e) => ((e.target as HTMLImageElement).src = IMAGE)}
               />
@@ -126,7 +125,7 @@ const MagazineDetailUI: React.FC = () => {
               </div>
             </div>
           </div>
-          {/* Description */}
+    
           <div className="mb-8 animate-slideInUp delay-200">
             <h2 className="text-[20px] font-semibold text-gray-900 mb-4">{t('magazine.ts')}</h2>
             <p className="text-gray-700 text-[16px] md:text-[18px] leading-[140%] tracking-wide bg-gray-50 p-6 rounded-lg border-l-4 border-[#DE5D26]">
@@ -134,7 +133,7 @@ const MagazineDetailUI: React.FC = () => {
             </p>
           </div>
 
-          {/* PDF Section */}
+     
           <div className="animate-slideInUp delay-300">
             {!showPdf ? (
               <div className="text-center">

@@ -46,4 +46,3 @@ const MagazineUI: React.FC<MagazineUIProps> = ({ id, title, coverImage, dateRang
 };
 
 export default MagazineUI;
-
