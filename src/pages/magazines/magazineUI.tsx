@@ -29,7 +29,7 @@ const MagazineUI: React.FC<MagazineUIProps> = ({ id, title, coverImage, dateRang
           <img
             src={coverImage}
             alt={`${title} magazine cover`}
-            className="w-full h-[300px] md:w-[200px] md:h-[250px] sm:w-[160px] sm:h-[200px] object-cover mb-4 transition-transform duration-200 hover:scale-105"
+            className="w-full rounded-xl h-[300px] md:w-[200px] md:h-[250px] sm:w-[160px] sm:h-[200px] object-cover mb-4 transition-transform duration-200 hover:scale-105"
             onError={handleImageError}
           />
         </Link>

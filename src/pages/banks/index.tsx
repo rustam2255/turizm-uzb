@@ -25,7 +25,7 @@ interface Bank {
   };
   latitude: number;
   longitude: number;
-  images: string[];
+  images: string;
 }
 
 const getLocalizedText = (
@@ -114,6 +114,8 @@ const Banks: React.FC = () => {
     search: searchQuery || undefined,
     city: selectedCity || undefined,
   });
+  console.log(bankData);
+  
 
   const banks: Bank[] = bankData?.results || [];
   const totalPages = Math.ceil((bankData?.count || 0) / pageSize);

@@ -13,7 +13,7 @@ type Lang = "uz" | "ru" | "en";
 
 interface City {
   id: number;
-  name: string  | Record<Lang, string>;
+  name: string | Record<Lang, string>;
 }
 
 const getLocalizedText = (
@@ -31,8 +31,11 @@ const TourCard: React.FC<{
   id: number;
   name: string;
   city: string;
-  imageUrl?: string;
-}> = ({ id, name, city, imageUrl }) => {
+  images: {
+    id: number;
+    image: string;
+  }[];
+}> = ({ id, name, city, images }) => {
   const navigate = useNavigate();
   return (
     <div
@@ -41,7 +44,7 @@ const TourCard: React.FC<{
     >
       <div className="relative h-48 overflow-hidden mb-3 rounded">
         <img
-          src={imageUrl || "/placeholder.svg"}
+          src={images[0].image || "/placeholder.svg"}
           alt={name}
           className="w-full h-full object-cover"
           onError={(e) => {
@@ -82,6 +85,7 @@ const TravelDestination: React.FC = () => {
     search: searchQuery || undefined,
     page: currentPage,
   });
+  console.log(tourData);
 
   const tours = tourData?.results || [];
   const totalPages = Math.ceil((tourData?.count || 0) / pageSize);
@@ -149,7 +153,9 @@ const TravelDestination: React.FC = () => {
                 },
                 lang
               )}
-              imageUrl={tour.image?.[0]}
+              images= {Array.isArray(tour.images)
+            ? tour.images.map((img, idx) => ({ id: idx, image: img }))
+            : [{ id: 0, image: tour.images }]}
             />
           ))}
       </div>
@@ -162,8 +168,8 @@ const TravelDestination: React.FC = () => {
               key={page}
               onClick={() => setCurrentPage(page)}
               className={`px-3 py-1 rounded transition-colors duration-200 ${currentPage === page
-                  ? "bg-[#DE5D26] text-white"
-                  : "bg-gray-100 hover:bg-gray-200"
+                ? "bg-[#DE5D26] text-white"
+                : "bg-gray-100 hover:bg-gray-200"
                 } text-sm sm:text-base`}
             >
               {page}

@@ -6,11 +6,14 @@ import { slugify } from "@/utils/slugify";
 interface HotelCardProps {
   id: number;
   name: string;
-  image: string;
+  images: {
+    id:number;
+    image: string;
+  }[];
   description: string;
 }
 
-const HotelCard: React.FC<HotelCardProps> = ({ id, name, image, description }) => {
+const HotelCard: React.FC<HotelCardProps> = ({ id, name, images, description }) => {
   const navigate = useNavigate();
 
   const handleHomeDetail = (id: number, name:string) => {
@@ -24,9 +27,9 @@ const HotelCard: React.FC<HotelCardProps> = ({ id, name, image, description }) =
     >
       <div className="overflow-hidden mb-3">
         <img
-          src={image || IMAGE}
+          src={images[0].image}
           alt={`${name} room`}
-          className="w-full h-[210px] mb-4 object-cover hover:scale-105 transition-transform duration-300"
+          className="w-full h-[210px] rounded-xl mb-4 object-cover hover:scale-105 transition-transform duration-300"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.src = IMAGE;

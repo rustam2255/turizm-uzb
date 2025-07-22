@@ -38,7 +38,7 @@ const HotelCardUI: React.FC = () => {
             <HotelCard
               id={hotel.id}
               name={hotel.name}
-              image={hotel.images[0]}
+              images={Array.isArray(hotel.images) ? hotel.images : hotel.images ? [hotel.images] : []}
               description={getLocalizedText(hotel.description)}
             />
           </div>

@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import IMAGE1 from "@assets/images/hotel113.jpg";
-import IMAGE2 from "@assets/images/hotel12.jpg";
-import IMAGE3 from "@assets/images/hotel124.jpg";
 import CityFilter from "@/components/ui/CityFilter";
 import RatingSelect from "@/components/ui/ratingSelect";
 import HotelCardSkeleton from "@/components/ui/loaderSkleton/homeSkleton";
@@ -17,30 +14,28 @@ const HotelCard: React.FC<{
   name: string;
   id: number;
   desc: string;
-  image: string;
+  images: {
+    id: number;
+    image: string;
+  }[];
   rating: string;
-}> = ({ id,  image, rating, name , desc}) => {
+}> = ({ id, images, rating, name, desc }) => {
   const parsedRating = parseFloat(rating);
   const fullStars = Math.floor(parsedRating);
   const hasHalfStar = parsedRating - fullStars >= 0.5;
   const maxStars = 5;
-  const fallbackImages = [IMAGE1, IMAGE2, IMAGE3];
 
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    const target = e.currentTarget;
-    const randomIndex = Math.floor(Math.random() * fallbackImages.length);
-    target.src = fallbackImages[randomIndex];
-  };
+
 
   return (
     <Link to={`/hotels/${id}-${slugify(name)}`}>
       <div className="flex flex-row md:flex-col gap-4 md:gap-0 w-full items-start text-[#131313] border-b border-black/15 pb-4 md:pb-0 md:border-none">
         <div className="overflow-hidden w-full h-[115px] md:h-[220px]">
           <img
-            src={image}
+            src={images[0].image}
             alt={name}
-            className="md:w-full w-[174px] h-full object-cover transition-transform duration-300 hover:scale-105"
-            onError={handleImageError}
+            className="md:w-full rounded-xl w-[174px] h-full object-cover transition-transform duration-300 hover:scale-105"
+
           />
         </div>
         <div className="w-full">
@@ -86,12 +81,12 @@ const HotelUI: React.FC = () => {
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-
+  
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const { data: cities = [], error: citiesError } = useGetCitiesHotelQuery();
-  
-  
+
+
   const {
     data: hotelsData,
     error: hotelsError,
@@ -103,6 +98,11 @@ const HotelUI: React.FC = () => {
     search: searchTerm.trim() || undefined,
     rating: selectedRating || undefined,
   });
+
+  console.log(hotelsData);
+  
+
+
 
 
   const totalPages = hotelsData ? Math.ceil(hotelsData.count / 12) : 1;
@@ -190,7 +190,7 @@ const HotelUI: React.FC = () => {
               key={`${hotel.id}-${idx}`}
               id={hotel.id}
               desc={getLocalizedText(hotel.description)}
-              image={hotel.images[0] || IMAGE1}
+              images={Array.isArray(hotel.images) ? hotel.images : [hotel.images]}
               rating={hotel.rating || "0"}
               name={(hotel.name)}
             />

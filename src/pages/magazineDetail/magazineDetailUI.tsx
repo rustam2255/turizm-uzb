@@ -114,7 +114,7 @@ const MagazineDetailUI: React.FC = () => {
               <img
                 src={magazine.card || IMAGE}
                 alt={getLocalizedText(magazine.title)}
-                className="w-fit mx-auto max-h-[500px]   hover:cursor-pointer  group-hover:scale-105 transition-transform duration-500"
+                className="w-fit mx-auto max-h-[500px] p-5 rounded-xl   hover:cursor-pointer  group-hover:scale-105 transition-transform duration-500"
                 onClick={handleImageClick}
                 onError={(e) => ((e.target as HTMLImageElement).src = IMAGE)}
               />
@@ -166,7 +166,7 @@ const MagazineDetailUI: React.FC = () => {
         </div>
       </div>
 
-      {/* Modal - har doim render qilish */}
+    
       <SliderModal
         isOpen={isModalOpen}
         onClose={handleModalClose}

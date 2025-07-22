@@ -89,7 +89,7 @@ export interface HotelsProps {
     rating?: number;
     images: {
         id: number;
-        image: string;
+        image: [];
     }[];
 }
 
@@ -153,7 +153,10 @@ export interface Tour {
     city: CityName;
     latitude: number;
     longitude: number;
-    image: string[];
+    images: {
+        id: number;
+        image: string;
+    };
 }
 
 export interface ToursResponse {
@@ -170,16 +173,6 @@ export interface MultilangText {
     en?: string;
 }
 
-export interface Tour {
-    id: number;
-    name: string;
-    address: MultilangText;
-    latitude: number;
-    longitude: number;
-    body: MultilangText;
-    description: MultilangText;
-    images: string[];
-}
 
 
 
@@ -198,7 +191,10 @@ export interface Hotel {
         en: string;
         ru: string;
     };
-    images: string[];
+    images: {
+        id: number;
+        image: string
+    };
     rating: string;
 }
 
@@ -269,7 +265,10 @@ export type HotelData = {
     longitude: number;
     city: number;
     rating: number;
-    images: string[];
+    images: {
+        id:number;
+        image:string;
+    }[];
     amenities: { id: number; name: Record<string, string> }[];
 };
 
@@ -339,7 +338,7 @@ export interface Bank {
     city: BankCity;
     latitude: number;
     longitude: number;
-    images: string[];
+    images: string
 }
 
 

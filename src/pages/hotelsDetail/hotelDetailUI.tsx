@@ -26,8 +26,12 @@ const HotelDetailsPage: React.FC = () => {
   const { data: hotel, isLoading, isError } = useGetHotelByIdQuery(hotelId!, {
     skip: !hotelId,
   });
-
-  const images = hotel?.images?.length ? hotel.images : mockImage;
+  console.log(hotel?.images);
+  
+  const images =
+  hotel?.images?.length && hotel.images[0].image
+    ? hotel.images
+    : mockImage.map((img, index) => ({ id: index, image: img }));
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const nextImage = () => {
@@ -55,9 +59,9 @@ const HotelDetailsPage: React.FC = () => {
         <div className="lg:col-span-2">
           <div className="relative mb-3 md:mb-5">
             <img
-              src={images[currentImageIndex]}
+              src={images[currentImageIndex].image}
               alt={hotel.name}
-              className="w-full h-80 object-cover object-center"
+              className="w-full h-[400px]  rounded-xl "
             />
 
             {images.length > 1 && (

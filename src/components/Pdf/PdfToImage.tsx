@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
 
-GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@5.3.31/build/pdf.worker.min.js';
-const PdfToImage: React.FC<{ fileUrl: string }> = ({ fileUrl }) => {
+GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.min.js';
+const PdfToImage: React.FC<{ fileUrl: string }> = ({ fileUrl = 'https://api.tourism-uzbekistan.uz/media/magazines/Toastmaster-__April_2014.pdf' }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [loading, setLoading] = useState(true);
 
