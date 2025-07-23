@@ -379,7 +379,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                     <div className="flex items-center justify-center space-x-2 md:space-x-3">
                       
                       {/* Spreads indicators */}
-                      <div className="flex items-center space-x-1 md:space-x-2 bg-slate-900/50 rounded-full px-2 md:px-4 py-1 md:py-2 overflow-x-auto max-w-full">
+                      <div className="flex items-center space-x-1 md:space-x-2 bg-slate-900/50 rounded-full px-2 md:px-4 py-1 md:py-2  max-w-full">
                         {spreads.map((spread, index) => (
                           <button
                             key={index}
