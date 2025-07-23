@@ -22,15 +22,7 @@ const ArticleDetail = () => {
     });
   };
 
-  const formatBody = (body: string) => {
-    return body.split('\n').map((paragraph, idx) => (
-      paragraph.trim() && (
-        <p key={idx} className="mb-4 text-gray-800 leading-relaxed">
-          {paragraph}
-        </p>
-      )
-    ));
-  };
+
   const mockImage = IMAGE;
   if (isLoading) {
     return (
@@ -106,11 +98,11 @@ const ArticleDetail = () => {
 
         {/* Body */}
         <div className="prose prose-lg max-w-none">
-          {formatBody(article.body[currentLang])}
+          {article.body[currentLang]}
         </div>
       </div>
     </div>
-  );
+  );  
 };
 
 export default ArticleDetail;

@@ -8,7 +8,7 @@ import { getLocalizedText } from "@/utils/getLocalized";
 import IMAGE from "@assets/images/samarkand-img.png";
 import IMAGE1 from "@assets/images/place1.png";
 import IMAGE2 from "@assets/images/place3.png"
-
+const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 import HotelDetailsSkeleton from "@/components/ui/loaderSkleton/hotelDetailsSkeleton";
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
 
@@ -28,7 +28,10 @@ const ResortDetail: React.FC = () => {
   const mockImage = [
     IMAGE, IMAGE1, IMAGE2
   ]
-  const images = resort?.images?.length ? resort.images : mockImage;
+  const images =
+    resort?.images?.length && resort.images[0].photo
+      ? resort.images
+      : mockImage.map((img, index) => ({ id: index, photo: img }));
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const nextImage = () => {
@@ -73,9 +76,9 @@ const ResortDetail: React.FC = () => {
           {/* Image */}
           <div className="w-full relative h-[300px] md:h-[450px] overflow-hidden rounded-xl">
             <img
-              src={images[currentImageIndex]}
+              src={`${MEDIA_URL}${images[currentImageIndex].photo}`}
               alt={resort.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = FallbackImage;
               }}

@@ -8,8 +8,6 @@ import { useGetHotelsQuery, useGetCitiesHotelQuery } from "@/services/api";
 import { slugify } from "@/utils/slugify";
 import image from '@assets/images/place3.png'
 
-
-
 const HotelCard: React.FC<{
   name: string;
   id: number;
@@ -20,23 +18,71 @@ const HotelCard: React.FC<{
   }[];
   rating: string;
 }> = ({ id, images, rating, name, desc }) => {
+  const [isImageHovered, setIsImageHovered] = useState(false);
   const parsedRating = parseFloat(rating);
   const fullStars = Math.floor(parsedRating);
   const hasHalfStar = parsedRating - fullStars >= 0.5;
   const maxStars = 5;
 
-
+  // Birinchi va ikkinchi rasmlarni olish
+  const firstImage = images && images.length > 0 && images[0]?.image 
+    ? images[0].image 
+    : image;
+  
+  const secondImage = images && images.length > 1 && images[1]?.image 
+    ? images[1].image 
+    : firstImage;
 
   return (
     <Link to={`/hotels/${id}-${slugify(name)}`}>
       <div className="flex flex-row md:flex-col gap-4 md:gap-0 w-full items-start text-[#131313] border-b border-black/15 pb-4 md:pb-0 md:border-none">
-        <div className="overflow-hidden w-full h-[115px] md:h-[220px]">
-          <img
-            src={images && images.length > 0 && images[0]?.image ? images[0].image : image}
-            alt={name}
-            className="md:w-full rounded-xl w-[174px] h-full object-cover transition-transform duration-300 hover:scale-105"
-          />
+        
+        {/* 3D Flip Image Container */}
+        <div 
+          className="overflow-hidden w-full h-[115px] md:h-[220px] perspective-1000"
+          onMouseEnter={() => setIsImageHovered(true)}
+          onMouseLeave={() => setIsImageHovered(false)}
+          style={{ perspective: '1000px' }}
+        >
+          {/* 3D flip container */}
+          <div 
+            className={`relative w-full h-full transition-transform duration-700 ease-in-out transform-style-preserve-3d ${
+              isImageHovered ? 'rotate-y-180' : 'rotate-y-0'
+            }`}
+            style={{ 
+              transformStyle: 'preserve-3d',
+              transform: isImageHovered ? 'rotateY(180deg)' : 'rotateY(0deg)'
+            }}
+          >
+            {/* Front face - Birinchi rasm */}
+            <div 
+              className="absolute inset-0 w-full h-full backface-hidden"
+              style={{ backfaceVisibility: 'hidden' }}
+            >
+              <img
+                src={firstImage}
+                alt={name}
+                className="md:w-full rounded-xl w-[174px] h-full object-cover"
+              />
+            </div>
+            
+            {/* Back face - Ikkinchi rasm */}
+            <div 
+              className="absolute inset-0 w-full h-full backface-hidden"
+              style={{ 
+                backfaceVisibility: 'hidden',
+                transform: 'rotateY(180deg)'
+              }}
+            >
+              <img
+                src={secondImage}
+                alt={`${name} - 2`}
+                className="md:w-full rounded-xl w-[174px] h-full object-cover"
+              />
+            </div>
+          </div>
         </div>
+
         <div className="w-full">
           <h3 className="text-[16px] md:text-[24px] mt-0 md:mt-4 mb-1.5 md:mb-1 line-clamp-1">
             {name}

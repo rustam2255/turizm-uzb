@@ -6,8 +6,8 @@ import { useGetCitiesHotelQuery, useGetToursQuery } from "@/services/api";
 import TravelDestionationSkleton from "@/components/ui/loaderSkleton/travelDestinationSkleton";
 import IMAGE from "@assets/images/samarkand-img.png";
 import { slugify } from "@/utils/slugify";
-const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
+const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
 type Lang = "uz" | "ru" | "en";
 
@@ -36,27 +36,80 @@ const TourCard: React.FC<{
     photo: string;
   }[];
 }> = ({ id, name, city, image }) => {
-  
+  const [isImageHovered, setIsImageHovered] = useState(false);
   
   console.log("Image prop:", image);
-console.log("First image photo path:", image[0]?.photo);
-console.log("Resolved image URL:", `${MEDIA_URL}${image[0]?.photo}`);
+  console.log("First image photo path:", image[0]?.photo);
+  console.log("Resolved image URL:", `${MEDIA_URL}${image[0]?.photo}`);
+  
   const navigate = useNavigate();
+
+  // Birinchi va ikkinchi rasmlarni olish
+  const firstImage = image && image.length > 0 
+    ? `${MEDIA_URL}${image[0].photo}` 
+    : IMAGE;
+  
+  const secondImage = image && image.length > 1 
+    ? `${MEDIA_URL}${image[1].photo}` 
+    : firstImage;
+
   return (
     <div
       onClick={() => navigate(`/services/tour/${id}-${slugify(name)}`)}
       className="flex flex-col cursor-pointer"
     >
-      <div className="relative h-48 overflow-hidden mb-3 rounded-xl">
-        <img
-          src={image && image.length > 0 ? `${MEDIA_URL}${image[0].photo}` : "/placeholder.svg"}
-          alt={name}
-          className="w-full h-full"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = IMAGE;
+      {/* 3D Flip Image Container */}
+      <div 
+        className="relative h-48 overflow-hidden mb-3 rounded-xl perspective-1000"
+        onMouseEnter={() => setIsImageHovered(true)}
+        onMouseLeave={() => setIsImageHovered(false)}
+        style={{ perspective: '1000px' }}
+      >
+        {/* 3D flip container */}
+        <div 
+          className={`relative w-full h-full transition-transform duration-700 ease-in-out transform-style-preserve-3d ${
+            isImageHovered ? 'rotate-y-180' : 'rotate-y-0'
+          }`}
+          style={{ 
+            transformStyle: 'preserve-3d',
+            transform: isImageHovered ? 'rotateY(180deg)' : 'rotateY(0deg)'
           }}
-        />
+        >
+          {/* Front face - Birinchi rasm */}
+          <div 
+            className="absolute inset-0 w-full h-full backface-hidden"
+            style={{ backfaceVisibility: 'hidden' }}
+          >
+            <img
+              src={firstImage}
+              alt={name}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = IMAGE;
+              }}
+            />
+          </div>
+          
+          {/* Back face - Ikkinchi rasm */}
+          <div 
+            className="absolute inset-0 w-full h-full backface-hidden"
+            style={{ 
+              backfaceVisibility: 'hidden',
+              transform: 'rotateY(180deg)'
+            }}
+          >
+            <img
+              src={secondImage}
+              alt={`${name} - 2`}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = IMAGE;
+              }}
+            />
+          </div>
+        </div>
       </div>
+
       <h2 className="text-xl font-serif mb-2 line-clamp-2">{name}</h2>
       <div className="flex items-center text-gray-600 mb-2">
         <MapPin size={16} className="mr-1" />
@@ -65,7 +118,6 @@ console.log("Resolved image URL:", `${MEDIA_URL}${image[0]?.photo}`);
     </div>
   );
 };
-
 const TravelDestination: React.FC = () => {
   const { t, i18n } = useTranslation();
   const lang = (i18n.language.split("-")[0] as Lang) || "en";

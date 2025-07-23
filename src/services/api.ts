@@ -239,7 +239,7 @@ export const API = createApi({
     getMagazineImages: builder.query<
       MagazineImageResponse,
       { id: string | number; page?: number; page_size?: number }>({
-        query: ({ id, page = 1, page_size = 10 }) => {
+        query: ({ id, page = 1, page_size = 1000 }) => {
           const params = new URLSearchParams();
           params.append("page", String(page));
           params.append("page_size", String(page_size));

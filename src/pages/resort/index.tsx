@@ -3,16 +3,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { MapPin } from "lucide-react";
 
+const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 import { useGetResortsQuery, useGetCitiesHotelQuery } from "@/services/api";
 import SkeletonCard from "@/components/ui/loaderSkleton/travelDestinationSkleton";
 import FallbackImage from "@assets/images/place3.png";
 
-
 type Lang = "uz" | "ru" | "en";
+
 interface MultilangText {
-    uz?: string;
-    ru?: string;
-    en?: string;
+  uz?: string;
+  ru?: string;
+  en?: string;
 }
 
 interface Resort {
@@ -21,13 +22,17 @@ interface Resort {
   description: MultilangText;
   city: MultilangText
   type: string;
-  image?: string[];
+  images?: {
+    id: number;
+    photo: string;
+  }[];
 }
 
 interface City {
   id: number;
   name: string | Record<Lang, string>;
 }
+
 const getLocalizedTextDescr = (
   text: MultilangText | undefined,
   lang: Lang
@@ -46,18 +51,66 @@ const getLocalizedText = (
 };
 
 const ResortCard: React.FC<{ resort: Resort; lang: Lang }> = ({ resort, lang }) => {
-  const navigate = useNavigate()
+  console.log(resort.images);
+  const [isImageHovered, setIsImageHovered] = useState(false);
+  const navigate = useNavigate();
+
+  // Birinchi va ikkinchi rasmlarni olish
+  const firstImage = resort.images && resort.images.length > 0 
+    ? `${MEDIA_URL}${resort.images[0].photo}` 
+    : FallbackImage;
+  
+  const secondImage = resort.images && resort.images.length > 1 
+    ? `${MEDIA_URL}${resort.images[1].photo}` 
+    : firstImage;
+
   return (
-    <div className="flex flex-col p-3 hover:scale-105 hover: cursor-pointer transition h-full" onClick={() => navigate(`/services/resort/${resort.id}-${resort.name}`)}>
-      <div className="relative h-48 overflow-hidden mb-3 rounded">
-        <img
-          src={resort.image?.[0] || "/placeholder.svg"}
-          alt={resort.name}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = FallbackImage;
+    <div className="flex flex-col p-3 hover:scale-105 hover:cursor-pointer transition h-full" 
+         onClick={() => navigate(`/services/resort/${resort.id}-${resort.name}`)}>
+      
+      <div 
+        className="relative h-48 overflow-hidden mb-3 rounded group perspective-1000"
+        onMouseEnter={() => setIsImageHovered(true)}
+        onMouseLeave={() => setIsImageHovered(false)}
+        style={{ perspective: '1000px' }}
+      >
+        {/* 3D flip container */}
+        <div 
+          className={`relative w-full h-full transition-transform duration-700 ease-in-out transform-style-preserve-3d ${
+            isImageHovered ? 'rotate-y-180' : 'rotate-y-0'
+          }`}
+          style={{ 
+            transformStyle: 'preserve-3d',
+            transform: isImageHovered ? 'rotateY(180deg)' : 'rotateY(0deg)'
           }}
-        />
+        >
+          {/* Front face - Birinchi rasm */}
+          <div 
+            className="absolute inset-0 w-full h-full backface-hidden"
+            style={{ backfaceVisibility: 'hidden' }}
+          >
+            <img
+              src={firstImage}
+              alt={resort.name}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          
+          {/* Back face - Ikkinchi rasm */}
+          <div 
+            className="absolute inset-0 w-full h-full backface-hidden"
+            style={{ 
+              backfaceVisibility: 'hidden',
+              transform: 'rotateY(180deg)'
+            }}
+          >
+            <img
+              src={secondImage}
+              alt={`${resort.name} - 2`}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
       </div>
 
       <h2 className="text-lg font-semibold mb-2 line-clamp-2">{resort.name}</h2>
@@ -76,7 +129,6 @@ const ResortCard: React.FC<{ resort: Resort; lang: Lang }> = ({ resort, lang }) 
         <span className="truncate">{resort.type}</span>
       </div>
     </div>
-
   );
 };
 
@@ -108,6 +160,7 @@ const Resort: React.FC = () => {
   const resorts: Resort[] = resortData?.results || [];
   const totalPages = Math.ceil((resortData?.count || 0) / pageSize);
   const isLoading = loadingResorts || loadingCities;
+
 
   return (
     <div className="w-full px-4 md:px-[80px] pt-[79px] mt-8 mb-8">
@@ -164,7 +217,7 @@ const Resort: React.FC = () => {
       )}
 
       {/* Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {isLoading
           ? Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
           : resorts.map((resort) => (

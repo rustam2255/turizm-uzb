@@ -301,6 +301,10 @@ export interface Resort {
     description: MultilangText;
     type: string;
     city: ResortCity;
+    images: {
+        id: number;
+        photo: string;
+    }[];
 }
 
 export interface ResortsResponse {
@@ -320,7 +324,10 @@ export interface ResortDetail {
     longitude: number;
     type: MultilangText;
     city: MultilangText;
-    images: string[];
+    images: {
+        id: number;
+        photo: string;
+    }[];
 }
 
 //Banks

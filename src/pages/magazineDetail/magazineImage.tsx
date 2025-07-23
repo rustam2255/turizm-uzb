@@ -1,4 +1,3 @@
-// magazineImage.tsx - Moslashuvchan jurnal uslubi (Enhanced version)
 import { Dialog, Transition } from "@headlessui/react";
 import { X, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import { Fragment, useState, useEffect } from "react";
@@ -20,6 +19,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
   const [currentSpread, setCurrentSpread] = useState(0);
   const [isFlipping, setIsFlipping] = useState(false);
   const [flipDirection, setFlipDirection] = useState<'next' | 'prev'>('next');
+  const [pageShaking, setPageShaking] = useState(false);
 
   // Debug uchun console.log
   useEffect(() => {
@@ -28,15 +28,20 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
       imagesLength: images?.length || 0, 
       loading, 
       error,
-      images: images?.slice(0, 2)
+      images: images
     });
   }, [isOpen, images, loading, error]);
 
-  // Modal ochilganda sahifani reset qilish
+  // Modal ochilganda sahifani reset qilish va shake effect
   useEffect(() => {
     if (isOpen) {
       setCurrentSpread(0);
       setIsFlipping(false);
+      // Opening shake effect
+      setTimeout(() => {
+        setPageShaking(true);
+        setTimeout(() => setPageShaking(false), 800);
+      }, 300);
     }
   }, [isOpen]);
 
@@ -104,8 +109,11 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
       setCurrentSpread(newSpread);
       setTimeout(() => {
         setIsFlipping(false);
-      }, 800);
-    }, 400);
+        // Slight shake after page turn
+        setPageShaking(true);
+        setTimeout(() => setPageShaking(false), 400);
+      }, 700); // Reduced from 1000ms
+    }, 350); // Reduced from 500ms
   };
 
   const nextSpread = () => {
@@ -134,14 +142,14 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={() => {}} static>
+      <Dialog as="div" className="relative z-9999" onClose={() => {}} static>
         {/* Backdrop - bosilganda modal yopilmaydi */}
         <Transition.Child
           as={Fragment}
-          enter="ease-out duration-300"
+          enter="ease-out duration-500"
           enterFrom="opacity-0"
           enterTo="opacity-100"
-          leave="ease-in duration-200"
+          leave="ease-in duration-300"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
@@ -151,16 +159,16 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
           />
         </Transition.Child>
 
-        <div className="fixed inset-0 pt-[71px] overflow-hidden" onClick={handleBackdropClick}>
+        <div className="fixed inset-0 overflow-hidden" onClick={handleBackdropClick}>
           <div className="flex min-h-full items-center justify-center p-1 sm:p-2 md:p-4">
             <Transition.Child
               as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95 rotate-1"
+              enter="ease-out duration-600"
+              enterFrom="opacity-0 scale-90 rotate-3"
               enterTo="opacity-100 scale-100 rotate-0"
-              leave="ease-in duration-200"
+              leave="ease-in duration-400"
               leaveFrom="opacity-100 scale-100 rotate-0"
-              leaveTo="opacity-0 scale-95 rotate-1"
+              leaveTo="opacity-0 scale-90 rotate-3"
             >
               <Dialog.Panel 
                 className="w-full h-full max-w-full max-h-full md:max-w-7xl md:h-auto transform overflow-hidden transition-all"
@@ -227,16 +235,9 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                           
                           {/* Magazine spread container */}
                           <div 
-                            className={`
-                              absolute inset-0 flex book-spread transition-all duration-700 transform-gpu
-                              ${isFlipping ? (
-                                flipDirection === 'next' 
-                                  ? 'animate-realistic-page-flip-next' 
-                                  : 'animate-realistic-page-flip-prev'
-                              ) : ''}
-                            `}
+                            className={`absolute inset-0 flex book-spread ${pageShaking ? 'animate-gentle-shake' : ''}`}
                             style={{
-                              perspective: '1500px',
+                              perspective: '2500px',
                               transformStyle: 'preserve-3d'
                             }}
                           >
@@ -270,9 +271,15 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                               // Juft sahifa - haqiqiy kitob kabi
                               <>
                                 {/* Chap sahifa */}
-                                <div className="w-1/2 h-full relative bg-white border-r border-gray-300 shadow-2xl book-page-left">
+                                <div 
+                                  className={`
+                                    w-1/2 h-full relative bg-white border-r border-gray-300 shadow-2xl book-page-left
+                                    ${isFlipping && flipDirection === 'prev' ? 'animate-page-flip-prev' : ''}
+                                  `}
+                                  style={{ transformOrigin: 'right center' }}
+                                >
                                   {/* Ichki soya */}
-                                  <div className="absolute right-0 top-0 bottom-0 w-12 md:w-16 bg-gradient-to-l from-gray-200/60 via-gray-100/30 to-transparent pointer-events-none book-inner-shadow"></div>
+                                  <div className="absolute right-0 top-0 bottom-0 w-12 md:w-16 bg-gradient-to-l book-inner-shadow"></div>
                                   
                                   <div className="w-full h-full p-2 md:p-4 lg:p-6 pr-6 md:pr-8 lg:pr-10 flex flex-col">
                                     <div className="flex-1 flex items-center justify-center overflow-hidden">
@@ -296,9 +303,15 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                                 </div>
 
                                 {/* O'ng sahifa */}
-                                <div className="w-1/2 h-full relative bg-white shadow-2xl book-page-right">
+                                <div 
+                                  className={`
+                                    w-1/2 h-full relative bg-white shadow-2xl book-page-right
+                                    ${isFlipping && flipDirection === 'next' ? 'animate-page-flip-next' : ''}
+                                  `}
+                                  style={{ transformOrigin: 'left center' }}
+                                >
                                   {/* Ichki soya */}
-                                  <div className="absolute left-0 top-0 bottom-0 w-12 md:w-16 bg-gradient-to-r from-gray-200/60 via-gray-100/30 to-transparent pointer-events-none book-inner-shadow"></div>
+                                  <div className="absolute left-0 top-0 bottom-0 w-12 md:w-16 bg-gradient-to-r book-inner-shadow"></div>
                                   
                                   <div className="w-full h-full p-2 md:p-4 lg:p-6 pl-6 md:pl-8 lg:pl-10 flex flex-col">
                                     <div className="flex-1 flex items-center justify-center overflow-hidden">
@@ -411,7 +424,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
           </div>
         </div>
 
-        {/* Enhanced Custom styles for realistic book page flip animation */}
+        {/* Custom styles for realistic book page flip animation */}
         <style>{`
           .book-container {
             transform-style: preserve-3d;
@@ -421,115 +434,190 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
             background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
             border-radius: 8px;
             box-shadow: 
-              inset 0 2px 4px rgba(0,0,0,0.1),
-              0 8px 32px rgba(0,0,0,0.15);
+              inset 0 2px 4px rgba(0,0,0,0.15),
+              0 10px 40px rgba(0,0,0,0.25);
           }
           
           .book-spread {
             transform-style: preserve-3d;
+            transition: transform 0.3s ease-out;
           }
           
           .book-page-single {
             border-radius: 8px;
             box-shadow: 
-              0 4px 20px rgba(0,0,0,0.15),
-              inset 0 1px 0 rgba(255,255,255,0.6);
-            background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+              0 6px 24px rgba(0,0,0,0.2),
+              inset 0 1px 0 rgba(255,255,255,0.7);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
           }
           
           .book-page-left {
             border-radius: 8px 0 0 8px;
             box-shadow: 
-              -2px 0 10px rgba(0,0,0,0.1),
-              0 4px 20px rgba(0,0,0,0.15),
-              inset 0 1px 0 rgba(255,255,255,0.6);
-            background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+              -3px 0 12px rgba(0,0,0,0.15),
+              0 6px 24px rgba(0,0,0,0.2),
+              inset 0 1px 0 rgba(255,255,255,0.7);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
           }
           
           .book-page-right {
             border-radius: 0 8px 8px 0;
             box-shadow: 
-              2px 0 10px rgba(0,0,0,0.1),
-              0 4px 20px rgba(0,0,0,0.15),
-              inset 0 1px 0 rgba(255,255,255,0.6);
-            background: linear-gradient(225deg, #ffffff 0%, #fafafa 100%);
+              3px 0 12px rgba(0,0,0,0.15),
+              0 6px 24px rgba(0,0,0,0.2),
+              inset 0 1px 0 rgba(255,255,255,0.7);
+            background: linear-gradient(225deg, #ffffff 0%, #f8f8f8 100%);
           }
           
           .book-inner-shadow {
+            background: linear-gradient(to left, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.1) 30%, transparent 100%);
             opacity: 0.8;
+            transition: opacity 0.7s ease;
           }
           
           .book-spine {
             background: linear-gradient(180deg, 
-              rgba(107, 114, 128, 0.3) 0%,
-              rgba(107, 114, 128, 0.6) 50%,
-              rgba(107, 114, 128, 0.3) 100%
+              rgba(75, 85, 99, 0.4) 0%,
+              rgba(75, 85, 99, 0.7) 50%,
+              rgba(75, 85, 99, 0.4) 100%
             );
-            border-radius: 1px;
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.3);
           }
           
-          @keyframes realistic-page-flip-next {
-            0% { 
-              transform: perspective(1500px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1);
-              opacity: 1;
-              filter: brightness(1);
+          /* Gentle shake animation for pages */
+          @keyframes gentle-shake {
+            0%, 100% { 
+              transform: translateX(0) translateY(0) rotate(0deg);
             }
-            25% { 
-              transform: perspective(1500px) rotateY(-25deg) rotateX(-3deg) scale3d(0.95, 0.98, 1);
-              opacity: 0.9;
-              filter: brightness(0.9);
+            10% { 
+              transform: translateX(-1px) translateY(-0.5px) rotate(-0.1deg);
+            }
+            20% { 
+              transform: translateX(1px) translateY(0.5px) rotate(0.1deg);
+            }
+            30% { 
+              transform: translateX(-0.5px) translateY(-1px) rotate(-0.05deg);
+            }
+            40% { 
+              transform: translateX(0.5px) translateY(1px) rotate(0.05deg);
             }
             50% { 
-              transform: perspective(1500px) rotateY(-45deg) rotateX(-5deg) scale3d(0.9, 0.95, 1);
-              opacity: 0.7;
-              filter: brightness(0.8);
+              transform: translateX(-0.3px) translateY(-0.3px) rotate(-0.03deg);
             }
-            75% { 
-              transform: perspective(1500px) rotateY(25deg) rotateX(3deg) scale3d(0.95, 0.98, 1);
-              opacity: 0.9;
-              filter: brightness(0.9);
+            60% { 
+              transform: translateX(0.3px) translateY(0.3px) rotate(0.03deg);
             }
-            100% { 
-              transform: perspective(1500px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1);
-              opacity: 1;
-              filter: brightness(1);
+            70% { 
+              transform: translateX(-0.1px) translateY(-0.1px) rotate(-0.01deg);
+            }
+            80% { 
+              transform: translateX(0.1px) translateY(0.1px) rotate(0.01deg);
+            }
+            90% { 
+              transform: translateX(0) translateY(0) rotate(0deg);
             }
           }
           
-          @keyframes realistic-page-flip-prev {
+          .animate-gentle-shake {
+            animation: gentle-shake 0.8s ease-in-out;
+          }
+          
+          /* Smoother page flip animations */
+          @keyframes page-flip-next {
             0% { 
-              transform: perspective(1500px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1);
+              transform: perspective(2500px) rotateY(0deg) translateZ(0px);
               opacity: 1;
-              filter: brightness(1);
+              filter: brightness(1) drop-shadow(0 0 6px rgba(0,0,0,0.25));
+            }
+            10% { 
+              transform: perspective(2500px) rotateY(-8deg) translateZ(10px) skewY(1deg);
+              opacity: 0.99;
+              filter: brightness(0.98) drop-shadow(-3px 5px 8px rgba(0,0,0,0.3));
             }
             25% { 
-              transform: perspective(1500px) rotateY(25deg) rotateX(3deg) scale3d(0.95, 0.98, 1);
-              opacity: 0.9;
-              filter: brightness(0.9);
+              transform: perspective(2500px) rotateY(-25deg) translateZ(25px) skewY(-1deg);
+              opacity: 0.97;
+              filter: brightness(0.95) drop-shadow(-6px 8px 12px rgba(0,0,0,0.35));
             }
-            50% { 
-              transform: perspective(1500px) rotateY(45deg) rotateX(5deg) scale3d(0.9, 0.95, 1);
-              opacity: 0.7;
-              filter: brightness(0.8);
+            40% { 
+              transform: perspective(2500px) rotateY(-60deg) translateZ(35px) skewY(0.5deg);
+              opacity: 0.94;
+              filter: brightness(0.9) drop-shadow(-8px 12px 16px rgba(0,0,0,0.4));
+            }
+            60% { 
+              transform: perspective(2500px) rotateY(-120deg) translateZ(35px) skewY(-0.5deg);
+              opacity: 0.88;
+              filter: brightness(0.85) drop-shadow(-6px 10px 14px rgba(0,0,0,0.4));
             }
             75% { 
-              transform: perspective(1500px) rotateY(-25deg) rotateX(-3deg) scale3d(0.95, 0.98, 1);
-              opacity: 0.9;
-              filter: brightness(0.9);
+              transform: perspective(2500px) rotateY(-155deg) translateZ(25px) skewY(0deg);
+              opacity: 0.92;
+              filter: brightness(0.9) drop-shadow(-3px 6px 10px rgba(0,0,0,0.35));
+            }
+            90% { 
+              transform: perspective(2500px) rotateY(-172deg) translateZ(10px) skewY(0deg);
+              opacity: 0.95;
+              filter: brightness(0.95) drop-shadow(0 3px 6px rgba(0,0,0,0.3));
             }
             100% { 
-              transform: perspective(1500px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1);
-              opacity: 1;
-              filter: brightness(1);
+              transform: perspective(2500px) rotateY(-180deg) translateZ(0px);
+              opacity: 0;
+              filter: brightness(1) drop-shadow(0 0 0 rgba(0,0,0,0));
             }
           }
           
-          .animate-realistic-page-flip-next {
-            animation: realistic-page-flip-next 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          @keyframes page-flip-prev {
+            0% { 
+              transform: perspective(2500px) rotateY(0deg) translateZ(0px);
+              opacity: 1;
+              filter: brightness(1) drop-shadow(0 0 6px rgba(0,0,0,0.25));
+            }
+            10% { 
+              transform: perspective(2500px) rotateY(8deg) translateZ(10px) skewY(-1deg);
+              opacity: 0.99;
+              filter: brightness(0.98) drop-shadow(3px 5px 8px rgba(0,0,0,0.3));
+            }
+            25% { 
+              transform: perspective(2500px) rotateY(25deg) translateZ(25px) skewY(1deg);
+              opacity: 0.97;
+              filter: brightness(0.95) drop-shadow(6px 8px 12px rgba(0,0,0,0.35));
+            }
+              40% { 
+    transform: perspective(2500px) rotateY(60deg) translateZ(35px) skewY(-0.5deg);
+    opacity: 0.94;
+    filter: brightness(0.9) drop-shadow(8px 12px 16px rgba(0,0,0,0.4));
+  }
+  60% { 
+    transform: perspective(2500px) rotateY(120deg) translateZ(35px) skewY(0.5deg);
+    opacity: 0.88;
+    filter: brightness(0.85) drop-shadow(6px 10px 14px rgba(0,0,0,0.4));
+  }
+  75% { 
+    transform: perspective(2500px) rotateY(155deg) translateZ(25px) skewY(0deg);
+    opacity: 0.92;
+    filter: brightness(0.9) drop-shadow(3px 6px 10px rgba(0,0,0,0.35));
+  }
+  90% { 
+    transform: perspective(2500px) rotateY(172deg) translateZ(10px) skewY(0deg);
+    opacity: 0.95;
+    filter: brightness(0.95) drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+  }
+  100% { 
+    transform: perspective(2500px) rotateY(180deg) translateZ(0px);
+    opacity: 0;
+    filter: brightness(1) drop-shadow(0 0 0 rgba(0,0,0,0));
+  }
+}
+          
+          .animate-page-flip-next {
+            animation: page-flip-next 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            z-index: 10;
           }
           
-          .animate-realistic-page-flip-prev {
-            animation: realistic-page-flip-prev 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          .animate-page-flip-prev {
+            animation: page-flip-prev 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            z-index: 10;
           }
           
           /* Mobile optimizations */
@@ -537,12 +625,17 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
             .book-page-left,
             .book-page-right {
               box-shadow: 
-                0 2px 10px rgba(0,0,0,0.1),
-                inset 0 1px 0 rgba(255,255,255,0.6);
+                0 3px 12px rgba(0,0,0,0.15),
+                inset 0 1px 0 rgba(255,255,255,0.7);
             }
             
             .book-inner-shadow {
               opacity: 0.6;
+            }
+            
+            .animate-page-flip-next,
+            .animate-page-flip-prev {
+              animation-duration: 0.8s;
             }
           }
           
@@ -550,8 +643,8 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
           @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
             .book-viewer {
               box-shadow: 
-                inset 0 1px 2px rgba(0,0,0,0.1),
-                0 4px 16px rgba(0,0,0,0.15);
+                inset 0 1px 3px rgba(0,0,0,0.15),
+                0 6px 20px rgba(0,0,0,0.2);
             }
           }
         `}</style>

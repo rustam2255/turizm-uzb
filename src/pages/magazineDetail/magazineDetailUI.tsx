@@ -159,7 +159,7 @@ const MagazineDetailUI: React.FC = () => {
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-gray-700 font-medium">PDF Ko'rinishi</span>
                 </div>
-                <PdfToImage fileUrl={magazine.file} />
+                <PdfToImage fileUrl={'https://api.tourism-uzbekistan.uz/media/magazines/HotelsMag_March-April_2025.pdf'} />
               </div>
             )}
           </div>

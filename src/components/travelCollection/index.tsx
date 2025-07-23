@@ -71,7 +71,7 @@ const TravelCollection: React.FC = () => {
               onClick={() => handleDetail(destination.id, destination.name)}
               className="cursor-pointer flex flex-col text-[#131313]"
             >
-              <div className="w-full overflow-hidden">
+              <div className="w-full rounded-xl overflow-hidden">
                 <img
                   src={imageUrl}
                   alt={destination.name}
