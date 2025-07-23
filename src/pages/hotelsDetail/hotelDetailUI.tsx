@@ -26,7 +26,7 @@ const HotelDetailsPage: React.FC = () => {
   const { data: hotel, isLoading, isError } = useGetHotelByIdQuery(hotelId!, {
     skip: !hotelId,
   });
-  console.log(hotel?.images);
+
   
   const images =
   hotel?.images?.length && hotel.images[0].image

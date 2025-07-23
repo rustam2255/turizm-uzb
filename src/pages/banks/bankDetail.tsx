@@ -10,6 +10,7 @@ import IMAGE2 from "@assets/images/place3.png";
 import HotelDetailsSkeleton from "@/components/ui/loaderSkleton/hotelDetailsSkeleton";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
+const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 const BankDetail: React.FC = () => {
   const { idSlug } = useParams<{ idSlug: string }>();
 
@@ -28,7 +29,13 @@ const BankDetail: React.FC = () => {
   const mockImage = [
     IMAGE, IMAGE1, IMAGE2
   ]
-  const images = bank?.images?.length ? bank.images : mockImage;
+  
+  
+    
+  const images =
+  bank?.images?.length && bank.images[0].photo
+    ? bank.images
+    : mockImage.map((img, index) => ({ id: index, photo: img }));
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
@@ -72,9 +79,9 @@ const BankDetail: React.FC = () => {
           {/* Image */}
           <div className="w-full relative h-[300px] md:h-[450px] overflow-hidden rounded-xl">
             <img
-              src={images[currentImageIndex]}
+              src={`${MEDIA_URL}${images[currentImageIndex].photo}`}
               alt={bank.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full "
               onError={(e) => {
                 (e.target as HTMLImageElement).src = FallbackImage;
               }}

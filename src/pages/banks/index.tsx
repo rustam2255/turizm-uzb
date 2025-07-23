@@ -7,7 +7,7 @@ import SkeletonCard from "@/components/ui/loaderSkleton/travelDestinationSkleton
 import IMAGE1 from '@/assets/images/banks.png';
 import IMAGE from '@/assets/images/place3.png'
 import { slugify } from "@/utils/slugify";
-
+const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 type Lang = "uz" | "ru" | "en";
 
 interface BankCity {
@@ -25,7 +25,10 @@ interface Bank {
   };
   latitude: number;
   longitude: number;
-  images: string;
+  images: {
+    id: number;
+    photo: string;
+  }[];
 }
 
 const getLocalizedText = (
@@ -40,16 +43,16 @@ const getLocalizedText = (
 const BankCard: React.FC<{ bank: Bank; lang: Lang }> = ({ bank, lang }) => {
   const navigate = useNavigate();
   const firstImage =
-    bank.images && bank.images.length > 0 ? bank.images[0] : IMAGE;
-
+    bank.images && bank.images.length > 0 ?  `${MEDIA_URL}${bank.images[0].photo}` : IMAGE;
+    
   const secondImage =
-    bank.images && bank.images.length > 1 ? bank.images[1] : IMAGE1;  
+    bank.images && bank.images.length > 1 ? `${MEDIA_URL}${bank.images[1].photo}` : IMAGE1;  
   return (
     <div
       className="flex flex-col p-3 hover:scale-105 transition h-full cursor-pointer"
       onClick={() => navigate(`/services/bank/${bank.id}-${slugify(bank.name)}`)}
     >
-      <div className="relative h-48 overflow-hidden mb-3 rounded group" style={{ perspective: '1000px' }}>
+      <div className="relative h-48 overflow-hidden mb-3 rounded-xl group" style={{ perspective: '1000px' }}>
         {/* Container for 3D flip effect */}
         <div className="w-full h-full transition-transform duration-700 ease-in-out transform-gpu group-hover:[transform:rotateY(180deg)]" style={{ transformStyle: 'preserve-3d' }}>
 
@@ -57,7 +60,7 @@ const BankCard: React.FC<{ bank: Bank; lang: Lang }> = ({ bank, lang }) => {
           <img
             src={firstImage}
             alt={bank.name}
-            className="w-full h-full object-cover absolute top-0 left-0"
+            className="w-full h-full  absolute top-0 left-0"
             style={{ backfaceVisibility: 'hidden' }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE1;
@@ -114,7 +117,7 @@ const Banks: React.FC = () => {
     search: searchQuery || undefined,
     city: selectedCity || undefined,
   });
-  console.log(bankData);
+  
   
 
   const banks: Bank[] = bankData?.results || [];

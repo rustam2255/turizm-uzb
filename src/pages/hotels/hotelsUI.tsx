@@ -6,7 +6,7 @@ import HotelCardSkeleton from "@/components/ui/loaderSkleton/homeSkleton";
 import { useTranslation } from "react-i18next";
 import { useGetHotelsQuery, useGetCitiesHotelQuery } from "@/services/api";
 import { slugify } from "@/utils/slugify";
-
+import image from '@assets/images/place3.png'
 
 
 
@@ -32,10 +32,9 @@ const HotelCard: React.FC<{
       <div className="flex flex-row md:flex-col gap-4 md:gap-0 w-full items-start text-[#131313] border-b border-black/15 pb-4 md:pb-0 md:border-none">
         <div className="overflow-hidden w-full h-[115px] md:h-[220px]">
           <img
-            src={images[0].image}
+            src={images && images.length > 0 && images[0]?.image ? images[0].image : image}
             alt={name}
             className="md:w-full rounded-xl w-[174px] h-full object-cover transition-transform duration-300 hover:scale-105"
-
           />
         </div>
         <div className="w-full">
@@ -99,9 +98,6 @@ const HotelUI: React.FC = () => {
     rating: selectedRating || undefined,
   });
 
-  console.log(hotelsData);
-  
-
 
 
 
@@ -111,14 +107,14 @@ const HotelUI: React.FC = () => {
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
 
     debounceTimeout.current = setTimeout(() => {
-      setCurrentPage(1);
+      
       refetchHotels();
     }, 300);
 
     return () => {
       if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
     };
-  }, [searchTerm, selectedCity, selectedRating]);
+  }, [searchTerm, selectedCity, selectedRating,currentPage]);
 
   const getLocalizedText = (
     field: { uz?: string; en?: string; ru?: string } | undefined

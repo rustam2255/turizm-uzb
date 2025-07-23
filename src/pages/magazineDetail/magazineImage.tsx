@@ -151,7 +151,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
           />
         </Transition.Child>
 
-        <div className="fixed inset-0 overflow-hidden" onClick={handleBackdropClick}>
+        <div className="fixed inset-0 pt-[71px] overflow-hidden" onClick={handleBackdropClick}>
           <div className="flex min-h-full items-center justify-center p-1 sm:p-2 md:p-4">
             <Transition.Child
               as={Fragment}
@@ -201,7 +201,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                 <div className="relative bg-white rounded-none md:rounded-xl shadow-2xl border border-gray-200 overflow-hidden">
 
                   {loading ? (
-                    <div className="flex items-center justify-center h-[70vh] sm:h-[75vh] md:h-[80vh] lg:h-[85vh] xl:h-[800px]">
+                    <div className="flex items-center justify-center h-[60vh] sm:h-[75vh] md:h-[80vh] lg:h-[85vh] xl:h-[800px]">
                       <div className="flex flex-col items-center space-y-4">
                         <div className="relative">
                           <RotateCcw className="w-8 h-8 md:w-12 md:h-12 text-blue-600 animate-spin" />

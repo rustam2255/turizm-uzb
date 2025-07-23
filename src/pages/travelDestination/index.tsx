@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -6,7 +6,7 @@ import { useGetCitiesHotelQuery, useGetToursQuery } from "@/services/api";
 import TravelDestionationSkleton from "@/components/ui/loaderSkleton/travelDestinationSkleton";
 import IMAGE from "@assets/images/samarkand-img.png";
 import { slugify } from "@/utils/slugify";
-
+const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
 
 type Lang = "uz" | "ru" | "en";
@@ -31,22 +31,27 @@ const TourCard: React.FC<{
   id: number;
   name: string;
   city: string;
-  images: {
+  image: {
     id: number;
-    image: string;
+    photo: string;
   }[];
-}> = ({ id, name, city, images }) => {
+}> = ({ id, name, city, image }) => {
+  
+  
+  console.log("Image prop:", image);
+console.log("First image photo path:", image[0]?.photo);
+console.log("Resolved image URL:", `${MEDIA_URL}${image[0]?.photo}`);
   const navigate = useNavigate();
   return (
     <div
       onClick={() => navigate(`/services/tour/${id}-${slugify(name)}`)}
       className="flex flex-col cursor-pointer"
     >
-      <div className="relative h-48 overflow-hidden mb-3 rounded">
+      <div className="relative h-48 overflow-hidden mb-3 rounded-xl">
         <img
-          src={images[0].image || "/placeholder.svg"}
+          src={image && image.length > 0 ? `${MEDIA_URL}${image[0].photo}` : "/placeholder.svg"}
           alt={name}
-          className="w-full h-full object-cover"
+          className="w-full h-full"
           onError={(e) => {
             (e.target as HTMLImageElement).src = IMAGE;
           }}
@@ -85,9 +90,12 @@ const TravelDestination: React.FC = () => {
     search: searchQuery || undefined,
     page: currentPage,
   });
-  console.log(tourData);
+  
 
   const tours = tourData?.results || [];
+  useEffect(() => {
+  console.log("Tour object:", tours);
+}, [tours]);
   const totalPages = Math.ceil((tourData?.count || 0) / pageSize);
   const isLoading = loadingTours || loadingCities;
 
@@ -135,7 +143,7 @@ const TravelDestination: React.FC = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {isLoading
           ? Array.from({ length: 6 }).map((_, index) => (
             <TravelDestionationSkleton key={index} />
@@ -153,9 +161,7 @@ const TravelDestination: React.FC = () => {
                 },
                 lang
               )}
-              images= {Array.isArray(tour.images)
-            ? tour.images.map((img, idx) => ({ id: idx, image: img }))
-            : [{ id: 0, image: tour.images }]}
+              image= {tour.image}
             />
           ))}
       </div>

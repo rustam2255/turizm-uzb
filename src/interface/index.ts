@@ -153,10 +153,10 @@ export interface Tour {
     city: CityName;
     latitude: number;
     longitude: number;
-    images: {
+    image: {
         id: number;
-        image: string;
-    };
+        photo: string;
+    }[];
 }
 
 export interface ToursResponse {
@@ -325,7 +325,10 @@ export interface BankDetail {
     longitude: number;
     body: BankDetailBody;
     description: BankDetailDescription;
-    images: string[];
+    images: {
+        id: number;
+        photo: string;
+    }[];
 }
 export interface BankCity {
     name_uz: string;
@@ -338,7 +341,10 @@ export interface Bank {
     city: BankCity;
     latitude: number;
     longitude: number;
-    images: string
+    images: {
+        id: number;
+        photo: string;
+    }[]
 }
 
 
@@ -363,7 +369,10 @@ export interface Clinic {
     city: ClinicCity;
     latitude: number;
     longitude: number;
-    images: string[];
+    images:   {
+        id: number;
+        photo: string;
+    }[];
 }
 export interface ClinicDetailAddress {
     address_en: string,
@@ -388,7 +397,10 @@ export interface ClinicDetail {
     longitude: number;
     body: ShopDetailBody;
     description: ShopDetailDescription;
-    images: string[];
+    images: {
+        id: number;
+        photo: string;
+    }[];
 }
 
 export interface ClinicsResponse {

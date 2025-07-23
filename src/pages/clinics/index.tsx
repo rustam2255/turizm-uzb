@@ -5,7 +5,7 @@ import { useGetClinicsQuery, useGetCitiesHotelQuery } from "@/services/api";
 import SkeletonCard from "@/components/ui/loaderSkleton/travelDestinationSkleton";
 import IMAGE from '@/assets/images/clinic.png';
 import { MapPin } from "lucide-react";
-
+const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 import IMAGE1 from '@/assets/images/place3.png'
 import { slugify } from "@/utils/slugify";
 
@@ -60,30 +60,33 @@ interface dataClinic {
   city: MultilangText;
   latitude: number;
   longitude: number;
-  images: string[];
+  images: {
+    id: number;
+    photo: string;
+  }[];
 }
 
 const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, lang }) => {
   const firstImage =
-    clinic.images && clinic.images.length > 0 ? clinic.images[0] : IMAGE;
+    clinic.images && clinic.images.length > 0 ? `${MEDIA_URL}${clinic.images[0].photo}` : IMAGE;
 
   const secondImage =
-    clinic.images && clinic.images.length > 1 ? clinic.images[1] : IMAGE1;
+     clinic.images && clinic.images.length > 0 ? `${MEDIA_URL}${clinic.images[1].photo}` : IMAGE;
   const navigate = useNavigate()
   return (
     <div
       className="flex flex-col p-3 hover:scale-105 transition h-full cursor-pointer"
       onClick={() => navigate(`/services/clinic/${clinic.id}-${slugify(clinic.name)}`)}
     >
-      <div className="relative h-48 overflow-hidden mb-3 rounded group" style={{ perspective: '1000px' }}>
+      <div className="relative h-48 overflow-hidden mb-3 rounded-xl group" style={{ perspective: '1000px' }}>
         {/* Container for 3D flip effect */}
-        <div className="w-full h-full transition-transform duration-700 ease-in-out transform-gpu group-hover:[transform:rotateY(180deg)]" style={{ transformStyle: 'preserve-3d' }}>
+        <div className="w-full h-full rounded-xl transition-transform duration-700 ease-in-out transform-gpu group-hover:[transform:rotateY(180deg)]" style={{ transformStyle: 'preserve-3d' }}>
 
           {/* Front Image */}
           <img
             src={firstImage}
             alt={clinic.name}
-            className="w-full h-full object-cover absolute top-0 left-0"
+            className="w-full h-full  absolute top-0 left-0"
             style={{ backfaceVisibility: 'hidden' }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE;
@@ -94,7 +97,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, lang }) => {
           <img
             src={secondImage}
             alt={clinic.name}
-            className="w-full h-full object-cover absolute top-0 left-0"
+            className="w-full h-full  absolute top-0 left-0"
             style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE1;

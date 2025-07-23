@@ -10,6 +10,7 @@ import IMAGE2 from "@assets/images/place3.png";
 import HotelDetailsSkeleton from "@/components/ui/loaderSkleton/hotelDetailsSkeleton";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
+const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 const ClinicDetail: React.FC = () => {
   const { idSlug } = useParams<{ idSlug: string }>();
   const { t, i18n } = useTranslation();
@@ -24,7 +25,10 @@ const ClinicDetail: React.FC = () => {
   const mockImage = [
     IMAGE, IMAGE1, IMAGE2
   ]
-  const images = clinic?.images?.length ? clinic.images : mockImage;
+  const images =
+  clinic?.images?.length && clinic.images[0].photo
+    ? clinic.images
+    : mockImage.map((img, index) => ({ id: index, photo: img }));
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
@@ -70,9 +74,9 @@ const ClinicDetail: React.FC = () => {
           {/* Image */}
           <div className="w-full relative h-[300px] md:h-[450px] overflow-hidden rounded-xl">
             <img
-              src={images[currentImageIndex]}
+              src={`${MEDIA_URL}${images[currentImageIndex].photo}`}
               alt={clinic.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = FallbackImage;
               }}
