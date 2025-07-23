@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { getLocalizedText } from "@/utils/getLocalized";
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
-
+const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
 
 export interface MultilangText {
@@ -20,7 +20,7 @@ export interface Tour {
   latitude: number;
   longitude: number;
   body: MultilangText;
-  description: MultilangText;
+  
 
 }
 interface TravelPlaceDetailProps {
@@ -29,7 +29,10 @@ interface TravelPlaceDetailProps {
   prevImage: () => void;
   currentImageIndex: number;
   setCurrentImageIndex: React.Dispatch<React.SetStateAction<number>>;
-  images: string[]
+  images: {
+    id:number;
+    photo: string;
+  }[];
 }
 
 const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage, prevImage, currentImageIndex, images, setCurrentImageIndex }) => {
@@ -70,9 +73,9 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
             {/* Image */}
             <div className="w-full relative h-[300px] md:h-[450px] overflow-hidden rounded-xl">
               <img
-                src={images[currentImageIndex]}
+                src={`${MEDIA_URL}${images[currentImageIndex].photo}`}
                 alt={place.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full "
               />
 
               {images.length > 1 && (
@@ -116,13 +119,6 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
               <p className="whitespace-pre-line">{getLocalizedText(place.address, lang)}</p>
             </div>
 
-            {/* Description */}
-            <div className="text-gray-700">
-              <h3 className="text-lg font-semibold mb-2">{t("common.description")}</h3>
-              <p className="whitespace-pre-line leading-relaxed">
-                {getLocalizedText(place.description, lang)}
-              </p>
-            </div>
 
             {/* Body */}
             <div className="text-gray-700">

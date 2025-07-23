@@ -412,7 +412,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
         </div>
 
         {/* Enhanced Custom styles for realistic book page flip animation */}
-        <style jsx>{`
+        <style>{`
           .book-container {
             transform-style: preserve-3d;
           }

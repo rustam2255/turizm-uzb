@@ -9,9 +9,9 @@ import IMAGE2 from "@assets/images/place3.png"
 
 
 const TravelDetailPage: React.FC = () => {
-    const { idSlug } = useParams<{ idSlug: string }>();
+  const { idSlug } = useParams<{ idSlug: string }>();
 
-  
+
   const tourId = Number(idSlug?.split("-")[0]);
   const { data: place, isLoading, isError } = useGetPlaceByIdQuery(tourId!, {
     skip: !tourId,
@@ -20,7 +20,12 @@ const TravelDetailPage: React.FC = () => {
   const mockImage = [
     IMAGE, IMAGE1, IMAGE2
   ]
-  const images = place?.images?.length ? place.images : mockImage;
+  const images =
+    place?.images?.length && place.images[0].photo
+      ? place.images
+      : mockImage.map((img, index) => ({ id: index, photo: img }));
+  console.log(images);
+
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const nextImage = () => {

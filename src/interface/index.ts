@@ -147,17 +147,34 @@ export interface CityName {
     name_en: string;
 }
 
+export interface TourById {
+    id: number;
+    name: string;
+    city: CityName;
+    latitude: number;
+    longitude: number;
+    body:MultilangText;
+    address:MultilangText;
+    images: {
+        id: number;
+        photo: string;
+    }[];
+}
+
 export interface Tour {
     id: number;
     name: string;
     city: CityName;
     latitude: number;
     longitude: number;
+    body:MultilangText;
+    address:MultilangText;
     image: {
         id: number;
         photo: string;
     }[];
 }
+
 
 export interface ToursResponse {
     count: number;

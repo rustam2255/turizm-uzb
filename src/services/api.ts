@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { type ArticlesResponse, type Category, type DocumentDetailType, type DocumentItem, type GetDocumentsParams, type GetToursParams, type Hotel, type HotelData, type MagazineDetailType, type MagazineMap, type City, type NewsItem, type ToursResponse, type Tour, type MapPoint, type ResortsResponse, type ResortDetail, BanksResponse, ClinicsResponse, ShopsResponse, ShopDetail, ClinicDetail, BankDetail, MagazineImageResponse, NewsCategory, ArticleDetail } from '@/interface';
+import { type ArticlesResponse, type Category, type DocumentDetailType, type DocumentItem, type GetDocumentsParams, type GetToursParams, type Hotel, type HotelData, type MagazineDetailType, type MagazineMap, type City, type NewsItem, type ToursResponse,  type MapPoint, type ResortsResponse, type ResortDetail, BanksResponse, ClinicsResponse, ShopsResponse, ShopDetail, ClinicDetail, BankDetail, MagazineImageResponse, NewsCategory, ArticleDetail, TourById } from '@/interface';
 
 interface HotelsResponse {
   count: number;
@@ -105,7 +105,7 @@ export const API = createApi({
     getArticleById: builder.query<ArticleDetail, number>({
       query: (id) => `/media/article/detail/${id}/`,
     }),
-    getPlaceById: builder.query<Tour, number | string>({
+    getPlaceById: builder.query<TourById, number | string>({
       query: (id) => `/services/tour/${id}/`,
     }),
 
@@ -132,6 +132,22 @@ export const API = createApi({
 
     getMagazineById: builder.query<MagazineDetailType, number>({
       query: (id) => `/magazines/magazine/${id}/`,
+    }),
+    getClinics: builder.query<ClinicsResponse, GetClinicsParams>({
+      query: ({ city, search, page = 1 }) => {
+        const params = new URLSearchParams();
+        params.append('page', page.toString());
+
+        if (city !== undefined && city !== null) {
+          params.append('city', city.toString());
+        }
+
+        if (search && search.trim() !== '') {
+          params.append('search', search.trim());
+        }
+
+        return `/services/clinics/?${params.toString()}`;
+      },
     }),
 
     getHotels: builder.query<HotelsResponse, GetHotelsParams>({
@@ -210,22 +226,7 @@ export const API = createApi({
     getToursMap: builder.query<MapPoint[], void>({
       query: () => '/services/tour-map/',
     }),
-    getClinics: builder.query<ClinicsResponse, GetClinicsParams>({
-      query: ({ city, search, page = 1 }) => {
-        const params = new URLSearchParams();
-        params.append('page', page.toString());
 
-        if (city !== undefined && city !== null) {
-          params.append('city', city.toString());
-        }
-
-        if (search && search.trim() !== '') {
-          params.append('search', search.trim());
-        }
-
-        return `/services/clinics/?${params.toString()}`;
-      },
-    }),
     getShops: builder.query<ShopsResponse, GetShopsParams>({
       query: ({ page = 1, city, search }) => {
         const params = new URLSearchParams();
@@ -238,13 +239,13 @@ export const API = createApi({
     getMagazineImages: builder.query<
       MagazineImageResponse,
       { id: string | number; page?: number; page_size?: number }>({
-      query: ({ id, page = 1, page_size = 10 }) => {
-        const params = new URLSearchParams();
-        params.append("page", String(page));
-        params.append("page_size", String(page_size));
-        return `/magazines/magazine/image/${id}/?${params.toString()}`;
-      },
-    }),
+        query: ({ id, page = 1, page_size = 10 }) => {
+          const params = new URLSearchParams();
+          params.append("page", String(page));
+          params.append("page_size", String(page_size));
+          return `/magazines/magazine/image/${id}/?${params.toString()}`;
+        },
+      }),
   }),
 });
 
