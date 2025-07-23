@@ -7,7 +7,7 @@ import IMAGE from '@/assets/images/market.png';
 import IMAGE1 from '@assets/images/place1.png'
 import { MapPin } from "lucide-react";
 import { slugify } from "@/utils/slugify";
-
+const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 type Lang = "uz" | "ru" | "en";
 interface MarketCity {
   id: number;
@@ -44,12 +44,12 @@ interface marketCardProps {
 }
 
 const MarketCard: React.FC<marketCardProps> = ({ market, lang }) => {
-     const firstImage =
-    market.images && market.images.length > 0 ? market.images[0] : IMAGE;
+  const firstImage =
+    market.images && market.images.length > 0 ? `${MEDIA_URL}${market.images[0].photo}` : IMAGE;
 
   const secondImage =
-    market.images && market.images.length > 1 ? market.images[1] : IMAGE1;
-  
+    market.images && market.images.length > 0 ? `${MEDIA_URL}${market.images[1].photo}` : IMAGE;
+
   const navigate = useNavigate()
 
   return (
@@ -57,7 +57,7 @@ const MarketCard: React.FC<marketCardProps> = ({ market, lang }) => {
       className="flex flex-col p-3 hover:scale-105 transition h-full cursor-pointer"
       onClick={() => navigate(`/services/shop/${market.id}-${slugify(market.name)}`)}
     >
-      <div className="relative h-48 overflow-hidden mb-3 rounded group" style={{ perspective: '1000px' }}>
+      <div className="relative h-48 overflow-hidden mb-3 rounded-xl group" style={{ perspective: '1000px' }}>
         {/* Container for 3D flip effect */}
         <div className="w-full h-full transition-transform duration-700 ease-in-out transform-gpu group-hover:[transform:rotateY(180deg)]" style={{ transformStyle: 'preserve-3d' }}>
 
@@ -65,7 +65,7 @@ const MarketCard: React.FC<marketCardProps> = ({ market, lang }) => {
           <img
             src={firstImage}
             alt={market.name}
-            className="w-full h-full object-cover absolute top-0 left-0"
+            className="w-full h-full  absolute top-0 left-0"
             style={{ backfaceVisibility: 'hidden' }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE;
@@ -76,7 +76,7 @@ const MarketCard: React.FC<marketCardProps> = ({ market, lang }) => {
           <img
             src={secondImage}
             alt={market.name}
-            className="w-full h-full object-cover absolute top-0 left-0"
+            className="w-full h-full absolute top-0 left-0"
             style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE1;
@@ -85,6 +85,7 @@ const MarketCard: React.FC<marketCardProps> = ({ market, lang }) => {
 
         </div>
       </div>
+      
       <h2 className="text-lg font-semibold mb-2 line-clamp-2">{market.name}</h2>
       <div className="flex items-center gap-1 text-gray-500 text-sm mt-auto pt-2 border-t border-gray-100">
         <MapPin size={16} className="mr-1" />
@@ -111,7 +112,10 @@ interface dataMarket {
   city: MultilangText;
   latitude: number;
   longitude: number;
-  images: string[];
+  images: {
+    id: number;
+    photo: string;
+  }[];
 }
 
 const Market = () => {

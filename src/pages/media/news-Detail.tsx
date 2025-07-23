@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGetNewsByIdQuery } from '@/services/api';
 import IMAGE from '@/assets/images/place3.png'
+import { stripHtmlTags } from '@/utils/getHtmlTags';
 const NewsDetailPage = () => {
   const { idSlug } = useParams<{ idSlug: string }>();
   const newId = Number(idSlug?.split("-")[0]);
@@ -71,7 +72,7 @@ const NewsDetailPage = () => {
 
         {/* Body */}
         <div className="prose prose-lg max-w-none">
-          {newData.body[currentLang]}
+          {stripHtmlTags(newData.body[currentLang])}
         </div>
       </div>
     </div>

@@ -11,6 +11,7 @@ import IMAGE2 from "@assets/images/place3.png"
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 import HotelDetailsSkeleton from "@/components/ui/loaderSkleton/hotelDetailsSkeleton";
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
+import { stripHtmlTags } from "@/utils/getHtmlTags";
 
 const ResortDetail: React.FC = () => {
   const { idSlug } = useParams<{ idSlug: string }>();
@@ -152,7 +153,7 @@ const ResortDetail: React.FC = () => {
           <div className="text-gray-700">
             <h3 className="text-lg font-semibold mb-2">{t("common.details")}</h3>
             <p className="whitespace-pre-line leading-relaxed">
-              {getLocalizedText(resort.body, lang)}
+              {stripHtmlTags(getLocalizedText(resort.body, lang))}
             </p>
           </div>
         </div>

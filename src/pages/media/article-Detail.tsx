@@ -6,6 +6,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGetArticleByIdQuery } from '@/services/api';
 import IMAGE from '@/assets/images/place3.png'
+import { stripHtmlTags } from '@/utils/getHtmlTags';
 const ArticleDetail = () => {
   const { idSlug } = useParams<{ idSlug: string }>();
     const articleId = Number(idSlug?.split("-")[0]);
@@ -98,7 +99,7 @@ const ArticleDetail = () => {
 
         {/* Body */}
         <div className="prose prose-lg max-w-none">
-          {article.body[currentLang]}
+          {stripHtmlTags(article.body[currentLang])}
         </div>
       </div>
     </div>

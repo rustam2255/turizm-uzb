@@ -64,12 +64,53 @@ const MARKER_COLORS = {
   tour: '#FF9900'
 };
 
+// Skeleton Component
+const MapSkeleton: React.FC = () => {
+  return (
+    <div className="max-w-[1800px] px-4 py-5 md:py-8 animate-pulse">
+      {/* Breadcrumb Skeleton */}
+      <div className="flex items-center gap-2 mb-5">
+        <div className="h-4 w-20 bg-gray-300 rounded"></div>
+        <div className="h-4 w-4 bg-gray-300 rounded"></div>
+        <div className="h-4 w-24 bg-gray-300 rounded"></div>
+      </div>
+
+      {/* Title Skeleton */}
+      <div className="h-8 w-64 bg-gray-300 rounded mb-3 md:mb-[14px]"></div>
+
+      {/* Statistics Skeleton */}
+      <div className="mb-4 flex flex-wrap gap-4">
+        {[...Array(6)].map((_, index) => (
+          <div key={index} className="flex items-center gap-2">
+            <div className="w-4 h-4 bg-gray-300 rounded-full"></div>
+            <div className="h-4 w-24 bg-gray-300 rounded"></div>
+          </div>
+        ))}
+      </div>
+
+      {/* Navigation Tips Skeleton */}
+      <div className="mb-4 p-3 bg-gray-100 rounded-lg">
+        <div className="h-4 w-32 bg-gray-300 rounded mb-2"></div>
+        <div className="h-4 w-full bg-gray-300 rounded mb-1"></div>
+        <div className="ml-4">
+          <div className="h-4 w-48 bg-gray-300 rounded mb-1"></div>
+          <div className="h-4 w-48 bg-gray-300 rounded mb-1"></div>
+          <div className="h-4 w-48 bg-gray-300 rounded"></div>
+        </div>
+      </div>
+
+      {/* Map Skeleton */}
+      <div className="w-full h-[535px] bg-gray-300 rounded-lg shadow-lg"></div>
+    </div>
+  );
+};
+
 const Breadcrumb: React.FC = () => {
   const { t } = useTranslation();
   return (
     <div className="flex items-center text-[14px] font-medium md:text-[18px] gap-2">
       <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>
-      <span className="text-black">&gt;</span>
+      <span className="text-black">&gt</span>
       <span className="text-[#DE5D26]">{t("map.breadcrumb")}</span>
     </div>
   );
@@ -256,15 +297,7 @@ const Map: React.FC = () => {
                   clinicsError || resortsError || toursError;
 
   if (isLoading) {
-    return (
-      <div className="max-w-[1800px] px-4 py-5 md:py-8">
-        <Breadcrumb />
-        <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
-          <span className="ml-3">{t("loading") || "Yuklanmoqda..."}</span>
-        </div>
-      </div>
-    );
+    return <MapSkeleton />;
   }
 
   if (hasError) {
@@ -331,7 +364,7 @@ const Map: React.FC = () => {
           style={{ height: '100%', width: '100%' }}
         >
           <TileLayer
-            attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+            attribution='© <a href="https://carto.com/">CARTO</a>'
             url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           />
 

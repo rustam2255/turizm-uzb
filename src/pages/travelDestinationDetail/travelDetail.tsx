@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { getLocalizedText } from "@/utils/getLocalized";
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
+import { stripHtmlTags } from "@/utils/getHtmlTags";
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
 
@@ -124,7 +125,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
             <div className="text-gray-700">
               <h3 className="text-lg font-semibold mb-2">{t("common.details")}</h3>
               <p className="whitespace-pre-line leading-relaxed">
-                {getLocalizedText(place.body, lang)}
+                {stripHtmlTags(getLocalizedText(place.body, lang))}
               </p>
             </div>
           </div>

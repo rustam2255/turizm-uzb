@@ -447,7 +447,10 @@ export interface Shop {
     city: ShopCity;
     latitude: number;
     longitude: number;
-    images: string[];
+    images: {
+        id: number;
+        photo: string;
+    }[];
 }
 export interface ShopDetailBody {
     body_en: string,
@@ -472,7 +475,10 @@ export interface ShopDetail {
     longitude: number;
     body: ShopDetailBody;
     description: ShopDetailDescription;
-    images: string[];
+    images: {
+        id: number;
+        photo: string
+    }[];
 }
 export interface ShopsResponse {
     count: number;

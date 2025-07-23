@@ -9,6 +9,7 @@ import IMAGE1 from "@assets/images/place1.png";
 import IMAGE2 from "@assets/images/place3.png"
 import { useGetHotelByIdQuery } from "@/services/api";
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
+import { stripHtmlTags } from "@/utils/getHtmlTags";
 
 
 const HotelDetailsPage: React.FC = () => {
@@ -110,7 +111,7 @@ const HotelDetailsPage: React.FC = () => {
           <div className="text-gray-700">
             <h3 className="text-lg font-semibold mb-2">{t("common.details")}</h3>
             <p className="whitespace-pre-line leading-relaxed">
-              {hotel.body?.[lang]}
+              {stripHtmlTags(hotel.body?.[lang])}
             </p>
           </div>
 
