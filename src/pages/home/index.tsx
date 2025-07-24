@@ -149,7 +149,7 @@ const Home: React.FC = () => {
         <motion.div
           id="hotelCard"
           ref={sectionRefs.hotelCard}
-          className="px-4 md:px-10 lg:px-20 py-10 bg-gray-100 scroll-mt-20"
+          className="px-4 md:px-10 lg:px-20 py-0 bg-gray-100 scroll-mt-20"
           initial="hidden"
           animate={isHotelCardInView ? 'visible' : 'hidden'}
           variants={slideInRight}

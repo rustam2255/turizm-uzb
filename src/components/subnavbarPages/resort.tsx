@@ -4,10 +4,11 @@ import { Resort } from '@/interface';
 import { Link } from 'react-router-dom';
 import { slugify } from '@/utils/slugify';
 import { getLocalizedTextDescr } from '@/utils/getLocalized';
-import Slider from 'react-slick';
+
 import 'slick-carousel/slick/slick.css';
 import { useTranslation } from "react-i18next";
 import 'slick-carousel/slick/slick-theme.css';
+import ClientSlider from '../slider/clientSlider';
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
 
@@ -141,7 +142,7 @@ const ResortHome: React.FC = () => {
 
         {/* Carousel for mobile */}
         <div className="lg:hidden block">
-          <Slider {...sliderSettings}>
+          <ClientSlider settings={sliderSettings}>
             {resortItems.map((item) => (
               <Link
                 key={item.id}
@@ -192,7 +193,7 @@ const ResortHome: React.FC = () => {
                 </div>
               </Link>
             ))}
-          </Slider>
+          </ClientSlider>
         </div>
 
         {resortItems.length === 0 && !isLoading && !isError && (

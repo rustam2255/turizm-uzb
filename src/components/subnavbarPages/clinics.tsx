@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 import { slugify } from '@/utils/slugify';
 import { getLocalizedText } from '@/utils/getLocalized';
 import { useTranslation } from 'react-i18next';
-import Slider from 'react-slick';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import ClientSlider from '../slider/clientSlider';
 
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
@@ -176,7 +177,7 @@ const ClinicHome: React.FC = () => {
 
         {/* Carousel for Mobile */}
         <div className="lg:hidden block">
-          <Slider {...sliderSettings}>
+          <ClientSlider settings={sliderSettings}>
             {clinicItems.map((item, index) => (
               <Link
                 key={item.id}
@@ -263,7 +264,7 @@ const ClinicHome: React.FC = () => {
                 </div>
               </Link>
             ))}
-          </Slider>
+          </ClientSlider>
         </div>
 
         {clinicItems.length > 0 && (

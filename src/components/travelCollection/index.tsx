@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Slider from 'react-slick';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useGetToursQuery } from "@/services/api";
 import { slugify } from "@/utils/slugify";
 import IMAGE from "@assets/images/samarkand-img.png";
+import ClientSlider from "../slider/clientSlider";
 
 const TravelCollection: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -171,7 +172,7 @@ const TravelCollection: React.FC = () => {
 
         {/* Carousel for Mobile */}
         <div className="lg:hidden block">
-          <Slider {...sliderSettings}>
+          <ClientSlider settings={sliderSettings}>
             {tours.map((destination, index) => {
               const imageUrl = destination.image?.[0]?.photo
                 ? `${MEDIA_URL}${destination.image[0].photo}`
@@ -240,7 +241,7 @@ const TravelCollection: React.FC = () => {
                 </Link>
               );
             })}
-          </Slider>
+          </ClientSlider>
         </div>
         {tours && (
           <div className="text-center mt-12">

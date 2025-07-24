@@ -4,10 +4,11 @@ import { MagazineItem } from '@/interface';
 import { Link } from 'react-router-dom';
 import { slugify } from '@/utils/slugify';
 
-import Slider from 'react-slick';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useTranslation } from "react-i18next";
+import ClientSlider from '../slider/clientSlider';
 const MagazineHome: React.FC = () => {
   const { data: magazines = {}, isLoading, isError } = useGetMagazinesQuery();
   const [magazineItems, setMagazineItems] = useState<MagazineItem[]>([]);
@@ -49,7 +50,7 @@ const MagazineHome: React.FC = () => {
   // Slider settings
   const sliderSettings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -98,45 +99,46 @@ const MagazineHome: React.FC = () => {
               className="group block transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 group-hover:border-blue-200">
-                <div className="relative overflow-hidden">
+
+              <div className="flex flex-col items-center">
+                <Link to={`/magazines/${item.id}-${slugify(item.title.en)}`}>
                   <img
                     src={item.card}
-                    alt={item.title.en}
-                    className="w-full h-48 sm:h-52 lg:h-48 object-cover transition-transform duration-500 group-hover:scale-110"
+                    alt={`${item.title.en} magazine cover`}
+                    className="w-full rounded-xl h-[300px] md:w-[200px] md:h-[250px] sm:w-[160px] sm:h-[200px] object-cover mb-4 transition-transform duration-200 hover:scale-105"
+
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-blue-600 shadow-md">
-                    {item.year} - {item.month}
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-300">
+                </Link>
+                <div className="text-center text-black font-normal leading-[100%]">
+                  <p className="mb-1 text-[14px] md:text-[15px] sm:text-[13px]">{item.month}</p>
+                  <p className="mb-1 text-[14px] md:text-[15px] sm:text-[13px]">
                     {getLocalizedText(item.title)}
-                  </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
-                    {getLocalizedText(item.description).slice(0,100)}...
                   </p>
-                  <div className="flex items-center text-blue-600 font-medium text-sm group-hover:text-blue-700 transition-colors duration-300">
-                    <span>{t("common.details")}</span>
-                    <svg
-                      className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </div>
+                  <p className="text-[14px] md:text-[15px] sm:text-[13px]">{item.year}</p>
                 </div>
               </div>
+              <div className="p-6">
+                <div className="flex items-center justify-center text-blue-600 font-medium text-sm group-hover:text-blue-700 transition-colors duration-300">
+                  <span>{t("common.details")}</span>
+                  <svg
+                    className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+
             </Link>
           ))}
         </div>
 
         {/* Carousel for Mobile */}
         <div className="lg:hidden block">
-          <Slider {...sliderSettings}>
+
+          <ClientSlider settings={sliderSettings}>
             {magazineItems.map((item, index) => (
               <Link
                 key={item.id}
@@ -161,7 +163,7 @@ const MagazineHome: React.FC = () => {
                       {getLocalizedText(item.title)}
                     </h3>
                     <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
-                      {getLocalizedText(item.description).slice(0,50)}...
+                      {getLocalizedText(item.description).slice(0, 50)}...
                     </p>
                     <div className="flex items-center text-blue-600 font-medium text-sm group-hover:text-blue-700 transition-colors duration-300">
                       <span>{t("common.details")}</span>
@@ -178,8 +180,21 @@ const MagazineHome: React.FC = () => {
                 </div>
               </Link>
             ))}
-          </Slider>
+          </ClientSlider>
         </div>
+        {magazineItems.length > 0 && (
+          <div className="text-center mt-12">
+            <Link
+              to="/magazines"
+              className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-semibold rounded-full hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              <span>{t("magazine.allsee")}</span>
+              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </div>
+        )}
 
         {/* Empty State */}
         {magazineItems.length === 0 && !isLoading && !isError && (

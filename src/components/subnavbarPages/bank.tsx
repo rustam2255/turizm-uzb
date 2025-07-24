@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { slugify } from '@/utils/slugify';
 import { getLocalizedText } from '@/utils/getLocalized';
 import { useTranslation } from 'react-i18next';
-import Slider from 'react-slick';
+import ClientSlider from "@/components/slider/clientSlider";
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -176,7 +177,7 @@ const BankHome: React.FC = () => {
 
         {/* Carousel for Mobile */}
         <div className="lg:hidden block">
-          <Slider {...sliderSettings}>
+          <ClientSlider settings={sliderSettings}>
             {bankItems.map((item, index) => (
               <Link
                 key={item.id}
@@ -263,7 +264,7 @@ const BankHome: React.FC = () => {
                 </div>
               </Link>
             ))}
-          </Slider>
+          </ClientSlider>
         </div>
 
         {bankItems.length > 0 && (
