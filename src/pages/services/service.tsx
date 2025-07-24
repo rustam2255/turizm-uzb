@@ -61,7 +61,7 @@ const Breadcrumb: React.FC = () => {
         {t("breadcrumb.home")}
       </Link>
       <span className="text-black">&gt;</span>
-      <span className="text-[#DE5D26]">{t("services.title")}</span>
+      <span className="text-blue-500">{t("services.title")}</span>
     </div>
   );
 };

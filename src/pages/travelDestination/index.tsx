@@ -159,7 +159,7 @@ const TravelDestination: React.FC = () => {
         <span className="text-black">&gt;</span>
         <Link to="/services" className="hover:underline text-blue-600">{t("services.title")}</Link>
         <span className="text-black">&gt;</span>
-        <Link to="/services/tours" className="hover:underline text-[#DE5D26]">{t("services.tour-firm")}</Link>
+        <Link to="/services/tours" className="hover:underline text-sky-200">{t("services.tour-firm")}</Link>
       </div>
 
       {/* Title */}
@@ -226,7 +226,7 @@ const TravelDestination: React.FC = () => {
               key={page}
               onClick={() => setCurrentPage(page)}
               className={`px-3 py-1 rounded transition-colors duration-200 ${currentPage === page
-                ? "bg-[#DE5D26] text-white"
+                ? "bg-blue-500 text-white"
                 : "bg-gray-100 hover:bg-gray-200"
                 } text-sm sm:text-base`}
             >

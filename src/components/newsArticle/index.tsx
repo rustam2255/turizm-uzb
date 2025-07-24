@@ -119,14 +119,14 @@ const NewsArticle: React.FC = () => {
 
           <div className="md:col-span-1">
             <div className="pt-4 md:pt-0 animate-slide-in-right" style={{animationDelay: '600ms', animationFillMode: 'both'}}>
-              <h3 className="text-[16px] leading-[100%] text-[#DE5D26] mb-1.5 md:mb-3 animate-pulse-slow hover:text-[#FF6B35] transition-colors duration-300">
+              <h3 className="text-[16px] leading-[100%] text-blue-900 mb-1.5 md:mb-3 animate-pulse-slow hover:text-sky-200 transition-colors duration-300">
                 {t("newsArticle.article")}
               </h3>
               <div className="space-y-3">
                 {articles.slice(0, 5).map((article, index) => (
                   <div
                     key={article.id}
-                    className="animate-fade-in-stagger hover:scale-102 transition-all duration-300 ease-out hover:shadow-md border-l-2 border-transparent hover:border-[#DE5D26] pl-2"
+                    className="animate-fade-in-stagger hover:scale-102 transition-all duration-300 ease-out hover:shadow-md border-l-2 border-transparent hover:border-blue-600 pl-2"
                     style={{
                       animationDelay: `${700 + index * 100}ms`,
                       animationFillMode: 'both'

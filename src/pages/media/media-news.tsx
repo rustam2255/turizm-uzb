@@ -123,7 +123,7 @@ const NewsPage: React.FC = () => {
         <button
           key="prev"
           onClick={() => handlePageChange(currentPage - 1)}
-          className="flex items-center px-3 py-2 text-gray-500 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors duration-200"
+          className="flex items-center px-3 py-2 text-gray-500 hover:text-blue-500 hover:bg-orange-50 rounded-lg transition-colors duration-200"
         >
           <ChevronLeft className="w-4 h-4" />
           <span className="ml-1 hidden sm:inline">{t('media.previous')}</span>
@@ -138,8 +138,8 @@ const NewsPage: React.FC = () => {
           key={i}
           onClick={() => handlePageChange(i)}
           className={`px-3 py-2 rounded-lg transition-colors duration-200 ${i === currentPage
-              ? "bg-orange-500 text-white"
-              : "text-gray-700 hover:text-orange-500 hover:bg-orange-50"
+              ? "bg-blue-500 text-white"
+              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
             }`}
         >
           {i}
@@ -182,7 +182,7 @@ const NewsPage: React.FC = () => {
                 placeholder={t("placeholder.news") || "Yangiliklar ichidan qidirish..."}
                 value={search}
                 onChange={handleSearchChange}
-                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent bg-white shadow-sm transition-all duration-200"
+                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white shadow-sm transition-all duration-200"
               />
             </div>
 
@@ -191,7 +191,7 @@ const NewsPage: React.FC = () => {
               <select
                 value={category ?? ""}
                 onChange={handleCategoryChange}
-                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent bg-white shadow-sm appearance-none cursor-pointer transition-all duration-200"
+                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white shadow-sm appearance-none cursor-pointer transition-all duration-200"
               >
                 <option value="">{t("media.category") || "Barcha kategoriyalar"}</option>
                 {categories.map((cat: NewsCategory) => (
@@ -222,7 +222,7 @@ const NewsPage: React.FC = () => {
               <Link to={`/media/news/detail/${item.id}-${slugify(item.title.uz || '')}`}>
                 <div
                   key={item.id}
-                  className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-lg hover:border-orange-200 transition-all duration-300 group cursor-pointer"
+                  className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-lg hover:border-sky-200 transition-all duration-300 group cursor-pointer"
                 >
                   <div className="relative overflow-hidden">
                     <img
@@ -235,7 +235,7 @@ const NewsPage: React.FC = () => {
 
                     {/* Category Badge */}
                     <div className="absolute top-4 left-4">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-orange-500 text-white shadow-md">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-900 text-white shadow-md">
                         <Tag className="w-3 h-3 mr-1" />
                         {getText(item.category.name)}
                       </span>
@@ -243,7 +243,7 @@ const NewsPage: React.FC = () => {
                   </div>
 
                   <div className="p-6">
-                    <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-orange-600 transition-colors duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
                       {getText(item.title)}
                     </h3>
                     <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">
@@ -252,7 +252,7 @@ const NewsPage: React.FC = () => {
 
                     {/* Read More Button */}
                     <div className="mt-4 pt-4 border-t border-gray-100">
-                      <span className="text-orange-500 text-sm font-medium group-hover:text-orange-600 transition-colors duration-200">
+                      <span className="text-sky-500 text-sm font-medium group-hover:text-sky-600 transition-colors duration-200">
                         {t('media.full')} →
                       </span>
                     </div>

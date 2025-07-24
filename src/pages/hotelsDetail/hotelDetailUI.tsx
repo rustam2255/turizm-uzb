@@ -47,11 +47,11 @@ const HotelDetailsPage: React.FC = () => {
   if (isError || !hotel) return <div>{t("error.loading")}</div>;
 
   return (
-    <div className="max-w-7xl mx-auto py-5 md:py-7.5">
+    <div className="max-w-[1200px] md:ml-5 mx-auto py-5 md:py-7.5">
       <div className="flex items-center text-[14px] font-medium md:text-[18px] gap-2">
         <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>
         <span className="text-black">&gt;</span>
-        <span className="text-[#DE5D26]">{t("breadcrumb.hotels")}</span>
+        <span className="text-blue-500">{t("breadcrumb.hotels")}</span>
       </div>
 
       <h1 className="text-[20px] font-serif md:text-[24px] text-black leading-[100%] mb-2 mt-4 md:mt-5 md:mb-5">{hotel.name}</h1>
@@ -122,7 +122,7 @@ const HotelDetailsPage: React.FC = () => {
 
         <div className="lg:col-span-1">
           <div className="bg-white mb-4">
-            <h2 className="text-[20px] md:text-[24px] text-[#DE5D26] mb-4">{t("hotelDetail.amenities")}</h2>
+            <h2 className="text-[20px] md:text-[24px] text-sky-900 mb-4">{t("hotelDetail.amenities")}</h2>
             <ul className="space-y-3">
               {hotel.amenities.length > 0 ? (
                 hotel.amenities.map((amenity) => (
@@ -140,7 +140,7 @@ const HotelDetailsPage: React.FC = () => {
           </div>
 
           <div className="bg-white">
-            <h2 className="text-[15px] md:text-[18px] font-medium text-[#DE5D26] mb-1">{t("hotelDetail.location_map")}</h2>
+            <h2 className="text-[15px] md:text-[18px] font-medium text-sky-900 mb-1">{t("hotelDetail.location_map")}</h2>
             <div className="h-64 bg-gray-200 overflow-hidden">
               <iframe
                 title="map"

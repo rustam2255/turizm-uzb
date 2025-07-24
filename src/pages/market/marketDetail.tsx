@@ -56,7 +56,7 @@ const MarketDetail: React.FC = () => {
   }
 
   return (
-    <div className="w-full px-4 md:px-[80px] pt-[100px] pb-16 max-w-[1500px] mx-auto">
+    <div className="w-full px-4 md:px-[80px] pt-[100px] pb-16 max-w-[1200px] md:ml-5 mx-auto">
       {/* Breadcrumb */}
       <div className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2">
         <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>
@@ -65,7 +65,7 @@ const MarketDetail: React.FC = () => {
         <span className="text-black">&gt;</span>
         <Link to="/services/market" className="hover:underline text-black">{t("services.market")}</Link>
         <span className="text-black">&gt;</span>
-        <span className="text-[#DE5D26]">{market.name}</span>
+        <span className="text-blue-500">{market.name}</span>
       </div>
 
       {/* Title */}
@@ -154,7 +154,7 @@ const MarketDetail: React.FC = () => {
           {/* Google Map */}
           {market.latitude && market.longitude && (
             <div className="bg-white p-4 rounded-lg shadow-sm sticky top-24">
-              <h2 className="text-base md:text-lg font-medium text-[#DE5D26] mb-3">{t("hotelDetail.location_map")}</h2>
+              <h2 className="text-base md:text-lg font-medium text-blue-900 mb-3">{t("hotelDetail.location_map")}</h2>
               <div className="h-64 lg:h-80 bg-gray-200 overflow-hidden rounded-lg">
                 <iframe
                   title="map"

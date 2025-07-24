@@ -83,7 +83,7 @@ const Magazine: React.FC = () => {
             {t("breadcrumb.home")}
           </Link>
           <span className="text-black">{">"}</span>
-          <span className="text-[#DE5D26]">{t("breadcrumb.magazines")}</span>
+          <span className="text-blue-500">{t("breadcrumb.magazines")}</span>
         </div>
 
         <h1 className="text-[20px] md:text-[32px] leading-[100%] mt-2 md:mt-5 font-serif mb-3 md:mb-[14px]">

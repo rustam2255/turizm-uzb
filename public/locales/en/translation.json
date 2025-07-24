@@ -23,9 +23,14 @@
   },
   "subNavbar": {
     "home": "Home",
-    "media": "Media",
+    "media": "News and Articles",
     "hotels": "Hotels",
-    "travelDestination": "Travel Destinations"
+    "detenation": "Tour Agencies",
+    "magazines": "Magazines",
+    "banks": "Banks",
+    "clinics": "Clinics",
+    "markets": "Supermarkets",
+    "resorts": "Resorts"
   },
   "carousel": {
     "slides": [
@@ -60,28 +65,47 @@
     "title": "Articles",
     "readTime": "2 min read"
   },
+  "banks": {
+    "title": "Top Banks",
+    "see": "View all banks"
+  },
+  "clinics": {
+    "title": "Clinics",
+    "see": "View all clinics"
+  },
+  "market": {
+    "title": "Shopping Centers",
+    "see": "View all shopping centers"
+  },
+  "resort": {
+    "title": "Top Holiday Destinations",
+    "see": "View all holiday destinations"
+  },
   "magazine": {
     "title": "Hotel Magazines",
     "booksIn": "Books in {{year}}",
     "view_pdf": "View PDF",
     "ts": "Description",
-    "see": "Click to view"
+    "see": "Click to view",
+    "title_home": "Magazines of 2025"
   },
   "hotels": {
     "title": "Hotels",
     "searchPlaceholder": "Search hotels...",
     "noResult": "No results found.",
-    "the_suite_hotels": "The Suite Hotels"
+    "the_suite_hotels": "The Suite Hotels",
+    "see": "View all hotels"
   },
   "travel": {
     "title": "Travel destination",
-    "travel_collections": "Travel Collections",
+    "travel_collections": "Travel companies",
     "loading": "Loading...",
     "fetch_error": "Error fetching data.",
     "nearby_travel_places": "Nearby Travel Places",
     "search_placeholder": "Search travel destinations...",
     "select_city": "Select a city",
-    "location": "Location"
+    "location": "Location",
+    "see": "All travel companies"
   },
   "map": {
     "breadcrumb": "Map",

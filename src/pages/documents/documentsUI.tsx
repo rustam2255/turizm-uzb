@@ -39,7 +39,7 @@ const DocumentUI: React.FC = () => {
           {t("breadcrumb.home")}
         </Link>
         <span className="text-black">&gt;</span>
-        <span className="text-[#DE5D26]">{t("breadcrumb.documents")}</span>
+        <span className="text-blue-500">{t("breadcrumb.documents")}</span>
       </div>
 
       <h1 className="text-[20px] md:text-[32px] font-serif mt-2 md:mt-5 mb-[14px]">
@@ -52,7 +52,7 @@ const DocumentUI: React.FC = () => {
           placeholder={t("documents.search_documents")}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full sm:w-2/3 lg:w-1/2 border border-gray-300 focus:border-[#DE5D26] focus:ring-[#DE5D26] rounded-md px-4 py-2 text-sm outline-none transition duration-200"
+          className="w-full sm:w-2/3 lg:w-1/2 border border-gray-300 focus:border-blue-400 focus:ring-blue-600 rounded-md px-4 py-2 text-sm outline-none transition duration-200"
         />
       </div>
 
@@ -64,7 +64,7 @@ const DocumentUI: React.FC = () => {
           {loadingCategories ? (
             <p>{t("loading")}</p>
           ) : categoriesError ? (
-            <p className="text-red-500">{t("documents.fetch_error")}</p>
+            <p className="text-blue-500">{t("documents.fetch_error")}</p>
           ) : (
             categories.map((category) => (
               <button
@@ -72,7 +72,7 @@ const DocumentUI: React.FC = () => {
                 onClick={() => setSelectedCategoryId(category.id)}
                 className={`text-sm cursor-pointer px-3 py-1 rounded-full transition border ${
                   selectedCategoryId === category.id
-                    ? "bg-[#DE5D26] text-white border-[#DE5D26]"
+                    ? "bg-blue-900 text-white border-sky-500"
                     : "bg-gray-100 text-gray-800 hover:bg-gray-200 border-gray-300"
                 }`}
               >
@@ -86,7 +86,7 @@ const DocumentUI: React.FC = () => {
       {loadingDocuments ? (
         <DocumentSkeleton />
       ) : documentsError ? (
-        <p className="text-center text-red-500">{t("documents.fetch_error")}</p>
+        <p className="text-center text-blue-500">{t("documents.fetch_error")}</p>
       ) : documents.length === 0 ? (
         <p className="text-sm text-gray-500">{t("documents.no_documents_found")}</p>
       ) : (
@@ -113,7 +113,7 @@ const DocumentUI: React.FC = () => {
                     href={link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-[#DE5D26] hover:bg-[#c84e1f] text-white text-sm font-medium px-4 py-2 rounded transition duration-200"
+                    className="inline-block bg-blue-500 hover:bg-blue-900 text-white text-sm font-medium px-4 py-2 rounded transition duration-200"
                   >
                     {t("documents.view_document")}
                   </a>

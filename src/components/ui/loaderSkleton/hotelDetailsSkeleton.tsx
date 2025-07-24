@@ -6,7 +6,7 @@ const Skeleton = ({ className }: { className: string }) => (
 
 const HotelDetailsSkeleton: React.FC = () => {
   return (
-    <div className="max-w-7xl mx-auto py-5 md:py-7.5 space-y-5">
+    <div className="max-w-[1200px] ml-5 py-5 md:py-7.5 space-y-5">
       {/* Breadcrumbs */}
       <Skeleton className="h-4 w-32" />
 

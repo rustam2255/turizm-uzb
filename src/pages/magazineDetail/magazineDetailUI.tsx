@@ -82,14 +82,14 @@ const MagazineDetailUI: React.FC = () => {
       <nav className="flex items-center text-[14px] font-medium md:text-[18px] gap-2 mb-8">
         <Link 
           to="/" 
-          className="hover:underline text-gray-700 hover:text-[#DE5D26] transition-colors duration-200"
+          className="hover:underline text-gray-700 hover:blue-900 transition-colors duration-200"
         >
           {t("breadcrumb.home")}
         </Link>
         <span className="text-gray-400">&gt;</span>
         <Link 
           to="/magazines" 
-          className="hover:underline text-[#DE5D26] hover:text-[#c74e1d] transition-colors duration-200"
+          className="hover:underline text-blue-500  transition-colors duration-200"
         >
           {t("breadcrumb.magazines")}
         </Link>
@@ -101,7 +101,7 @@ const MagazineDetailUI: React.FC = () => {
           <h1 className="text-[24px] md:text-[32px] text-gray-900 font-bold leading-[110%] mb-3 animate-slideInLeft">
             {getLocalizedText(magazine.title)}
           </h1>
-          <div className="inline-flex items-center px-3 py-1.5 bg-orange-50 text-[#DE5D26] rounded-full text-[14px] font-semibold animate-slideInLeft delay-150">
+          <div className="inline-flex items-center px-3 py-1.5 bg-orange-50 text-sky-400 rounded-full text-[14px] font-semibold animate-slideInLeft delay-150">
             📅 {magazine.month}, {magazine.year}
           </div>
         </div>
@@ -139,7 +139,7 @@ const MagazineDetailUI: React.FC = () => {
               <div className="text-center">
                 <button
                   onClick={() => setShowPdf(true)}
-                  className="group inline-flex items-center gap-3 bg-gradient-to-r from-[#DE5D26] to-[#c74e1d] text-white px-8 py-4 rounded-xl font-semibold text-[16px] hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300"
+                  className="group inline-flex items-center gap-3 bg-gradient-to-r from-sky-900 to-sky-400 text-white px-8 py-4 rounded-xl font-semibold text-[16px] hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <span className="text-xl group-hover:scale-110 transition-transform duration-200">📄</span>
                   {t("magazine.view_pdf")}
@@ -159,7 +159,7 @@ const MagazineDetailUI: React.FC = () => {
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-gray-700 font-medium">PDF Ko'rinishi</span>
                 </div>
-                <PdfToImage fileUrl={'https://api.tourism-uzbekistan.uz/media/magazines/HotelsMag_March-April_2025.pdf'} />
+                <PdfToImage fileUrl={magazine.file} />
               </div>
             )}
           </div>

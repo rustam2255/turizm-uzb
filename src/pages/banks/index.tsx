@@ -136,7 +136,7 @@ const Banks: React.FC = () => {
           <span className="text-blue-600">{t("services.title")}</span>
         </Link>
         <span className="text-black">&gt;</span>
-        <span className="text-[#DE5D26]">{t("services.banks")}</span>
+        <span className="text-blue-500">{t("services.banks")}</span>
       </div>
 
       {/* Title */}
@@ -202,7 +202,7 @@ const Banks: React.FC = () => {
               key={page}
               onClick={() => setCurrentPage(page)}
               className={`px-3 py-1 rounded transition-colors duration-200 ${currentPage === page
-                ? "bg-[#DE5D26] text-white"
+                ? "bg-blue-500 text-white"
                 : "bg-gray-100 hover:bg-gray-200"
                 } text-sm sm:text-base`}
             >

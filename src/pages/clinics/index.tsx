@@ -36,7 +36,7 @@ const Breadcrumb: React.FC = () => {
       </Link>
       <span className="text-black">&gt;</span>
       <Link to="/services">
-        <span className="text-[#DE5D26]">{t("services.title")}</span>
+        <span className="text-blue-400">{t("services.title")}</span>
       </Link>
       <span className="text-black">&gt;</span>
       <span className="text-blue-600">{t("services.clinic")}</span>
@@ -239,7 +239,7 @@ const Clinics = () => {
               key={page}
               onClick={() => setCurrentPage(page)}
               className={`px-3 py-1 rounded text-sm sm:text-base transition-colors duration-200 ${currentPage === page
-                ? "bg-[#DE5D26] text-white"
+                ? "bg-blue-500 text-white"
                 : "bg-gray-200 text-gray-800 hover:bg-gray-300"
                 }`}
             >

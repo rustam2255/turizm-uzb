@@ -55,7 +55,7 @@ const ResortDetail: React.FC = () => {
   }
 
   return (
-    <div className="w-full px-4 md:px-[80px] pt-[100px] pb-16 max-w-[1500px] mx-auto">
+    <div className="w-full px-4 md:px-[80px] pt-[100px] pb-16 max-w-[1200px] md:ml-5 mx-auto">
       {/* Breadcrumb */}
       <div className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2">
         <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>

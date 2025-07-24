@@ -23,9 +23,14 @@
   },
   "subNavbar": {
     "home": "Bosh sahifa",
-    "media": "Media",
+    "media": "Yangiliklar va Maqolalar",
     "hotels": "Mehmonxonalar",
-    "travelDestination": "Sayohat yo'nalishlari"
+    "detenation": "Tour Firmalar",
+    "magazines": "Jurnallar",
+    "banks": "Bank",
+    "clinics": "Shifoxonalar",
+    "markets": "Supermarketlar",
+    "resorts": "Kurortlar"
   },
   "carousel": {
     "slides": [
@@ -60,29 +65,47 @@
     "title": "Maqolalar",
     "readTime": "2 daqiqa o‘qish"
   },
+  "resort": {
+    "title": "Top Dam Olish Maskanlari",
+    "see": "Barcha dam olish maskanlarini ko'rish"
+  },
+  "banks": {
+    "title": "Top Banklar",
+    "see": "Barcha banklarni ko'rish"
+  },
+  "clinics": {
+    "title": "Shifoxonalar",
+    "see": "Barcha shifoxonaalrni ko'rish"
+  },
+  "market": {
+    "title": "Savdo markazlari",
+    "see": "Barcha savdo markazlar"
+  },
   "magazine": {
     "title": "Mehmonxona jurnallari",
     "booksIn": "{{year}} yil kitoblari",
     "view_pdf": "PDF ko'rish",
     "ts": "Tavsif",
-    "see": "Ko'rish uchun bosing"
-
+    "see": "Ko'rish uchun bosing",
+    "title_home": "2025-yil Jurnallari"
   },
   "hotels": {
     "title": "Mehmonxonalar",
     "searchPlaceholder": "Mehmonxonani qidiring...",
     "noResult": "Hech narsa topilmadi.",
-    "the_suite_hotels": "Zamonaviy Mehmonxonalar"
+    "the_suite_hotels": "Zamonaviy Mehmonxonalar",
+    "see": "Barcha Mexmonxonalarni ko'rish"
   },
   "travel": {
     "title": "Sayohat yo'nalishlari",
-    "travel_collections": "Sayohat manzillari",
+    "travel_collections": "Sayohar firmalari",
     "loading": "Yuklanmoqda...",
     "fetch_error": "Ma'lumotlarni olishda xatolik yuz berdi.",
     "nearby_travel_places": "Yaqindagi sayohat maskanlari",
     "search_placeholder": "Sayohat joylarini qidiring...",
     "select_city": "Shaharni tanlang",
-    "location": "Joylashuvi"
+    "location": "Joylashuvi",
+    "see": "Barcha sayohat firmalari"
   },
   "map": {
     "breadcrumb": "Xarita",

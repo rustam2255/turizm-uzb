@@ -110,8 +110,8 @@ const Breadcrumb: React.FC = () => {
   return (
     <div className="flex items-center text-[14px] font-medium md:text-[18px] gap-2">
       <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>
-      <span className="text-black">&gt</span>
-      <span className="text-[#DE5D26]">{t("map.breadcrumb")}</span>
+      <span className="text-black">&gt;</span>
+      <span className="text-blue-500">{t("map.breadcrumb")}</span>
     </div>
   );
 };

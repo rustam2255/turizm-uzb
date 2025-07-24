@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import Logo from "@components/ui/logo";
+import Logo from "@/assets/images/logo.png";
 import SearchIcon from "@assets/icons/Search1.svg";
 import { motion } from "framer-motion";
 // import VectorSelect from "@assets/icons/vector-select-white.svg"
@@ -68,7 +68,8 @@ const NavbarHome: React.FC = () => {
     >
       <div className="px-4 py-3 sm:px-6 sm:py-4 md:px-[80px] md:py-[20px] flex items-center justify-between">
         <Link to="/" className="flex items-center flex-shrink-0">
-          <Logo />
+        <img src={Logo} alt="Logo" className='w-20 h-12 sm:w-24 sm:h-14 md:w-32 md:h-16 rounded-xl' />
+          
         </Link>
 
         <div className="hidden lg:flex flex-1 justify-center max-w-4xl mx-4">

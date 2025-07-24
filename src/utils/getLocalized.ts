@@ -47,3 +47,10 @@ export const getLocalizedText = (
   if (typeof text === "string") return text;
   return text[lang] || text.en || "";
 };
+export const getLocalizedTextDescr = (
+  text: MultilingualText | undefined,
+  lang: Lang
+): string => {
+  if (!text) return "";
+  return text[lang] || text.en || "";
+};

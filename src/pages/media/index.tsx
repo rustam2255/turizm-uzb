@@ -21,33 +21,15 @@ const Media: React.FC = () => {
             {t("breadcrumb.home")}
           </Link>
           <span className="mx-2 text-gray-400">&gt;</span>
-          <span className="text-orange-500 font-semibold">
+          <span className="text-blue-500 font-semibold">
             {t("media.title")}
           </span>
         </nav>
 
         {/* Main Header */}
-        <div className="text-center mb-12">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
-          >
-            {t("media.title") || "Media Markaz"}
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-gray-600 max-w-2xl mx-auto"
-          >
-            {t('media.meet')}
-          </motion.p>
-        </div>
-
+  
         {/* Main Layout - 60/40 split */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 mt-5 lg:grid-cols-5 gap-8">
           {/* News Section - 60% */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -57,8 +39,8 @@ const Media: React.FC = () => {
           >
             <div className="bg-white rounded-3xl shadow-lg border border-gray-200/50 p-6 lg:p-8 backdrop-blur-sm">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl">
-                  <Newspaper className="w-7 h-7 text-orange-600" />
+                <div className="p-3 bg-gradient-to-br from-sky-100 to-sky-200 rounded-xl">
+                  <Newspaper className="w-7 h-7 text-sky-600" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900">
