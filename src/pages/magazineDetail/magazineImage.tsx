@@ -221,7 +221,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
     const newSpread = Math.round((dragPosition / sliderWidth) * (totalSpreads - 1));
     const snapPosition = (newSpread / (totalSpreads - 1)) * sliderWidth;
 
-    setDragPosition({ x: snapPosition, y: 0 });
+    setDragPosition( snapPosition);
 
     if (newSpread !== currentSpread) {
       const direction = newSpread > currentSpread ? 'next' : 'prev';
