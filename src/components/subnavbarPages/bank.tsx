@@ -6,8 +6,6 @@ import { slugify } from '@/utils/slugify';
 import { getLocalizedText } from '@/utils/getLocalized';
 import { useTranslation } from 'react-i18next';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 

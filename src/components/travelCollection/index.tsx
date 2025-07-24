@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+
 import { useGetToursQuery } from "@/services/api";
 import { slugify } from "@/utils/slugify";
 import IMAGE from "@assets/images/samarkand-img.png";

@@ -5,9 +5,8 @@ import { Link } from 'react-router-dom';
 import { slugify } from '@/utils/slugify';
 import { getLocalizedTextDescr } from '@/utils/getLocalized';
 
-import 'slick-carousel/slick/slick.css';
 import { useTranslation } from "react-i18next";
-import 'slick-carousel/slick/slick-theme.css';
+
 
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 

@@ -3,10 +3,6 @@ import { useGetMagazinesQuery } from '@/services/api';
 import { MagazineItem } from '@/interface';
 import { Link } from 'react-router-dom';
 import { slugify } from '@/utils/slugify';
-
-
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import { useTranslation } from "react-i18next";
 
 const MagazineHome: React.FC = () => {
