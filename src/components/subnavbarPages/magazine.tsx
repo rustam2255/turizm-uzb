@@ -8,7 +8,7 @@ import { slugify } from '@/utils/slugify';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useTranslation } from "react-i18next";
-import ClientSlider from '../slider/clientSlider';
+
 const MagazineHome: React.FC = () => {
   const { data: magazines = {}, isLoading, isError } = useGetMagazinesQuery();
   const [magazineItems, setMagazineItems] = useState<MagazineItem[]>([]);
@@ -47,37 +47,8 @@ const MagazineHome: React.FC = () => {
     if (!field) return "";
     return field[currentLang] || field.en || "";
   };
-  // Slider settings
-  const sliderSettings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    arrows: false,
-    responsive: [
-      {
-        breakpoint: 640, // Mobil uchun
-        settings: {
-          slidesToShow: 1,
-        }
-      },
-      {
-        breakpoint: 1024, // Tablet uchun
-        settings: {
-          slidesToShow: 2,
-        }
-      },
-      {
-        breakpoint: 1280, // Desktop uchun
-        settings: {
-          slidesToShow: 4,
-        }
-      }
-    ]
-  };
+
+
 
   return (
     <div className="py-12 sm:py-16 lg:py-20">
@@ -135,53 +106,7 @@ const MagazineHome: React.FC = () => {
           ))}
         </div>
 
-        {/* Carousel for Mobile */}
-        <div className="lg:hidden block">
 
-          <ClientSlider settings={sliderSettings}>
-            {magazineItems.map((item, index) => (
-              <Link
-                key={item.id}
-                to={`/magazines/${item.id}-${slugify(item.title.en)}`}
-                className="group block transform transition-all duration-300 hover:scale-105"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 group-hover:border-blue-200 mx-2">
-                  <div className="relative overflow-hidden">
-                    <img
-                      src={item.card}
-                      alt={item.title.en}
-                      className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-blue-600 shadow-md">
-                      {item.year} - {item.month}
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-300">
-                      {getLocalizedText(item.title)}
-                    </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
-                      {getLocalizedText(item.description).slice(0, 50)}...
-                    </p>
-                    <div className="flex items-center text-blue-600 font-medium text-sm group-hover:text-blue-700 transition-colors duration-300">
-                      <span>{t("common.details")}</span>
-                      <svg
-                        className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </ClientSlider>
-        </div>
         {magazineItems.length > 0 && (
           <div className="text-center mt-12">
             <Link
