@@ -141,7 +141,7 @@ const Market = () => {
   if (Errormarket || !dataMarkets || errorCities) return <p className="text-center text-red-500">{t("error.failed_to_load_data")}</p>;
 
   return (
-    <div className="w-full py-6 pt-[80px] md:pt-[100px]">
+    <div className="w-full py-6 pt-[80px] md:pt-[30px]">
       <div className="max-w-[1400px] xl:max-w-[1800px] mx-auto px-4 sm:px-6 md:px-12 lg:px-20">
         <Breadcrumb />
         <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif mb-4 sm:mb-6">{t("services.market")}</h1>

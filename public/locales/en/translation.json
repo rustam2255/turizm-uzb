@@ -127,7 +127,8 @@
     "no_documents_found": "No documents found.",
     "number": "Number",
     "date": "Date",
-    "view_document": "View Document"
+    "view_document": "View Document",
+    "all_categories": "Everything"
   },
   "services": {
     "title": "Services",

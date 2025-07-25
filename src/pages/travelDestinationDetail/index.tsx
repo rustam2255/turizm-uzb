@@ -44,7 +44,7 @@ const TravelDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="px-4 pt-[79px]">
+    <div className="px-4">
       <TravelPlaceDetail place={place} nextImage={nextImage} prevImage={prevImage} currentImageIndex={currentImageIndex} images={images} setCurrentImageIndex={setCurrentImageIndex} />
     </div>
   );

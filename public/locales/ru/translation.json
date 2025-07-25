@@ -127,7 +127,8 @@
     "no_documents_found": "Документы не найдены.",
     "number": "Номер",
     "date": "Дата",
-    "view_document": "Посмотреть документ"
+    "view_document": "Посмотреть документ",
+    "all_categories": "всё"
   },
   "services": {
     "title": "Услуги",

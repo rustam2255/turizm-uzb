@@ -49,14 +49,14 @@ const MarketDetail: React.FC = () => {
 
   if (isError || !market) {
     return (
-      <div className="w-full px-4 md:px-[80px] pt-[100px]">
+      <div className="w-full px-4 md:px-[80px] pt-[30px]">
         <p className="text-center text-red-500">{t("error.failed_to_load_data")}</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full px-4 md:px-[80px] pt-[100px] pb-16 max-w-[1200px] md:ml-5 mx-auto">
+    <div className="w-full px-4 md:px-[80px] pt-[30px] pb-16 max-w-[1200px] md:ml-5 mx-auto">
       {/* Breadcrumb */}
       <div className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2">
         <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>

@@ -3,7 +3,7 @@ import MagazineDetailUI from "./magazineDetailUI"
 
 const MagazineDetail = () => {
   return (
-    <div className="px-4  pt-[79px]" >
+    <div className="px-4" >
       <MagazineDetailUI />
     </div>
   )

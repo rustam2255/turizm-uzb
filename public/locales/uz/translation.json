@@ -127,7 +127,8 @@
     "no_documents_found": "Hujjat topilmadi.",
     "number": "Raqam",
     "date": "Sana",
-    "view_document": "Hujjatni ko‘rish"
+    "view_document": "Hujjatni ko‘rish",
+    "all_categories": "Barchasi"
   },
   "services": {
     "title": "Xizmatlar",

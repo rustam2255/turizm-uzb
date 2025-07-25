@@ -167,12 +167,6 @@ const NewsPage: React.FC = () => {
   return (
     <div className="bg-white min-h-screen">
       <div className="">
-        <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            {t("media.title") || "Yangiliklar"}
-          </h1>
-        </div>
-
         {/* Enhanced Filters */}
         <div className="bg-gray-50 rounded-2xl p-6 mb-10 border border-gray-100">
           <div className="flex flex-col lg:flex-row gap-4">

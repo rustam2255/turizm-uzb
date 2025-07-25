@@ -101,7 +101,7 @@ const Home: React.FC = () => {
     <div className="relative min-h-screen overflow-x-hidden bg-gray-50 font-sans">
       {/* Home Section */}
       <div id="home" className="relative">
-        <div className="mx-4 md:mx-10">
+        <div >
           <HomeCarousel />
         </div>
         <div

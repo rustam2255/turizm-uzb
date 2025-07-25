@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useGetNewsByIdQuery } from '@/services/api';
 import IMAGE from '@/assets/images/place3.png'
 import { stripHtmlTags } from '@/utils/getHtmlTags';
+
 const NewsDetailPage = () => {
   const { idSlug } = useParams<{ idSlug: string }>();
   const newId = Number(idSlug?.split("-")[0]);
@@ -14,31 +15,44 @@ const NewsDetailPage = () => {
   const { data: newData, isLoading, isError } = useGetNewsByIdQuery(newId);
 
   const mockImage = IMAGE;
+
   if (isLoading) {
-    return (  
-      <div className="max-w-[1500px] mx-auto p-8 animate-pulse">
-        <div className="h-10 bg-gray-200 rounded w-1/3 mb-4"></div>
-        <div className="h-6 bg-gray-200 rounded w-2/3 mb-2"></div>
-        <div className="h-80 bg-gray-200 rounded mb-6"></div>
-        <div className="space-y-4">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-4 bg-gray-200 rounded w-full"></div>
-          ))}
+    return (
+      <div className="max-w-[1500px] mx-auto p-8">
+        {/* Enhanced shimmer skeleton loader */}
+        <div className="animate-pulse space-y-6">
+          <div className="h-10 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded w-1/3"></div>
+          <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded w-2/3"></div>
+          <div className="h-80 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded-2xl"></div>
+          <div className="space-y-4">
+            {[...Array(5)].map((_, i) => (
+              <div 
+                key={i} 
+                className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"
+                style={{ animationDelay: `${i * 0.15}s` }}
+              ></div>
+            ))}
+          </div>
         </div>
       </div>
     );
   }
+
   if (isError || !newData) {
     return (
       <div className="max-w-[1500px] mx-auto p-16 text-center">
-        <div className="text-red-500 text-6xl mb-4">⚠️</div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('article_not_found')}</h2>
-        <p className="text-gray-600 mb-6">{t('article_not_exist')}</p>
+        <div className="animate-[bounce_2s_infinite] text-red-500 text-6xl mb-4 transform-gpu">⚠️</div>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2 animate-[fadeInUp_0.6s_ease-out] transform-gpu">
+          {t('article_not_found')}
+        </h2>
+        <p className="text-gray-600 mb-6 animate-[fadeInUp_0.6s_ease-out_0.2s] opacity-0 [animation-fill-mode:forwards] transform-gpu">
+          {t('article_not_exist')}
+        </p>
         <button
           onClick={() => window.history.back()}
-          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="group inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transform transition-all duration-300 hover:scale-105 hover:shadow-xl animate-[fadeInUp_0.6s_ease-out_0.4s] opacity-0 [animation-fill-mode:forwards] active:scale-95"
         >
-          <ArrowLeft className="w-4 h-4 mr-2" />
+          <ArrowLeft className="w-4 h-4 mr-2 transition-transform duration-300 group-hover:-translate-x-1" />
           {t('go_back')}
         </button>
       </div>
@@ -46,35 +60,145 @@ const NewsDetailPage = () => {
   }
 
   return (
-    <div className="max-w-[1500px] mx-auto pt-[79px] bg-white min-h-screen">
+    <div className="max-w-[1000px] ml-5 bg-white min-h-screen">
       <div className="px-6 py-10">
-         <div className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2">
-        <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>
-        <span className="text-black">&gt;</span>
-        <Link to="/services" className="hover:underline text-black">{t("services.title")}</Link>
-        <span className="text-black">&gt;</span>
-        <Link to="/services/resort" className="hover:underline text-black">{t("media.title")}</Link>
-      </div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">
+        {/* Animated breadcrumbs with stagger effect */}
+        <div className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2 animate-[slideInLeft_0.6s_ease-out] transform-gpu">
+          <Link 
+            to="/" 
+            className="hover:underline text-black transition-all duration-300 hover:text-blue-600 hover:scale-105 transform-gpu relative overflow-hidden group"
+          >
+            <span className="relative z-10">{t("breadcrumb.home")}</span>
+            <div className="absolute inset-0 bg-blue-50 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          </Link>
+          <span className="text-black transition-all duration-300 animate-[pulse_2s_infinite]">&gt;</span>
+          <Link 
+            to="/services" 
+            className="hover:underline text-black transition-all duration-300 hover:text-blue-600 hover:scale-105 transform-gpu relative overflow-hidden group"
+          >
+            <span className="relative z-10">{t("services.title")}</span>
+            <div className="absolute inset-0 bg-blue-50 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          </Link>
+          <span className="text-black transition-all duration-300 animate-[pulse_2s_infinite]">&gt;</span>
+          <Link 
+            to="/services/resort" 
+            className="hover:underline text-black transition-all duration-300 hover:text-blue-600 hover:scale-105 transform-gpu relative overflow-hidden group"
+          >
+            <span className="relative z-10">{t("media.title")}</span>
+            <div className="absolute inset-0 bg-blue-50 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          </Link>
+        </div>
+
+        {/* Animated title with gradient text effect */}
+        <h1 className="text-3xl md:text-4xl font-bold mb-4 animate-[fadeInUp_0.8s_ease-out_0.2s] opacity-0 [animation-fill-mode:forwards] transform-gpu bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent">
           {newData.title[currentLang]}
         </h1>
-        <p className="text-lg text-gray-600 mb-6">
+
+        {/* Animated description with typing effect simulation */}
+        <p className="text-lg text-gray-600 mb-6 animate-[fadeInUp_0.8s_ease-out_0.4s] opacity-0 [animation-fill-mode:forwards] transform-gpu leading-relaxed">
           {newData.description[currentLang]}
         </p>
 
-        <div className="mb-10">
-          <img
-            src={newData.image || mockImage}
-            alt="Article"
-            className="w-full h-[400px] rounded-2xl object-cover shadow-lg"
-          />
+        {/* Enhanced image container with parallax-like effect */}
+        <div className="mb-10 animate-[fadeInUp_0.8s_ease-out_0.6s] opacity-0 [animation-fill-mode:forwards] transform-gpu">
+          <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-700 group cursor-pointer">
+            <img
+              src={newData.image || mockImage}
+              alt="News"
+              className="w-full h-[400px] object-cover transition-all duration-700 group-hover:scale-110 transform-gpu"
+            />
+            {/* Overlay with gradient animation */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+            {/* Animated corner accent */}
+            <div className="absolute top-4 right-4 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100"></div>
+            {/* Floating animation dots */}
+            <div className="absolute top-6 left-6 w-2 h-2 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 animate-[float_3s_ease-in-out_infinite]"></div>
+            <div className="absolute bottom-8 right-8 w-3 h-3 bg-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700 animate-[float_3s_ease-in-out_infinite_1s]"></div>
+          </div>
         </div>
 
-        {/* Body */}
-        <div className="prose prose-lg max-w-none">
-          {stripHtmlTags(newData.body[currentLang])}
+        {/* Animated content body with reading progress indicator */}
+        <div className="prose prose-lg max-w-none animate-[fadeInUp_1s_ease-out_0.8s] opacity-0 [animation-fill-mode:forwards] transform-gpu relative">
+          {/* Reading progress line */}
+          <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-blue-400 to-purple-400 transform scale-y-0 origin-top transition-transform duration-300 hover:scale-y-100"></div>
+          
+          <div className="leading-relaxed text-gray-800 pl-6 [&>p]:mb-6 [&>p]:transition-all [&>p]:duration-300 [&>p:hover]:text-gray-900 [&>p:hover]:transform [&>p:hover]:translate-x-2">
+            {stripHtmlTags(newData.body[currentLang])}
+          </div>
         </div>
+
+        {/* Scroll to top button */}
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-8 right-8 w-12 h-12 bg-blue-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 transform translate-y-0 hover:-translate-y-1 z-50 animate-[fadeInUp_1s_ease-out_1.2s] opacity-0 [animation-fill-mode:forwards]"
+        >
+          <ArrowLeft className="w-5 h-5 transform rotate-90 mx-auto" />
+        </button>
       </div>
+
+      <style>{`
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+        
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes slideInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        
+        @keyframes bounce {
+          0%, 20%, 53%, 80%, 100% {
+            transform: translate3d(0,0,0);
+          }
+          40%, 43% {
+            transform: translate3d(0, -30px, 0);
+          }
+          70% {
+            transform: translate3d(0, -15px, 0);
+          }
+          90% { 
+            transform: translate3d(0, -4px, 0);
+          }
+        }
+        
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+        
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.7;
+            transform: scale(1.05);
+          }
+        }
+      `}</style>
     </div>
   );
 };

@@ -1,7 +1,8 @@
-// ServiceUI.tsx
-import React from "react";
+
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 import HotelImage from "@/assets/images/hotels.png";
 import ResortImage from "@/assets/images/place1.png";
@@ -10,13 +11,13 @@ import BankImage from "@/assets/images/banks.png";
 import ClinicImage from "@/assets/images/clinic.png";
 import MarketImage from "@/assets/images/market.png";
 
-
 interface ServiceCardProps {
   title: string;
   imageUrl: string;
   isActive?: boolean;
   onClick?: () => void;
-  link: string
+  link: string;
+  id: number;
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
@@ -25,31 +26,44 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   isActive,
   link,
   onClick,
+  id,
 }) => {
   return (
     <Link to={link} className="block w-full max-w-[490px]">
-      <div
+      <motion.div
         onClick={onClick}
-        className={`w-full max-w-[490px] h-[250px] sm:h-[280px] md:h-[320px] lg:h-[330px] relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl ${isActive ? "ring-2 ring-blue-500 ring-offset-2" : ""
+        className={`w-full max-w-[490px] h-[250px] sm:h-[280px] md:h-[320px] lg:h-[330px] relative rounded-2xl overflow-hidden cursor-pointer ${isActive ? "ring-2 ring-blue-500 ring-offset-2" : ""
           }`}
+        initial={{ scale: 0.5, opacity: 0, y: 50 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.5, opacity: 0 }}
+        transition={{ duration: 0.5, delay: id * 0.1 }}
+        whileHover={{ scale: 1.05, boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)" }}
       >
         <div className="relative h-full overflow-hidden">
-          <img
+          <motion.img
             src={imageUrl}
             alt={title}
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+            className="w-full h-full object-cover"
+            initial={{ scale: 1 }}
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.3 }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+        <motion.div
+          className="absolute bottom-0 left-0 right-0 p-3 sm:p-4"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
           <h3 className="text-white font-semibold text-base sm:text-lg leading-tight">
             {title}
           </h3>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </Link>
-
   );
 };
 
@@ -68,7 +82,13 @@ const Breadcrumb: React.FC = () => {
 
 const ServiceUI: React.FC = () => {
   const { t } = useTranslation();
-  const [activeId, setActiveId] = React.useState<number | null>(1);
+  const [activeId, setActiveId] = React.useState<number | null>(null);
+  const [isInitialLoad, setIsInitialLoad] = React.useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsInitialLoad(false), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const services = [
     { id: 1, key: "services.hotels", imageUrl: HotelImage, link: '/hotels' },
@@ -86,18 +106,26 @@ const ServiceUI: React.FC = () => {
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-serif mb-6">
           {t("services.title")}
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-12 justify-items-center">
-          {services.map((service) => (
-            <ServiceCard
-              key={service.id}
-              title={t(service.key)}
-              imageUrl={service.imageUrl}
-              isActive={activeId === service.id}
-              onClick={() => setActiveId(service.id)}
-              link={service.link}
-            />
-          ))}
-        </div>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-12 justify-items-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <AnimatePresence>
+            {services.map((service) => (
+              <ServiceCard
+                key={service.id}
+                title={t(service.key)}
+                imageUrl={service.imageUrl}
+                isActive={activeId === service.id}
+                onClick={() => setActiveId(service.id)}
+                link={service.link}
+                id={service.id}
+              />
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </div>
   );

@@ -1,13 +1,16 @@
+
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { motion, AnimatePresence } from "framer-motion";
 import { MapPin } from "lucide-react";
 import { useGetBanksQuery, useGetCitiesHotelQuery } from "@/services/api";
 import SkeletonCard from "@/components/ui/loaderSkleton/travelDestinationSkleton";
-import IMAGE1 from '@/assets/images/banks.png';
-import IMAGE from '@/assets/images/place3.png'
+import IMAGE1 from "@/assets/images/banks.png";
+import IMAGE from "@/assets/images/place3.png";
 import { slugify } from "@/utils/slugify";
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
+
 type Lang = "uz" | "ru" | "en";
 
 interface BankCity {
@@ -43,25 +46,34 @@ const getLocalizedText = (
 const BankCard: React.FC<{ bank: Bank; lang: Lang }> = ({ bank, lang }) => {
   const navigate = useNavigate();
   const firstImage =
-    bank.images && bank.images.length > 0 ?  `${MEDIA_URL}${bank.images[0].photo}` : IMAGE;
-    
+    bank.images && bank.images.length > 0 ? `${MEDIA_URL}${bank.images[0].photo}` : IMAGE;
   const secondImage =
-    bank.images && bank.images.length > 1 ? `${MEDIA_URL}${bank.images[1].photo}` : IMAGE1;  
+    bank.images && bank.images.length > 1 ? `${MEDIA_URL}${bank.images[1].photo}` : IMAGE1;
+
   return (
-    <div
+    <motion.div
       className="flex flex-col p-3 hover:scale-105 transition h-full cursor-pointer"
       onClick={() => navigate(`/services/bank/${bank.id}-${slugify(bank.name)}`)}
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.5 }}
+      whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
     >
-      <div className="relative h-48 overflow-hidden mb-3 rounded-xl group" style={{ perspective: '1000px' }}>
-        {/* Container for 3D flip effect */}
-        <div className="w-full h-full transition-transform duration-700 ease-in-out transform-gpu group-hover:[transform:rotateY(180deg)]" style={{ transformStyle: 'preserve-3d' }}>
-
+      <div
+        className="relative h-48 overflow-hidden mb-3 rounded-xl group"
+        style={{ perspective: "1000px" }}
+      >
+        <div
+          className="w-full h-full transition-transform duration-700 ease-in-out transform-gpu group-hover:[transform:rotateY(180deg)]"
+          style={{ transformStyle: "preserve-3d" }}
+        >
           {/* Front Image */}
           <img
             src={firstImage}
             alt={bank.name}
-            className="w-full h-full  absolute top-0 left-0"
-            style={{ backfaceVisibility: 'hidden' }}
+            className="w-full h-full absolute top-0 left-0"
+            style={{ backfaceVisibility: "hidden" }}
+       
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE1;
             }}
@@ -72,25 +84,39 @@ const BankCard: React.FC<{ bank: Bank; lang: Lang }> = ({ bank, lang }) => {
             src={secondImage}
             alt={bank.name}
             className="w-full h-full object-cover absolute top-0 left-0"
-            style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+            
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE;
             }}
           />
-
         </div>
       </div>
-      <h2 className="text-lg font-semibold mb-2 line-clamp-2">{bank.name}</h2>
-      <div className="flex items-center gap-1 text-gray-500 text-sm mt-auto pt-2 border-t border-gray-100">
+      <motion.h2
+        className="text-lg font-semibold mb-2 line-clamp-2"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+      >
+        {bank.name}
+      </motion.h2>
+      <motion.div
+        className="flex items-center gap-1 text-gray-500 text-sm mt-auto pt-2 border-t border-gray-100"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+      >
         <MapPin size={16} className="mr-1" />
-        <span className="truncate">{getLocalizedText({
-          uz: bank.city.name_uz,
-          ru: bank.city.name_ru,
-          en: bank.city.name_en,
-        },
-          lang)}</span>
-      </div>
-    </div>
+        <span className="truncate">{getLocalizedText(
+          {
+            uz: bank.city.name_uz,
+            ru: bank.city.name_ru,
+            en: bank.city.name_en,
+          },
+          lang
+        )}</span>
+      </motion.div>
+    </motion.div>
   );
 };
 
@@ -117,34 +143,52 @@ const Banks: React.FC = () => {
     search: searchQuery || undefined,
     city: selectedCity || undefined,
   });
-  
-  
 
   const banks: Bank[] = bankData?.results || [];
   const totalPages = Math.ceil((bankData?.count || 0) / pageSize);
   const isLoading = loadingBanks || loadingCities;
 
   return (
-    <div className="w-full px-4 md:px-[80px] pt-[79px] mt-8 mb-8">
+    <motion.div
+      className="w-full px-4 md:px-[80px] mt-8 mb-8"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       {/* Breadcrumb */}
-      <div className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2">
-        <Link to="/" className="hover:underline text-black">
-          {t("breadcrumb.home")}
-        </Link>
+      <motion.div
+        className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1, duration: 0.5 }}
+      >
+        <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>
         <span className="text-black">&gt;</span>
         <Link to="/services">
           <span className="text-blue-600">{t("services.title")}</span>
         </Link>
-        <span className="text-black">&gt;</span>
+        <span className="text-black">&gt</span>
         <span className="text-blue-500">{t("services.banks")}</span>
-      </div>
+      </motion.div>
 
       {/* Title */}
-      <h1 className="text-2xl md:text-[32px] font-serif mb-5">{t("services.banks")}</h1>
+      <motion.h1
+        className="text-2xl md:text-[32px] font-serif mb-5"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+      >
+        {t("services.banks")}
+      </motion.h1>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
-        <input
+      <motion.div
+        className="flex flex-col sm:flex-row gap-4 mb-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+      >
+        <motion.input
           type="text"
           placeholder={t("placeholder.bank")}
           className="border border-gray-300 px-3 py-2 rounded w-full sm:w-1/2"
@@ -153,14 +197,20 @@ const Banks: React.FC = () => {
             setSearchQuery(e.target.value);
             setCurrentPage(1);
           }}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
         />
-        <select
+        <motion.select
           onChange={(e) => {
             setSelectedCity(String(e.target.value) || null);
             setCurrentPage(1);
           }}
           value={selectedCity || ""}
           className="border border-gray-300 rounded px-3 py-2 w-full sm:w-1/3 text-sm"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
         >
           <option value="">{t("travel.select_city")}</option>
           {cities.map((city: BankCity) => (
@@ -168,50 +218,93 @@ const Banks: React.FC = () => {
               {getLocalizedText(city.name, lang)}
             </option>
           ))}
-        </select>
-      </div>
+        </motion.select>
+      </motion.div>
 
       {/* Error */}
       {(errorBanks || errorCities) && (
-        <div className="text-center text-red-500 my-8">
+        <motion.div
+          className="text-center text-red-500 my-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           {t("error.failed_to_load_data")}
-        </div>
+        </motion.div>
       )}
 
       {/* Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {isLoading
-          ? Array.from({ length: 10 }).map((_, i) => <SkeletonCard key={i} />)
-          : banks.map((bank) => (
-            <BankCard key={bank.id} bank={bank} lang={lang} />
-          ))}
-      </div>
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+      >
+        <AnimatePresence>
+          {isLoading
+            ? Array.from({ length: 10 }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                >
+                  <SkeletonCard />
+                </motion.div>
+              ))
+            : banks.map((bank) => (
+                <motion.div
+                  key={bank.id}
+                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -50, scale: 0.9 }}
+                  transition={{ duration: 0.5, delay: banks.indexOf(bank) * 0.1 }}
+                >
+                  <BankCard bank={bank} lang={lang} />
+                </motion.div>
+              ))}
+        </AnimatePresence>
+      </motion.div>
 
       {/* Empty */}
       {!isLoading && banks.length === 0 && (
-        <p className="text-center text-gray-600 mt-10">
+        <motion.p
+          className="text-center text-gray-600 mt-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1}}
+          transition={{ duration: 0.5 }}
+        >
           {t("common.noData")}
-        </p>
+        </motion.p>
       )}
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex flex-wrap justify-center items-center gap-2 mt-8">
+        <motion.div
+          className="flex flex-wrap justify-center items-center gap-2 mt-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.5 }}
+        >
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
+            <motion.button
               key={page}
               onClick={() => setCurrentPage(page)}
               className={`px-3 py-1 rounded transition-colors duration-200 ${currentPage === page
                 ? "bg-blue-500 text-white"
                 : "bg-gray-100 hover:bg-gray-200"
                 } text-sm sm:text-base`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 + (page - 1) * 0.1, duration: 0.5 }}
+              whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
             >
               {page}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

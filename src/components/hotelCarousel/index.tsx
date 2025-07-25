@@ -6,8 +6,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import Left from "@assets/icons/moveLeft.svg";
 import Right from "@assets/icons/moveRight.svg";
 import { useTranslation } from "react-i18next"
+import Navbar from "../navbar";
 
-import NavbarHome from "../navbar/navHome";
+
 
 
 
@@ -111,11 +112,11 @@ const HotelCarousel = () => {
     return (
         <div className="relative  w-full" id="home">
             <div>
-                <NavbarHome />
+                <Navbar />
             </div>
 
             <div
-                className="relative rounded-2xl min-h-[calc(100vh-72px)] w-full h-[500px] sm:h-[350px] md:h-[450px] lg:h-[670px] overflow-hidden"
+                className="relative  min-h-[calc(100vh-72px)] w-full h-[500px] sm:h-[350px] md:h-[450px] lg:h-[670px] overflow-hidden"
                 onMouseEnter={stopAutoPlay}
                 onMouseLeave={startAutoPlay}
             >
