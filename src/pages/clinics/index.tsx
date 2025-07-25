@@ -73,7 +73,8 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, lang }) => {
   const secondImage =
     clinic.images && clinic.images.length > 1 ? `${MEDIA_URL}${clinic.images[1].photo}` : IMAGE;
   const navigate = useNavigate();
-
+  console.log(isImageHovered);
+  
   return (
     <motion.div
       className="flex flex-col p-3 hover:scale-105 transition h-full cursor-pointer"

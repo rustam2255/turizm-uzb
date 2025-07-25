@@ -89,7 +89,8 @@ const ServiceUI: React.FC = () => {
     const timer = setTimeout(() => setIsInitialLoad(false), 500);
     return () => clearTimeout(timer);
   }, []);
-
+  console.log(isInitialLoad);
+  
   const services = [
     { id: 1, key: "services.hotels", imageUrl: HotelImage, link: '/hotels' },
     { id: 2, key: "services.resort", imageUrl: ResortImage, link: '/services/resort' },
