@@ -63,34 +63,34 @@ const MarketDetail: React.FC = () => {
 
   if (isError || !market) {
     return (
-      <div className="w-full px-4 md:px-[80px] pt-[30px] animate-fade-in">
-        <p className="text-center text-red-500">{t("error.failed_to_load_data")}</p>
+      <div className="w-full px-4 md:px-[80px] pt-[30px] bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen animate-fade-in">
+        <p className="text-center text-red-500 text-[16px] md:text-[18px] font-medium">{t("error.failed_to_load_data")}</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full px-4 md:px-[80px] pt-[30px] pb-16 max-w-[1200px] md:ml-5 mx-auto">
+    <div className="w-full px-4 md:px-[80px] pt-[30px] pb-16 max-w-[1200px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen">
       {/* Breadcrumb */}
-      <div className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2 animate-slide-in-left">
-        <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>
-        <span className="text-black">&gt;</span>
-        <Link to="/services" className="hover:underline text-black">{t("services.title")}</Link>
-        <span className="text-black">&gt;</span>
-        <Link to="/services/market" className="hover:underline text-black">{t("services.market")}</Link>
-        <span className="text-black">&gt;</span>
-        <span className="text-blue-500">{market.name}</span>
+      <div className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 animate-slide-in-left text-[#131313]">
+        <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("breadcrumb.home")}</Link>
+        <span className="text-[#4DC7E8]">&gt;</span>
+        <Link to="/services" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("services.title")}</Link>
+        <span className="text-[#4DC7E8">&gt;</span>
+        <Link to="/services/market" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("services.market")}</Link>
+        <span className="text-[#4DC7E8">&gt;</span>
+        <span className="text-[#4DC7E8] font-semibold">{market.name}</span>
       </div>
 
       {/* Title */}
-      <h1 className="text-2xl md:text-4xl  font-semibold mb-4 animate-slide-in-right">{market.name}</h1>
+      <h1 className="text-[24px] md:text-[36px] font-semibold mb-4 animate-slide-in-right text-[#131313]">{market.name}</h1>
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Left Column - Image and Information */}
         <div className="lg:col-span-2 space-y-6">
           {/* Image Carousel */}
-          <div className="w-full relative h-[300px] md:h-[450px] overflow-hidden rounded-xl animate-slide-up">
+          <div className="w-full relative h-[300px] md:h-[450px] overflow-hidden rounded-xl animate-slide-up border border-[#4DC7E8]/10 shadow-md shadow-[#4DC7E8]/20">
             <img
               src={`${MEDIA_URL}${images[currentImageIndex].photo}`}
               alt={market.name}
@@ -104,20 +104,20 @@ const MarketDetail: React.FC = () => {
               <>
                 <button
                   onClick={prevImage}
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all hover:scale-110"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-all duration-300 hover:scale-110"
                 >
-                  <ChevronLeft className="w-5 h-5 text-black" />
+                  <ChevronLeft className="w-5 h-5 text-[#4DC7E8]" />
                 </button>
                 <button
                   onClick={nextImage}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all hover:scale-110"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-all duration-300 hover:scale-110"
                 >
-                  <ChevronRight className="w-5 h-5 text-black" />
+                  <ChevronRight className="w-5 h-5 text-[#4DC7E8]" />
                 </button>
               </>
             )}
 
-            <div className="absolute bottom-3 right-3 bg-white px-3 py-1 text-sm font-medium animate-fade-in">
+            <div className="absolute bottom-3 right-3 bg-white/80 px-3 py-1 text-sm font-medium text-[#4DC7E8] rounded-md shadow-sm shadow-[#4DC7E8]/20 animate-fade-in">
               {currentImageIndex + 1} {t("hotelDetail.of")} {images.length}
             </div>
 
@@ -127,9 +127,7 @@ const MarketDetail: React.FC = () => {
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all hover:scale-125 ${
-                      index === currentImageIndex ? 'bg-white scale-125' : 'bg-white/50'
-                    }`}
+                    className={`w-2 h-2 rounded-full transition-all hover:scale-125 ${index === currentImageIndex ? 'bg-[#4DC7E8] scale-125' : 'bg-[#4DC7E8]/50'}`}
                   />
                 ))}
               </div>
@@ -138,7 +136,7 @@ const MarketDetail: React.FC = () => {
 
           {/* Address */}
           <div className="text-gray-700 animate-slide-in-left">
-            <h3 className="text-lg font-semibold mb-2">{t("common.address")}</h3>
+            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.address")}</h3>
             <p className="whitespace-pre-line">{getLocalizedText({
               uz: market.address.address_uz,
               ru: market.address.address_ru,
@@ -148,7 +146,7 @@ const MarketDetail: React.FC = () => {
 
           {/* Description */}
           <div className="text-gray-700 animate-slide-in-right">
-            <h3 className="text-lg font-semibold mb-2">{t("common.description")}</h3>
+            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.description")}</h3>
             <p className="whitespace-pre-line leading-relaxed">
               {getLocalizedText(normalizeDescription(market.description), lang)}
             </p>
@@ -156,7 +154,7 @@ const MarketDetail: React.FC = () => {
 
           {/* Body */}
           <div className="text-gray-700 animate-slide-in-left">
-            <h3 className="text-lg font-semibold mb-2">{t("common.details")}</h3>
+            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.details")}</h3>
             <p className="whitespace-pre-line leading-relaxed">
               {stripHtmlTags(getLocalizedText(normalizeBody(market.body), lang))}
             </p>
@@ -166,9 +164,9 @@ const MarketDetail: React.FC = () => {
         {/* Right Column - Map */}
         <div className="lg:col-span-1">
           {market.latitude && market.longitude && (
-            <div className="bg-white p-4 rounded-lg shadow-sm sticky top-24 animate-slide-up">
-              <h2 className="text-base md:text-lg font-medium text-blue-900 mb-3">{t("hotelDetail.location_map")}</h2>
-              <div className="h-64 lg:h-80 bg-gray-200 overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105">
+            <div className="bg-white p-4 rounded-xl shadow-md shadow-[#4DC7E8]/20 border border-[#4DC7E8]/10 sticky top-24 animate-slide-up">
+              <h2 className="text-base md:text-lg font-medium text-[#4DC7E8] mb-3">{t("hotelDetail.location_map")}</h2>
+              <div className="h-64 lg:h-80 bg-[#4DC7E8]/10 overflow-hidden rounded-md shadow-sm shadow-[#4DC7E8]/20 transition-transform duration-300 hover:scale-105">
                 <iframe
                   title="map"
                   width="100%"
@@ -177,18 +175,18 @@ const MarketDetail: React.FC = () => {
                   src={`https://maps.google.com/maps?q=${market.latitude},${market.longitude}&z=15&output=embed`}
                 ></iframe>
               </div>
-              <div className="flex flex-col gap-2 mb-3">
+              <div className="flex flex-col gap-2 mb-3 mt-4">
                 <div className="flex gap-2">
                   <button
                     onClick={() => openNativeMap(market.latitude, market.longitude, market.name)}
-                    className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-3 rounded text-sm transition duration-200 hover:scale-105"
+                    className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 hover:scale-105"
                     title="Telefon navigatorida ochish"
                   >
                     📱 Navigator
                   </button>
                   <button
                     onClick={() => openGoogleMaps(market.latitude, market.longitude, market.name)}
-                    className="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 rounded text-sm transition duration-200 hover:scale-105"
+                    className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 hover:scale-105"
                     title="Google Maps da ochish"
                   >
                     🗺️ Google
@@ -196,7 +194,7 @@ const MarketDetail: React.FC = () => {
                 </div>
                 <button
                   onClick={() => openYandexMaps(market.latitude, market.longitude)}
-                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-3 rounded text-sm transition duration-200 hover:scale-105"
+                  className="w-full bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 hover:scale-105"
                   title="Yandex Maps da ochish"
                 >
                   🗺️ Yandex Maps

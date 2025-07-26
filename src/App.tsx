@@ -34,27 +34,29 @@ const NotFound = lazy(() => import('@pages/notFound'));
 const Maps = lazy(() => import('@pages/maps'));
 
 const knownPaths = [
-   '/news', '/magazines', '/article', '/hotels',
+  '/news', '/magazines', '/article', '/hotels',
   '/travel-destination', '/documents', '/maps',
   '/magazines/:id', '/hotels/:idAndSlug', '/hotels/:id',
-  '/travel-destination/:id', "/news/:idAndSlug", "/article/:id","/services",
-  '/services/resort','/services/tour-firm', '/services/banks', '/services/clinics',
-  '/services/market', '/services/resort/:id', '/services/tours', '/services/tour/:id', '/services/shop/:id', '/services/clinic/:id', 
+  '/travel-destination/:id', "/news/:idAndSlug", "/article/:id", "/services",
+  '/services/resort', '/services/tour-firm', '/services/banks', '/services/clinics',
+  '/services/market', '/services/resort/:id', '/services/tours', '/services/tour/:id', '/services/shop/:id', '/services/clinic/:id',
   '/services/bank/:id', '/media/news', '/media/article/detail/:id', '/media/news/detail/:id'
 ];
 
 const AppContent = () => {
   const location = useLocation();
+
   const isKnownPath = knownPaths.some((path) => {
     const pathPattern = path.replace(/:\w+/g, '.*');
     return new RegExp(`^${pathPattern}$`).test(location.pathname);
   });
 
+
   return (
     <>
       {isKnownPath && <Navbar />}
       <Suspense fallback={<p className="text-center mt-10 text-gray-500">Loading...</p>}>
-      <ScrollToTop />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/news/:idSlug" element={<NewsDetail />} />
@@ -70,7 +72,7 @@ const AppContent = () => {
           <Route path="/hotels/:idSlug" element={<HotelDetailsPage />} />
           <Route path="/documents/:id" element={<DocumentDetail />} />
           <Route path='/services' element={<Service />} />
-          <Route path ='/services/resort' element={<Resort />} />
+          <Route path='/services/resort' element={<Resort />} />
           <Route path='/services/banks' element={<Banks />} />
           <Route path='/services/clinics' element={<Clinics />} />
           <Route path='/services/market' element={<Markets />} />

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -28,7 +27,6 @@ const getLocalizedText = (
 };
 
 // ==== TOUR CARD ====
-
 const TourCard: React.FC<{
   id: number;
   name: string;
@@ -39,9 +37,6 @@ const TourCard: React.FC<{
   }[];
 }> = ({ id, name, city, image }) => {
   const [isImageHovered, setIsImageHovered] = useState(false);
-  console.log("Image prop:", image);
-  console.log("First image photo path:", image[0]?.photo);
-  console.log("Resolved image URL:", `${MEDIA_URL}${image[0]?.photo}`);
   const navigate = useNavigate();
 
   const firstImage = image && image.length > 0 ? `${MEDIA_URL}${image[0].photo}` : IMAGE;
@@ -50,23 +45,21 @@ const TourCard: React.FC<{
   return (
     <motion.div
       onClick={() => navigate(`/services/tour/${id}-${slugify(name)}`)}
-      className="flex flex-col cursor-pointer"
-      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      className="flex flex-col w-full h-[300px] md:h-[300px] bg-white rounded-xl shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-shadow duration-300 border border-[#4DC7E8]/10 overflow-hidden cursor-pointer"
+      initial={{ opacity: 0, y: 40, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5 }}
-      whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
+      whileHover={{ scale: 1.03 }}
     >
       {/* 3D Flip Image Container */}
       <motion.div
-        className="relative h-48 overflow-hidden mb-3 rounded-xl perspective-1000"
+        className="relative h-[160px] md:h-[200px] rounded-t-xl overflow-hidden"
         onMouseEnter={() => setIsImageHovered(true)}
         onMouseLeave={() => setIsImageHovered(false)}
         style={{ perspective: "1000px" }}
       >
         <motion.div
-          className={`relative w-full h-full transition-transform duration-700 ease-in-out transform-style-preserve-3d ${
-            isImageHovered ? "rotate-y-180" : "rotate-y-0"
-          }`}
+          className="relative w-full h-full transition-transform duration-700 ease-in-out transform-style-preserve-3d"
           style={{
             transformStyle: "preserve-3d",
             transform: isImageHovered ? "rotateY(180deg)" : "rotateY(0deg)",
@@ -79,14 +72,13 @@ const TourCard: React.FC<{
             <motion.img
               src={firstImage}
               alt={name}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = IMAGE;
-              }}
+              className="w-full h-full object-cover rounded-t-xl"
+              onError={(e) => (e.target as HTMLImageElement).src = IMAGE}
               whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.3 }}
             />
+            <div className="absolute inset-0 bg-[#4DC7E8]/20 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
           </motion.div>
-
           <motion.div
             className="absolute inset-0 w-full h-full backface-hidden"
             style={{
@@ -97,32 +89,36 @@ const TourCard: React.FC<{
             <motion.img
               src={secondImage}
               alt={`${name} - 2`}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = IMAGE;
-              }}
+              className="w-full h-full object-cover rounded-t-xl"
+              onError={(e) => (e.target as HTMLImageElement).src = IMAGE}
               whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.3 }}
             />
+            <div className="absolute inset-0 bg-[#4DC7E8]/20 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
           </motion.div>
         </motion.div>
       </motion.div>
 
-      <motion.h2
-        className="text-xl mb-2 line-clamp-2"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.5 }}
-      >
-        {name}
-      </motion.h2>
       <motion.div
-        className="flex items-center text-gray-600 mb-2"
-        initial={{ opacity: 0, y: 10 }}
+        className="flex flex-col flex-grow p-4"
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 0.5 }}
+        transition={{ delay: 0.2, duration: 0.4 }}
       >
-        <MapPin size={16} className="mr-1" />
-        <span className="text-sm truncate">{city}</span>
+        <h2
+          className="text-[16px] md:text-[20px] font-semibold mb-2 line-clamp-1 text-[#131313]"
+        >
+          {name}
+        </h2>
+        <motion.div
+          className="flex items-center text-gray-500 text-[14px] md:text-[15px] mt-auto"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.4 }}
+        >
+          <MapPin size={16} className="text-[#4DC7E8] mr-1" />
+          <span className="truncate">{city}</span>
+        </motion.div>
       </motion.div>
     </motion.div>
   );
@@ -162,59 +158,72 @@ const TravelDestination: React.FC = () => {
 
   return (
     <motion.div
-      className="w-full px-4 md:px-[80px] mt-8 mb-8"
+      className="max-w-[1800px] mx-auto px-4 md:px-8 py-6 md:py-10 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       {/* Breadcrumb */}
       <motion.div
-        className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2"
+        className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.5 }}
+        transition={{ delay: 0.1, duration: 0.4 }}
       >
-        <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>
-        <span className="text-black">&gt;</span>
-        <Link to="/services" className="hover:underline text-blue-600">{t("services.title")}</Link>
-        <span className="text-black">&gt;</span>
-        <Link to="/services/tours" className="hover:underline text-sky-200">{t("services.tour-firm")}</Link>
+        <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">
+          {t("breadcrumb.home")}
+        </Link>
+        <span className="text-[#4DC7E8]">&gt;</span>
+        <Link
+          to="/services"
+          className="hover:text-[#4DC7E8] transition-colors duration-200"
+        >
+          {t("services.title")}
+        </Link>
+        <span className="text-[#4DC7E8]">&gt;</span>
+        <span className="text-[#4DC7E8] font-semibold">{t("services.tour-firm")}</span>
       </motion.div>
 
       {/* Title */}
       <motion.h1
-        className="text-2xl md:text-[32px]  mb-5"
+        className="text-[20px] md:text-[30px] font-bold mt-3 md:mt-6 mb-4 text-[#131313]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
+        transition={{ delay: 0.2, duration: 0.4 }}
       >
         {t("services.tour-firm")}
       </motion.h1>
 
       {/* Filter */}
       <motion.div
-        className="flex flex-col sm:flex-row gap-4 mb-6"
+        className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.5 }}
+        transition={{ delay: 0.3, duration: 0.4 }}
       >
         <motion.input
           type="text"
           placeholder={t("placeholder.travel")}
-          className="border border-gray-300 px-3 py-2 rounded w-full sm:w-1/2"
+          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[#4DC7E8]/70 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setCurrentPage(1);
+          }}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
+          transition={{ delay: 0.4, duration: 0.4 }}
         />
         <motion.select
-          onChange={(e) => setSelectedCity(Number(e.target.value) || null)}
+          onChange={(e) => {
+            setSelectedCity(Number(e.target.value) || null);
+            setCurrentPage(1);
+          }}
           value={selectedCity || ""}
-          className="border border-gray-300 rounded px-3 py-2 w-full sm:w-1/3 text-sm"
+          className="w-full sm:w-1/3 px-4 py-2 rounded-lg border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
+          transition={{ delay: 0.5, duration: 0.4 }}
         >
           <option value="">{t("travel.select_city")}</option>
           {cities.map((city: City) => (
@@ -225,9 +234,10 @@ const TravelDestination: React.FC = () => {
         </motion.select>
       </motion.div>
 
+      {/* Error */}
       {(errorCities || errorTours) && (
         <motion.div
-          className="text-center text-red-500 my-8"
+          className="text-center text-red-500 text-[16px] md:text-[18px] font-medium my-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -236,8 +246,9 @@ const TravelDestination: React.FC = () => {
         </motion.div>
       )}
 
+      {/* Cards */}
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.5 }}
@@ -247,7 +258,7 @@ const TravelDestination: React.FC = () => {
             ? Array.from({ length: 6 }).map((_, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
@@ -257,9 +268,9 @@ const TravelDestination: React.FC = () => {
             : tours.map((tour) => (
                 <motion.div
                   key={tour.id}
-                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -50, scale: 0.9 }}
+                  exit={{ opacity: 0, y: -40, scale: 0.95 }}
                   transition={{ duration: 0.5, delay: tours.indexOf(tour) * 0.1 }}
                 >
                   <TourCard
@@ -280,6 +291,19 @@ const TravelDestination: React.FC = () => {
         </AnimatePresence>
       </motion.div>
 
+      {/* Empty */}
+      {!isLoading && tours.length === 0 && (
+        <motion.p
+          className="text-center text-gray-600 text-[16px] md:text-[18px] font-medium mt-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          {t("common.noData")}
+        </motion.p>
+      )}
+
+      {/* Pagination */}
       {totalPages > 1 && (
         <motion.div
           className="flex flex-wrap justify-center items-center gap-2 mt-8"
@@ -291,14 +315,16 @@ const TravelDestination: React.FC = () => {
             <motion.button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`px-3 py-1 rounded transition-colors duration-200 ${currentPage === page
-                ? "bg-blue-500 text-white"
-                : "bg-gray-100 hover:bg-gray-200"
-                } text-sm sm:text-base`}
+              className={`px-4 py-2 rounded-lg font-medium text-sm md:text-base transition-all duration-300 shadow-sm ${
+                currentPage === page
+                  ? "bg-[#4DC7E8] text-white shadow-[#4DC7E8]/50"
+                  : "bg-white text-[#4DC7E8] border border-[#4DC7E8]/50 hover:bg-[#4DC7E8]/10 hover:shadow-[#4DC7E8]/30"
+              }`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 + (page - 1) * 0.1, duration: 0.5 }}
-              whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
+              transition={{ delay: 0.8 + (page - 1) * 0.05, duration: 0.4 }}
+              whileHover={{ scale: 1.1 }}
+              aria-label={`Page ${page}`}
             >
               {page}
             </motion.button>

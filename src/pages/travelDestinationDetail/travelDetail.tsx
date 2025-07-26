@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -42,35 +41,35 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
 
   return (
     <motion.div
-      className="w-full px-4 md:px-[80px] pt-[50px] pb-16 max-w-[1200px] md:ml-5 mx-auto"
+      className="w-full px-4 md:px-[80px] pt-[50px] pb-16 max-w-[1200px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       {/* Breadcrumb */}
       <motion.div
-        className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2"
+        className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.5 }}
       >
-        <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>
-        <span className="text-black">&gt;</span>
-        <Link to="/services" className="hover:underline text-black">{t("services.title")}</Link>
-        <span className="text-black">&gt;</span>
-        <Link to="/services/tours" className="hover:underline text-black">{t("services.tour-firm")}</Link>
-        <span className="text-black">&gt;</span>
-        <span className="text-sky-400">{place.name}</span>
+        <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("breadcrumb.home")}</Link>
+        <span className="text-[#4DC7E8]">&gt;</span>
+        <Link to="/services" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("services.title")}</Link>
+        <span className="text-[#4DC7E8">&gt;</span>
+        <Link to="/services/tours" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("services.tour-firm")}</Link>
+        <span className="text-[#4DC7E8">&gt;</span>
+        <span className="text-[#4DC7E8] font-semibold">{place.name}</span>
       </motion.div>
 
       <motion.div
-        className=" mt-3 md:mt-5"
+        className="mt-3 md:mt-5"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
       >
         <motion.h1
-          className="text-[24px] text-[#131313] leading-[100%] mb-1"
+          className="text-[24px] md:text-[36px] text-[#131313] leading-[100%] mb-1 font-semibold"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
@@ -84,8 +83,8 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.5 }}
         >
-          <div className="text-[#00000040] font-medium text-[15px] flex flex-row ">
-            <span><MapPin /></span>
+          <div className="text-[#4DC7E8] font-medium text-[15px] flex flex-row items-center gap-1">
+            <span><MapPin className="text-[#4DC7E8] w-5 h-5" /></span>
             <span>{getLocalizedText(place.address, lang)}</span>
           </div>
         </motion.div>
@@ -105,7 +104,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
           >
             {/* Image */}
             <motion.div
-              className="w-full relative h-[300px] md:h-[450px] overflow-hidden rounded-xl"
+              className="w-full relative h-[300px] md:h-[450px] overflow-hidden rounded-xl border border-[#4DC7E8]/10 shadow-md shadow-[#4DC7E8]/20"
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.7, duration: 0.5 }}
@@ -124,29 +123,29 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
                 <>
                   <motion.button
                     onClick={prevImage}
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all"
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-all duration-300"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.9, duration: 0.5 }}
                     whileHover={{ scale: 1.1 }}
                   >
-                    <ChevronLeft className="w-5 h-5 text-black" />
+                    <ChevronLeft className="w-5 h-5 text-[#4DC7E8]" />
                   </motion.button>
                   <motion.button
                     onClick={nextImage}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-all duration-300"
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.9, duration: 0.5 }}
                     whileHover={{ scale: 1.1 }}
                   >
-                    <ChevronRight className="w-5 h-5 text-black" />
+                    <ChevronRight className="w-5 h-5 text-[#4DC7E8]" />
                   </motion.button>
                 </>
               )}
 
               <motion.div
-                className="absolute bottom-3 right-3 bg-white px-3 py-1 text-sm font-medium"
+                className="absolute bottom-3 right-3 bg-white/80 px-3 py-1 text-sm font-medium text-[#4DC7E8] rounded-md shadow-sm shadow-[#4DC7E8]/20"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.0, duration: 0.5 }}
@@ -165,7 +164,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
                     <motion.button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`w-2 h-2 rounded-full transition-all ${index === currentImageIndex ? "bg-white" : "bg-white/50"}`}
+                      className={`w-2 h-2 rounded-full transition-all ${index === currentImageIndex ? 'bg-[#4DC7E8]' : 'bg-[#4DC7E8]/50'}`}
                       whileHover={{ scale: 1.2 }}
                     />
                   ))}
@@ -179,7 +178,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2, duration: 0.5 }}
             >
-              <h3 className="text-lg font-semibold mb-2">{t("common.address")}</h3>
+              <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.address")}</h3>
               <p className="whitespace-pre-line">{getLocalizedText(place.address, lang)}</p>
             </motion.div>
 
@@ -190,7 +189,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.3, duration: 0.5 }}
             >
-              <h3 className="text-lg font-semibold mb-2">{t("common.details")}</h3>
+              <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.details")}</h3>
               <p className="whitespace-pre-line leading-relaxed">
                 {stripHtmlTags(getLocalizedText(place.body, lang))}
               </p>
@@ -207,20 +206,20 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
             {/* Google Map */}
             {place.latitude && place.longitude && (
               <motion.div
-                className="bg-white p-4 rounded-lg shadow-sm sticky top-24"
+                className="bg-white p-4 rounded-xl shadow-md shadow-[#4DC7E8]/20 border border-[#4DC7E8]/10 sticky top-24"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.4, duration: 0.5 }}
               >
                 <motion.h2
-                  className="text-base md:text-lg font-medium text-blue-900 mb-3"
+                  className="text-base md:text-lg font-medium text-[#4DC7E8] mb-3"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.5, duration: 0.5 }}
                 >
                   {t("hotelDetail.location_map")}
                 </motion.h2>
-                <div className="h-64 lg:h-80 bg-gray-200 overflow-hidden rounded-lg">
+                <div className="h-64 lg:h-80 bg-[#4DC7E8]/10 overflow-hidden rounded-md shadow-sm shadow-[#4DC7E8]/20">
                   <iframe
                     title="map"
                     width="100%"
@@ -230,7 +229,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
                   ></iframe>
                 </div>
                 <motion.div
-                  className="flex flex-col gap-2 mb-3"
+                  className="flex flex-col gap-2 mb-3 mt-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.6, duration: 0.5 }}
@@ -238,7 +237,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
                   <div className="flex gap-2">
                     <motion.button
                       onClick={() => openNativeMap(place.latitude, place.longitude, place.name)}
-                      className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-3 rounded text-sm transition duration-200"
+                      className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 1.7, duration: 0.5 }}
@@ -248,7 +247,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
                     </motion.button>
                     <motion.button
                       onClick={() => openGoogleMaps(place.latitude, place.longitude, place.name)}
-                      className="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 rounded text-sm transition duration-200"
+                      className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                       initial={{ opacity: 0, x: 10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 1.7, duration: 0.5 }}
@@ -259,7 +258,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
                   </div>
                   <motion.button
                     onClick={() => openYandexMaps(place.latitude, place.longitude)}
-                    className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-3 rounded text-sm transition duration-200"
+                    className="w-full bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.8, duration: 0.5 }}

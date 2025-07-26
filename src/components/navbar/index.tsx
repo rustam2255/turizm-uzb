@@ -59,11 +59,11 @@ const Navbar: React.FC = () => {
       <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-sky-300 via-sky-400 to-sky-300 opacity-60"></div>
       
       <div className="px-4  sm:px-6 sm:py-4 md:px-[80px] md:py-[20px] flex items-center justify-between">
-        <Link to="/" className="flex items-center flex-shrink-0 drop-shadow-md hover:drop-shadow-lg transition-all duration-200">
+        <Link to="/" className="flex items-center flex-shrink-0 transition-all duration-200">
           <img 
             src={Logo} 
             alt="Logo" 
-            className='w-auto h-full max-h-[40px] sm:max-h-[56px] md:max-h-[64px] '
+            className='w-auto h-full max-h-[50px] sm:max-h-[70px] md:max-h-[80px]'
           />
         </Link>
 

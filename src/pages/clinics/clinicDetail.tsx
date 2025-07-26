@@ -58,9 +58,9 @@ const ClinicDetail: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="w-full px-4 md:px-[80px] pt-[100px]"
+        className="w-full px-4 md:px-[80px] pt-[100px] bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
       >
-        <p className="text-center text-red-500">{t("error.failed_to_load_data")}</p>
+        <p className="text-center text-red-500 text-[16px] md:text-[18px] font-medium">{t("error.failed_to_load_data")}</p>
       </motion.div>
     );
   }
@@ -70,28 +70,28 @@ const ClinicDetail: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="w-full px-4 md:px-[80px] pt-[30px] pb-16 max-w-[1200px] md:ml-5 mx-auto"
+      className="w-full px-4 md:px-[80px] pt-[30px] pb-16 max-w-[1200px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
     >
       {/* Breadcrumb */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2"
+        className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
       >
-        <Link to="/" className="hover:underline text-black">
+        <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">
           {t("breadcrumb.home")}
         </Link>
-        <span className="text-black">&gt;</span>
-        <Link to="/services" className="hover:underline text-black">
+        <span className="text-[#4DC7E8]">&gt;</span>
+        <Link to="/services" className="hover:text-[#4DC7E8] transition-colors duration-200">
           {t("services.title")}
         </Link>
-        <span className="text-black">&gt;</span>
-        <Link to="/services/clinics" className="hover:underline text-black">
+        <span className="text-[#4DC7E8">&gt;</span>
+        <Link to="/services/clinics" className="hover:text-[#4DC7E8] transition-colors duration-200">
           {t("services.clinic")}
         </Link>
-        <span className="text-black">&gt;</span>
-        <span className="text-blue-500">{clinic.name}</span>
+        <span className="text-[#4DC7E8">&gt;</span>
+        <span className="text-[#4DC7E8] font-semibold">{clinic.name}</span>
       </motion.div>
 
       {/* Title */}
@@ -99,7 +99,7 @@ const ClinicDetail: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="text-2xl md:text-4xl  font-semibold mb-4"
+        className="text-[24px] md:text-[36px] font-semibold mb-4 text-[#131313]"
       >
         {clinic.name}
       </motion.h1>
@@ -113,7 +113,7 @@ const ClinicDetail: React.FC = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="w-full relative h-[300px] md:h-[450px] overflow-hidden rounded-xl"
+            className="w-full relative h-[300px] md:h-[450px] overflow-hidden rounded-xl border border-[#4DC7E8]/10 shadow-md shadow-[#4DC7E8]/20"
           >
             <AnimatePresence>
               <motion.img
@@ -137,17 +137,17 @@ const ClinicDetail: React.FC = () => {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={prevImage}
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-all duration-300"
                 >
-                  <ChevronLeft className="w-5 h-5 text-black" />
+                  <ChevronLeft className="w-5 h-5 text-[#4DC7E8]" />
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={nextImage}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-all duration-300"
                 >
-                  <ChevronRight className="w-5 h-5 text-black" />
+                  <ChevronRight className="w-5 h-5 text-[#4DC7E8]" />
                 </motion.button>
               </>
             )}
@@ -156,7 +156,7 @@ const ClinicDetail: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
-              className="absolute bottom-3 right-3 bg-white px-3 py-1 text-sm font-medium rounded-md shadow-sm"
+              className="absolute bottom-3 right-3 bg-white/80 px-3 py-1 text-sm font-medium text-[#4DC7E8] rounded-md shadow-sm shadow-[#4DC7E8]/20"
             >
               {currentImageIndex + 1} {t("hotelDetail.of")} {images.length}
             </motion.div>
@@ -173,9 +173,7 @@ const ClinicDetail: React.FC = () => {
                     key={index}
                     whileHover={{ scale: 1.2 }}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      index === currentImageIndex ? "bg-white" : "bg-white/50"
-                    }`}
+                    className={`w-2 h-2 rounded-full transition-all ${index === currentImageIndex ? 'bg-[#4DC7E8]' : 'bg-[#4DC7E8]/50'}`}
                   />
                 ))}
               </motion.div>
@@ -189,7 +187,7 @@ const ClinicDetail: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.5 }}
             className="text-gray-700"
           >
-            <h3 className="text-lg font-semibold mb-2">{t("common.address")}</h3>
+            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.address")}</h3>
             <p className="whitespace-pre-line">{getLocalizedText({
               uz: clinic.address.address_uz,
               ru: clinic.address.address_ru,
@@ -204,7 +202,7 @@ const ClinicDetail: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="text-gray-700"
           >
-            <h3 className="text-lg font-semibold mb-2">{t("common.description")}</h3>
+            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.description")}</h3>
             <p className="whitespace-pre-line leading-relaxed">
               {getLocalizedText(normalizeDescription(clinic.description), lang)}
             </p>
@@ -217,7 +215,7 @@ const ClinicDetail: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.7 }}
             className="text-gray-700"
           >
-            <h3 className="text-lg font-semibold mb-2">{t("common.details")}</h3>
+            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.details")}</h3>
             <p className="whitespace-pre-line leading-relaxed">
               {getLocalizedText(normalizeBody(clinic.body), lang)}
             </p>
@@ -232,13 +230,13 @@ const ClinicDetail: React.FC = () => {
           className="lg:col-span-1"
         >
           {clinic.latitude && clinic.longitude && (
-            <div className="bg-white p-4 rounded-lg shadow-sm sticky top-24">
-              <h2 className="text-base md:text-lg font-medium text-blue-900 mb-3">{t("hotelDetail.location_map")}</h2>
+            <div className="bg-white p-4 rounded-xl shadow-md shadow-[#4DC7E8]/20 border border-[#4DC7E8]/10 sticky top-24">
+              <h2 className="text-base md:text-lg font-medium text-[#4DC7E8] mb-3">{t("hotelDetail.location_map")}</h2>
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.9 }}
-                className="h-64 lg:h-80 bg-gray-200 overflow-hidden rounded-lg"
+                className="h-64 lg:h-80 bg-[#4DC7E8]/10 overflow-hidden rounded-md shadow-sm shadow-[#4DC7E8]/20"
               >
                 <iframe
                   title="map"
@@ -259,7 +257,7 @@ const ClinicDetail: React.FC = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => openNativeMap(clinic.latitude, clinic.longitude, clinic.name)}
-                    className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-3 rounded text-sm transition duration-200"
+                    className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                     title="Telefon navigatorida ochish"
                   >
                     📱 Navigator
@@ -268,7 +266,7 @@ const ClinicDetail: React.FC = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => openGoogleMaps(clinic.latitude, clinic.longitude, clinic.name)}
-                    className="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 rounded text-sm transition duration-200"
+                    className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                     title="Google Maps da ochish"
                   >
                     🗺️ Google
@@ -278,7 +276,7 @@ const ClinicDetail: React.FC = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => openYandexMaps(clinic.latitude, clinic.longitude)}
-                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-3 rounded text-sm transition duration-200"
+                  className="w-full bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                   title="Yandex Maps da ochish"
                 >
                   🗺️ Yandex Maps

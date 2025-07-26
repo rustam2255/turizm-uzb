@@ -59,10 +59,10 @@ const CityFilter = ({
             className="
               relative w-full cursor-default rounded-md border border-gray-300 
               bg-white py-2 pl-3 pr-10 text-left shadow-sm
-              focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500
+              focus:border-[rgba(77,199,232,255)] focus:outline-none focus:ring-1 focus:ring-[rgba(77,199,232,255)]
               text-xs sm:text-sm md:text-base
               transition duration-150 ease-in-out
-              hover:border-orange-400
+              hover:border-[rgba(77,199,232,255)]
             "
             aria-label="Select city"
           >
@@ -83,7 +83,7 @@ const CityFilter = ({
                 key={city.id}
                 value={city}
                 className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-7 md:pl-10 pr-3 md:pr-4 ${active ? "bg-orange-100 text-orange-900" : "text-gray-900"
+                  `relative cursor-default select-none py-2 pl-7 md:pl-10 pr-3 md:pr-4 ${active ? "text-sky-600 bg-[rgba(77,199,232,255)]" : "text-gray-900"
                   }`
                 }
               >
@@ -96,7 +96,7 @@ const CityFilter = ({
                       {getLocalizedText(city.name, currentLang)}
                     </span>
                     {selected && (
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-orange-600">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sky-300">
                         <Check className="h-3 w-3 md:h-5 md:w-5" aria-hidden="true" />
                       </span>
                     )}

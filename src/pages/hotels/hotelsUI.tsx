@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import CityFilter from "@/components/ui/CityFilter";
@@ -10,14 +9,12 @@ import { useGetHotelsQuery, useGetCitiesHotelQuery } from "@/services/api";
 import { slugify } from "@/utils/slugify";
 import image from "@assets/images/place3.png";
 
+// HotelCard Component
 const HotelCard: React.FC<{
   name: string;
   id: number;
   desc: string;
-  images: {
-    id: number;
-    image: string;
-  }[];
+  images: { id: number; image: string }[];
   rating: string;
 }> = ({ id, images, rating, name, desc }) => {
   const [isImageHovered, setIsImageHovered] = useState(false);
@@ -32,22 +29,20 @@ const HotelCard: React.FC<{
   return (
     <Link to={`/hotels/${id}-${slugify(name)}`}>
       <motion.div
-        className="flex flex-row md:flex-col gap-4 md:gap-0 w-full items-start text-[#131313] border-b border-black/15 pb-4 md:pb-0 md:border-none"
-        initial={{ opacity: 0, y: 50, scale: 0.9 }}
+        className="flex flex-col w-full h-[360px] md:h-[420px] text-[#131313] bg-white rounded-xl shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-shadow duration-300 border border-[#4DC7E8]/10 overflow-hidden"
+        initial={{ opacity: 0, y: 40, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
+        transition={{ duration: 0.5 }}
+        whileHover={{ scale: 1.03 }}
       >
         <motion.div
-          className="overflow-hidden w-full h-[115px] md:h-[220px] perspective-1000"
+          className="relative w-full h-[160px] md:h-[200px] rounded-t-xl overflow-hidden"
           onMouseEnter={() => setIsImageHovered(true)}
           onMouseLeave={() => setIsImageHovered(false)}
           style={{ perspective: "1000px" }}
         >
           <motion.div
-            className={`relative w-full h-full transition-transform duration-700 ease-in-out transform-style-preserve-3d ${
-              isImageHovered ? "rotate-y-180" : "rotate-y-0"
-            }`}
+            className="relative w-full h-full transition-transform duration-700 ease-in-out transform-style-preserve-3d"
             style={{
               transformStyle: "preserve-3d",
               transform: isImageHovered ? "rotateY(180deg)" : "rotateY(0deg)",
@@ -60,11 +55,13 @@ const HotelCard: React.FC<{
               <motion.img
                 src={firstImage}
                 alt={name}
-                className="md:w-full rounded-xl w-[174px] h-full object-cover"
+                className="w-full h-full object-cover rounded-t-xl"
+                onError={(e) => (e.currentTarget.src = image)}
                 whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.3 }}
               />
+              <div className="absolute inset-0 bg-[#4DC7E8]/20 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
             </motion.div>
-
             <motion.div
               className="absolute inset-0 w-full h-full backface-hidden"
               style={{
@@ -75,41 +72,43 @@ const HotelCard: React.FC<{
               <motion.img
                 src={secondImage}
                 alt={`${name} - 2`}
-                className="md:w-full rounded-xl w-[174px] h-full object-cover"
+                className="w-full h-full object-cover rounded-t-xl"
+                onError={(e) => (e.currentTarget.src = image)}
                 whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.3 }}
               />
+              <div className="absolute inset-0 bg-[#4DC7E8]/20 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
             </motion.div>
           </motion.div>
         </motion.div>
-
         <motion.div
-          className="w-full"
+          className="flex flex-col flex-grow p-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
+          transition={{ delay: 0.2, duration: 0.4 }}
         >
-          <h3 className="text-[16px] md:text-[24px] mt-0 md:mt-4 mb-1.5 md:mb-1 line-clamp-1">
+          <h3 className="text-[16px] md:text-[20px] font-semibold mb-2 line-clamp-1 text-[#131313]">
             {name}
           </h3>
           <motion.div
-            className="flex items-center gap-1 mb-1"
+            className="flex items-center gap-1 mb-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
+            transition={{ delay: 0.3, duration: 0.4 }}
           >
             {[...Array(fullStars)].map((_, i) => (
-              <span key={i} className="text-yellow-500 text-sm md:text-base">★</span>
+              <span key={i} className="text-yellow-300 text-sm md:text-base">★</span>
             ))}
-            {hasHalfStar && <span className="text-yellow-500 text-sm md:text-base">☆</span>}
+            {hasHalfStar && <span className="text-yellow-300 text-sm md:text-base">☆</span>}
             {[...Array(maxStars - fullStars - (hasHalfStar ? 1 : 0))].map((_, i) => (
               <span key={i} className="text-gray-300 text-sm md:text-base">★</span>
             ))}
           </motion.div>
           <motion.p
-            className="text-[14px] md:text-[15px] font-medium line-clamp-3"
+            className="text-[14px] md:text-[15px] font-medium text-gray-600 line-clamp-3 flex-grow"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
+            transition={{ delay: 0.4, duration: 0.4 }}
           >
             {desc}
           </motion.p>
@@ -119,35 +118,36 @@ const HotelCard: React.FC<{
   );
 };
 
+// Breadcrumb Component
 const Breadcrumb: React.FC = () => {
   const { t } = useTranslation();
   return (
     <motion.div
-      className="flex items-center text-[14px] font-medium md:text-[18px] gap-2"
+      className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4 }}
     >
-      <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>
-      <span className="text-black">&gt;</span>
-      <span className="text-blue-500">{t("breadcrumb.hotels")}</span>
+      <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">
+        {t("breadcrumb.home")}
+      </Link>
+      <span className="text-[#4DC7E8]">&gt;</span>
+      <span className="text-[#4DC7E8] font-semibold">{t("breadcrumb.hotels")}</span>
     </motion.div>
   );
 };
 
+// HotelUI Component
 const HotelUI: React.FC = () => {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language.split("-")[0] as "en" | "uz" | "ru";
-
   const [selectedCity, setSelectedCity] = useState<number | null>(null);
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const { data: cities = [], error: citiesError } = useGetCitiesHotelQuery();
-
   const {
     data: hotelsData,
     error: hotelsError,
@@ -164,15 +164,13 @@ const HotelUI: React.FC = () => {
 
   useEffect(() => {
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
-
     debounceTimeout.current = setTimeout(() => {
       refetchHotels();
     }, 300);
-
     return () => {
       if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
     };
-  }, [searchTerm, selectedCity, selectedRating, currentPage]);
+  }, [searchTerm, selectedCity, selectedRating, currentPage, refetchHotels]);
 
   const getLocalizedText = (
     field: { uz?: string; en?: string; ru?: string } | undefined
@@ -183,6 +181,7 @@ const HotelUI: React.FC = () => {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+    setCurrentPage(1);
   };
 
   const handleCityChange = (cityId: number | null) => {
@@ -197,66 +196,68 @@ const HotelUI: React.FC = () => {
 
   return (
     <motion.div
-      className="max-w-[1800px] py-[20px] md:py-8"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      className="max-w-[1800px] mx-auto py-6 md:py-10 px-4 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
       <Breadcrumb />
       <motion.h1
-        className="text-[20px] md:text-[32px]  mt-2 md:mt-5 mb-[14px]"
+        className="text-[20px] md:text-[30px] font-bold mt-3 md:mt-6 mb-4 text-[#131313]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.5 }}
+        transition={{ delay: 0.1, duration: 0.4 }}
       >
         {t("hotels.title")}
       </motion.h1>
 
       <motion.div
-        className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 mb-4"
+        className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mb-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
+        transition={{ delay: 0.2, duration: 0.4 }}
       >
         <motion.div
-          className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"}`}
+          className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"} w-full md:w-auto`}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
+          transition={{ delay: 0.3, duration: 0.4 }}
         >
           <CityFilter
             cities={cities}
             selectedCity={selectedCity}
             setSelectedCity={handleCityChange}
             fetchHotels={() => refetchHotels()}
+           
           />
         </motion.div>
         <motion.input
           type="text"
           placeholder={t("hotels.searchPlaceholder")}
-          className="border border-gray-300 px-3 py-1 md:py-2 rounded w-full md:w-64 placeholder:text-sm placeholder:md:text-[16px]"
+          className="w-full md:w-64 px-4 py-2 rounded-lg border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[#4DC7E8]/70 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
           value={searchTerm}
           onChange={handleSearch}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
+          transition={{ delay: 0.4, duration: 0.4 }}
         />
         <motion.div
-          className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"}`}
+          className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"} w-full md:w-auto`}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
+          transition={{ delay: 0.5, duration: 0.4 }}
         >
           <RatingSelect
             selectedRating={selectedRating}
             setSelectedRating={handleRatingChange}
+            
           />
         </motion.div>
       </motion.div>
 
       {hotelsLoading && !hotelsData ? (
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[30px]"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -267,6 +268,7 @@ const HotelUI: React.FC = () => {
         </motion.div>
       ) : hotelsError ? (
         <motion.div
+          className="text-red-500 text-center text-[16px] md:text-[18px] font-medium"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -275,6 +277,7 @@ const HotelUI: React.FC = () => {
         </motion.div>
       ) : hotelsData && hotelsData.results.length === 0 ? (
         <motion.div
+          className="text-gray-600 text-center text-[16px] md:text-[18px] font-medium"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -283,7 +286,7 @@ const HotelUI: React.FC = () => {
         </motion.div>
       ) : (
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[30px]"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -292,9 +295,9 @@ const HotelUI: React.FC = () => {
             {hotelsData?.results.map((hotel, idx) => (
               <motion.div
                 key={`${hotel.id}-${idx}`}
-                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -50, scale: 0.9 }}
+                exit={{ opacity: 0, y: -40, scale: 0.95 }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
               >
                 <HotelCard
@@ -311,7 +314,7 @@ const HotelUI: React.FC = () => {
       )}
 
       <motion.div
-        className="mt-8 flex justify-center gap-4 flex-wrap"
+        className="mt-8 flex justify-center gap-2 flex-wrap"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.5 }}
@@ -320,17 +323,31 @@ const HotelUI: React.FC = () => {
           <motion.button
             key={page}
             onClick={() => setCurrentPage(page)}
-            className={`px-3 py-1 rounded ${page === currentPage ? "bg-[#DE5D26] text-white" : "bg-gray-200"}`}
+            className={`px-4 py-2 rounded-lg font-medium text-sm md:text-base transition-all duration-300 shadow-sm ${
+              page === currentPage
+                ? "bg-[#4DC7E8] text-white shadow-[#4DC7E8]/50"
+                : "bg-white text-[#4DC7E8] border border-[#4DC7E8]/50 hover:bg-[#4DC7E8]/10 hover:shadow-[#4DC7E8]/30"
+            }`}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 + (page - 1) * 0.1, duration: 0.5 }}
-            whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
+            transition={{ delay: 0.7 + (page - 1) * 0.05, duration: 0.4 }}
+            whileHover={{ scale: 1.1 }}
+            aria-label={`Page ${page}`}
           >
             {page}
           </motion.button>
         ))}
       </motion.div>
-      {citiesError && <div> error </div>}
+      {citiesError && (
+        <motion.div
+          className="text-red-500 text-center text-[16px] md:text-[18px] font-medium mt-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          {t("hotels.errorLoadingCities")}
+        </motion.div>
+      )}
     </motion.div>
   );
 };

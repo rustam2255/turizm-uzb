@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useGetShopsQuery, useGetCitiesHotelQuery } from "@/services/api";
 import SkeletonCard from "@/components/ui/loaderSkleton/travelDestinationSkleton";
 import IMAGE from '@/assets/images/market.png';
@@ -29,16 +29,16 @@ const getLocalizedText = (
 const Breadcrumb: React.FC = () => {
   const { t } = useTranslation();
   return (
-    <div className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2 animate-slide-in-left">
-      <Link to="/" className="hover:underline text-black">
+    <div className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313] animate-slide-in-left">
+      <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">
         {t("breadcrumb.home")}
       </Link>
-      <span className="text-black">&gt;</span>
-      <Link to="/services">
-        <span className="text-blue-400">{t("services.title")}</span>
+      <span className="text-[#4DC7E8]">&gt;</span>
+      <Link to="/services" className="hover:text-[#4DC7E8] transition-colors duration-200">
+        <span>{t("services.title")}</span>
       </Link>
-      <span className="text-black">&gt;</span>
-      <span className="text-blue-600">{t("services.market")}</span>
+      <span className="text-[#4DC7E8]">&gt;</span>
+      <span className="text-[#4DC7E8] font-semibold">{t("services.market")}</span>
     </div>
   );
 };
@@ -52,33 +52,38 @@ interface marketCardProps {
 const MarketCard: React.FC<marketCardProps> = ({ market, lang, index }) => {
   const firstImage =
     market.images && market.images.length > 0 ? `${MEDIA_URL}${market.images[0].photo}` : IMAGE;
-
   const secondImage =
     market.images && market.images.length > 1 ? `${MEDIA_URL}${market.images[1].photo}` : IMAGE1;
-
   const navigate = useNavigate();
 
   return (
     <div
-      className={`flex flex-col p-3 hover:scale-105 transition-transform duration-300 h-full cursor-pointer animate-slide-up`}
+      className="flex flex-col w-full h-[300px] md:h-[300px] bg-white rounded-xl shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-shadow duration-300 border border-[#4DC7E8]/10 overflow-hidden cursor-pointer animate-slide-up"
       style={{ animationDelay: `${index * 0.1}s` }}
       onClick={() => navigate(`/services/shop/${market.id}-${slugify(market.name)}`)}
     >
-      <div className="relative h-48 overflow-hidden mb-3 rounded-xl group" style={{ perspective: '1000px' }}>
-        <div className="w-full h-full transition-transform duration-700 ease-in-out transform-gpu group-hover:[transform:rotateY(180deg)]" style={{ transformStyle: 'preserve-3d' }}>
+      <div
+        className="relative h-[160px] md:h-[200px] overflow-hidden mb-3 rounded-t-xl group"
+        style={{ perspective: '1000px' }}
+      >
+        <div
+          className="w-full h-full transition-transform duration-700 ease-in-out transform-gpu group-hover:[transform:rotateY(180deg)]"
+          style={{ transformStyle: 'preserve-3d' }}
+        >
           <img
             src={firstImage}
             alt={market.name}
-            className="w-full h-full object-cover absolute top-0 left-0"
+            className="w-full h-full object-cover absolute top-0 left-0 rounded-t-xl"
             style={{ backfaceVisibility: 'hidden' }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE;
             }}
           />
+          <div className="absolute inset-0 bg-[#4DC7E8]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
           <img
             src={secondImage}
             alt={market.name}
-            className="w-full h-full object-cover absolute top-0 left-0"
+            className="w-full h-full object-cover absolute top-0 left-0 rounded-t-xl"
             style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE1;
@@ -86,14 +91,16 @@ const MarketCard: React.FC<marketCardProps> = ({ market, lang, index }) => {
           />
         </div>
       </div>
-      <h2 className="text-lg font-semibold mb-2 line-clamp-2 animate-fade-in">{market.name}</h2>
-      <div className="flex items-center gap-1 text-gray-500 text-sm mt-auto pt-2 border-t border-gray-100 animate-fade-in">
-        <MapPin size={16} className="mr-1" />
-        <span className="truncate">{getLocalizedText({
-          uz: market.city.name_uz,
-          ru: market.city.name_ru,
-          en: market.city.name_en,
-        }, lang)}</span>
+      <div className="flex flex-col flex-grow p-4">
+        <h2 className="text-[16px] md:text-[20px] font-semibold mb-2 line-clamp-2 text-[#131313] animate-fade-in">{market.name}</h2>
+        <div className="flex items-center gap-1 text-gray-500 text-[14px] md:text-[15px] mt-auto pt-2 border-t border-[#4DC7E8]/10 animate-fade-in">
+          <MapPin size={16} className="text-[#4DC7E8] mr-1" />
+          <span className="truncate">{getLocalizedText({
+            uz: market.city.name_uz,
+            ru: market.city.name_ru,
+            en: market.city.name_en,
+          }, lang)}</span>
+        </div>
       </div>
     </div>
   );
@@ -133,86 +140,96 @@ const Market = () => {
     search: searchQuery || undefined,
     city: selectedCity || undefined,
   });
-  const dataMarket: dataMarket[] = dataMarkets?.results || [];
-  const totalPages = Math.ceil((dataMarkets?.count || 0) / 10);
-  const isLoading = loadingCities || marketIsLoading;
 
-  useEffect(() => {
-    // Sahifaga kirganda animatsiyalarni boshlash uchun
-    const elements = document.querySelectorAll('.animate-slide-up, .animate-slide-in-left, .animate-fade-in');
-    elements.forEach((el, index) => {
-      el.classList.add('opacity-0');
-      setTimeout(() => {
-        el.classList.remove('opacity-0');
-      }, index * 100);
-    });
-  }, [dataMarket]);
 
-  if (Errormarket || !dataMarkets || errorCities) return <p className="text-center text-red-500 animate-fade-in">{t("error.failed_to_load_data")}</p>;
+const dataMarket: dataMarket[] = useMemo(() => {
+  return dataMarkets?.results || [];
+}, [dataMarkets]);
 
-  return (
-    <div className="w-full py-6 pt-[80px] md:pt-[30px]">
-      <div className="max-w-[1400px] xl:max-w-[1800px] mx-auto px-4 sm:px-6 md:px-12 lg:px-20">
-        <Breadcrumb />
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl  mb-4 sm:mb-6 animate-slide-in-right">{t("services.market")}</h1>
-        <div className="flex flex-col sm:flex-row gap-4 mb-6">
-          <input
-            type="text"
-            placeholder={t("placeholder.market")}
-            className="border border-gray-300 px-3 py-2 rounded w-full sm:w-1/2 animate-slide-in-left"
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setCurrentPage(1);
-            }}
-          />
-          <select
-            onChange={(e) => {
-              setSelectedCity(String(e.target.value) || null);
-              setCurrentPage(1);
-            }}
-            value={selectedCity || ""}
-            className="border border-gray-300 rounded px-3 py-2 w-full sm:w-1/3 text-sm animate-slide-in-right"
-          >
-            <option value="">{t("travel.select_city")}</option>
-            {cities.map((city: MarketCity) => (
-              <option key={city.id} value={city.id}>
-                {getLocalizedText(city.name, lang)}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {isLoading
-            ? Array.from({ length: 10 }).map((_, i) => <SkeletonCard key={i} />)
-            : dataMarket.map((market, index) => (
-              <MarketCard key={market.id} market={market} lang={lang} index={index} />
-            ))}
-        </div>
-      </div>
-      {totalPages > 1 && (
-        <div className="flex justify-center mt-8 flex-wrap gap-2 px-4">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
-              key={page}
-              onClick={() => setCurrentPage(page)}
-              className={`px-3 py-1 rounded text-sm sm:text-base transition-colors duration-200 animate-fade-in ${
-                currentPage === page
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-              }`}
-              style={{ animationDelay: `${page * 0.1}s` }}
-            >
-              {page}
-            </button>
+const totalPages = Math.ceil((dataMarkets?.count || 0) / 10);
+const isLoading = loadingCities || marketIsLoading;
+
+useEffect(() => {
+  const elements = document.querySelectorAll('.animate-slide-up, .animate-slide-in-left, .animate-slide-in-right, .animate-fade-in');
+  elements.forEach((el, index) => {
+    el.classList.add('opacity-0');
+    setTimeout(() => {
+      el.classList.remove('opacity-0');
+    }, index * 100);
+  });
+}, [dataMarket]);
+
+if (Errormarket || !dataMarkets || errorCities) return (
+  <p className="text-center text-red-500 text-[16px] md:text-[18px] font-medium animate-fade-in">{t("error.failed_to_load_data")}</p>
+);
+
+return (
+  <div className="w-full py-6 pt-[80px] md:pt-[30px] bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen">
+    <div className="max-w-[1800px] xl:max-w-[1800px] mx-auto px-4 sm:px-6 md:px-12 lg:px-0">
+      <Breadcrumb />
+      <h1 className="text-[20px] sm:text-[24px] md:text-[30px] lg:text-[36px] font-bold mb-4 sm:mb-6 text-[#131313] animate-slide-in-right">{t("services.market")}</h1>
+      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+        <input
+          type="text"
+          placeholder={t("placeholder.market")}
+          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[#4DC7E8]/70 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300 animate-slide-in-left"
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setCurrentPage(1);
+          }}
+        />
+        <select
+          onChange={(e) => {
+            setSelectedCity(String(e.target.value) || null);
+            setCurrentPage(1);
+          }}
+          value={selectedCity || ""}
+          className="w-full sm:w-1/3 px-4 py-2 rounded-lg border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300 animate-slide-in-right"
+        >
+          <option value="">{t("travel.select_city")}</option>
+          {cities.map((city: MarketCity) => (
+            <option key={city.id} value={city.id}>
+              {getLocalizedText(city.name, lang)}
+            </option>
           ))}
-        </div>
+        </select>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        {isLoading
+          ? Array.from({ length: 10 }).map((_, i) => (
+            <SkeletonCard key={i} />
+          ))
+          : dataMarket.map((market, index) => (
+            <MarketCard key={market.id} market={market} lang={lang} index={index} />
+          ))}
+      </div>
+      {!isLoading && dataMarket.length === 0 && (
+        <p className="text-center text-gray-600 text-[16px] md:text-[18px] font-medium mt-10 animate-fade-in">{t("common.noData")}</p>
       )}
     </div>
-  );
+    {totalPages > 1 && (
+      <div className="flex justify-center mt-8 flex-wrap gap-2 px-4">
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          <button
+            key={page}
+            onClick={() => setCurrentPage(page)}
+            className={`px-4 py-2 rounded-lg font-medium text-sm md:text-base transition-all duration-300 shadow-sm animate-fade-in ${currentPage === page
+                ? "bg-[#4DC7E8] text-white shadow-[#4DC7E8]/50"
+                : "bg-white text-[#4DC7E8] border border-[#4DC7E8]/50 hover:bg-[#4DC7E8]/10 hover:shadow-[#4DC7E8]/30"
+              }`}
+            style={{ animationDelay: `${page * 0.1}s` }}
+          >
+            {page}
+          </button>
+        ))}
+      </div>
+    )}
+  </div>
+);
 };
 
-// CSS animatsiyalari
+// CSS animations
 const styles = `
   .animate-slide-up {
     animation: slideUp 0.5s ease-out forwards;
@@ -277,7 +294,7 @@ const styles = `
   }
 `;
 
-// CSS ni qo'shish
+// Append CSS to document
 const styleSheet = document.createElement("style");
 styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
