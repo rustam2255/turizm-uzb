@@ -111,7 +111,7 @@ const Breadcrumb: React.FC = () => {
     <div className="flex items-center text-[14px] font-medium md:text-[18px] gap-2">
       <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>
       <span className="text-black">&gt;</span>
-      <span className="text-blue-500">{t("map.breadcrumb")}</span>
+      <span className="" style={{ color: 'rgba(77,199,232,1)' }}>{t("map.breadcrumb")}</span>
     </div>
   );
 };
@@ -314,7 +314,7 @@ const Map: React.FC = () => {
   return (
     <div className="max-w-[1800px] px-4 py-5 md:py-8">
       <Breadcrumb />
-      <h1 className="text-[20px] md:text-[32px] leading-[100%] mt-2 md:mt-5 font-serif mb-3 md:mb-[14px]">
+      <h1 className="text-[20px] md:text-[32px] leading-[100%] mt-2 md:mt-5 font-bold text-sky-800 mb-3 md:mb-[14px]">
         {t("map.title")}
       </h1>
 

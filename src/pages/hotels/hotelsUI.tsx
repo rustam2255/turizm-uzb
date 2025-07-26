@@ -204,7 +204,7 @@ const HotelUI: React.FC = () => {
     >
       <Breadcrumb />
       <motion.h1
-        className="text-[20px] md:text-[32px] font-serif mt-2 md:mt-5 mb-[14px]"
+        className="text-[20px] md:text-[32px]  mt-2 md:mt-5 mb-[14px]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.5 }}

@@ -48,7 +48,7 @@ const ClinicHome: React.FC = () => {
     <div className="py-12 sm:py-16 lg:py-20">
       <div className="max-w-[1900px] mx-auto">
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-sky-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[rgba(77,199,232,255)] mb-4">
             {t("clinics.title")}
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-cyan-500 mx-auto rounded-full"></div>

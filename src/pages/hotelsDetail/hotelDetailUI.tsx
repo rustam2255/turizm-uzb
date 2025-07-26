@@ -62,7 +62,7 @@ const HotelDetailsPage: React.FC = () => {
       </motion.div>
 
       <motion.h1
-        className="text-[20px] font-serif md:text-[24px] text-black leading-[100%] mb-2 mt-4 md:mt-5 md:mb-5"
+        className="text-[20px]  md:text-[24px] text-black leading-[100%] mb-2 mt-4 md:mt-5 md:mb-5"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
@@ -71,7 +71,7 @@ const HotelDetailsPage: React.FC = () => {
       </motion.h1>
 
       <motion.div
-        className="grid grid-cols-1 font-serif lg:grid-cols-3 gap-8"
+        className="grid grid-cols-1  lg:grid-cols-3 gap-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.5 }}

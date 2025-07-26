@@ -54,7 +54,9 @@ const Home: React.FC = () => {
         const element = document.getElementById(sectionId);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 200 && rect.bottom >= 200) {
+          // Sticky navbar balandligini hisobga olish
+          const offset = isSticky ? 80 : 200;
+          if (rect.top <= offset && rect.bottom >= offset) {
             currentSection = sectionId;
           }
         }
@@ -67,7 +69,7 @@ const Home: React.FC = () => {
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isSticky]);
 
   // Animations
   const fadeInUp = {
@@ -127,7 +129,7 @@ const Home: React.FC = () => {
         <motion.div
           id="media"
           ref={sectionRefs.media}
-          className="px-4 md:px-10 lg:px-20 py-10 bg-white scroll-mt-20"
+          className="bg-white"
           initial="hidden"
           animate={isMediaInView ? 'visible' : 'hidden'}
           variants={slideInLeft}

@@ -51,7 +51,7 @@ const MagazineHome: React.FC = () => {
       <div className="max-w-[1900px] mx-auto">
         {/* Header Section */}
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[rgba(77,199,232,255)] mb-4">
             {t("magazine.title_home")}
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-cyan-500 mx-auto rounded-full"></div>

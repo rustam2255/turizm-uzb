@@ -60,7 +60,7 @@ const TravelCollection: React.FC = () => {
       <div className="max-w-[1900px] mx-auto">
         {/* Header Section */}
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[rgba(77,199,232,255)] mb-4">
             {t("travel.travel_collections")}
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-cyan-500 mx-auto rounded-full"></div>
@@ -121,7 +121,7 @@ const TravelCollection: React.FC = () => {
                       </span>
                     </div>
                     <div className="flex items-center text-blue-600 font-medium text-sm group-hover:text-blue-700 transition-colors duration-300">
-                      <span>Batafsil ma'lumot</span>
+                      <span>{t("common.details")}</span>
                       <svg
                         className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300"
                         fill="none"

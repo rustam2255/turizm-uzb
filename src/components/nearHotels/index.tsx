@@ -32,7 +32,7 @@ const NearTravels: React.FC<Props> = ({ hotelId }) => {
   if (isError) return <div>{t("error.loading")}</div>;
 
   return (
-    <div className="container py-6 md:py-[60px] w-full font-serif ">
+    <div className="container py-6 md:py-[60px] w-full ">
       <h1 className="text-[24px] leading-[100%] text-start md:text-center md:text-[40px] text-[#161616] mb-[10px] md:mb-[20px]">
         {t("travel.nearby_travel_places")}
       </h1>

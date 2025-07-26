@@ -94,7 +94,7 @@ const ArticleUI: React.FC = () => {
   return (
     <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 py-5 sm:py-6 md:py-8">
       <Breadcrumb />
-      <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight mt-3 sm:mt-4 md:mt-5 font-serif mb-4 sm:mb-5 md:mb-6">
+      <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight mt-3 sm:mt-4 md:mt-5  mb-4 sm:mb-5 md:mb-6">
         {t("article.title")}
       </h1>
 
@@ -107,7 +107,7 @@ const ArticleUI: React.FC = () => {
       ) : isError ? (
         <p className="text-center text-red-500 text-base sm:text-lg">{t("articles.fetch_error")}</p>
       ) : (
-        <div className="grid font-serif grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6 lg:gap-7 xl:gap-8 items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6 lg:gap-7 xl:gap-8 items-stretch">
           {articles.map((article, idx) => (
             <Link
               key={`${article.id}-${idx}`}

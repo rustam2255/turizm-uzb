@@ -30,7 +30,7 @@ const NewsDetailUI: React.FC = () => {
         <span className="text-[#DE5D26]">{t("navbar.news")}</span>
       </div>
 
-      <div className="font-serif w-full mt-4 md:mt-5">
+      <div className=" w-full mt-4 md:mt-5">
         <h1 className="text-[20px] md:text-[24px] text-[#131313] leading-[100%] mb-1">
           {getLocalized(newsItem.title, lang)}
         </h1>

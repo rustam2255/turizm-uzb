@@ -64,7 +64,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
       </motion.div>
 
       <motion.div
-        className="font-serif mt-3 md:mt-5"
+        className=" mt-3 md:mt-5"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}

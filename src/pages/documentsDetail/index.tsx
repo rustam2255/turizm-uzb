@@ -39,7 +39,7 @@ const DocumentDetail: React.FC = () => {
         <span className="text-[#DE5D26]">{t("documents.detail")}</span>
       </div>
 
-      <h1 className="text-2xl font-bold font-serif mb-4">{localizedTitle}</h1>
+      <h1 className="text-2xl font-bold  mb-4">{localizedTitle}</h1>
 
       <div className="mb-2 text-sm text-gray-700">
         <span className="font-medium">{t("documents.number")}:</span> {document.number}

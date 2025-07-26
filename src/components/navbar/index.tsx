@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
           <img 
             src={Logo} 
             alt="Logo" 
-            className='w-20 h-full  sm:w-24 sm:h-14 md:w-32 md:h-16 '
+            className='w-auto h-full max-h-[40px] sm:max-h-[56px] md:max-h-[64px] '
           />
         </Link>
 

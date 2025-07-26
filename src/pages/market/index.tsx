@@ -1,18 +1,22 @@
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useGetShopsQuery, useGetCitiesHotelQuery } from "@/services/api";
 import SkeletonCard from "@/components/ui/loaderSkleton/travelDestinationSkleton";
 import IMAGE from '@/assets/images/market.png';
-import IMAGE1 from '@assets/images/place1.png'
+import IMAGE1 from '@assets/images/place1.png';
 import { MapPin } from "lucide-react";
 import { slugify } from "@/utils/slugify";
+
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
+
 type Lang = "uz" | "ru" | "en";
+
 interface MarketCity {
   id: number;
   name: string | Record<Lang, string>;
 }
+
 const getLocalizedText = (
   text: string | Record<Lang, string> | undefined,
   lang: Lang
@@ -21,10 +25,11 @@ const getLocalizedText = (
   if (typeof text === "string") return text;
   return text[lang] || text.en || "";
 };
+
 const Breadcrumb: React.FC = () => {
   const { t } = useTranslation();
   return (
-    <div className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2">
+    <div className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2 animate-slide-in-left">
       <Link to="/" className="hover:underline text-black">
         {t("breadcrumb.home")}
       </Link>
@@ -41,60 +46,54 @@ const Breadcrumb: React.FC = () => {
 interface marketCardProps {
   market: dataMarket;
   lang: Lang;
+  index: number;
 }
 
-const MarketCard: React.FC<marketCardProps> = ({ market, lang }) => {
+const MarketCard: React.FC<marketCardProps> = ({ market, lang, index }) => {
   const firstImage =
     market.images && market.images.length > 0 ? `${MEDIA_URL}${market.images[0].photo}` : IMAGE;
 
   const secondImage =
-    market.images && market.images.length > 0 ? `${MEDIA_URL}${market.images[1].photo}` : IMAGE;
+    market.images && market.images.length > 1 ? `${MEDIA_URL}${market.images[1].photo}` : IMAGE1;
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div
-      className="flex flex-col p-3 hover:scale-105 transition h-full cursor-pointer"
+      className={`flex flex-col p-3 hover:scale-105 transition-transform duration-300 h-full cursor-pointer animate-slide-up`}
+      style={{ animationDelay: `${index * 0.1}s` }}
       onClick={() => navigate(`/services/shop/${market.id}-${slugify(market.name)}`)}
     >
       <div className="relative h-48 overflow-hidden mb-3 rounded-xl group" style={{ perspective: '1000px' }}>
-        {/* Container for 3D flip effect */}
         <div className="w-full h-full transition-transform duration-700 ease-in-out transform-gpu group-hover:[transform:rotateY(180deg)]" style={{ transformStyle: 'preserve-3d' }}>
-
-          {/* Front Image */}
           <img
             src={firstImage}
             alt={market.name}
-            className="w-full h-full  absolute top-0 left-0"
+            className="w-full h-full object-cover absolute top-0 left-0"
             style={{ backfaceVisibility: 'hidden' }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE;
             }}
           />
-
-          {/* Back Image */}
           <img
             src={secondImage}
             alt={market.name}
-            className="w-full h-full absolute top-0 left-0"
+            className="w-full h-full object-cover absolute top-0 left-0"
             style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE1;
             }}
           />
-
         </div>
       </div>
-      
-      <h2 className="text-lg font-semibold mb-2 line-clamp-2">{market.name}</h2>
-      <div className="flex items-center gap-1 text-gray-500 text-sm mt-auto pt-2 border-t border-gray-100">
+      <h2 className="text-lg font-semibold mb-2 line-clamp-2 animate-fade-in">{market.name}</h2>
+      <div className="flex items-center gap-1 text-gray-500 text-sm mt-auto pt-2 border-t border-gray-100 animate-fade-in">
         <MapPin size={16} className="mr-1" />
         <span className="truncate">{getLocalizedText({
           uz: market.city.name_uz,
           ru: market.city.name_ru,
           en: market.city.name_en,
-        },
-          lang)}</span>
+        }, lang)}</span>
       </div>
     </div>
   );
@@ -136,20 +135,31 @@ const Market = () => {
   });
   const dataMarket: dataMarket[] = dataMarkets?.results || [];
   const totalPages = Math.ceil((dataMarkets?.count || 0) / 10);
-  const isLoading = loadingCities || marketIsLoading
+  const isLoading = loadingCities || marketIsLoading;
 
-  if (Errormarket || !dataMarkets || errorCities) return <p className="text-center text-red-500">{t("error.failed_to_load_data")}</p>;
+  useEffect(() => {
+    // Sahifaga kirganda animatsiyalarni boshlash uchun
+    const elements = document.querySelectorAll('.animate-slide-up, .animate-slide-in-left, .animate-fade-in');
+    elements.forEach((el, index) => {
+      el.classList.add('opacity-0');
+      setTimeout(() => {
+        el.classList.remove('opacity-0');
+      }, index * 100);
+    });
+  }, [dataMarket]);
+
+  if (Errormarket || !dataMarkets || errorCities) return <p className="text-center text-red-500 animate-fade-in">{t("error.failed_to_load_data")}</p>;
 
   return (
     <div className="w-full py-6 pt-[80px] md:pt-[30px]">
       <div className="max-w-[1400px] xl:max-w-[1800px] mx-auto px-4 sm:px-6 md:px-12 lg:px-20">
         <Breadcrumb />
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif mb-4 sm:mb-6">{t("services.market")}</h1>
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl  mb-4 sm:mb-6 animate-slide-in-right">{t("services.market")}</h1>
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <input
             type="text"
             placeholder={t("placeholder.market")}
-            className="border border-gray-300 px-3 py-2 rounded w-full sm:w-1/2"
+            className="border border-gray-300 px-3 py-2 rounded w-full sm:w-1/2 animate-slide-in-left"
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
@@ -162,7 +172,7 @@ const Market = () => {
               setCurrentPage(1);
             }}
             value={selectedCity || ""}
-            className="border border-gray-300 rounded px-3 py-2 w-full sm:w-1/3 text-sm"
+            className="border border-gray-300 rounded px-3 py-2 w-full sm:w-1/3 text-sm animate-slide-in-right"
           >
             <option value="">{t("travel.select_city")}</option>
             {cities.map((city: MarketCity) => (
@@ -175,22 +185,23 @@ const Market = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {isLoading
             ? Array.from({ length: 10 }).map((_, i) => <SkeletonCard key={i} />)
-            : dataMarket.map((market) => (
-              <MarketCard key={market.id} market={market} lang={lang} />
+            : dataMarket.map((market, index) => (
+              <MarketCard key={market.id} market={market} lang={lang} index={index} />
             ))}
         </div>
       </div>
-
       {totalPages > 1 && (
         <div className="flex justify-center mt-8 flex-wrap gap-2 px-4">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`px-3 py-1 rounded text-sm sm:text-base transition-colors duration-200 ${currentPage === page
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-                }`}
+              className={`px-3 py-1 rounded text-sm sm:text-base transition-colors duration-200 animate-fade-in ${
+                currentPage === page
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+              }`}
+              style={{ animationDelay: `${page * 0.1}s` }}
             >
               {page}
             </button>
@@ -200,5 +211,75 @@ const Market = () => {
     </div>
   );
 };
+
+// CSS animatsiyalari
+const styles = `
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.5s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.5s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
+
+// CSS ni qo'shish
+const styleSheet = document.createElement("style");
+styleSheet.innerText = styles;
+document.head.appendChild(styleSheet);
 
 export default Market;

@@ -128,7 +128,7 @@ const MagazineDetailUI: React.FC = () => {
     
           <div className="mb-8 animate-slideInUp delay-200">
             <h2 className="text-[20px] font-semibold text-gray-900 mb-4">{t('magazine.ts')}</h2>
-            <p className="text-gray-700 text-[16px] md:text-[18px] leading-[140%] tracking-wide bg-gray-50 p-6 rounded-lg border-l-4 border-[#DE5D26]">
+            <p className="text-gray-700 text-[16px] md:text-[18px] leading-[140%] tracking-wide bg-gray-50 p-6 rounded-lg border-l-4 border-[rgba(77,199,232,1)]">
               {getLocalizedText(magazine.description)}
             </p>
           </div>

@@ -111,7 +111,7 @@ const HotelCarousel = () => {
 
     return (
         <div className="relative  w-full" id="home">
-            <div>
+            <div className="z-9999 sticky">
                 <Navbar />
             </div>
 

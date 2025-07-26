@@ -167,13 +167,13 @@ const Banks: React.FC = () => {
         <Link to="/services">
           <span className="text-blue-600">{t("services.title")}</span>
         </Link>
-        <span className="text-black">&gt</span>
+        <span className="text-black">&gt;</span>
         <span className="text-blue-500">{t("services.banks")}</span>
       </motion.div>
 
       {/* Title */}
       <motion.h1
-        className="text-2xl md:text-[32px] font-serif mb-5"
+        className="text-2xl md:text-[32px]  mb-5"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}

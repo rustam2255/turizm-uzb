@@ -37,7 +37,7 @@ const DocumentUI: React.FC = () => {
 
   return (
     <motion.div 
-      className="px-4 sm:px-6 lg:px-8 py-8 max-w-[1200px] ml-5  font-serif min-h-screen bg-gradient-to-br from-sky-50/40 to-blue-50/40 relative overflow-hidden"
+      className="px-4 sm:px-6 lg:px-8 py-8 max-w-[1200px] ml-5   min-h-screen bg-gradient-to-br from-sky-50/40 to-blue-50/40 relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
@@ -74,18 +74,18 @@ const DocumentUI: React.FC = () => {
             {t("breadcrumb.home")}
           </Link>
           <motion.span 
-            className="text-sky-400"
+            className=""
             animate={{ rotate: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
           >
             &gt;
           </motion.span>
-          <span className="text-sky-700 font-semibold">{t("breadcrumb.documents")}</span>
+          <span className=" font-semibold" style={{ color: 'rgba(77,199,232,1)' }}>{t("breadcrumb.documents")}</span>
         </motion.div>
 
         {/* Title */}
         <motion.h1 
-          className="text-[20px] md:text-[32px] font-serif mt-2 md:mt-5 mb-8 text-sky-800"
+          className="text-[20px] md:text-[32px] font-bold mt-2 md:mt-5 mb-8 text-sky-800"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}

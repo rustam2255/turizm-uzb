@@ -108,7 +108,7 @@ const TourCard: React.FC<{
       </motion.div>
 
       <motion.h2
-        className="text-xl font-serif mb-2 line-clamp-2"
+        className="text-xl mb-2 line-clamp-2"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.5 }}
@@ -183,7 +183,7 @@ const TravelDestination: React.FC = () => {
 
       {/* Title */}
       <motion.h1
-        className="text-2xl md:text-[32px] font-serif mb-5"
+        className="text-2xl md:text-[32px]  mb-5"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
