@@ -1,4 +1,3 @@
-
 import { Dialog, Transition } from "@headlessui/react";
 import { X, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import { Fragment, useState, useEffect, useRef, useCallback, useMemo } from "react";
@@ -14,43 +13,108 @@ interface Props {
   error: boolean;
 }
 
+// Image cache singleton
+class ImageCache {
+  private static instance: ImageCache;
+  private cache = new Map<string, HTMLImageElement>();
+  private loadingPromises = new Map<string, Promise<HTMLImageElement>>();
+
+  static getInstance(): ImageCache {
+    if (!ImageCache.instance) {
+      ImageCache.instance = new ImageCache();
+    }
+    return ImageCache.instance;
+  }
+
+  async preloadImage(src: string): Promise<HTMLImageElement> {
+    // Agar cache'da mavjud bo'lsa, darhol qaytarish
+    if (this.cache.has(src)) {
+      return this.cache.get(src)!;
+    }
+
+    // Agar yuklash jarayonida bo'lsa, kutish
+    if (this.loadingPromises.has(src)) {
+      return this.loadingPromises.get(src)!;
+    }
+
+    // Yangi rasm yuklash
+    const loadPromise = new Promise<HTMLImageElement>((resolve, reject) => {
+      const img = new Image();
+      
+      // Performance optimallashtirish
+      img.decoding = 'async';
+      img.loading = 'eager';
+      
+      img.onload = () => {
+        this.cache.set(src, img);
+        this.loadingPromises.delete(src);
+        resolve(img);
+      };
+      
+      img.onerror = () => {
+        this.loadingPromises.delete(src);
+        reject(new Error(`Failed to load image: ${src}`));
+      };
+      
+      img.src = src;
+    });
+
+    this.loadingPromises.set(src, loadPromise);
+    return loadPromise;
+  }
+
+  getFromCache(src: string): HTMLImageElement | null {
+    return this.cache.get(src) || null;
+  }
+
+  clearCache(): void {
+    this.cache.clear();
+    this.loadingPromises.clear();
+  }
+}
+
 const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props) => {
+  const imageCache = ImageCache.getInstance();
   const fallbackImages = [Image1, Image2];
   const imageList = images && images.length > 0 ? images : fallbackImages;
+  
   const [currentSpread, setCurrentSpread] = useState(0);
   const [isFlipping, setIsFlipping] = useState(false);
   const [flipDirection, setFlipDirection] = useState<'next' | 'prev'>('next');
   const [pageShaking, setPageShaking] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState<boolean[]>([]);
+  const [imageLoaded, setImageLoaded] = useState<Record<number, boolean>>({});
+  const [preloadedSpreads, setPreloadedSpreads] = useState<Set<number>>(new Set());
   const [dragPosition, setDragPosition] = useState(0);
+  
   const sliderRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
-  // Dinamik sahifa tuzilishi
+  // Optimized spreads calculation with memoization
   const spreads = useMemo(() => {
     if (imageList.length <= 1) {
-      return [{ type: 'single', images: imageList, startIndex: 0 }];
+      return [{ type: 'single' as const, images: imageList, startIndex: 0 }];
     }
 
     const spreads = [];
-    spreads.push({ type: 'single', images: [imageList[0]], startIndex: 0 });
+    spreads.push({ type: 'single' as const, images: [imageList[0]], startIndex: 0 });
 
     let index = 1;
     while (index < imageList.length - 1) {
       if (index + 1 < imageList.length - 1) {
         spreads.push({
-          type: 'double',
+          type: 'double' as const,
           images: [imageList[index], imageList[index + 1]],
           startIndex: index,
         });
         index += 2;
       } else {
-        spreads.push({ type: 'single', images: [imageList[index]], startIndex: index });
+        spreads.push({ type: 'single' as const, images: [imageList[index]], startIndex: index });
         index += 1;
       }
     }
 
     if (index < imageList.length) {
-      spreads.push({ type: 'single', images: [imageList[index]], startIndex: index });
+      spreads.push({ type: 'single' as const, images: [imageList[index]], startIndex: index });
     }
 
     return spreads;
@@ -58,94 +122,148 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
 
   const totalSpreads = spreads.length;
   const currentSpreadData = spreads[currentSpread];
-  const maxVisibleDots = 7; // Joriy sahifa atrofida 7 ta nuqta ko‘rinadi
+  const maxVisibleDots = 7;
 
+  // Aggressive preloading strategy
+  const preloadImagesForSpread = useCallback(async (spreadIndex: number) => {
+    if (preloadedSpreads.has(spreadIndex) || !spreads[spreadIndex]) return;
+
+    try {
+      const spreadData = spreads[spreadIndex];
+      const loadPromises = spreadData.images.map(src => 
+        imageCache.preloadImage(src).catch(err => {
+          console.warn(`Failed to preload image: ${src}`, err);
+          return null;
+        })
+      );
+
+      await Promise.allSettled(loadPromises);
+      setPreloadedSpreads(prev => new Set([...prev, spreadIndex]));
+      
+      // Mark images as loaded
+      setImageLoaded(prev => {
+        const newState = { ...prev };
+        spreadData.images.forEach((_, idx) => {
+          newState[idx] = true;
+        });
+        return newState;
+      });
+    } catch (error) {
+      console.warn(`Failed to preload spread ${spreadIndex}:`, error);
+    }
+  }, [spreads, imageCache, preloadedSpreads]);
+
+  // Intelligent preloading: current + next + previous + 2 ahead
+  const preloadStrategy = useCallback(async () => {
+    const spreadIndicesToPreload = [
+      currentSpread - 1,
+      currentSpread,
+      currentSpread + 1,
+      currentSpread + 2,
+    ].filter(index => index >= 0 && index < totalSpreads);
+
+    // Priority order: current first, then adjacent
+    const priorityOrder = [currentSpread, currentSpread + 1, currentSpread - 1, currentSpread + 2]
+      .filter(index => index >= 0 && index < totalSpreads);
+
+    for (const index of priorityOrder) {
+      await preloadImagesForSpread(index);
+    }
+  }, [currentSpread, totalSpreads, preloadImagesForSpread]);
+
+  // Initial preloading on component mount
   useEffect(() => {
-    console.log("MagazineStyleSlider props:", {
-      isOpen,
-      imagesLength: images?.length || 0,
-      loading,
-      error,
-      images,
-    });
-  }, [isOpen, images, loading, error]);
+    if (isOpen && imageList.length > 0) {
+      // Cancel previous preloading
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+      
+      abortControllerRef.current = new AbortController();
+      
+      // Start aggressive preloading
+      preloadStrategy();
+    }
 
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, [isOpen, imageList, preloadStrategy]);
+
+  // Preload adjacent spreads when current spread changes
+  useEffect(() => {
+    if (isOpen) {
+      preloadStrategy();
+    }
+  }, [currentSpread, isOpen, preloadStrategy]);
+
+  // Reset state when dialog opens
   useEffect(() => {
     if (isOpen) {
       setCurrentSpread(0);
       setIsFlipping(false);
-      setImageLoaded([]);
+      setImageLoaded({});
+      setPreloadedSpreads(new Set());
       setDragPosition(0);
+      
+      // Gentle shake animation
       setTimeout(() => {
         setPageShaking(true);
         setTimeout(() => setPageShaking(false), 600);
-      }, 300);
+      }, 100);
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    const preloadImages = () => {
-      const imagesToPreload = [];
-      const currentIndex = currentSpread;
-      const nextIndex = currentSpread + 1;
-      const prevIndex = currentSpread - 1;
-
-      if (spreads[currentIndex]) imagesToPreload.push(...spreads[currentIndex].images);
-      if (spreads[nextIndex]) imagesToPreload.push(...spreads[nextIndex].images);
-      if (spreads[prevIndex]) imagesToPreload.push(...spreads[prevIndex].images);
-
-      imagesToPreload.forEach((src) => {
-        const img = new Image();
-        img.src = src;
-      });
-    };
-
-    if (isOpen && imageList.length > 0) {
-      preloadImages();
-    }
-  }, [currentSpread, isOpen, imageList, spreads]);
-
+  // Optimized spread change with instant feedback
   const changeSpread = useCallback(
     async (newSpread: number, direction: 'next' | 'prev') => {
       if (isFlipping || newSpread < 0 || newSpread >= totalSpreads) return;
 
       setIsFlipping(true);
       setFlipDirection(direction);
-      setImageLoaded([]);
 
-      const imagesToLoad = spreads[newSpread].images;
-      await Promise.all(
-        imagesToLoad.map(
-          (src) =>
-            new Promise((resolve) => {
-              const img = new Image();
-              img.src = src;
-              img.onload = () => resolve(true);
-              img.onerror = () => {
-                console.error(`Image load failed: ${src}`);
-                resolve(true);
-              };
-            })
-        )
-      );
-
-      setTimeout(() => {
+      // Immediate UI feedback
+      const updateSpread = () => {
         setCurrentSpread(newSpread);
         setDragPosition(
           sliderRef.current ? (newSpread / (totalSpreads - 1)) * (sliderRef.current.offsetWidth - 40) : 0
         );
+      };
+
+      // Check if images are already preloaded
+      const targetSpread = spreads[newSpread];
+      const allImagesPreloaded = targetSpread.images.every(src => imageCache.getFromCache(src));
+
+      if (allImagesPreloaded) {
+        // Instant transition for preloaded images
+        updateSpread();
         setTimeout(() => {
           setIsFlipping(false);
           setPageShaking(true);
-          setTimeout(() => setPageShaking(false), 400);
-        }, 600);
-      }, 300);
+          setTimeout(() => setPageShaking(false), 300);
+        }, 150);
+      } else {
+        // Load images if not preloaded
+        await preloadImagesForSpread(newSpread);
+        
+        setTimeout(() => {
+          updateSpread();
+          setTimeout(() => {
+            setIsFlipping(false);
+            setPageShaking(true);
+            setTimeout(() => setPageShaking(false), 300);
+          }, 300);
+        }, 100);
+      }
 
+      // Haptic feedback
       if (navigator.vibrate) {
-        navigator.vibrate(50);
+        navigator.vibrate(30);
       }
     },
-    [isFlipping, totalSpreads, spreads]
+    [isFlipping, totalSpreads, spreads, imageCache, preloadImagesForSpread]
   );
 
   const nextSpread = useCallback(() => {
@@ -163,47 +281,46 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
   const handleDotClick = useCallback(
     (index: number) => {
       if (index === currentSpread || isFlipping) return;
-
       const direction = index > currentSpread ? 'next' : 'prev';
       changeSpread(index, direction);
     },
     [currentSpread, isFlipping, changeSpread]
   );
 
+  // Optimized slider interaction
   const handleSliderClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (!sliderRef.current || isFlipping) return;
 
-      const sliderWidth = sliderRef.current.offsetWidth - 40;
-      const clickPosition = e.clientX - sliderRef.current.getBoundingClientRect().left;
+      const rect = sliderRef.current.getBoundingClientRect();
+      const sliderWidth = rect.width - 40;
+      const clickPosition = e.clientX - rect.left;
       const newSpread = Math.round((clickPosition / sliderWidth) * (totalSpreads - 1));
-      const direction = newSpread > currentSpread ? 'next' : 'prev';
-      const snapPosition = (newSpread / (totalSpreads - 1)) * sliderWidth;
-
-      setDragPosition(snapPosition);
-      changeSpread(newSpread, direction);
+      
+      if (newSpread !== currentSpread) {
+        const direction = newSpread > currentSpread ? 'next' : 'prev';
+        changeSpread(newSpread, direction);
+      }
     },
     [currentSpread, totalSpreads, changeSpread, isFlipping]
   );
 
-  const handleDragStart = useCallback(
-    (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
-      if (isFlipping) return;
-      e.preventDefault();
-    },
-    [isFlipping]
-  );
+  // Drag handlers with performance optimization
+  const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    if (isFlipping) return;
+    e.preventDefault();
+  }, [isFlipping]);
 
   const handleDragMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+    (e: React.MouseEvent | React.TouchEvent) => {
       if (!sliderRef.current || isFlipping) return;
 
-      const sliderWidth = sliderRef.current.offsetWidth - 40;
+      const rect = sliderRef.current.getBoundingClientRect();
+      const sliderWidth = rect.width - 40;
       const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-      const newPosition = Math.max(0, Math.min(clientX - sliderRef.current.getBoundingClientRect().left, sliderWidth));
+      const newPosition = Math.max(0, Math.min(clientX - rect.left, sliderWidth));
 
-      // Silliq va barqaror harakat uchun damping qo‘llanadi
-      setDragPosition((prev) => prev + (newPosition - prev) * 0.2);
+      setDragPosition(newPosition);
 
       const newSpread = Math.round((newPosition / sliderWidth) * (totalSpreads - 1));
       if (newSpread !== currentSpread) {
@@ -221,19 +338,14 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
     const newSpread = Math.round((dragPosition / sliderWidth) * (totalSpreads - 1));
     const snapPosition = (newSpread / (totalSpreads - 1)) * sliderWidth;
 
-    setDragPosition( snapPosition);
-
-    if (newSpread !== currentSpread) {
-      const direction = newSpread > currentSpread ? 'next' : 'prev';
-      changeSpread(newSpread, direction);
-    }
+    setDragPosition(snapPosition);
 
     if (navigator.vibrate) {
-      navigator.vibrate(50);
+      navigator.vibrate(30);
     }
-  }, [currentSpread, totalSpreads, changeSpread, dragPosition, isFlipping]);
+  }, [dragPosition, totalSpreads, isFlipping]);
 
-  // Ko‘rinadigan nuqtalar ro‘yxatini hisoblash
+  // Visible dots calculation
   const visibleDots = useMemo(() => {
     const halfDots = Math.floor(maxVisibleDots / 2);
     const start = Math.max(0, currentSpread - halfDots);
@@ -245,20 +357,66 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
     e.stopPropagation();
   }, []);
 
+  // Optimized image component
+  const OptimizedImage = useCallback(({ src, alt, index, onLoad, onError }: {
+    src: string;
+    alt: string;
+    index: number;
+    onLoad: () => void;
+    onError: (e: React.SyntheticEvent<HTMLImageElement, Event>) => void;
+  }) => {
+    const cachedImage = imageCache.getFromCache(src);
+    
+    return (
+      <>
+        {!imageLoaded[index] && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+            <div className="w-full h-full rounded-lg bg-gray-200 animate-pulse" />
+          </div>
+        )}
+        <img
+          src={src}
+          alt={alt}
+          className={`max-w-full max-h-full object-contain rounded-lg shadow-lg transition-opacity duration-200 ${
+            imageLoaded[index] || cachedImage ? 'opacity-100' : 'opacity-0'
+          }`}
+          onLoad={onLoad}
+          onError={onError}
+          decoding="async"
+          loading="eager"
+          style={{ 
+            transform: 'translateZ(0)',
+            willChange: 'opacity'
+          }}
+        />
+      </>
+    );
+  }, [imageCache, imageLoaded]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-9999" onClose={() => {}} static>
         <Transition.Child
           as={Fragment}
-          enter="ease-out duration-500"
+          enter="ease-out duration-300"
           enterFrom="opacity-0"
           enterTo="opacity-100"
-          leave="ease-in duration-300"
+          leave="ease-in duration-200"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
           <div
-            className="fixed inset-0 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 backdrop-blur-sm"
+            className="fixed inset-0  backdrop-blur-sm"
+             style={{ backgroundImage: "url('/images/wow.webp')" }}
             onClick={handleBackdropClick}
           />
         </Transition.Child>
@@ -267,12 +425,12 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
           <div className="flex min-h-full items-center justify-center p-1 sm:p-2 md:p-4">
             <Transition.Child
               as={Fragment}
-              enter="ease-out duration-600"
-              enterFrom="opacity-0 scale-90 rotate-3"
-              enterTo="opacity-100 scale-100 rotate-0"
-              leave="ease-in duration-400"
-              leaveFrom="opacity-100 scale-100 rotate-0"
-              leaveTo="opacity-0 scale-90 rotate-3"
+              enter="ease-out duration-400"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel
                 className="w-full h-full max-w-full max-h-full sm:max-w-3xl md:max-w-5xl lg:max-w-7xl sm:h-auto transform overflow-hidden transition-all"
@@ -321,7 +479,6 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                         </div>
                         <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-2">Sahifalar yuklanmadi</h3>
                         <p className="text-gray-600 text-xs sm:text-sm md:text-base">Jurnal sahifalarini ochib bo'lmadi.</p>
-                        <p className="text-xs text-gray-500 mt-1 sm:mt-2">Debug: rasmlar soni = {images?.length || 0}</p>
                       </div>
                     </div>
                   ) : (
@@ -330,31 +487,28 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                         <div className="relative h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[800px] book-viewer">
                           <div
                             className={`absolute inset-0 flex book-spread ${pageShaking ? 'animate-gentle-shake' : ''}`}
-                            style={{ perspective: '2500px', transformStyle: 'preserve-3d' }}
+                            style={{ 
+                              perspective: '2500px', 
+                              transformStyle: 'preserve-3d',
+                              willChange: 'transform'
+                            }}
                           >
                             {currentSpreadData?.type === 'single' ? (
                               <div className="w-full h-full relative bg-white shadow-2xl flex items-center justify-center book-page-single">
                                 <div className="w-full max-w-2xl sm:max-w-3xl h-full p-2 sm:p-3 md:p-6 lg:p-8 flex flex-col">
                                   <div className="flex-1 flex items-center justify-center overflow-hidden relative">
-                                    {!imageLoaded[0] && (
-                                      <div className="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse">
-                                        <div className="w-full h-full rounded-lg bg-gray-200" />
-                                      </div>
-                                    )}
-                                    <img
+                                    <OptimizedImage
                                       src={currentSpreadData.images[0]}
                                       alt={`Sahifa ${currentSpreadData.startIndex + 1}`}
-                                      className={`max-w-full max-h-full object-contain rounded-lg shadow-lg transition-opacity duration-300 ${
-                                        imageLoaded[0] ? 'opacity-100' : 'opacity-0'
-                                      }`}
-                                      onLoad={() => setImageLoaded((prev) => ({ ...prev, 0: true }))}
+                                      index={0}
+                                      onLoad={() => setImageLoaded(prev => ({ ...prev, 0: true }))}
                                       onError={(e) => {
-                                        console.log("Single image load error:", currentSpreadData.images[0]);
+                                        console.warn("Single image load error:", currentSpreadData.images[0]);
                                         const target = e.target as HTMLImageElement;
                                         if (fallbackImages[0] && target.src !== fallbackImages[0]) {
                                           target.src = fallbackImages[0];
                                         }
-                                        setImageLoaded((prev) => ({ ...prev, 0: true }));
+                                        setImageLoaded(prev => ({ ...prev, 0: true }));
                                       }}
                                     />
                                   </div>
@@ -370,30 +524,26 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                                   className={`w-1/2 h-full relative bg-white border-r border-gray-300 shadow-2xl book-page-left ${
                                     isFlipping && flipDirection === 'prev' ? 'animate-page-flip-prev' : ''
                                   }`}
-                                  style={{ transformOrigin: 'right center' }}
+                                  style={{ 
+                                    transformOrigin: 'right center',
+                                    willChange: 'transform'
+                                  }}
                                 >
                                   <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-10 md:w-12 lg:w-16 bg-gradient-to-l book-inner-shadow"></div>
                                   <div className="w-full h-full p-1 sm:p-2 md:p-4 lg:p-6 pr-4 sm:pr-6 md:pr-8 lg:pr-10 flex flex-col">
                                     <div className="flex-1 flex items-center justify-center overflow-hidden relative">
-                                      {!imageLoaded[0] && (
-                                        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse">
-                                          <div className="w-full h-full rounded-lg bg-gray-200" />
-                                        </div>
-                                      )}
-                                      <img
+                                      <OptimizedImage
                                         src={currentSpreadData.images[0]}
                                         alt={`Sahifa ${currentSpreadData.startIndex + 1}`}
-                                        className={`max-w-full max-h-full object-contain rounded-lg shadow-md transition-opacity duration-300 ${
-                                          imageLoaded[0] ? 'opacity-100' : 'opacity-0'
-                                        }`}
-                                        onLoad={() => setImageLoaded((prev) => ({ ...prev, 0: true }))}
+                                        index={0}
+                                        onLoad={() => setImageLoaded(prev => ({ ...prev, 0: true }))}
                                         onError={(e) => {
-                                          console.log("Left image load error:", currentSpreadData.images[0]);
+                                          console.warn("Left image load error:", currentSpreadData.images[0]);
                                           const target = e.target as HTMLImageElement;
                                           if (fallbackImages[0] && target.src !== fallbackImages[0]) {
                                             target.src = fallbackImages[0];
                                           }
-                                          setImageLoaded((prev) => ({ ...prev, 0: true }));
+                                          setImageLoaded(prev => ({ ...prev, 0: true }));
                                         }}
                                       />
                                     </div>
@@ -406,30 +556,26 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                                   className={`w-1/2 h-full relative bg-white shadow-2xl book-page-right ${
                                     isFlipping && flipDirection === 'next' ? 'animate-page-flip-next' : ''
                                   }`}
-                                  style={{ transformOrigin: 'left center' }}
+                                  style={{ 
+                                    transformOrigin: 'left center',
+                                    willChange: 'transform'
+                                  }}
                                 >
                                   <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-10 md:w-12 lg:w-16 bg-gradient-to-r book-inner-shadow"></div>
                                   <div className="w-full h-full p-1 sm:p-2 md:p-4 lg:p-6 pl-4 sm:pl-6 md:pl-8 lg:pl-10 flex flex-col">
                                     <div className="flex-1 flex items-center justify-center overflow-hidden relative">
-                                      {!imageLoaded[1] && (
-                                        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse">
-                                          <div className="w-full h-full rounded-lg bg-gray-200" />
-                                        </div>
-                                      )}
-                                      <img
+                                      <OptimizedImage
                                         src={currentSpreadData.images[1]}
                                         alt={`Sahifa ${currentSpreadData.startIndex + 2}`}
-                                        className={`max-w-full max-h-full object-contain rounded-lg shadow-md transition-opacity duration-300 ${
-                                          imageLoaded[1] ? 'opacity-100' : 'opacity-0'
-                                        }`}
-                                        onLoad={() => setImageLoaded((prev) => ({ ...prev, 1: true }))}
+                                        index={1}
+                                        onLoad={() => setImageLoaded(prev => ({ ...prev, 1: true }))}
                                         onError={(e) => {
-                                          console.log("Right image load error:", currentSpreadData.images[1]);
+                                          console.warn("Right image load error:", currentSpreadData.images[1]);
                                           const target = e.target as HTMLImageElement;
                                           if (fallbackImages[1] && target.src !== fallbackImages[1]) {
                                             target.src = fallbackImages[1];
                                           }
-                                          setImageLoaded((prev) => ({ ...prev, 1: true }));
+                                          setImageLoaded(prev => ({ ...prev, 1: true }));
                                         }}
                                       />
                                     </div>
@@ -441,20 +587,23 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                               </>
                             )}
                           </div>
+                          
                           <button
                             onClick={prevSpread}
                             disabled={currentSpread === 0 || isFlipping}
-                            className="absolute left-1 sm:left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-slate-800/90 hover:bg-slate-700 disabled:bg-slate-400 disabled:cursor-not-allowed rounded-full shadow-xl flex items-center justify-center text-white transition-all duration-200 backdrop-blur-sm"
+                            className="absolute left-1 sm:left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-slate-800/90 hover:bg-slate-700 disabled:bg-slate-400 disabled:cursor-not-allowed rounded-full shadow-xl flex items-center justify-center text-white transition-all duration-200 backdrop-blur-sm touch-manipulation"
                           >
                             <ChevronLeft size={16} className="sm:w-6 sm:h-6 md:w-7 md:h-7" />
                           </button>
+                          
                           <button
                             onClick={nextSpread}
                             disabled={currentSpread === totalSpreads - 1 || isFlipping}
-                            className="absolute right-1 sm:right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-slate-800/90 hover:bg-slate-700 disabled:bg-slate-400 disabled:cursor-not-allowed rounded-full shadow-xl flex items-center justify-center text-white transition-all duration-200 backdrop-blur-sm"
+                            className="absolute right-1 sm:right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-slate-800/90 hover:bg-slate-700 disabled:bg-slate-400 disabled:cursor-not-allowed rounded-full shadow-xl flex items-center justify-center text-white transition-all duration-200 backdrop-blur-sm touch-manipulation"
                           >
                             <ChevronRight size={16} className="sm:w-6 sm:h-6 md:w-7 md:h-7" />
                           </button>
+                          
                           {currentSpreadData?.type === 'double' && (
                             <div className="absolute left-1/2 top-0 bottom-0 w-0.5 sm:w-1 md:w-2 bg-gradient-to-b from-gray-300 via-gray-500 to-gray-300 transform -translate-x-1/2 z-10 shadow-lg book-spine"></div>
                           )}
@@ -477,21 +626,22 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                   <div className="mt-1 sm:mt-2 md:mt-4 bg-gradient-to-r from-slate-800 to-gray-800 rounded-none sm:rounded-xl p-2 sm:p-3 md:p-4 shadow-2xl">
                     <div className="flex items-center justify-center space-x-2 sm:space-x-3">
                       <div
-                        className="relative w-full max-w-[200px] sm:max-w-[350px] md:max-w-[500px] cursor-pointer"
+                        className="relative w-full max-w-[200px] sm:max-w-[350px] md:max-w-[500px] cursor-pointer touch-manipulation"
                         ref={sliderRef}
                         onClick={handleSliderClick}
                       >
                         <div className="relative h-1 sm:h-1.5 md:h-2 bg-slate-900/80 rounded-full overflow-hidden shadow-inner">
                           <div
-                            className="absolute h-full bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 transition-all duration-500 ease-out"
+                            className="absolute h-full bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 transition-all duration-300 ease-out will-change-transform"
                             style={{
                               width: `${(currentSpread / (totalSpreads - 1)) * 100}%`,
+                              transform: 'translateZ(0)'
                             }}
                           />
                           {visibleDots.map((index) => (
                             <div
                               key={index}
-                              className="absolute top-1/2 -translate-y-1/2 rounded-full transition-all duration-300 cursor-pointer hover:scale-125 active:scale-110"
+                              className="absolute top-1/2 -translate-y-1/2 rounded-full transition-all duration-200 cursor-pointer hover:scale-125 active:scale-110 touch-manipulation"
                               style={{
                                 left: `calc(${(index / (totalSpreads - 1)) * 100}% - ${(totalSpreads > 20 ? 2 : 4)}px)`,
                                 width: totalSpreads > 20 ? '2px' : totalSpreads > 10 ? '3px' : '4px',
@@ -499,15 +649,22 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                                 backgroundColor: index === currentSpread ? '#ffffff' : '#94a3b8',
                                 opacity: index === currentSpread ? 1 : 0.7,
                                 boxShadow: index === currentSpread ? '0 0 8px rgba(59, 130, 246, 0.5)' : 'none',
+                                transform: 'translateZ(0)',
+                                willChange: 'transform, opacity'
                               }}
-                              onClick={() => handleDotClick(index)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDotClick(index);
+                              }}
                             />
                           ))}
                         </div>
                         <div
-                          className="absolute top-1/2 -translate-y-1/2 w-10 h-10 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full shadow-lg border-2 border-slate-900/50 cursor-grab hover:scale-110 active:scale-100 transition-all duration-300 flex items-center justify-center"
+                          className="absolute top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full shadow-lg border-2 border-slate-900/50 cursor-grab hover:scale-110 active:scale-100 transition-all duration-200 flex items-center justify-center touch-manipulation"
                           style={{
-                            left: `calc(${(currentSpread / (totalSpreads - 1)) * 100}% - 20px)`,
+                            left: `calc(${(currentSpread / (totalSpreads - 1)) * 100}% - ${16}px)`,
+                            transform: 'translateZ(0)',
+                            willChange: 'transform'
                           }}
                           onMouseDown={handleDragStart}
                           onMouseMove={handleDragMove}
@@ -516,9 +673,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                           onTouchMove={handleDragMove}
                           onTouchEnd={handleDragEnd}
                         >
-                          <span className="text-xs sm:text-sm font-bold text-white drop-shadow">
-                            
-                          </span>
+                          <div className="w-1 h-1 bg-white rounded-full opacity-80" />
                         </div>
                       </div>
                       <div className="text-slate-200 text-xs sm:text-sm font-medium flex-shrink-0">
@@ -533,91 +688,174 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
         </div>
 
         <style>{`
-          .book-container { transform-style: preserve-3d; }
+          .book-container { 
+            transform-style: preserve-3d; 
+            contain: layout style paint;
+          }
           .book-viewer {
             background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
             border-radius: 8px;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.15), 0 8px 24px rgba(0,0,0,0.2);
+            contain: layout style paint;
           }
-          .book-spread { transform-style: preserve-3d; transition: transform 0.3s ease-out; }
+          .book-spread { 
+            transform-style: preserve-3d; 
+            transition: transform 0.2s ease-out;
+            contain: layout style paint;
+          }
           .book-page-single {
             border-radius: 8px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.7);
             background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+            contain: layout style paint;
           }
           .book-page-left {
             border-radius: 8px 0 0 8px;
             box-shadow: -2px 0 8px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.7);
             background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+            contain: layout style paint;
           }
           .book-page-right {
             border-radius: 0 8px 8px 0;
             box-shadow: 2px 0 8px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.7);
             background: linear-gradient(225deg, #ffffff 0%, #f8f8f8 100%);
+            contain: layout style paint;
           }
           .book-inner-shadow {
             background: linear-gradient(to left, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 30%, transparent 100%);
             opacity: 0.6;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.3s ease;
+            will-change: opacity;
           }
           .book-spine {
             background: linear-gradient(180deg, rgba(75, 85, 99, 0.3) 0%, rgba(75, 85, 99, 0.5) 50%, rgba(75, 85, 99, 0.3) 100%);
             border-radius: 2px;
             box-shadow: 0 0 6px rgba(0,0,0,0.25);
           }
+
           @keyframes gentle-shake {
             0%, 100% { transform: translateX(0) translateY(0) rotate(0deg); }
-            10% { transform: translateX(-0.5px) translateY(-0.3px) rotate(-0.05deg); }
-            20% { transform: translateX(0.5px) translateY(0.3px) rotate(0.05deg); }
-            30% { transform: translateX(-0.3px) translateY(-0.2px) rotate(-0.03deg); }
-            40% { transform: translateX(0.3px) translateY(0.2px) rotate(0.03deg); }
-            50% { transform: translateX(-0.2px) translateY(-0.1px) rotate(-0.02deg); }
-            60% { transform: translateX(0.2px) translateY(0.1px) rotate(0.02deg); }
-            70% { transform: translateX(-0.1px) translateY(-0.05px) rotate(-0.01deg); }
-            80% { transform: translateX(0.1px) translateY(0.05px) rotate(0.01deg); }
-            90% { transform: translateX(0) translateY(0) rotate(0deg); }
+            25% { transform: translateX(-0.5px) translateY(-0.3px) rotate(-0.05deg); }
+            50% { transform: translateX(0.5px) translateY(0.3px) rotate(0.05deg); }
+            75% { transform: translateX(-0.3px) translateY(-0.2px) rotate(-0.03deg); }
           }
-          .animate-gentle-shake { animation: gentle-shake 0.6s ease-in-out; }
+          .animate-gentle-shake { 
+            animation: gentle-shake 0.4s ease-in-out;
+            will-change: transform;
+          }
+
           @keyframes page-flip-next {
-            0% { transform: perspective(2000px) rotateY(0deg) translateZ(0px); opacity: 1; filter: brightness(1) drop-shadow(0 0 4px rgba(0,0,0,0.2)); }
-            10% { transform: perspective(2000px) rotateY(-6deg) translateZ(6px) skewY(0.5deg); opacity: 0.99; filter: brightness(0.98) drop-shadow(-2px 4px 6px rgba(0,0,0,0.25)); }
-            25% { transform: perspective(2000px) rotateY(-20deg) translateZ(15px) skewY(-0.5deg); opacity: 0.97; filter: brightness(0.95) drop-shadow(-4px 6px 8px rgba(0,0,0,0.3)); }
-            40% { transform: perspective(2000px) rotateY(-50deg) translateZ(25px) skewY(0.3deg); opacity: 0.94; filter: brightness(0.9) drop-shadow(-6px 8px 10px rgba(0,0,0,0.35)); }
-            60% { transform: perspective(2000px) rotateY(-110deg) translateZ(25px) skewY(-0.3deg); opacity: 0.88; filter: brightness(0.85) drop-shadow(-4px 6px 8px rgba(0,0,0,0.35)); }
-            75% { transform: perspective(2000px) rotateY(-150deg) translateZ(15px) skewY(0deg); opacity: 0.92; filter: brightness(0.9) drop-shadow(-2px 4px 6px rgba(0,0,0,0.3)); }
-            90% { transform: perspective(2000px) rotateY(-170deg) translateZ(6px) skewY(0deg); opacity: 0.95; filter: brightness(0.95) drop-shadow(0 2px 4px rgba(0,0,0,0.25)); }
-            100% { transform: perspective(2000px) rotateY(-180deg) translateZ(0px); opacity: 0; filter: brightness(1) drop-shadow(0 0 0 rgba(0,0,0,0)); }
+            0% { 
+              transform: perspective(2000px) rotateY(0deg) translateZ(0px); 
+              opacity: 1; 
+              filter: brightness(1);
+            }
+            50% { 
+              transform: perspective(2000px) rotateY(-90deg) translateZ(20px); 
+              opacity: 0.7; 
+              filter: brightness(0.8);
+            }
+            100% { 
+              transform: perspective(2000px) rotateY(-180deg) translateZ(0px); 
+              opacity: 0; 
+              filter: brightness(1);
+            }
           }
+
           @keyframes page-flip-prev {
-            0% { transform: perspective(2000px) rotateY(0deg) translateZ(0px); opacity: 1; filter: brightness(1) drop-shadow(0 0 4px rgba(0,0,0,0.2)); }
-            10% { transform: perspective(2000px) rotateY(6deg) translateZ(6px) skewY(-0.5deg); opacity: 0.99; filter: brightness(0.98) drop-shadow(2px 4px 6px rgba(0,0,0,0.25)); }
-            25% { transform: perspective(2000px) rotateY(20deg) translateZ(15px) skewY(0.5deg); opacity: 0.97; filter: brightness(0.95) drop-shadow(4px 6px 8px rgba(0,0,0,0.3)); }
-            40% { transform: perspective(2000px) rotateY(50deg) translateZ(25px) skewY(-0.3deg); opacity: 0.94; filter: brightness(0.9) drop-shadow(6px 8px 10px rgba(0,0,0,0.35)); }
-            60% { transform: perspective(2000px) rotateY(110deg) translateZ(25px) skewY(0.3deg); opacity: 0.88; filter: brightness(0.85) drop-shadow(4px 6px 8px rgba(0,0,0,0.35)); }
-            75% { transform: perspective(2000px) rotateY(150deg) translateZ(15px) skewY(0deg); opacity: 0.92; filter: brightness(0.9) drop-shadow(2px 4px 6px rgba(0,0,0,0.3)); }
-            90% { transform: perspective(2000px) rotateY(170deg) translateZ(6px) skewY(0deg); opacity: 0.95; filter: brightness(0.95) drop-shadow(0 2px 4px rgba(0,0,0,0.25)); }
-            100% { transform: perspective(2000px) rotateY(180deg) translateZ(0px); opacity: 0; filter: brightness(1) drop-shadow(0 0 0 rgba(0,0,0,0)); }
+            0% { 
+              transform: perspective(2000px) rotateY(0deg) translateZ(0px); 
+              opacity: 1; 
+              filter: brightness(1);
+            }
+            50% { 
+              transform: perspective(2000px) rotateY(90deg) translateZ(20px); 
+              opacity: 0.7; 
+              filter: brightness(0.8);
+            }
+            100% { 
+              transform: perspective(2000px) rotateY(180deg) translateZ(0px); 
+              opacity: 0; 
+              filter: brightness(1);
+            }
           }
-          .animate-page-flip-next { animation: page-flip-next 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; z-index: 10; }
-          .animate-page-flip-prev { animation: page-flip-prev 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; z-index: 10; }
+
+          .animate-page-flip-next { 
+            animation: page-flip-next 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
+            z-index: 10;
+            will-change: transform, opacity, filter;
+          }
+          .animate-page-flip-prev { 
+            animation: page-flip-prev 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
+            z-index: 10;
+            will-change: transform, opacity, filter;
+          }
+
+          /* Performance optimizations for mobile */
           @media (max-width: 640px) {
-            .book-viewer { box-shadow: inset 0 1px 2px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.15); }
+            .book-viewer { 
+              box-shadow: inset 0 1px 2px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.15);
+              contain: strict;
+            }
             .book-page-left, .book-page-right {
               box-shadow: 0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.7);
+              contain: strict;
             }
-            .book-inner-shadow { opacity: 0.5; width: 6px; }
+            .book-inner-shadow { 
+              opacity: 0.4; 
+              width: 6px; 
+            }
             .book-spine { width: 1px; }
-            .animate-page-flip-next, .animate-page-flip-prev { animation-duration: 0.5s; }
+            .animate-page-flip-next, .animate-page-flip-prev { 
+              animation-duration: 0.3s; 
+            }
+            .animate-gentle-shake { 
+              animation-duration: 0.3s; 
+            }
           }
+
           @media (max-width: 768px) {
             .book-page-left, .book-page-right {
               box-shadow: 0 3px 10px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.7);
             }
-            .book-inner-shadow { opacity: 0.6; }
-            .animate-page-flip-next, .animate-page-flip-prev { animation-duration: 0.6s; }
+            .book-inner-shadow { opacity: 0.5; }
+            .animate-page-flip-next, .animate-page-flip-prev { 
+              animation-duration: 0.35s; 
+            }
           }
+
+          /* GPU acceleration for smoother animations */
+          .book-spread, .book-page-left, .book-page-right, .book-page-single {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+          }
+
+          /* Touch optimization */
+          .touch-manipulation {
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+          }
+
+          /* High DPI displays optimization */
           @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            .book-viewer { box-shadow: inset 0 1px 2px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.15); }
+            .book-viewer { 
+              box-shadow: inset 0 1px 2px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.15); 
+            }
+          }
+
+          /* Preload optimization */
+          img[loading="eager"] {
+            content-visibility: auto;
+          }
+
+          /* Scroll performance */
+          .book-container * {
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
           }
         `}</style>
       </Dialog>

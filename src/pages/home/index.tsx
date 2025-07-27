@@ -100,7 +100,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-gray-50 font-sans">
+    <div className="relative min-h-screen overflow-x-hidden bg-gray-50 dark:bg-black font-sans">
       {/* Home Section */}
       <div id="home" className="relative">
         <div >

@@ -564,3 +564,10 @@ export interface MagazineImageResponse {
   previous: string | null;
   results: MagazineImage[];
 }
+
+//home-list
+export interface HomeList{
+    id: number;
+    title: string;
+    
+}
