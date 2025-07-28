@@ -42,7 +42,7 @@ const NewsDetailUI: React.FC = () => {
           onError={(e) => ((e.target as HTMLImageElement).src = IMAGE)}
         />
 
-        <p className="font-medium text-[15px] md:text-[18px] leading-[26px] mt-7 tracking-[1%]">
+        <p className="font-medium text-[15px] md:text-[18px] text-[rgba(100, 100, 100, 1)] leading-[26px] mt-7 tracking-[1%]">
           {getLocalized(newsItem.description, lang)}
         </p>
 

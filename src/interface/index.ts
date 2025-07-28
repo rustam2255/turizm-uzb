@@ -568,6 +568,13 @@ export interface MagazineImageResponse {
 //home-list
 export interface HomeList{
     id: number;
-    title: string;
+    title: MultilangText;
+    home_file: string;
     
+}
+//services-list
+export interface DashboardList{
+    id: number;
+    title: MultilangText;
+    file: string
 }

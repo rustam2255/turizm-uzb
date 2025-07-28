@@ -37,15 +37,15 @@ const DocumentUI: React.FC = () => {
 
   return (
     <motion.div 
-      className="px-4 sm:px-6 lg:px-8 py-8 max-w-[1200px] ml-5   min-h-screen bg-gradient-to-br from-sky-50/40 to-blue-50/40 relative overflow-hidden"
+      className="px-4 sm:px-6 lg:px-8 py-8 max-w-[1200px] ml-5    min-h-screen bg-gradient-to-br  relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
       {/* Background decorations */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 bg-[rgba(245, 245, 245, 1)] pointer-events-none">
         <motion.div 
-          className="absolute top-20 -left-20 w-40 h-40 bg-sky-200/20 rounded-full blur-3xl"
+          className="absolute top-20 -left-20 w-40 h-40  rounded-full blur-3xl"
           animate={{ 
             x: [0, 30, 0],
             y: [0, 20, 0],
@@ -83,16 +83,7 @@ const DocumentUI: React.FC = () => {
           <span className=" font-semibold" style={{ color: 'rgba(77,199,232,1)' }}>{t("breadcrumb.documents")}</span>
         </motion.div>
 
-        {/* Title */}
-        <motion.h1 
-          className="text-[20px] md:text-[32px] font-bold mt-2 md:mt-5 mb-8 text-sky-800"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          style={{ textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-        >
-          {t("documents.tourism_laws")}
-        </motion.h1>
+  
 
         {/* Search Input */}
         <motion.div 

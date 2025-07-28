@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { BookOpen, Newspaper } from "lucide-react";
+
 import NewsPage from "./media-news";
 import ArticlesPage from "./media-article";
 
@@ -10,7 +10,7 @@ const Media: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+    <div className="bg-gradient-to-br ">
       <div className='max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-8'>
         {/* Breadcrumb */}
         <nav className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2" aria-label="Breadcrumb">
@@ -37,7 +37,7 @@ const Media: React.FC = () => {
           >
             <div className="bg-white rounded-3xl shadow-lg border border-gray-200/50 p-6 lg:p-8 backdrop-blur-sm hover:shadow-xl transition-all duration-500">
               <div className="flex items-center gap-3 mb-6">
-                <div 
+                {/* <div 
                   className="p-3 rounded-xl transition-all duration-300 hover:scale-105"
                   style={{ 
                     background: `linear-gradient(135deg, rgba(77,199,232,0.1), rgba(77,199,232,0.2))`,
@@ -56,7 +56,7 @@ const Media: React.FC = () => {
                   <p className="text-sm text-gray-600">
                     {t('media.import')}
                   </p>
-                </div>
+                </div> */}
               </div>
               <NewsPage />
             </div>
@@ -70,7 +70,7 @@ const Media: React.FC = () => {
             className="lg:col-span-2 order-2"
           >
             <div className="bg-white rounded-3xl shadow-lg border border-gray-200/50 backdrop-blur-sm sticky top-8 hover:shadow-xl transition-all duration-500">
-              <div className="p-6 border-b border-gray-100">
+              {/* <div className="p-6 border-b border-gray-100">
                 <div className="flex items-center gap-3 mb-2">
                   <div 
                     className="p-3 rounded-xl transition-all duration-300 hover:scale-105"
@@ -90,7 +90,7 @@ const Media: React.FC = () => {
                     </h2>
                   </div>
                 </div>
-              </div>
+              </div> */}
               
               <div className="p-6 max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
                 <ArticlesPage />

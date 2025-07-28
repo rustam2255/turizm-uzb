@@ -70,7 +70,7 @@ const ArticleDetail = () => {
   }
 
   return (
-    <div className="max-w-[1000px] ml-5 bg-white min-h-screen">
+    <div className="max-w-[1000px] ml-20 bg-white min-h-screen">
       <div className="px-6 py-10">
         {/* Animated breadcrumbs */}
         <div className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2 animate-[slideInLeft_0.6s_ease-out]">
@@ -143,7 +143,7 @@ const ArticleDetail = () => {
 
         {/* Animated content body */}
         <div className="prose prose-lg max-w-none animate-[fadeInUp_1s_ease-out_1s] opacity-0 [animation-fill-mode:forwards]">
-          <div className="leading-relaxed text-gray-800 [&>p]:mb-6 [&>p]:transition-all [&>p]:duration-300 [&>p:hover]:text-[rgba(77,199,232,1)] [&>p:hover]:translate-x-2">
+          <div className="leading-relaxed text-[rgba(100, 100, 100, 1)] [&>p]:mb-6 [&>p]:transition-all [&>p]:duration-300 [&>p:hover]:text-[rgba(77,199,232,1)] [&>p:hover]:translate-x-2">
             {stripHtmlTags(article.body[currentLang])}
           </div>
         </div>

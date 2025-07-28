@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin } from "lucide-react";
+import { MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { useGetBanksQuery, useGetCitiesHotelQuery } from "@/services/api";
 import SkeletonCard from "@/components/ui/loaderSkleton/travelDestinationSkleton";
 import IMAGE1 from "@/assets/images/banks.png";
@@ -156,6 +156,120 @@ const Banks: React.FC = () => {
   const totalPages = Math.ceil((bankData?.count || 0) / pageSize);
   const isLoading = loadingBanks || loadingCities;
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const renderPaginationButtons = () => {
+    const buttons = [];
+    const maxVisiblePages = 3; 
+
+    // Previous buttons
+    if (currentPage > 1) {
+      buttons.push(
+        <button
+          key="prev"
+          onClick={() => handlePageChange(currentPage - 1)}
+          className="flex items-center px-3 py-2 text-gray-500 hover:text-blue-500 hover:bg-orange-50 rounded-lg transition-colors duration-200"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          <span className="ml-1 hidden sm:inline">{t("media.previous")}</span>
+        </button>
+      );
+    }
+
+    // Page numbers
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    // Birinchi sahifa
+    if (startPage > 1) {
+      buttons.push(
+        <button
+          key={1}
+          onClick={() => handlePageChange(1)}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
+            currentPage === 1
+              ? "bg-blue-500 text-white"
+              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+          }`}
+        >
+          1
+        </button>
+      );
+      if (startPage > 2) {
+        buttons.push(
+          <span key="start-ellipsis" className="px-3 py-2 text-gray-500">
+            ...
+          </span>
+        );
+      }
+    }
+
+    // Joriy sahifa atrofidagi sahifalar
+    for (let i = startPage; i <= endPage; i++) {
+      buttons.push(
+        <button
+          key={i}
+          onClick={() => handlePageChange(i)}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
+            i === currentPage
+              ? "bg-blue-500 text-white"
+              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+          }`}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    // Ellipsis (agar kerak bo'lsa)
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        buttons.push(
+          <span key="end-ellipsis" className="px-3 py-2 text-gray-500">
+            ...
+          </span>
+        );
+      }
+      // Oxirgi sahifa
+      buttons.push(
+        <button
+          key={totalPages}
+          onClick={() => handlePageChange(totalPages)}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
+            currentPage === totalPages
+              ? "bg-blue-500 text-white"
+              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+          }`}
+        >
+          {totalPages}
+        </button>
+      );
+    }
+
+    // Next button
+    if (currentPage < totalPages) {
+      buttons.push(
+        <button
+          key="next"
+          onClick={() => handlePageChange(currentPage + 1)}
+          className="flex items-center px-3 py-2 text-gray-500 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors duration-200"
+        >
+          <span className="mr-1 hidden sm:inline">{t("media.next")}</span>
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      );
+    }
+
+    return buttons;
+  };
+
   return (
     <motion.div
       className="max-w-[1800px] mx-auto px-4 md:px-8 py-6 md:py-10 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
@@ -173,11 +287,11 @@ const Banks: React.FC = () => {
         <Link to="/" className="hover:text-[#4DC7e8] transition-colors duration-200">
           {t("breadcrumb.home")}
         </Link>
-        <span className="text-[#4DC7E8">&gt;</span>
+        <span className="text-[#4DC7E8]">&gt;</span>
         <Link to="/services" className="hover:text-[#4DC7E8] transition-colors duration-200">
           <span>{t("services.title")}</span>
         </Link>
-        <span className="text-[#4DC7E8">&gt;</span>
+        <span className="text-[#4DC7E8]">&gt;</span>
         <span className="text-[#4DC7E8] font-semibold">{t("services.banks")}</span>
       </motion.div>
 
@@ -291,28 +405,12 @@ const Banks: React.FC = () => {
       {/* Pagination */}
       {totalPages > 1 && (
         <motion.div
-          className="flex flex-wrap justify-center items-center gap-2 mt-8"
+          className="flex justify-center items-center gap-1 mt-8 bg-white rounded-xl shadow-sm border border-[#4DC7E8]/20 p-2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.5 }}
         >
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <motion.button
-              key={page}
-              onClick={() => setCurrentPage(page)}
-              className={`px-4 py-2 rounded-lg font-medium text-sm md:text-base transition-all duration-300 shadow-sm ${
-                currentPage === page
-                  ? "bg-[#4DC7E8] text-white shadow-[#4DC7E8]/50"
-                  : "bg-white text-[#4DC7E8] border border-[#4DC7E8]/50 hover:bg-[#4DC7E8]/10 hover:shadow-[#4DC7E8]/30"
-              }`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 + (page - 1) * 0.1, duration: 0.5 }}
-              whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
-            >
-              {page}
-            </motion.button>
-          ))}
+          {renderPaginationButtons()}
         </motion.div>
       )}
     </motion.div>

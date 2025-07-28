@@ -127,7 +127,7 @@ const Magazine: React.FC = () => {
   );
 
   return (
-    <div className="px-4 max-w-[1800px] md:px-[80px] w-full mb-20 min-h-screen bg-gradient-to-br from-sky-50/20 to-blue-50/20">
+    <div className="px-4 max-w-[1800px]  mx-auto w-full mb-20 min-h-screen">
       {/* Background decoration */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-sky-200/10 rounded-full blur-3xl"></div>
@@ -160,16 +160,6 @@ const Magazine: React.FC = () => {
           <span className=" font-semibold" style={{ color: 'rgba(77,199,232,1)' }}>{t("breadcrumb.magazines")}</span>
         </motion.div>
 
-        {/* Title */}
-        <motion.h1 
-          className="text-[20px] md:text-[32px] leading-[100%] mt-2 md:mt-5 font-bold mb-6 md:mb-8 text-sky-800"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          style={{ textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-        >
-          {t("magazine.title")}
-        </motion.h1>
 
         {/* Content */}
         {isError ? (

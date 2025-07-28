@@ -40,7 +40,7 @@ const SubNavbar: React.FC<SubNavbarProps> = ({ activeSection, setActiveSection }
 
   return (
     <div className="w-full  py-2 sm:py-4">
-      <div className="mx-4 sm:mx-auto max-w-[1600px]">
+      <div className="mx-4 sm:mx-auto max-w-[1300px]">
         {/* Desktop Navbar */}
         <div className="hidden h-[70px] lg:grid lg:grid-cols-9 gap-2 px-2 py-1 bg-gradient-to-r from-white/90 via-sky-50/80 to-white/90 backdrop-blur-md rounded-2xl shadow-lg">
           {NavbarItem.map((item) => (

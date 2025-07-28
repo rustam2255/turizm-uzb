@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useGetNewsQuery, useGetNewsCategoriesQuery } from "@/services/api";
 import { Search, Filter, Tag, ChevronLeft, ChevronRight } from "lucide-react";
-import IMAGE from '@assets/images/place3.png'
+import IMAGE from '@assets/images/place3.png';
 import { Link } from "react-router-dom";
 import { slugify } from "@/utils/slugify";
 
@@ -27,8 +27,6 @@ export interface NewsItem {
   body: MultilingualText;
   category: NewsCategory;
 }
-
-
 
 const NewsSkeleton: React.FC = () => (
   <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden animate-pulse">
@@ -87,7 +85,7 @@ const NewsPage: React.FC = () => {
     return {
       filteredNews: filtered,
       totalPages: total,
-      currentNews: current
+      currentNews: current,
     };
   }, [allNews, search, category, currentPage, itemsPerPage, lang]);
 
@@ -109,13 +107,7 @@ const NewsPage: React.FC = () => {
 
   const renderPaginationButtons = () => {
     const buttons = [];
-    const maxVisiblePages = 5;
-    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-    const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-    if (endPage - startPage + 1 < maxVisiblePages) {
-      startPage = Math.max(1, endPage - maxVisiblePages + 1);
-    }
+    const maxVisiblePages = 3; // Faqat 3 ta sahifa ko'rsatiladi
 
     // Previous button
     if (currentPage > 1) {
@@ -126,23 +118,76 @@ const NewsPage: React.FC = () => {
           className="flex items-center px-3 py-2 text-gray-500 hover:text-blue-500 hover:bg-orange-50 rounded-lg transition-colors duration-200"
         >
           <ChevronLeft className="w-4 h-4" />
-          <span className="ml-1 hidden sm:inline">{t('media.previous')}</span>
+          <span className="ml-1 hidden sm:inline">{t("media.previous")}</span>
         </button>
       );
     }
 
-    // Page numbers
+    // Birinchi sahifa
+    buttons.push(
+      <button
+        key={1}
+        onClick={() => handlePageChange(1)}
+        className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === 1
+            ? "bg-blue-500 text-white"
+            : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+          }`}
+      >
+        1
+      </button>
+    );
+
+    // Ellipsis (agar kerak bo'lsa)
+    if (currentPage > maxVisiblePages) {
+      buttons.push(
+        <span key="start-ellipsis" className="px-3 py-2 text-gray-500">
+          ...
+        </span>
+      );
+    }
+
+    // Joriy sahifa atrofidagi sahifalar
+    const startPage = Math.max(2, currentPage - 1);
+    const endPage = Math.min(totalPages - 1, currentPage + 1);
+
     for (let i = startPage; i <= endPage; i++) {
+      if (i !== 1 && i !== totalPages) {
+        buttons.push(
+          <button
+            key={i}
+            onClick={() => handlePageChange(i)}
+            className={`px-3 py-2 rounded-lg transition-colors duration-200 ${i === currentPage
+                ? "bg-blue-500 text-white"
+                : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+              }`}
+          >
+            {i}
+          </button>
+        );
+      }
+    }
+
+    // Ellipsis (agar kerak bo'lsa)
+    if (currentPage < totalPages - maxVisiblePages + 1) {
+      buttons.push(
+        <span key="end-ellipsis" className="px-3 py-2 text-gray-500">
+          ...
+        </span>
+      );
+    }
+
+    // Oxirgi sahifa (agar 1 dan katta bo'lsa)
+    if (totalPages > 1) {
       buttons.push(
         <button
-          key={i}
-          onClick={() => handlePageChange(i)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${i === currentPage
+          key={totalPages}
+          onClick={() => handlePageChange(totalPages)}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === totalPages
               ? "bg-blue-500 text-white"
               : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
             }`}
         >
-          {i}
+          {totalPages}
         </button>
       );
     }
@@ -155,7 +200,7 @@ const NewsPage: React.FC = () => {
           onClick={() => handlePageChange(currentPage + 1)}
           className="flex items-center px-3 py-2 text-gray-500 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors duration-200"
         >
-          <span className="mr-1 hidden sm:inline">{t('media.next')}</span>
+          <span className="mr-1 hidden sm:inline">{t("media.next")}</span>
           <ChevronRight className="w-4 h-4" />
         </button>
       );
@@ -166,9 +211,9 @@ const NewsPage: React.FC = () => {
 
   return (
     <div className="bg-white min-h-screen">
-      <div className="">
+      <div className="max-w-[1800px] mx-auto px-4 md:px-[80px]">
         {/* Enhanced Filters */}
-        <div className="bg-gray-50 rounded-2xl p-6 mb-10 border border-gray-100">
+        <div   className="bg-gray-50 rounded-2xl p-6 mb-10 border border-gray-100">
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -195,6 +240,7 @@ const NewsPage: React.FC = () => {
                 ))}
               </select>
             </div>
+
           </div>
         </div>
 
@@ -253,7 +299,6 @@ const NewsPage: React.FC = () => {
                   </div>
                 </div>
               </Link>
-
             ))}
         </div>
 

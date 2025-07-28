@@ -19,13 +19,13 @@ import IMAGE3 from "@assets/images/hotel124.jpg";
 import { Link, useNavigate } from 'react-router-dom';
 import UserLocationMarker from './userLocationMarker';
 import { useTranslation } from 'react-i18next';
-import { 
+import {
   useGetHotelsMapQuery,
   useGetBanksMapQuery,
   useGetShopsMapQuery,
   useGetClinicsMapQuery,
   useGetResortsMapQuery,
-  useGetToursMapQuery 
+  useGetToursMapQuery
 } from "@/services/api";
 
 // TypeScript xatoni oldini olish uchun type-safe workaround
@@ -57,7 +57,7 @@ type APIMapPoint = {
 // Har xil marker turlari uchun ranglar
 const MARKER_COLORS = {
   hotel: '#FF5733',
-  bank: '#3366CC', 
+  bank: '#3366CC',
   shop: '#33CC66',
   clinic: '#9933CC',
   resort: '#FF33A8',
@@ -88,6 +88,10 @@ const MapSkeleton: React.FC = () => {
         ))}
       </div>
 
+
+
+      {/* Map Skeleton */}
+      <div className="w-full h-[535px] bg-gray-300 rounded-lg shadow-lg"></div>
       {/* Navigation Tips Skeleton */}
       <div className="mb-4 p-3 bg-gray-100 rounded-lg">
         <div className="h-4 w-32 bg-gray-300 rounded mb-2"></div>
@@ -98,9 +102,6 @@ const MapSkeleton: React.FC = () => {
           <div className="h-4 w-48 bg-gray-300 rounded"></div>
         </div>
       </div>
-
-      {/* Map Skeleton */}
-      <div className="w-full h-[535px] bg-gray-300 rounded-lg shadow-lg"></div>
     </div>
   );
 };
@@ -143,7 +144,7 @@ const Map: React.FC = () => {
   // Mobil qurilmalarda native map dasturini ochish
   const openNativeMap = (lat: number, lng: number, name: string) => {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
+
     if (isMobile) {
       // iOS uchun Apple Maps
       if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
@@ -217,7 +218,7 @@ const Map: React.FC = () => {
       }
 
       const [lat, lng] = item.position;
-      
+
       if (!lat || !lng || isNaN(lat) || isNaN(lng)) {
         console.warn(`Invalid coordinates for ${type} ${item.id}:`, { lat, lng });
         return null;
@@ -243,7 +244,7 @@ const Map: React.FC = () => {
                 <p className="text-xs text-gray-500 mb-3">
                   📍 {getLocalizedText(item.city)}
                 </p>
-                
+
                 {/* Navigatsiya tugmalari */}
                 <div className="flex flex-col gap-2 mb-3">
                   <div className="flex gap-2">
@@ -289,12 +290,12 @@ const Map: React.FC = () => {
   };
 
   // Loading holati
-  const isLoading = hotelsLoading || banksLoading || shopsLoading || 
-                   clinicsLoading || resortsLoading || toursLoading;
+  const isLoading = hotelsLoading || banksLoading || shopsLoading ||
+    clinicsLoading || resortsLoading || toursLoading;
 
   // Error holati
-  const hasError = hotelsError || banksError || shopsError || 
-                  clinicsError || resortsError || toursError;
+  const hasError = hotelsError || banksError || shopsError ||
+    clinicsError || resortsError || toursError;
 
   if (isLoading) {
     return <MapSkeleton />;
@@ -314,47 +315,37 @@ const Map: React.FC = () => {
   return (
     <div className="max-w-[1800px] px-4 py-5 md:py-8">
       <Breadcrumb />
-      <h1 className="text-[20px] md:text-[32px] leading-[100%] mt-2 md:mt-5 font-bold text-sky-800 mb-3 md:mb-[14px]">
-        {t("map.title")}
-      </h1>
+   
 
       {/* Statistika */}
-      <div className="mb-4 flex flex-wrap gap-4 text-sm">
+      <div className="mb-4 flex mt-5 flex-wrap gap-4 text-sm">
         <span className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full" style={{backgroundColor: MARKER_COLORS.hotel}}></div>
+          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: MARKER_COLORS.hotel }}></div>
           {t('services.hotels')}: {hotels.length}
         </span>
         <span className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full" style={{backgroundColor: MARKER_COLORS.bank}}></div>
+          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: MARKER_COLORS.bank }}></div>
           {t('services.banks')}: {banks.length}
         </span>
         <span className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full" style={{backgroundColor: MARKER_COLORS.shop}}></div>
+          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: MARKER_COLORS.shop }}></div>
           {t('services.market')}: {shops.length}
         </span>
         <span className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full" style={{backgroundColor: MARKER_COLORS.clinic}}></div>
+          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: MARKER_COLORS.clinic }}></div>
           {t('services.clinic')}: {clinics.length}
         </span>
         <span className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full" style={{backgroundColor: MARKER_COLORS.resort}}></div>
+          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: MARKER_COLORS.resort }}></div>
           {t('services.resort')}: {resorts.length}
         </span>
         <span className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full" style={{backgroundColor: MARKER_COLORS.tour}}></div>
+          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: MARKER_COLORS.tour }}></div>
           {t('services.tour-firm')}: {tours.length}
         </span>
       </div>
 
-      {/* Navigatsiya haqida ma'lumot */}
-      <div className="mb-4 p-3 bg-blue-50 rounded-lg text-sm text-blue-800">
-        💡 <strong>{t("tips.tip")}</strong> {t('navigation.tip')}
-        <ul className="mt-1 ml-4 list-disc">
-          <li><strong>{t("tips.navigation")}</strong>{t('navigation.navigator')}</li>
-          <li><strong>{t("tips.google")}</strong>{t('navigation.google')}</li>
-          <li><strong>{t("tips.yandex")}</strong> {t('navigation.yandex')}</li>
-        </ul>
-      </div>
+
 
       <div className="w-full h-[535px] rounded-lg overflow-hidden shadow-lg">
         <MapContainer
@@ -388,6 +379,15 @@ const Map: React.FC = () => {
           {renderMarkers(resorts, 'resort', MARKER_COLORS.resort)}
           {renderMarkers(tours, 'tour', MARKER_COLORS.tour)}
         </MapContainer>
+      </div>
+      {/* Navigatsiya haqida ma'lumot */}
+      <div className="mt-4 p-3 bg-blue-50 rounded-lg text-sm text-blue-800">
+        💡 <strong>{t("tips.tip")}</strong> {t('navigation.tip')}
+        <ul className="mt-1 ml-4 list-disc">
+          <li><strong>{t("tips.navigation")}</strong>{t('navigation.navigator')}</li>
+          <li><strong>{t("tips.google")}</strong>{t('navigation.google')}</li>
+          <li><strong>{t("tips.yandex")}</strong> {t('navigation.yandex')}</li>
+        </ul>
       </div>
     </div>
   );

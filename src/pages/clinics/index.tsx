@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useGetClinicsQuery, useGetCitiesHotelQuery } from "@/services/api";
 import SkeletonCard from "@/components/ui/loaderSkleton/travelDestinationSkleton";
 import IMAGE from '@/assets/images/clinic.png';
-import { MapPin } from "lucide-react";
+import { MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 import IMAGE1 from '@/assets/images/place3.png';
 import { slugify } from "@/utils/slugify";
@@ -73,7 +73,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, lang }) => {
     clinic.images && clinic.images.length > 1 ? `${MEDIA_URL}${clinic.images[1].photo}` : IMAGE;
   const navigate = useNavigate();
   console.log(isImageHovered);
-  
+
   return (
     <motion.div
       className="flex flex-col w-full h-[300px] md:h-[300px] bg-white rounded-xl shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-shadow duration-300 border border-[#4DC7E8]/10 overflow-hidden cursor-pointer"
@@ -167,6 +167,120 @@ const Clinics = () => {
   const dataClinic: dataClinic[] = dataClinics?.results || [];
   const totalPages = Math.ceil((dataClinics?.count || 0) / 10);
   const isLoading = loadingClinis || loadingCities;
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const renderPaginationButtons = () => {
+    const buttons = [];
+    const maxVisiblePages = 3; // NewsPage dagi kabi 5 ta sahifa ko'rsatiladi
+
+    // Previous button
+    if (currentPage > 1) {
+      buttons.push(
+        <button
+          key="prev"
+          onClick={() => handlePageChange(currentPage - 1)}
+          className="flex items-center px-3 py-2 text-gray-500 hover:text-blue-500 hover:bg-orange-50 rounded-lg transition-colors duration-200"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          <span className="ml-1 hidden sm:inline">{t("media.previous")}</span>
+        </button>
+      );
+    }
+
+    // Page numbers
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    // Birinchi sahifa
+    if (startPage > 1) {
+      buttons.push(
+        <button
+          key={1}
+          onClick={() => handlePageChange(1)}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
+            currentPage === 1
+              ? "bg-blue-500 text-white"
+              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+          }`}
+        >
+          1
+        </button>
+      );
+      if (startPage > 2) {
+        buttons.push(
+          <span key="start-ellipsis" className="px-3 py-2 text-gray-500">
+            ...
+          </span>
+        );
+      }
+    }
+
+    // Joriy sahifa atrofidagi sahifalar
+    for (let i = startPage; i <= endPage; i++) {
+      buttons.push(
+        <button
+          key={i}
+          onClick={() => handlePageChange(i)}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
+            i === currentPage
+              ? "bg-blue-500 text-white"
+              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+          }`}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    // Ellipsis (agar kerak bo'lsa)
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        buttons.push(
+          <span key="end-ellipsis" className="px-3 py-2 text-gray-500">
+            ...
+          </span>
+        );
+      }
+      // Oxirgi sahifa
+      buttons.push(
+        <button
+          key={totalPages}
+          onClick={() => handlePageChange(totalPages)}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
+            currentPage === totalPages
+              ? "bg-blue-500 text-white"
+              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+          }`}
+        >
+          {totalPages}
+        </button>
+      );
+    }
+
+    // Next button
+    if (currentPage < totalPages) {
+      buttons.push(
+        <button
+          key="next"
+          onClick={() => handlePageChange(currentPage + 1)}
+          className="flex items-center px-3 py-2 text-gray-500 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors duration-200"
+        >
+          <span className="mr-1 hidden sm:inline">{t("media.next")}</span>
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      );
+    }
+
+    return buttons;
+  };
 
   if (isError || !dataClinic || errorCities) return (
     <motion.div
@@ -286,28 +400,12 @@ const Clinics = () => {
 
       {totalPages > 1 && (
         <motion.div
-          className="flex justify-center mt-8 flex-wrap gap-2 px-4"
+          className="flex justify-center items-center gap-1 mt-8 bg-white rounded-xl shadow-sm border border-[#4DC7E8]/20 p-2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.5 }}
         >
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <motion.button
-              key={page}
-              onClick={() => setCurrentPage(page)}
-              className={`px-4 py-2 rounded-lg font-medium text-sm md:text-base transition-all duration-300 shadow-sm ${
-                currentPage === page
-                  ? "bg-[#4DC7E8] text-white shadow-[#4DC7E8]/50"
-                  : "bg-white text-[#4DC7E8] border border-[#4DC7E8]/50 hover:bg-[#4DC7E8]/10 hover:shadow-[#4DC7E8]/30"
-              }`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 + (page - 1) * 0.1, duration: 0.5 }}
-              whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
-            >
-              {page}
-            </motion.button>
-          ))}
+          {renderPaginationButtons()}
         </motion.div>
       )}
     </motion.div>

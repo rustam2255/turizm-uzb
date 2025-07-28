@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useGetHotelsQuery, useGetCitiesHotelQuery } from "@/services/api";
 import { slugify } from "@/utils/slugify";
 import image from "@assets/images/place3.png";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // HotelCard Component
 const HotelCard: React.FC<{
@@ -194,6 +195,120 @@ const HotelUI: React.FC = () => {
     setCurrentPage(1);
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const renderPaginationButtons = () => {
+    const buttons = [];
+    const maxVisiblePages = 3; // `NewsPage` dagi kabi 5 ta sahifa ko'rsatiladi
+
+    // Previous button
+    if (currentPage > 1) {
+      buttons.push(
+        <button
+          key="prev"
+          onClick={() => handlePageChange(currentPage - 1)}
+          className="flex items-center px-3 py-2 text-gray-500 hover:text-blue-500 hover:bg-orange-50 rounded-lg transition-colors duration-200"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          <span className="ml-1 hidden sm:inline">{t("media.previous")}</span>
+        </button>
+      );
+    }
+
+    // Page numbers
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    // Birinchi sahifa
+    if (startPage > 1) {
+      buttons.push(
+        <button
+          key={1}
+          onClick={() => handlePageChange(1)}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
+            currentPage === 1
+              ? "bg-blue-500 text-white"
+              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+          }`}
+        >
+          1
+        </button>
+      );
+      if (startPage > 2) {
+        buttons.push(
+          <span key="start-ellipsis" className="px-3 py-2 text-gray-500">
+            ...
+          </span>
+        );
+      }
+    }
+
+    // Joriy sahifa atrofidagi sahifalar
+    for (let i = startPage; i <= endPage; i++) {
+      buttons.push(
+        <button
+          key={i}
+          onClick={() => handlePageChange(i)}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
+            i === currentPage
+              ? "bg-blue-500 text-white"
+              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+          }`}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    // Ellipsis (agar kerak bo'lsa)
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        buttons.push(
+          <span key="end-ellipsis" className="px-3 py-2 text-gray-500">
+            ...
+          </span>
+        );
+      }
+      // Oxirgi sahifa
+      buttons.push(
+        <button
+          key={totalPages}
+          onClick={() => handlePageChange(totalPages)}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
+            currentPage === totalPages
+              ? "bg-blue-500 text-white"
+              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+          }`}
+        >
+          {totalPages}
+        </button>
+      );
+    }
+
+    // Next button
+    if (currentPage < totalPages) {
+      buttons.push(
+        <button
+          key="next"
+          onClick={() => handlePageChange(currentPage + 1)}
+          className="flex items-center px-3 py-2 text-gray-500 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors duration-200"
+        >
+          <span className="mr-1 hidden sm:inline">{t("media.next")}</span>
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      );
+    }
+
+    return buttons;
+  };
+
   return (
     <motion.div
       className="max-w-[1800px] mx-auto py-6 md:py-10 px-4 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
@@ -228,7 +343,6 @@ const HotelUI: React.FC = () => {
             selectedCity={selectedCity}
             setSelectedCity={handleCityChange}
             fetchHotels={() => refetchHotels()}
-           
           />
         </motion.div>
         <motion.input
@@ -250,7 +364,6 @@ const HotelUI: React.FC = () => {
           <RatingSelect
             selectedRating={selectedRating}
             setSelectedRating={handleRatingChange}
-            
           />
         </motion.div>
       </motion.div>
@@ -313,31 +426,16 @@ const HotelUI: React.FC = () => {
         </motion.div>
       )}
 
-      <motion.div
-        className="mt-8 flex justify-center gap-2 flex-wrap"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.5 }}
-      >
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <motion.button
-            key={page}
-            onClick={() => setCurrentPage(page)}
-            className={`px-4 py-2 rounded-lg font-medium text-sm md:text-base transition-all duration-300 shadow-sm ${
-              page === currentPage
-                ? "bg-[#4DC7E8] text-white shadow-[#4DC7E8]/50"
-                : "bg-white text-[#4DC7E8] border border-[#4DC7E8]/50 hover:bg-[#4DC7E8]/10 hover:shadow-[#4DC7E8]/30"
-            }`}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 + (page - 1) * 0.05, duration: 0.4 }}
-            whileHover={{ scale: 1.1 }}
-            aria-label={`Page ${page}`}
-          >
-            {page}
-          </motion.button>
-        ))}
-      </motion.div>
+      {totalPages > 1 && (
+        <motion.div
+          className="mt-8 flex justify-center items-center gap-1 bg-white rounded-xl shadow-sm border border-[#4DC7E8]/20 p-2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+        >
+          {renderPaginationButtons()}
+        </motion.div>
+      )}
       {citiesError && (
         <motion.div
           className="text-red-500 text-center text-[16px] md:text-[18px] font-medium mt-4"

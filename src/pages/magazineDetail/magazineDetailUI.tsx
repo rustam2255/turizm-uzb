@@ -77,7 +77,7 @@ const MagazineDetailUI: React.FC = () => {
   const imagesList = magzineImage?.results?.map((item) => item.image) || [];
 
   return (
-    <div className="max-w-[1000px] ml-[20px] py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
+    <div className="max-w-[1000px] ml-[90px] py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
       {/* Breadcrumb */}
       <nav className="flex items-center text-[14px] font-medium md:text-[18px] gap-2 mb-8">
         <Link 
@@ -109,8 +109,8 @@ const MagazineDetailUI: React.FC = () => {
 
         <div className="p-6 sm:p-8">
      
-          <div className="group relative mb-8 animate-slideInUp">
-            <div className="overflow-hidden rounded-xl shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+          <div className="group relative mb-8  bg-cover bg-no-repeat bg-center   animate-slideInUp"  style={{backgroundImage: `url('/images/wow.webp')`}}>
+            <div className="overflow-hiddenrounded-xl shadow-lg  group-hover:shadow-xl transition-shadow duration-300">
               <img
                 src={magazine.card || IMAGE}
                 alt={getLocalizedText(magazine.title)}
