@@ -255,14 +255,14 @@ const NewsPage: React.FC = () => {
         )}
 
         {/* News Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
           {newsLoading
             ? Array.from({ length: 8 }).map((_, i) => <NewsSkeleton key={i} />)
             : currentNews.map((item: NewsItem) => (
               <Link to={`/media/news/detail/${item.id}-${slugify(item.title.uz || '')}`}>
                 <div
                   key={item.id}
-                  className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-lg hover:border-sky-200 transition-all duration-300 group cursor-pointer"
+                  className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-lg hover:border-sky-200 transition-all duration-300 group cursor-pointer h-[430px]"
                 >
                   <div className="relative overflow-hidden">
                     <img
