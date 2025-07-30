@@ -18,6 +18,7 @@ interface MagazineBackgroundImage {
   title: MultilangText;
   home_file: string;
   file_type?: "image" | "video";
+  video_image: string | null
 }
 
 const HotelCarousel = () => {
@@ -38,6 +39,7 @@ const HotelCarousel = () => {
 
   // Backend ma'lumotlarini MagazineBackgroundImage interfeysiga moslashtirish
   const hotelSlides: MagazineBackgroundImage[] = (backendData || []).map((item: any) => ({
+    video_image: item.video_image,
     id: item.id,
     title: item.title,
     home_file: item.home_file,
@@ -221,6 +223,7 @@ const HotelCarousel = () => {
           ref={videoRef}
           key={slide.id}
           src={slide.home_file}
+          poster={slide.video_image || ''}
           loop
           muted={isMuted}
           playsInline

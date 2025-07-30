@@ -1,9 +1,11 @@
+
 import { Dialog, Transition } from "@headlessui/react";
 import { X, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import { Fragment, useState, useEffect, useRef, useCallback, useMemo } from "react";
-
+import { motion, AnimatePresence } from "framer-motion"; // Framer Motion import
 import Image1 from "@assets/images/place1.png";
 import Image2 from "@assets/images/place3.png";
+import PaperRustleSound from "@assets/sounds/paper-rustle.mp3";
 
 interface Props {
   isOpen: boolean;
@@ -27,35 +29,27 @@ class ImageCache {
   }
 
   async preloadImage(src: string): Promise<HTMLImageElement> {
-    // Agar cache'da mavjud bo'lsa, darhol qaytarish
     if (this.cache.has(src)) {
       return this.cache.get(src)!;
     }
 
-    // Agar yuklash jarayonida bo'lsa, kutish
     if (this.loadingPromises.has(src)) {
       return this.loadingPromises.get(src)!;
     }
 
-    // Yangi rasm yuklash
     const loadPromise = new Promise<HTMLImageElement>((resolve, reject) => {
       const img = new Image();
-      
-      // Performance optimallashtirish
-      img.decoding = 'async';
-      img.loading = 'eager';
-      
+      img.decoding = "async";
+      img.loading = "eager";
       img.onload = () => {
         this.cache.set(src, img);
         this.loadingPromises.delete(src);
         resolve(img);
       };
-      
       img.onerror = () => {
         this.loadingPromises.delete(src);
         reject(new Error(`Failed to load image: ${src}`));
       };
-      
       img.src = src;
     });
 
@@ -77,44 +71,44 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
   const imageCache = ImageCache.getInstance();
   const fallbackImages = [Image1, Image2];
   const imageList = images && images.length > 0 ? images : fallbackImages;
-  
+
   const [currentSpread, setCurrentSpread] = useState(0);
   const [isFlipping, setIsFlipping] = useState(false);
-  const [flipDirection, setFlipDirection] = useState<'next' | 'prev'>('next');
+  const [flipDirection, setFlipDirection] = useState<"next" | "prev">("next");
   const [pageShaking, setPageShaking] = useState(false);
   const [imageLoaded, setImageLoaded] = useState<Record<number, boolean>>({});
   const [preloadedSpreads, setPreloadedSpreads] = useState<Set<number>>(new Set());
   const [dragPosition, setDragPosition] = useState(0);
-  
+
   const sliderRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  // Optimized spreads calculation with memoization
   const spreads = useMemo(() => {
     if (imageList.length <= 1) {
-      return [{ type: 'single' as const, images: imageList, startIndex: 0 }];
+      return [{ type: "single" as const, images: imageList, startIndex: 0 }];
     }
 
-    const spreads = [];
-    spreads.push({ type: 'single' as const, images: [imageList[0]], startIndex: 0 });
+    const spreads: Array<{ type: "single" | "double"; images: string[]; startIndex: number }> = [];
+    spreads.push({ type: "single", images: [imageList[0]], startIndex: 0 }); // Muqova sahifasi
 
     let index = 1;
     while (index < imageList.length - 1) {
       if (index + 1 < imageList.length - 1) {
         spreads.push({
-          type: 'double' as const,
+          type: "double",
           images: [imageList[index], imageList[index + 1]],
           startIndex: index,
         });
         index += 2;
       } else {
-        spreads.push({ type: 'single' as const, images: [imageList[index]], startIndex: index });
+        spreads.push({ type: "single", images: [imageList[index]], startIndex: index });
         index += 1;
       }
     }
 
     if (index < imageList.length) {
-      spreads.push({ type: 'single' as const, images: [imageList[index]], startIndex: index });
+      spreads.push({ type: "single", images: [imageList[index]], startIndex: index }); // Oxirgi muqova
     }
 
     return spreads;
@@ -124,65 +118,59 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
   const currentSpreadData = spreads[currentSpread];
   const maxVisibleDots = 7;
 
-  // Aggressive preloading strategy
-  const preloadImagesForSpread = useCallback(async (spreadIndex: number) => {
-    if (preloadedSpreads.has(spreadIndex) || !spreads[spreadIndex]) return;
+  const preloadImagesForSpread = useCallback(
+    async (spreadIndex: number) => {
+      if (preloadedSpreads.has(spreadIndex) || !spreads[spreadIndex]) return;
 
-    try {
-      const spreadData = spreads[spreadIndex];
-      const loadPromises = spreadData.images.map(src => 
-        imageCache.preloadImage(src).catch(err => {
-          console.warn(`Failed to preload image: ${src}`, err);
-          return null;
-        })
-      );
+      try {
+        const spreadData = spreads[spreadIndex];
+        const loadPromises = spreadData.images.map((src) =>
+          imageCache.preloadImage(src).catch((err) => {
+            console.warn(`Failed to preload image: ${src}`, err);
+            return null;
+          })
+        );
 
-      await Promise.allSettled(loadPromises);
-      setPreloadedSpreads(prev => new Set([...prev, spreadIndex]));
-      
-      // Mark images as loaded
-      setImageLoaded(prev => {
-        const newState = { ...prev };
-        spreadData.images.forEach((_, idx) => {
-          newState[idx] = true;
+        await Promise.allSettled(loadPromises);
+        setPreloadedSpreads((prev) => new Set([...prev, spreadIndex]));
+
+        setImageLoaded((prev) => {
+          const newState = { ...prev };
+          spreadData.images.forEach((_, idx) => {
+            newState[spreadData.startIndex + idx] = true;
+          });
+          return newState;
         });
-        return newState;
-      });
-    } catch (error) {
-      console.warn(`Failed to preload spread ${spreadIndex}:`, error);
-    }
-  }, [spreads, imageCache, preloadedSpreads]);
+      } catch (error) {
+        console.warn(`Failed to preload spread ${spreadIndex}:`, error);
+      }
+    },
+    [spreads, imageCache, preloadedSpreads]
+  );
 
-  // Intelligent preloading: current + next + previous + 2 ahead
   const preloadStrategy = useCallback(async () => {
     const spreadIndicesToPreload = [
       currentSpread - 1,
       currentSpread,
       currentSpread + 1,
       currentSpread + 2,
-    ].filter(index => index >= 0 && index < totalSpreads);
-    console.log(spreadIndicesToPreload);
-    
-    // Priority order: current first, then adjacent
+    ].filter((index) => index >= 0 && index < totalSpreads);
+
     const priorityOrder = [currentSpread, currentSpread + 1, currentSpread - 1, currentSpread + 2]
-      .filter(index => index >= 0 && index < totalSpreads);
+      .filter((index) => index >= 0 && index < totalSpreads);
 
     for (const index of priorityOrder) {
       await preloadImagesForSpread(index);
     }
   }, [currentSpread, totalSpreads, preloadImagesForSpread]);
 
-  // Initial preloading on component mount
   useEffect(() => {
     if (isOpen && imageList.length > 0) {
-      // Cancel previous preloading
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
-      
+
       abortControllerRef.current = new AbortController();
-      
-      // Start aggressive preloading
       preloadStrategy();
     }
 
@@ -193,14 +181,12 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
     };
   }, [isOpen, imageList, preloadStrategy]);
 
-  // Preload adjacent spreads when current spread changes
   useEffect(() => {
     if (isOpen) {
       preloadStrategy();
     }
   }, [currentSpread, isOpen, preloadStrategy]);
 
-  // Reset state when dialog opens
   useEffect(() => {
     if (isOpen) {
       setCurrentSpread(0);
@@ -208,8 +194,12 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
       setImageLoaded({});
       setPreloadedSpreads(new Set());
       setDragPosition(0);
-      
-      // Gentle shake animation
+
+      // Muqova ochilish animatsiyasi va ovoz
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch((err) => console.warn("Audio play failed:", err));
+      }
       setTimeout(() => {
         setPageShaking(true);
         setTimeout(() => setPageShaking(false), 600);
@@ -217,15 +207,19 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
     }
   }, [isOpen]);
 
-  // Optimized spread change with instant feedback
   const changeSpread = useCallback(
-    async (newSpread: number, direction: 'next' | 'prev') => {
+    async (newSpread: number, direction: "next" | "prev") => {
       if (isFlipping || newSpread < 0 || newSpread >= totalSpreads) return;
 
       setIsFlipping(true);
       setFlipDirection(direction);
 
-      // Immediate UI feedback
+      // Ovoz effekti
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch((err) => console.warn("Audio play failed:", err));
+      }
+
       const updateSpread = () => {
         setCurrentSpread(newSpread);
         setDragPosition(
@@ -233,33 +227,28 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
         );
       };
 
-      // Check if images are already preloaded
       const targetSpread = spreads[newSpread];
-      const allImagesPreloaded = targetSpread.images.every(src => imageCache.getFromCache(src));
+      const allImagesPreloaded = targetSpread.images.every((src) => imageCache.getFromCache(src));
 
       if (allImagesPreloaded) {
-        // Instant transition for preloaded images
         updateSpread();
         setTimeout(() => {
           setIsFlipping(false);
           setPageShaking(true);
           setTimeout(() => setPageShaking(false), 300);
-        }, 150);
+        }, 600); // Animatsiya davomiyligi The Hotel Guide ga mos
       } else {
-        // Load images if not preloaded
         await preloadImagesForSpread(newSpread);
-        
         setTimeout(() => {
           updateSpread();
           setTimeout(() => {
             setIsFlipping(false);
             setPageShaking(true);
             setTimeout(() => setPageShaking(false), 300);
-          }, 300);
+          }, 600);
         }, 100);
       }
 
-      // Haptic feedback
       if (navigator.vibrate) {
         navigator.vibrate(30);
       }
@@ -269,26 +258,25 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
 
   const nextSpread = useCallback(() => {
     if (currentSpread < totalSpreads - 1) {
-      changeSpread(currentSpread + 1, 'next');
+      changeSpread(currentSpread + 1, "next");
     }
   }, [currentSpread, totalSpreads, changeSpread]);
 
   const prevSpread = useCallback(() => {
     if (currentSpread > 0) {
-      changeSpread(currentSpread - 1, 'prev');
+      changeSpread(currentSpread - 1, "prev");
     }
   }, [currentSpread, changeSpread]);
 
   const handleDotClick = useCallback(
     (index: number) => {
       if (index === currentSpread || isFlipping) return;
-      const direction = index > currentSpread ? 'next' : 'prev';
+      const direction = index > currentSpread ? "next" : "prev";
       changeSpread(index, direction);
     },
     [currentSpread, isFlipping, changeSpread]
   );
 
-  // Optimized slider interaction
   const handleSliderClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (!sliderRef.current || isFlipping) return;
@@ -297,16 +285,15 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
       const sliderWidth = rect.width - 40;
       const clickPosition = e.clientX - rect.left;
       const newSpread = Math.round((clickPosition / sliderWidth) * (totalSpreads - 1));
-      
+
       if (newSpread !== currentSpread) {
-        const direction = newSpread > currentSpread ? 'next' : 'prev';
+        const direction = newSpread > currentSpread ? "next" : "prev";
         changeSpread(newSpread, direction);
       }
     },
     [currentSpread, totalSpreads, changeSpread, isFlipping]
   );
 
-  // Drag handlers with performance optimization
   const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     if (isFlipping) return;
     e.preventDefault();
@@ -318,14 +305,14 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
 
       const rect = sliderRef.current.getBoundingClientRect();
       const sliderWidth = rect.width - 40;
-      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
       const newPosition = Math.max(0, Math.min(clientX - rect.left, sliderWidth));
 
       setDragPosition(newPosition);
 
       const newSpread = Math.round((newPosition / sliderWidth) * (totalSpreads - 1));
       if (newSpread !== currentSpread) {
-        const direction = newSpread > currentSpread ? 'next' : 'prev';
+        const direction = newSpread > currentSpread ? "next" : "prev";
         changeSpread(newSpread, direction);
       }
     },
@@ -346,7 +333,6 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
     }
   }, [dragPosition, totalSpreads, isFlipping]);
 
-  // Visible dots calculation
   const visibleDots = useMemo(() => {
     const halfDots = Math.floor(maxVisibleDots / 2);
     const start = Math.max(0, currentSpread - halfDots);
@@ -358,43 +344,50 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
     e.stopPropagation();
   }, []);
 
-  // Optimized image component
-  const OptimizedImage = useCallback(({ src, alt, index, onLoad, onError }: {
-    src: string;
-    alt: string;
-    index: number;
-    onLoad: () => void;
-    onError: (e: React.SyntheticEvent<HTMLImageElement, Event>) => void;
-  }) => {
-    const cachedImage = imageCache.getFromCache(src);
-    
-    return (
-      <>
-        {!imageLoaded[index] && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-            <div className="w-full h-full rounded-lg bg-gray-200 animate-pulse" />
-          </div>
-        )}
-        <img
-          src={src}
-          alt={alt}
-          className={`max-w-full max-h-full object-contain rounded-lg shadow-lg transition-opacity duration-200 ${
-            imageLoaded[index] || cachedImage ? 'opacity-100' : 'opacity-0'
-          }`}
-          onLoad={onLoad}
-          onError={onError}
-          decoding="async"
-          loading="eager"
-          style={{ 
-            transform: 'translateZ(0)',
-            willChange: 'opacity'
-          }}
-        />
-      </>
-    );
-  }, [imageCache, imageLoaded]);
+  const OptimizedImage = useCallback(
+    ({
+      src,
+      alt,
+      index,
+      onLoad,
+      onError,
+    }: {
+      src: string;
+      alt: string;
+      index: number;
+      onLoad: () => void;
+      onError: (e: React.SyntheticEvent<HTMLImageElement, Event>) => void;
+    }) => {
+      const cachedImage = imageCache.getFromCache(src);
 
-  // Cleanup on unmount
+      return (
+        <>
+          {!imageLoaded[index] && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+              <div className="w-full h-full rounded-lg bg-gray-200 animate-pulse" />
+            </div>
+          )}
+          <img
+            src={src}
+            alt={alt}
+            className={`max-w-full max-h-full object-contain rounded-lg shadow-lg transition-opacity duration-200 ${
+              imageLoaded[index] || cachedImage ? "opacity-100" : "opacity-0"
+            }`}
+            onLoad={onLoad}
+            onError={onError}
+            decoding="async"
+            loading="eager"
+            style={{
+              transform: "translateZ(0)",
+              willChange: "opacity",
+            }}
+          />
+        </>
+      );
+    },
+    [imageCache, imageLoaded]
+  );
+
   useEffect(() => {
     return () => {
       if (abortControllerRef.current) {
@@ -402,6 +395,44 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
       }
     };
   }, []);
+
+  // Framer Motion animatsiya sozlamalari
+  const pageVariants = {
+    initial: (direction: "next" | "prev") => ({
+      rotateY: direction === "next" ? 0 : 0,
+      opacity: 1,
+      translateZ: 0,
+      boxShadow: direction === "next" ? "2px 0 8px rgba(0,0,0,0.15)" : "-2px 0 8px rgba(0,0,0,0.15)",
+      filter: "brightness(1)",
+    }),
+    animate: {
+      rotateY: 0,
+      opacity: 1,
+      translateZ: 0,
+      boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
+      filter: "brightness(1)",
+      transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] },
+    },
+    exit: (direction: "next" | "prev") => ({
+      rotateY: direction === "next" ? -180 : 180,
+      opacity: 0,
+      translateZ: 20,
+      boxShadow: direction === "next" ? "12px 0 16px rgba(0,0,0,0.4)" : "-12px 0 16px rgba(0,0,0,0.4)",
+      filter: "brightness(0.85)",
+      transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] },
+    }),
+  };
+
+  const coverVariants = {
+    initial: { rotateY: 90, opacity: 0, translateZ: 20, boxShadow: "0 6px 20px rgba(0,0,0,0.25)" },
+    animate: {
+      rotateY: 0,
+      opacity: 1,
+      translateZ: 0,
+      boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
+      transition: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
+    },
+  };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -416,8 +447,8 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
           leaveTo="opacity-0"
         >
           <div
-            className="fixed inset-0  backdrop-blur-sm"
-             style={{ backgroundImage: "url('/images/wow.webp')" }}
+            className="fixed inset-0 backdrop-blur-sm"
+            style={{ backgroundImage: "url('/images/wow.webp')" }}
             onClick={handleBackdropClick}
           />
         </Transition.Child>
@@ -437,6 +468,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                 className="w-full h-full max-w-full max-h-full sm:max-w-3xl md:max-w-5xl lg:max-w-7xl sm:h-auto transform overflow-hidden transition-all"
                 onClick={(e) => e.stopPropagation()}
               >
+                <audio ref={audioRef} src={PaperRustleSound} preload="auto" />
                 <div className="relative mb-1 sm:mb-2 md:mb-4">
                   <div className="bg-gradient-to-r from-slate-800 to-gray-800 rounded-t-none sm:rounded-t-xl px-2 sm:px-4 md:px-6 py-1 sm:py-2 md:py-4 shadow-xl border-b-2 sm:border-b-4 border-blue-500">
                     <div className="flex items-center justify-between">
@@ -447,7 +479,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                       <div className="text-slate-300 font-medium text-xs sm:text-sm md:text-base">
                         {!loading && !error && imageList && (
                           <span className="hidden sm:inline">
-                            {currentSpreadData?.type === 'single'
+                            {currentSpreadData?.type === "single"
                               ? `Sahifa ${currentSpreadData.startIndex + 1}`
                               : `Sahifalar ${currentSpreadData.startIndex + 1}-${currentSpreadData.startIndex + 2}`}
                             / {imageList.length}
@@ -458,7 +490,10 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                         onClick={onClose}
                         className="inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full bg-slate-700 text-slate-300 hover:bg-red-600 hover:text-white transition-all duration-200 group"
                       >
-                        <X size={14} className="sm:w-5 sm:h-5 md:w-6 md:h-6 group-hover:rotate-90 transition-transform duration-200" />
+                        <X
+                          size={14}
+                          className="sm:w-5 sm:h-5 md:w-6 md:h-6 group-hover:rotate-90 transition-transform duration-200"
+                        />
                       </button>
                     </div>
                   </div>
@@ -486,109 +521,150 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                     <div className="relative book-container">
                       {imageList && imageList.length > 0 ? (
                         <div className="relative h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[800px] book-viewer">
-                          <div
-                            className={`absolute inset-0 flex book-spread ${pageShaking ? 'animate-gentle-shake' : ''}`}
-                            style={{ 
-                              perspective: '2500px', 
-                              transformStyle: 'preserve-3d',
-                              willChange: 'transform'
-                            }}
-                          >
-                            {currentSpreadData?.type === 'single' ? (
-                              <div className="w-full h-full relative bg-white shadow-2xl flex items-center justify-center book-page-single">
-                                <div className="w-full max-w-2xl sm:max-w-3xl h-full p-2 sm:p-3 md:p-6 lg:p-8 flex flex-col">
-                                  <div className="flex-1 flex items-center justify-center overflow-hidden relative">
-                                    <OptimizedImage
-                                      src={currentSpreadData.images[0]}
-                                      alt={`Sahifa ${currentSpreadData.startIndex + 1}`}
-                                      index={0}
-                                      onLoad={() => setImageLoaded(prev => ({ ...prev, 0: true }))}
-                                      onError={(e) => {
-                                        console.warn("Single image load error:", currentSpreadData.images[0]);
-                                        const target = e.target as HTMLImageElement;
-                                        if (fallbackImages[0] && target.src !== fallbackImages[0]) {
-                                          target.src = fallbackImages[0];
-                                        }
-                                        setImageLoaded(prev => ({ ...prev, 0: true }));
-                                      }}
-                                    />
-                                  </div>
-                                  <div className="text-center text-gray-500 text-xs sm:text-sm font-medium mt-1 sm:mt-2 md:mt-4">
-                                    {currentSpreadData.startIndex + 1}
-                                  </div>
-                                </div>
-                                <div className="absolute right-4 sm:right-6 md:right-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-gray-200 via-gray-300 to-gray-200 rounded-full shadow-inner"></div>
-                              </div>
-                            ) : (
-                              <>
-                                <div
-                                  className={`w-1/2 h-full relative bg-white border-r border-gray-300 shadow-2xl book-page-left ${
-                                    isFlipping && flipDirection === 'prev' ? 'animate-page-flip-prev' : ''
+                          <AnimatePresence initial={false} custom={flipDirection}>
+                            <motion.div
+                              key={currentSpread}
+                              className={`absolute inset-0 flex book-spread ${pageShaking ? "animate-gentle-shake" : ""}`}
+                              style={{
+                                perspective: "2500px",
+                                transformStyle: "preserve-3d",
+                                willChange: "transform",
+                              }}
+                              initial="initial"
+                              animate="animate"
+                              exit="exit"
+                              variants={pageVariants}
+                              custom={flipDirection}
+                            >
+                              {currentSpreadData?.type === "single" ? (
+                                <motion.div
+                                  className={`w-full h-full relative bg-white shadow-2xl flex items-center justify-center book-page-single ${
+                                    currentSpread === 0 || currentSpread === totalSpreads - 1 ? "book-page-cover" : ""
                                   }`}
-                                  style={{ 
-                                    transformOrigin: 'right center',
-                                    willChange: 'transform'
+                                  style={{
+                                    transformOrigin: currentSpread === 0 ? "right center" : "left center",
+                                    willChange: "transform, opacity, filter, box-shadow",
                                   }}
+                                  variants={currentSpread === 0 ? coverVariants : pageVariants}
                                 >
-                                  <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-10 md:w-12 lg:w-16 bg-gradient-to-l book-inner-shadow"></div>
-                                  <div className="w-full h-full p-1 sm:p-2 md:p-4 lg:p-6 pr-4 sm:pr-6 md:pr-8 lg:pr-10 flex flex-col">
+                                  <div className="w-full max-w-2xl sm:max-w-3xl h-full p-2 sm:p-3 md:p-6 lg:p-8 flex flex-col">
                                     <div className="flex-1 flex items-center justify-center overflow-hidden relative">
                                       <OptimizedImage
                                         src={currentSpreadData.images[0]}
                                         alt={`Sahifa ${currentSpreadData.startIndex + 1}`}
-                                        index={0}
-                                        onLoad={() => setImageLoaded(prev => ({ ...prev, 0: true }))}
+                                        index={currentSpreadData.startIndex}
+                                        onLoad={() =>
+                                          setImageLoaded((prev) => ({
+                                            ...prev,
+                                            [currentSpreadData.startIndex]: true,
+                                          }))
+                                        }
                                         onError={(e) => {
-                                          console.warn("Left image load error:", currentSpreadData.images[0]);
+                                          console.warn("Single image load error:", currentSpreadData.images[0]);
                                           const target = e.target as HTMLImageElement;
                                           if (fallbackImages[0] && target.src !== fallbackImages[0]) {
                                             target.src = fallbackImages[0];
                                           }
-                                          setImageLoaded(prev => ({ ...prev, 0: true }));
+                                          setImageLoaded((prev) => ({
+                                            ...prev,
+                                            [currentSpreadData.startIndex]: true,
+                                          }));
                                         }}
                                       />
                                     </div>
-                                    <div className="text-center text-gray-500 text-xs sm:text-sm font-medium mt-1 sm:mt-2">
+                                    <div className="text-center text-gray-500 text-xs sm:text-sm font-medium mt-1 sm:mt-2 md:mt-4">
                                       {currentSpreadData.startIndex + 1}
                                     </div>
                                   </div>
-                                </div>
-                                <div
-                                  className={`w-1/2 h-full relative bg-white shadow-2xl book-page-right ${
-                                    isFlipping && flipDirection === 'next' ? 'animate-page-flip-next' : ''
-                                  }`}
-                                  style={{ 
-                                    transformOrigin: 'left center',
-                                    willChange: 'transform'
-                                  }}
-                                >
-                                  <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-10 md:w-12 lg:w-16 bg-gradient-to-r book-inner-shadow"></div>
-                                  <div className="w-full h-full p-1 sm:p-2 md:p-4 lg:p-6 pl-4 sm:pl-6 md:pl-8 lg:pl-10 flex flex-col">
-                                    <div className="flex-1 flex items-center justify-center overflow-hidden relative">
-                                      <OptimizedImage
-                                        src={currentSpreadData.images[1]}
-                                        alt={`Sahifa ${currentSpreadData.startIndex + 2}`}
-                                        index={1}
-                                        onLoad={() => setImageLoaded(prev => ({ ...prev, 1: true }))}
-                                        onError={(e) => {
-                                          console.warn("Right image load error:", currentSpreadData.images[1]);
-                                          const target = e.target as HTMLImageElement;
-                                          if (fallbackImages[1] && target.src !== fallbackImages[1]) {
-                                            target.src = fallbackImages[1];
+                                  <div className="absolute right-4 sm:right-6 md:right-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-gray-200 via-gray-300 to-gray-200 rounded-full shadow-inner"></div>
+                                </motion.div>
+                              ) : (
+                                <>
+                                  <motion.div
+                                    className={`w-1/2 h-full relative bg-white border-r border-gray-300 shadow-2xl book-page-left`}
+                                    style={{
+                                      transformOrigin: "right center",
+                                      willChange: "transform, opacity, filter, box-shadow",
+                                    }}
+                                    variants={flipDirection === "prev" ? pageVariants : undefined}
+                                    custom={flipDirection}
+                                  >
+                                    <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-10 md:w-12 lg:w-16 bg-gradient-to-l book-inner-shadow"></div>
+                                    <div className="w-full h-full p-1 sm:p-2 md:p-4 lg:p-6 pr-4 sm:pr-6 md:pr-8 lg:pr-10 flex flex-col">
+                                      <div className="flex-1 flex items-center justify-center overflow-hidden relative">
+                                        <OptimizedImage
+                                          src={currentSpreadData.images[0]}
+                                          alt={`Sahifa ${currentSpreadData.startIndex + 1}`}
+                                          index={currentSpreadData.startIndex}
+                                          onLoad={() =>
+                                            setImageLoaded((prev) => ({
+                                              ...prev,
+                                              [currentSpreadData.startIndex]: true,
+                                            }))
                                           }
-                                          setImageLoaded(prev => ({ ...prev, 1: true }));
-                                        }}
-                                      />
+                                          onError={(e) => {
+                                            console.warn("Left image load error:", currentSpreadData.images[0]);
+                                            const target = e.target as HTMLImageElement;
+                                            if (fallbackImages[0] && target.src !== fallbackImages[0]) {
+                                              target.src = fallbackImages[0];
+                                            }
+                                            setImageLoaded((prev) => ({
+                                              ...prev,
+                                              [currentSpreadData.startIndex]: true,
+                                            }));
+                                          }}
+                                        />
+                                      </div>
+                                      <div className="text-center text-gray-500 text-xs sm:text-sm font-medium mt-1 sm:mt-2">
+                                        {currentSpreadData.startIndex + 1}
+                                      </div>
                                     </div>
-                                    <div className="text-center text-gray-500 text-xs sm:text-sm font-medium mt-1 sm:mt-2">
-                                      {currentSpreadData.startIndex + 2}
+                                  </motion.div>
+                                  <motion.div
+                                    className={`w-1/2 h-full relative bg-white shadow-2xl book-page-right`}
+                                    style={{
+                                      transformOrigin: "left center",
+                                      willChange: "transform, opacity, filter, box-shadow",
+                                    }}
+                                    variants={flipDirection === "next" ? pageVariants : undefined}
+                                    custom={flipDirection}
+                                  >
+                                    <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-10 md:w-12 lg:w-16 bg-gradient-to-r book-inner-shadow"></div>
+                                    <div className="w-full h-full p-1 sm:p-2 md:p-4 lg:p-6 pl-4 sm:pl-6 md:pl-8 lg:pl-10 flex flex-col">
+                                      <div className="flex-1 flex items-center justify-center overflow-hidden relative">
+                                        <OptimizedImage
+                                          src={currentSpreadData.images[1]}
+                                          alt={`Sahifa ${currentSpreadData.startIndex + 2}`}
+                                          index={currentSpreadData.startIndex + 1}
+                                          onLoad={() =>
+                                            setImageLoaded((prev) => ({
+                                              ...prev,
+                                              [currentSpreadData.startIndex + 1]: true,
+                                            }))
+                                          }
+                                          onError={(e) => {
+                                            console.warn("Right image load error:", currentSpreadData.images[1]);
+                                            const target = e.target as HTMLImageElement;
+                                            if (fallbackImages[1] && target.src !== fallbackImages[1]) {
+                                              target.src = fallbackImages[1];
+                                            }
+                                            setImageLoaded((prev) => ({
+                                              ...prev,
+                                              [currentSpreadData.startIndex + 1]: true,
+                                            }));
+                                          }}
+                                        />
+                                      </div>
+                                      <div className="text-center text-gray-500 text-xs sm:text-sm font-medium mt-1 sm:mt-2">
+                                        {currentSpreadData.startIndex + 2}
+                                      </div>
                                     </div>
-                                  </div>
-                                </div>
-                              </>
-                            )}
-                          </div>
-                          
+                                  </motion.div>
+                                </>
+                              )}
+                            </motion.div>
+                          </AnimatePresence>
+
                           <button
                             onClick={prevSpread}
                             disabled={currentSpread === 0 || isFlipping}
@@ -596,7 +672,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                           >
                             <ChevronLeft size={16} className="sm:w-6 sm:h-6 md:w-7 md:h-7" />
                           </button>
-                          
+
                           <button
                             onClick={nextSpread}
                             disabled={currentSpread === totalSpreads - 1 || isFlipping}
@@ -604,8 +680,8 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                           >
                             <ChevronRight size={16} className="sm:w-6 sm:h-6 md:w-7 md:h-7" />
                           </button>
-                          
-                          {currentSpreadData?.type === 'double' && (
+
+                          {currentSpreadData?.type === "double" && (
                             <div className="absolute left-1/2 top-0 bottom-0 w-0.5 sm:w-1 md:w-2 bg-gradient-to-b from-gray-300 via-gray-500 to-gray-300 transform -translate-x-1/2 z-10 shadow-lg book-spine"></div>
                           )}
                         </div>
@@ -636,7 +712,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                             className="absolute h-full bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 transition-all duration-300 ease-out will-change-transform"
                             style={{
                               width: `${(currentSpread / (totalSpreads - 1)) * 100}%`,
-                              transform: 'translateZ(0)'
+                              transform: "translateZ(0)",
                             }}
                           />
                           {visibleDots.map((index) => (
@@ -644,14 +720,14 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                               key={index}
                               className="absolute top-1/2 -translate-y-1/2 rounded-full transition-all duration-200 cursor-pointer hover:scale-125 active:scale-110 touch-manipulation"
                               style={{
-                                left: `calc(${(index / (totalSpreads - 1)) * 100}% - ${(totalSpreads > 20 ? 2 : 4)}px)`,
-                                width: totalSpreads > 20 ? '2px' : totalSpreads > 10 ? '3px' : '4px',
-                                height: totalSpreads > 20 ? '2px' : totalSpreads > 10 ? '3px' : '4px',
-                                backgroundColor: index === currentSpread ? '#ffffff' : '#94a3b8',
+                                left: `calc(${(index / (totalSpreads - 1)) * 100}% - ${totalSpreads > 20 ? 2 : 4}px)`,
+                                width: totalSpreads > 20 ? "2px" : totalSpreads > 10 ? "3px" : "4px",
+                                height: totalSpreads > 20 ? "2px" : totalSpreads > 10 ? "3px" : "4px",
+                                backgroundColor: index === currentSpread ? "#ffffff" : "#94a3b8",
                                 opacity: index === currentSpread ? 1 : 0.7,
-                                boxShadow: index === currentSpread ? '0 0 8px rgba(59, 130, 246, 0.5)' : 'none',
-                                transform: 'translateZ(0)',
-                                willChange: 'transform, opacity'
+                                boxShadow: index === currentSpread ? "0 0 8px rgba(59, 130, 246, 0.5)" : "none",
+                                transform: "translateZ(0)",
+                                willChange: "transform, opacity",
                               }}
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -664,8 +740,8 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                           className="absolute top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full shadow-lg border-2 border-slate-900/50 cursor-grab hover:scale-110 active:scale-100 transition-all duration-200 flex items-center justify-center touch-manipulation"
                           style={{
                             left: `calc(${(currentSpread / (totalSpreads - 1)) * 100}% - ${16}px)`,
-                            transform: 'translateZ(0)',
-                            willChange: 'transform'
+                            transform: "translateZ(0)",
+                            willChange: "transform",
                           }}
                           onMouseDown={handleDragStart}
                           onMouseMove={handleDragMove}
@@ -689,44 +765,49 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
         </div>
 
         <style>{`
-          .book-container { 
-            transform-style: preserve-3d; 
+          .book-container {
+            transform-style: preserve-3d;
             contain: layout style paint;
           }
           .book-viewer {
             background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
             border-radius: 8px;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"%3E%3Cpath fill="%23e9ecef" fill-opacity="0.1" d="M1 3h1v1H1V3zm2-2h1v1H3V1z"/%3E%3C/svg%3E');
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.15), 0 8px 24px rgba(0,0,0,0.2);
             contain: layout style paint;
           }
-          .book-spread { 
-            transform-style: preserve-3d; 
-            transition: transform 0.2s ease-out;
+          .book-spread {
+            transform-style: preserve-3d;
             contain: layout style paint;
           }
           .book-page-single {
             border-radius: 8px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.7);
-            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
             contain: layout style paint;
+          }
+          .book-page-cover {
+            background: linear-gradient(135deg, #f9f9f9 0%, #e0e0e0 100%);
+            border: 2px solid #d1d5db;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.7);
           }
           .book-page-left {
             border-radius: 8px 0 0 8px;
             box-shadow: -2px 0 8px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.7);
-            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
             contain: layout style paint;
           }
           .book-page-right {
             border-radius: 0 8px 8px 0;
             box-shadow: 2px 0 8px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.7);
-            background: linear-gradient(225deg, #ffffff 0%, #f8f8f8 100%);
+            background: linear-gradient(225deg, #ffffff 0%, #f5f5f5 100%);
             contain: layout style paint;
           }
           .book-inner-shadow {
-            background: linear-gradient(to left, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 30%, transparent 100%);
-            opacity: 0.6;
+            background: linear-gradient(to left, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.08) 30%, transparent 100%);
+            opacity: 0.7;
             transition: opacity 0.3s ease;
-            will-change: opacity;
+            willChange: opacity;
           }
           .book-spine {
             background: linear-gradient(180deg, rgba(75, 85, 99, 0.3) 0%, rgba(75, 85, 99, 0.5) 50%, rgba(75, 85, 99, 0.3) 100%);
@@ -740,100 +821,45 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
             50% { transform: translateX(0.5px) translateY(0.3px) rotate(0.05deg); }
             75% { transform: translateX(-0.3px) translateY(-0.2px) rotate(-0.03deg); }
           }
-          .animate-gentle-shake { 
+          .animate-gentle-shake {
             animation: gentle-shake 0.4s ease-in-out;
             will-change: transform;
           }
 
-          @keyframes page-flip-next {
-            0% { 
-              transform: perspective(2000px) rotateY(0deg) translateZ(0px); 
-              opacity: 1; 
-              filter: brightness(1);
-            }
-            50% { 
-              transform: perspective(2000px) rotateY(-90deg) translateZ(20px); 
-              opacity: 0.7; 
-              filter: brightness(0.8);
-            }
-            100% { 
-              transform: perspective(2000px) rotateY(-180deg) translateZ(0px); 
-              opacity: 0; 
-              filter: brightness(1);
-            }
-          }
-
-          @keyframes page-flip-prev {
-            0% { 
-              transform: perspective(2000px) rotateY(0deg) translateZ(0px); 
-              opacity: 1; 
-              filter: brightness(1);
-            }
-            50% { 
-              transform: perspective(2000px) rotateY(90deg) translateZ(20px); 
-              opacity: 0.7; 
-              filter: brightness(0.8);
-            }
-            100% { 
-              transform: perspective(2000px) rotateY(180deg) translateZ(0px); 
-              opacity: 0; 
-              filter: brightness(1);
-            }
-          }
-
-          .animate-page-flip-next { 
-            animation: page-flip-next 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
-            z-index: 10;
-            will-change: transform, opacity, filter;
-          }
-          .animate-page-flip-prev { 
-            animation: page-flip-prev 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
-            z-index: 10;
-            will-change: transform, opacity, filter;
-          }
-
-          /* Performance optimizations for mobile */
           @media (max-width: 640px) {
-            .book-viewer { 
+            .book-viewer {
               box-shadow: inset 0 1px 2px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.15);
               contain: strict;
             }
-            .book-page-left, .book-page-right {
+            .book-page-left, .book-page-right, .book-page-single, .book-page-cover {
               box-shadow: 0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.7);
               contain: strict;
             }
-            .book-inner-shadow { 
-              opacity: 0.4; 
-              width: 6px; 
+            .book-inner-shadow {
+              opacity: 0.4;
+              width: 6px;
             }
-            .book-spine { width: 1px; }
-            .animate-page-flip-next, .animate-page-flip-prev { 
-              animation-duration: 0.3s; 
-            }
-            .animate-gentle-shake { 
-              animation-duration: 0.3s; 
+            .book-spine {
+              width: 1px;
             }
           }
 
           @media (max-width: 768px) {
-            .book-page-left, .book-page-right {
+            .book-page-left, .book-page-right, .book-page-single, .book-page-cover {
               box-shadow: 0 3px 10px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.7);
             }
-            .book-inner-shadow { opacity: 0.5; }
-            .animate-page-flip-next, .animate-page-flip-prev { 
-              animation-duration: 0.35s; 
+            .book-inner-shadow {
+              opacity: 0.5;
             }
           }
 
-          /* GPU acceleration for smoother animations */
-          .book-spread, .book-page-left, .book-page-right, .book-page-single {
+          .book-spread, .book-page-left, .book-page-right, .book-page-single, .book-page-cover {
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
             transform-style: preserve-3d;
             -webkit-transform-style: preserve-3d;
           }
 
-          /* Touch optimization */
           .touch-manipulation {
             touch-action: manipulation;
             -webkit-touch-callout: none;
@@ -841,19 +867,16 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
             user-select: none;
           }
 
-          /* High DPI displays optimization */
           @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            .book-viewer { 
-              box-shadow: inset 0 1px 2px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.15); 
+            .book-viewer {
+              box-shadow: inset 0 1px 2px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.15);
             }
           }
 
-          /* Preload optimization */
           img[loading="eager"] {
             content-visibility: auto;
           }
 
-          /* Scroll performance */
           .book-container * {
             transform-style: preserve-3d;
             backface-visibility: hidden;
