@@ -52,10 +52,10 @@ const Navbar: React.FC = () => {
   return (
     <>
       {/* Zaxira element navbar balandligi uchun */}
-      <div style={{ height: '100px' }}></div>
+      <div style={{ height: '80px' }}></div>
       
       <nav
-        className="fixed top-0 h-[100px] left-0 w-full z-[9999] transition-all duration-300 shadow-lg"
+        className="fixed top-0 h-[80px] left-0 w-full z-[9999] transition-all duration-300 shadow-lg"
         style={{
           background: 'rgba(77,199,232,255)',
           backdropFilter: 'blur(12px)',
@@ -88,7 +88,7 @@ const Navbar: React.FC = () => {
                        hover:text-sky-100 transition-all duration-200 rounded-md
                        hover:bg-white/10 hover:shadow-sm
                        ${isActive ?
-                         'after:absolute after:left-0 after:right-0 after:bottom-[-20px] after:h-[2px] after:bg-white after:rounded-full after:shadow-sm bg-white/15' :
+                         'after:absolute after:left-0 after:right-0 after:bottom-[-10px] after:h-[2px] after:bg-white after:rounded-full after:shadow-sm bg-white/15' :
                          ''
                        }`
                     }

@@ -78,7 +78,7 @@ const MagazineDetailUI: React.FC = () => {
   const imageback = backImage?.file ? `${BaseUrl}${backImage.file}` : IMAGE;
 
   return (
-    <div className="max-w-[1000px] ml-[90px] py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
+    <div className="max-w-[800px] ml-[90px] py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
       {/* Breadcrumb */}
       <nav className="flex items-center text-[14px] font-medium md:text-[18px] gap-2 mb-8">
         <Link 

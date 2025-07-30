@@ -1,8 +1,7 @@
-
 import { Dialog, Transition } from "@headlessui/react";
 import { X, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import { Fragment, useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion"; // Framer Motion import
+import { motion, AnimatePresence } from "framer-motion";
 import Image1 from "@assets/images/place1.png";
 import Image2 from "@assets/images/place3.png";
 import PaperRustleSound from "@assets/sounds/paper-rustle.mp3";
@@ -15,7 +14,6 @@ interface Props {
   error: boolean;
 }
 
-// Image cache singleton
 class ImageCache {
   private static instance: ImageCache;
   private cache = new Map<string, HTMLImageElement>();
@@ -90,7 +88,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
     }
 
     const spreads: Array<{ type: "single" | "double"; images: string[]; startIndex: number }> = [];
-    spreads.push({ type: "single", images: [imageList[0]], startIndex: 0 }); // Muqova sahifasi
+    spreads.push({ type: "single", images: [imageList[0]], startIndex: 0 });
 
     let index = 1;
     while (index < imageList.length - 1) {
@@ -108,7 +106,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
     }
 
     if (index < imageList.length) {
-      spreads.push({ type: "single", images: [imageList[index]], startIndex: index }); // Oxirgi muqova
+      spreads.push({ type: "single", images: [imageList[index]], startIndex: index });
     }
 
     return spreads;
@@ -155,8 +153,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
       currentSpread + 1,
       currentSpread + 2,
     ].filter((index) => index >= 0 && index < totalSpreads);
-    console.log(spreadIndicesToPreload);
-    
+
     const priorityOrder = [currentSpread, currentSpread + 1, currentSpread - 1, currentSpread + 2]
       .filter((index) => index >= 0 && index < totalSpreads);
 
@@ -196,7 +193,6 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
       setPreloadedSpreads(new Set());
       setDragPosition(0);
 
-      // Muqova ochilish animatsiyasi va ovoz
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
         audioRef.current.play().catch((err) => console.warn("Audio play failed:", err));
@@ -215,7 +211,6 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
       setIsFlipping(true);
       setFlipDirection(direction);
 
-      // Ovoz effekti
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
         audioRef.current.play().catch((err) => console.warn("Audio play failed:", err));
@@ -237,7 +232,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
           setIsFlipping(false);
           setPageShaking(true);
           setTimeout(() => setPageShaking(false), 300);
-        }, 600); // Animatsiya davomiyligi The Hotel Guide ga mos
+        }, 600);
       } else {
         await preloadImagesForSpread(newSpread);
         setTimeout(() => {
@@ -397,7 +392,6 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
     };
   }, []);
 
-  // Framer Motion animatsiya sozlamalari
   const pageVariants = {
     initial: (direction: "next" | "prev") => ({
       rotateY: direction === "next" ? 0 : 0,
@@ -454,8 +448,8 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
           />
         </Transition.Child>
 
-        <div className="fixed inset-0 overflow-hidden" onClick={handleBackdropClick}>
-          <div className="flex min-h-full items-center justify-center p-1 sm:p-2 md:p-4">
+        <div className="fixed inset-0 overflow-hidden flex flex-col" onClick={handleBackdropClick}>
+          <div className="flex min-h-0 flex-1 items-center justify-center p-1 sm:p-2 md:p-4">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-400"
@@ -466,12 +460,12 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel
-                className="w-full h-full max-w-full max-h-full sm:max-w-3xl md:max-w-5xl lg:max-w-7xl sm:h-auto transform overflow-hidden transition-all"
+                className="w-full max-w-full h-full max-h-full sm:max-w-3xl md:max-w-5xl lg:max-w-7xl flex flex-col transform overflow-hidden transition-all"
                 onClick={(e) => e.stopPropagation()}
               >
                 <audio ref={audioRef} src={PaperRustleSound} preload="auto" />
-                <div className="relative mb-1 sm:mb-2 md:mb-4">
-                  <div className="bg-gradient-to-r from-slate-800 to-gray-800 rounded-t-none sm:rounded-t-xl px-2 sm:px-4 md:px-6 py-1 sm:py-2 md:py-4 shadow-xl border-b-2 sm:border-b-4 border-blue-500">
+                <div className="relative mb-1 sm:mb-2 md:mb-3">
+                  <div className="bg-gradient-to-r from-slate-800 to-gray-800 rounded-t-none sm:rounded-t-xl px-2 sm:px-4 md:px-6 py-1 sm:py-2 md:py-3 shadow-xl border-b-2 sm:border-b-4 border-blue-500">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3">
                         <div className="text-blue-400 font-bold text-base sm:text-lg md:text-xl">📰 GALEREYA</div>
@@ -500,16 +494,16 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                   </div>
                 </div>
 
-                <div className="relative bg-white rounded-none sm:rounded-xl shadow-2xl border border-gray-200 overflow-hidden">
+                <div className="flex-1 flex flex-col bg-white rounded-none sm:rounded-xl shadow-2xl border border-gray-200 overflow-y-auto">
                   {loading ? (
-                    <div className="flex items-center justify-center h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[800px]">
+                    <div className="flex items-center justify-center flex-1 min-h-0">
                       <div className="flex flex-col items-center space-y-2 sm:space-y-4">
                         <RotateCcw className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 text-blue-600 animate-spin" />
                         <p className="text-gray-600 font-medium text-sm sm:text-base md:text-lg">Jurnal ochilmoqda...</p>
                       </div>
                     </div>
                   ) : error ? (
-                    <div className="flex items-center justify-center h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[800px]">
+                    <div className="flex items-center justify-center flex-1 min-h-0">
                       <div className="text-center px-4">
                         <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-4 border-2 sm:border-4 border-red-200">
                           <X size={20} className="sm:w-8 sm:h-8 md:w-10 md:h-10 text-red-600" />
@@ -519,9 +513,9 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                       </div>
                     </div>
                   ) : (
-                    <div className="relative book-container">
+                    <div className="flex-1 flex flex-col book-container">
                       {imageList && imageList.length > 0 ? (
-                        <div className="relative h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[800px] book-viewer">
+                        <div className="flex-1 h-full max-h-[calc(100vh-120px)] book-viewer">
                           <AnimatePresence initial={false} custom={flipDirection}>
                             <motion.div
                               key={currentSpread}
@@ -687,7 +681,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                           )}
                         </div>
                       ) : (
-                        <div className="flex items-center justify-center h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[800px]">
+                        <div className="flex items-center justify-center flex-1 min-h-0">
                           <div className="text-center px-4">
                             <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-4 border-2 sm:border-4 border-gray-200">
                               <span className="text-gray-400 text-xl sm:text-2xl md:text-3xl">📰</span>
@@ -701,7 +695,7 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
                 </div>
 
                 {!loading && !error && imageList && totalSpreads > 1 && (
-                  <div className="mt-1 sm:mt-2 md:mt-4 bg-gradient-to-r from-slate-800 to-gray-800 rounded-none sm:rounded-xl p-2 sm:p-3 md:p-4 shadow-2xl">
+                  <div className="bg-gradient-to-r from-slate-800 to-gray-800 rounded-none sm:rounded-xl p-2 sm:p-3 md:p-4 shadow-2xl">
                     <div className="flex items-center justify-center space-x-2 sm:space-x-3">
                       <div
                         className="relative w-full max-w-[200px] sm:max-w-[350px] md:max-w-[500px] cursor-pointer touch-manipulation"

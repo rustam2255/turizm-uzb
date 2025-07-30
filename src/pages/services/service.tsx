@@ -39,7 +39,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
     <Link to={link} className="block w-full max-w-[490px]">
       <motion.div
         onClick={onClick}
-        className={`w-full max-w-[490px] h-[250px] sm:h-[280px] md:h-[320px] lg:h-[330px] relative rounded-2xl overflow-hidden cursor-pointer ${
+        className={`w-full max-w-[490px] h-[250px] sm:h-[180px] md:h-[200px] lg:h-[250px] relative rounded-2xl overflow-hidden cursor-pointer ${
           isActive ? "ring-2 ring-[rgba(77,199,232,1)] ring-offset-2" : ""
         }`}
         initial={{ scale: 0.8, opacity: 0, y: 50 }}

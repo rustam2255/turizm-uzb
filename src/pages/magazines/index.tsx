@@ -127,7 +127,7 @@ const Magazine: React.FC = () => {
   );
 
   return (
-    <div className=" max-w-[1500px]  mx-auto w-full mb-20 min-h-screen">
+    <div className=" max-w-[1300px]  mx-auto w-full mb-20 min-h-screen">
       {/* Background decoration */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-sky-200/10 rounded-full blur-3xl"></div>

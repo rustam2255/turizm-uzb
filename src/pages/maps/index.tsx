@@ -3,7 +3,7 @@ import Map from "@/components/map"
 
 const Maps = () => {
   return (
-    <div className=" mx-auto  max-w-[1500px]  " >
+    <div className=" mx-auto  max-w-[1300px]  " >
       <Map />
     </div>
   )
