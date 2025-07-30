@@ -270,7 +270,7 @@ const HotelCarousel = () => {
       </div>
 
       {/* Karusel */}
-      <div className="relative w-full h-[500px] sm:h-[350px] md:h-[450px] lg:h-[600px] overflow-hidden z-10">
+      <div className="relative w-full h-[500px] sm:h-[350px] md:h-[450px] lg:h-[850px] overflow-hidden z-10">
         <AnimatePresence initial={false} custom={direction}>
           {renderMedia(activeSlide)}
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />

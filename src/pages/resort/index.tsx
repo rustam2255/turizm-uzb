@@ -288,7 +288,7 @@ const Resort: React.FC = () => {
 
   return (
     <motion.div
-      className="max-w-[1300px] mx-auto px-4 md:px-8 py-6 md:py-10 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
+      className="max-w-[1600px] mx-auto px-4 md:px-8 py-6 md:py-10 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
