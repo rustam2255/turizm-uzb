@@ -153,7 +153,8 @@ const MagazineStyleSlider = ({ isOpen, onClose, images, loading, error }: Props)
       currentSpread + 1,
       currentSpread + 2,
     ].filter((index) => index >= 0 && index < totalSpreads);
-
+    console.log(spreadIndicesToPreload);
+    
     const priorityOrder = [currentSpread, currentSpread + 1, currentSpread - 1, currentSpread + 2]
       .filter((index) => index >= 0 && index < totalSpreads);
 
