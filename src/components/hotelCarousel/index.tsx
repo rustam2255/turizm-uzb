@@ -26,7 +26,7 @@ const HotelCarousel = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
-  const [volume, setVolume] = useState(0.5);
+  const [volume] = useState(0.5);
   const [showVideoControls, setShowVideoControls] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const autoSlideRef = useRef<NodeJS.Timeout | null>(null);
