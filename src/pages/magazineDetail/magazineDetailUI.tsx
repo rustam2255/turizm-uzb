@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import IMAGE from "@assets/images/samarkand-img.png";
 import { useTranslation } from "react-i18next";
-import { useGetMagazineByIdQuery, useGetMagazineImagesQuery } from "@/services/api";
+import { useGetMagazineBackgroundQuery, useGetMagazineByIdQuery, useGetMagazineImagesQuery } from "@/services/api";
 import PdfToImage from "@/components/Pdf/PdfToImage";
 import SliderModal from "./magazineImage";
-
+const BaseUrl = import.meta.env.VITE_API_MEDIA_URL
 const MagazineDetailUI: React.FC = () => {
    const { idSlug } = useParams<{ idSlug: string }>();
 
@@ -19,7 +19,7 @@ const MagazineDetailUI: React.FC = () => {
     skip: !magazineID,
   });
   const {data: magzineImage, error: imageError, isLoading: imagesLoading} = useGetMagazineImagesQuery({id: magazineID})
-   
+   const {data: backImage} = useGetMagazineBackgroundQuery()
   const [showPdf, setShowPdf] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -75,6 +75,7 @@ const MagazineDetailUI: React.FC = () => {
 
  
   const imagesList = magzineImage?.results?.map((item) => item.image) || [];
+  const imageback = backImage?.file ? `${BaseUrl}${backImage.file}` : IMAGE;
 
   return (
     <div className="max-w-[1000px] ml-[90px] py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
@@ -109,7 +110,7 @@ const MagazineDetailUI: React.FC = () => {
 
         <div className="p-6 sm:p-8">
      
-          <div className="group relative mb-8  bg-cover bg-no-repeat bg-center   animate-slideInUp"  style={{backgroundImage: `url('/images/wow.webp')`}}>
+          <div className="group relative mb-8  bg-cover bg-no-repeat bg-center   animate-slideInUp" style={{ backgroundImage: `url(${imageback})` }}>
             <div className="overflow-hiddenrounded-xl shadow-lg  group-hover:shadow-xl transition-shadow duration-300">
               <img
                 src={magazine.card || IMAGE}

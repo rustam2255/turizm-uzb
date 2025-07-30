@@ -311,7 +311,7 @@ const HotelUI: React.FC = () => {
 
   return (
     <motion.div
-      className="max-w-[1800px] mx-auto py-6 md:py-10 px-4 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
+      className="max-w-[1600px] mx-auto py-6 md:py-10 px-4 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

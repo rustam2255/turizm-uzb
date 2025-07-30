@@ -13,7 +13,7 @@ const MagazineHome: React.FC = () => {
   useEffect(() => {
     if (magazines && !isLoading && !isError) {
       const year2025 = magazines['2025'] || [];
-      const filteredItems = year2025.slice(0, 4);
+      const filteredItems = year2025.slice(0, 5);
       setMagazineItems(filteredItems);
     }
   }, [magazines, isLoading, isError]);
@@ -58,7 +58,7 @@ const MagazineHome: React.FC = () => {
         </div>
 
         {/* Magazines Carousel for Mobile, Grid for Desktop */}
-        <div className="lg:grid lg:grid-cols-4 lg:gap-6 hidden">
+        <div className="lg:grid lg:grid-cols-5 lg:gap-6 hidden">
           {magazineItems.map((item, index) => (
             <Link
               key={item.id}

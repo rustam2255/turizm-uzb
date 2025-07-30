@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { type ArticlesResponse, type Category, type DocumentDetailType, type DocumentItem, type GetDocumentsParams, type GetToursParams, type Hotel, type HotelData, type MagazineDetailType, type MagazineMap, type City, type NewsItem, type ToursResponse, type MapPoint, type ResortsResponse, type ResortDetail, BanksResponse, ClinicsResponse, ShopsResponse, ShopDetail, ClinicDetail, BankDetail, MagazineImageResponse, NewsCategory, ArticleDetail, TourById, HomeList, DashboardList } from '@/interface';
+import { type ArticlesResponse, type Category, type DocumentDetailType, type DocumentItem, type GetDocumentsParams, type GetToursParams, type Hotel, type HotelData, type MagazineDetailType, type MagazineMap, type City, type NewsItem, type ToursResponse, type MapPoint, type ResortsResponse, type ResortDetail, BanksResponse, ClinicsResponse, ShopsResponse, ShopDetail, ClinicDetail, BankDetail, MagazineImageResponse, NewsCategory, ArticleDetail, TourById, HomeList, DashboardList, MagazineBackgroundImage } from '@/interface';
 
 interface HotelsResponse {
   count: number;
@@ -102,6 +102,9 @@ export const API = createApi({
     getResortDetail: builder.query<ResortDetail, number>({
       query: (id) => `/services/resort/${id}/`,
     }),
+    getMagazineBackground: builder.query<MagazineBackgroundImage, void>({
+      query: () => `/bacround-magazine-detail/`,
+    }) ,
 
     getArticleById: builder.query<ArticleDetail, number>({
       query: (id) => `/media/article/detail/${id}/`,
@@ -257,6 +260,7 @@ export const API = createApi({
 });
 
 export const {
+  useGetMagazineBackgroundQuery,
   useGetDashboardListQuery,
   useGetHomeListQuery,
   useGetMagazineImagesQuery,

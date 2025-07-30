@@ -578,3 +578,10 @@ export interface DashboardList{
     title: MultilangText;
     file: string
 }
+
+//,agazineback
+export interface MagazineBackgroundImage{
+    id: number;
+    title: MultilangText;
+    file: string
+}
