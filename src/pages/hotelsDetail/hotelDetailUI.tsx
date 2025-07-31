@@ -48,7 +48,7 @@ const HotelDetailsPage: React.FC = () => {
 
   return (
     <motion.div
-      className="max-w-[1200px] md:ml-5 mx-auto py-5 md:py-7.5 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
+      className="max-w-[1000px] md:ml-5 mx-auto py-5 md:py-7.5 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}

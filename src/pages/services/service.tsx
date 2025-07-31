@@ -36,10 +36,18 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   id,
 }) => {
   return (
-    <Link to={link} className="block w-full max-w-[490px]">
+    <Link to={link} className="block w-full max-w-[550px]">
       <motion.div
         onClick={onClick}
-        className={`w-full max-w-[490px] h-[250px] sm:h-[180px] md:h-[200px] lg:h-[250px] relative rounded-2xl overflow-hidden cursor-pointer ${
+        className={`w-full 
+          h-[280px] 
+          sm:h-[300px] 
+          md:h-[320px] 
+          lg:h-[280px] 
+          xl:h-[300px] 
+          2xl:h-[320px]
+          min-h-[250px]
+          relative rounded-2xl overflow-hidden cursor-pointer ${
           isActive ? "ring-2 ring-[rgba(77,199,232,1)] ring-offset-2" : ""
         }`}
         initial={{ scale: 0.8, opacity: 0, y: 50 }}
@@ -54,7 +62,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       >
         <div className="relative h-full overflow-hidden">
           <picture>
-            {/* WebP formatini qo'llab-quvvatlash (agar API’da mavjud bo'lsa) */}
+            {/* WebP formatini qo'llab-quvvatlash (agar API'da mavjud bo'lsa) */}
             <source srcSet={`${imageUrl}?format=webp`} type="image/webp" />
             <motion.img
               src={imageUrl}
@@ -73,12 +81,12 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         </div>
 
         <motion.div
-          className="absolute bottom-0 left-0 right-0 p-3 sm:p-4"
+          className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-5"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 + id * 0.1 }}
         >
-          <h3 className="text-white font-semibold text-base sm:text-lg leading-tight">
+          <h3 className="text-white font-semibold text-base sm:text-lg md:text-xl leading-tight">
             {title}
           </h3>
         </motion.div>
@@ -91,7 +99,7 @@ const Breadcrumb: React.FC = () => {
   const { t } = useTranslation();
   return (
     <motion.div
-      className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2"
+      className="flex items-center text-sm font-sans font-medium md:text-base lg:text-lg gap-2"
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
@@ -166,11 +174,26 @@ const ServiceUI: React.FC = () => {
           type="image/webp"
         />
       )}
-      <div className="w-full py-6">
-        <div className="max-w-[1800px] mx-auto px-4 md:px-[80px]">
+      <div className="w-full min-h-screen py-4 sm:py-6 md:py-8">
+        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 md:px-[80px]">
           <Breadcrumb />
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-5 gap-4 sm:gap-6 md:gap-8 lg:gap-12 justify-items-center"
+            className="grid 
+              grid-cols-1 
+              sm:grid-cols-1 
+              md:grid-cols-2 
+              lg:grid-cols-3 
+              xl:grid-cols-3
+              2xl:grid-cols-3
+              mt-5 
+              gap-4 
+              sm:gap-5 
+              md:gap-6 
+              lg:gap-8 
+              xl:gap-10
+              2xl:gap-12 
+              justify-items-center
+              auto-rows-max"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -180,7 +203,7 @@ const ServiceUI: React.FC = () => {
                 <ServiceCard
                   key={service.id}
                   title={service.title[currentLanguage] ?? ""}
-                  imageUrl={service.file} 
+                  imageUrl={service.file}
                   isActive={activeId === service.id}
                   onClick={() => setActiveId(service.id)}
                   link={service.link}
@@ -195,4 +218,4 @@ const ServiceUI: React.FC = () => {
   );
 };
 
-export default ServiceUI; 
+export default ServiceUI;

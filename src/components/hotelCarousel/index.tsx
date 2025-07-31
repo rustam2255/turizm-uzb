@@ -270,7 +270,7 @@ const HotelCarousel = () => {
       </div>
 
       {/* Karusel */}
-      <div className="relative w-full h-[500px] sm:h-[350px] md:h-[450px] lg:h-[850px] overflow-hidden z-10">
+      <div className="relative w-full h-[80vh]  lg:h-[80vh] overflow-hidden z-10">
         <AnimatePresence initial={false} custom={direction}>
           {renderMedia(activeSlide)}
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
@@ -541,7 +541,7 @@ const HotelCarousel = () => {
 
         {/* Chap tomondagi matn */}
         <motion.div
-          className="hidden md:block absolute border-t pt-1 border-[#878787] space-y-[10px] top-[70%] md:top-[76%] left-[20px] md:left-[40px] lg:left-[80px] text-white bg-transparent max-w-xs z-20"
+          className="hidden md:block absolute border-t pt-1 border-[#878787] space-y-[10px] top-[50%] md:top-[84%] left-[20px] md:left-[40px] lg:left-[80px] text-white bg-transparent max-w-xs z-20"
           variants={textVariants}
           initial="hidden"
           animate="visible"
@@ -554,7 +554,7 @@ const HotelCarousel = () => {
 
         {/* O'ng tomondagi matn */}
         <motion.div
-          className="hidden md:block absolute border-t pt-1 border-[#878787] space-y-[10px] top-[70%] md:top-[76%] right-[20px] md:right-[40px] lg:right-[80px] text-white bg-transparent max-w-xs z-20"
+          className="hidden md:block absolute border-t pt-1 border-[#878787] space-y-[10px] top-[70%] md:top-[84%] right-[20px] md:right-[40px] lg:right-[80px] text-white bg-transparent max-w-xs z-20"
           variants={textVariants}
           initial="hidden"
           animate="visible"

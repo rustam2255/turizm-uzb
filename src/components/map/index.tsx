@@ -313,7 +313,7 @@ const Map: React.FC = () => {
   }
 
   return (
-    <div className="max-w-[1800px] px-4 py-5 md:py-8">
+    <div className=" px-4 py-5 md:py-8">
       <Breadcrumb />
    
 
@@ -347,7 +347,7 @@ const Map: React.FC = () => {
 
 
 
-      <div className="w-full h-[535px] rounded-lg overflow-hidden shadow-lg">
+      <div className="w-full h-[450px] rounded-lg overflow-hidden shadow-lg">
         <MapContainer
           center={[41.31, 69.28]}
           zoom={5}

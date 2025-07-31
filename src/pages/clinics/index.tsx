@@ -300,7 +300,7 @@ const Clinics = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="max-w-[1600px] xl:max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 lg:px-0">
+      <div className="max-w-[1600px] xl:max-w-[1600px] mx-auto px-4 sm:px-6 md:px-[80px] lg:px-[80px]">
         <motion.div
           className="flex items-center text-[14px] md:text-[16px] font-medium gap-2"
           initial={{ opacity: 0, y: -10 }}
