@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useGetMagazineBackgroundQuery, useGetMagazineByIdQuery, useGetMagazineImagesQuery } from "@/services/api";
 import PdfToImage from "@/components/Pdf/PdfToImage";
 import SliderModal from "./magazineImage";
+import Logo from "@/assets/images/logo.png";
 const BaseUrl = import.meta.env.VITE_API_MEDIA_URL
 const MagazineDetailUI: React.FC = () => {
    const { idSlug } = useParams<{ idSlug: string }>();
@@ -51,8 +52,8 @@ const MagazineDetailUI: React.FC = () => {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="relative mb-4">
-            <div className="w-12 h-12 border-4 border-orange-200 rounded-full"></div>
-            <div className="absolute top-0 left-0 w-12 h-12 border-4 border-[#DE5D26] rounded-full border-t-transparent animate-spin"></div>
+            <div className="w-12 h-12 border-4 text-[rgba(77,199,232,255)] rounded-full"></div>
+            <div className="absolute top-0 left-0 w-12 h-12 border-4 text-[rgba(77,199,232,255)] rounded-full border-t-transparent animate-spin"></div>
           </div>
           <p className="text-gray-600 font-medium">Yuklanmoqda...</p>
         </div>
@@ -111,6 +112,9 @@ const MagazineDetailUI: React.FC = () => {
         <div className="p-6 sm:p-8">
      
           <div className="group relative mb-8  bg-cover bg-no-repeat bg-center   animate-slideInUp" style={{ backgroundImage: `url(${imageback})` }}>
+            <div className="absolute top-3 left-2">
+              <img src={Logo} alt="" className="w-auto h-auto max-h-[50px] sm:max-h-[60px] md:max-h-[50px]"/>
+            </div>
             <div className="overflow-hiddenrounded-xl shadow-lg  group-hover:shadow-xl transition-shadow duration-300">
               <img
                 src={magazine.card || IMAGE}
@@ -158,7 +162,7 @@ const MagazineDetailUI: React.FC = () => {
               <div className="bg-gray-50 rounded-xl p-6 animate-slideInUp">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-gray-700 font-medium">PDF Ko'rinishi</span>
+                  <span className="text-gray-700 font-medium">{t("magazine.see_pdf")}</span>
                 </div>
                 <PdfToImage fileUrl={magazine.file} />
               </div>

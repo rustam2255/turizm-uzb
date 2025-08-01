@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface PdfViewerProps {
   fileUrl: string;
@@ -6,7 +7,7 @@ interface PdfViewerProps {
 
 const PdfToImage: React.FC<PdfViewerProps> = ({ fileUrl }) => {
   const [error, setError] = useState<string | null>(null);
-
+  const {t} = useTranslation()
   // URL ni sanitizatsiya qilish
   const sanitizeUrl = (url: string): string => {
     try {
@@ -54,17 +55,8 @@ const PdfToImage: React.FC<PdfViewerProps> = ({ fileUrl }) => {
             onClick={openFullPdf}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
           >
-            PDF ni ochish
+            {t("magazine.open_pdf")}
           </button>
-          <a
-            href={fileUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            download
-            className="ml-2 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition duration-300"
-          >
-            Yuklab olish
-          </a>
         </div>
       )}
     </div>

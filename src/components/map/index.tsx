@@ -347,7 +347,7 @@ const Map: React.FC = () => {
 
 
 
-      <div className="w-full h-[450px] rounded-lg overflow-hidden shadow-lg">
+      <div className="w-full h-[72vh] rounded-lg overflow-hidden shadow-lg">
         <MapContainer
           center={[41.31, 69.28]}
           zoom={5}

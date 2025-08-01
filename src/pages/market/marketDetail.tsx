@@ -70,7 +70,7 @@ const MarketDetail: React.FC = () => {
   }
 
   return (
-    <div className="w-full px-4 md:px-[80px] pt-[30px] pb-16 max-w-[1100px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen">
+    <div className="w-full px-4 md:px-[80px] pt-[30px] pb-16 max-w-[11t00px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen">
       {/* Breadcrumb */}
       <div className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 animate-slide-in-left text-[#131313]">
         <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("breadcrumb.home")}</Link>

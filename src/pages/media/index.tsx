@@ -35,7 +35,7 @@ const Media: React.FC = () => {
             transition={{ duration: 0.7 }}
             className="lg:col-span-3 order-1"
           >
-            <div className="bg-white rounded-3xl shadow-lg border border-gray-200/50 p-6 lg:p-8 backdrop-blur-sm hover:shadow-xl transition-all duration-500">
+            <div className="bg-white rounded-3xl shadow-lg border border-gray-200/50 p-3 lg:p-2 backdrop-blur-sm hover:shadow-xl transition-all duration-500">
               <div className="flex items-center gap-3 mb-6">
                 {/* <div 
                   className="p-3 rounded-xl transition-all duration-300 hover:scale-105"

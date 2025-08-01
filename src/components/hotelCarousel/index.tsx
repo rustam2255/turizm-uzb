@@ -18,7 +18,7 @@ interface MagazineBackgroundImage {
   title: MultilangText;
   home_file: string;
   file_type?: "image" | "video";
-  video_image: string | null
+  video_image: string | null;
 }
 
 const HotelCarousel = () => {
@@ -29,7 +29,8 @@ const HotelCarousel = () => {
   const [isMuted, setIsMuted] = useState(true);
   const [volume] = useState(0.5);
   const [showVideoControls, setShowVideoControls] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map());
+  const videoTimes = useRef<Map<number, number>>(new Map()); // Har bir video uchun joriy vaqtni saqlash
   const autoSlideRef = useRef<NodeJS.Timeout | null>(null);
   const videoControlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -37,7 +38,6 @@ const HotelCarousel = () => {
   const currentLang = (i18n.language.split("-")[0] as "uz" | "ru" | "en") || "en";
   const { data: backendData, isLoading } = useGetHomeListQuery();
 
-  // Backend ma'lumotlarini MagazineBackgroundImage interfeysiga moslashtirish
   const hotelSlides: MagazineBackgroundImage[] = (backendData || []).map((item: any) => ({
     video_image: item.video_image,
     id: item.id,
@@ -48,7 +48,7 @@ const HotelCarousel = () => {
       : "image",
   }));
 
-  // Tasodifiy indeks tanlash (faqat sahifa yangilanganda yoki yuklanganda)
+  // Tasodifiy indeks tanlash
   useEffect(() => {
     if (hotelSlides.length > 0) {
       const randomIndex = Math.floor(Math.random() * hotelSlides.length);
@@ -56,15 +56,14 @@ const HotelCarousel = () => {
     }
   }, [hotelSlides.length]);
 
-  // Avtomatik slider - 10 sekund
+  // Avtomatik slider
   useEffect(() => {
     if (!isVideoPlaying && hotelSlides.length > 1) {
       autoSlideRef.current = setInterval(() => {
         setDirection(1);
         setCurrentIndex((prev) => (prev + 1) % hotelSlides.length);
-      }, 10000); // 10 sekund
+      }, 10000);
     }
-
     return () => {
       if (autoSlideRef.current) {
         clearInterval(autoSlideRef.current);
@@ -72,21 +71,46 @@ const HotelCarousel = () => {
     };
   }, [isVideoPlaying, hotelSlides.length]);
 
-  // Video holat boshqaruvi
+  // Video holatini boshqarish
   useEffect(() => {
-    const video = videoRef.current;
-    if (video && hotelSlides[currentIndex]?.file_type === "video") {
-      if (isVideoPlaying) {
-        video.play().catch(console.error);
-      } else {
+    const currentSlide = hotelSlides[currentIndex];
+    const currentVideo = currentSlide ? videoRefs.current.get(currentSlide.id) : null;
+
+    // Barcha videolarni to'xtatish va vaqtni saqlash
+    videoRefs.current.forEach((video, id) => {
+      if (id !== currentSlide?.id && video) {
+        videoTimes.current.set(id, video.currentTime); // Joriy vaqtni saqlash
         video.pause();
       }
-      video.muted = isMuted;
-      video.volume = isMuted ? 0 : volume;
-    }
-  }, [isVideoPlaying, isMuted, currentIndex, volume]);
+    });
 
-  // Video boshqaruv panelini ko'rsatish/yashirish
+    // Joriy video holatini sozlash
+    if (currentVideo && currentSlide?.file_type === "video") {
+      currentVideo.muted = isMuted;
+      currentVideo.volume = isMuted ? 0 : volume;
+      // Oldingi saqlangan vaqtni qayta o'rnatish
+      const savedTime = videoTimes.current.get(currentSlide.id) || 0;
+      currentVideo.currentTime = savedTime;
+      if (isVideoPlaying) {
+        currentVideo.play().catch((error) => {
+          console.error(`Video o'ynatish xatosi (ID: ${currentSlide.id}):`, error);
+          setIsVideoPlaying(false);
+        });
+      } else {
+        currentVideo.pause();
+      }
+    }
+  }, [currentIndex, isVideoPlaying, isMuted, volume, hotelSlides]);
+
+  // Slayd o'zgarganda video holatini tozalash
+  useEffect(() => {
+    setIsVideoPlaying(false);
+    setShowVideoControls(false);
+    if (videoControlsTimeoutRef.current) {
+      clearTimeout(videoControlsTimeoutRef.current);
+    }
+  }, [currentIndex]);
+
   const handleVideoMouseMove = () => {
     if (isVideoPlaying) {
       setShowVideoControls(true);
@@ -125,8 +149,6 @@ const HotelCarousel = () => {
     setDirection(dir);
     setIsTransitioning(true);
     setCurrentIndex(index);
-    setIsVideoPlaying(false);
-    setShowVideoControls(false);
     setTimeout(() => {
       setIsTransitioning(false);
     }, 800);
@@ -144,30 +166,105 @@ const HotelCarousel = () => {
     goToSlide(prev, -1);
   };
 
-  const handlePlayVideo = () => {
-    if (hotelSlides[currentIndex]?.file_type === "video") {
-      setIsVideoPlaying(true);
-      setShowVideoControls(true);
-      // Avtomatik sliderni to'xtatish
-      if (autoSlideRef.current) {
-        clearInterval(autoSlideRef.current);
+  const handlePlayVideo = async () => {
+    const currentSlide = hotelSlides[currentIndex];
+    const currentVideo = currentSlide ? videoRefs.current.get(currentSlide.id) : null;
+
+    if (currentSlide?.file_type === "video" && currentVideo) {
+      try {
+        // Video yuklanganligini tekshirish
+        if (currentVideo.readyState < 2) {
+          await new Promise((resolve) => {
+            currentVideo.addEventListener("loadeddata", resolve, { once: true });
+          });
+        }
+
+        setIsVideoPlaying(true);
+        setShowVideoControls(true);
+
+        // Auto slide to'xtatish
+        if (autoSlideRef.current) {
+          clearInterval(autoSlideRef.current);
+        }
+
+        // Timeout'larni tozalash
+        if (videoControlsTimeoutRef.current) {
+          clearTimeout(videoControlsTimeoutRef.current);
+        }
+        videoControlsTimeoutRef.current = setTimeout(() => {
+          setShowVideoControls(false);
+        }, 5000);
+
+        // Saqlangan vaqtni qayta o'rnatish
+        const savedTime = videoTimes.current.get(currentSlide.id) || 0;
+        currentVideo.currentTime = savedTime;
+        await currentVideo.play();
+      } catch (error) {
+        console.error(`Video o'ynatish xatosi (ID: ${currentSlide.id}):`, error);
+        setIsVideoPlaying(false);
       }
-      // 5 sekund keyin boshqaruv panelini yashirish
-      if (videoControlsTimeoutRef.current) {
-        clearTimeout(videoControlsTimeoutRef.current);
-      }
-      videoControlsTimeoutRef.current = setTimeout(() => {
-        setShowVideoControls(false);
-      }, 5000);
     }
   };
 
-  const toggleVideoPause = () => {
-    setIsVideoPlaying((prev) => !prev);
+  const toggleVideoPause = async () => {
+    const currentSlide = hotelSlides[currentIndex];
+    const currentVideo = currentSlide ? videoRefs.current.get(currentSlide.id) : null;
+
+    if (currentVideo && currentSlide?.file_type === "video") {
+      try {
+        if (isVideoPlaying) {
+          videoTimes.current.set(currentSlide.id, currentVideo.currentTime); // Joriy vaqtni saqlash
+          currentVideo.pause();
+          setIsVideoPlaying(false);
+        } else {
+          const savedTime = videoTimes.current.get(currentSlide.id) || 0;
+          currentVideo.currentTime = savedTime; // Saqlangan vaqtdan davom ettirish
+          await currentVideo.play();
+          setIsVideoPlaying(true);
+          setShowVideoControls(true);
+        }
+      } catch (error) {
+        console.error(`Video pause/play xatosi (ID: ${currentSlide.id}):`, error);
+        setIsVideoPlaying(false);
+      }
+    }
   };
 
   const toggleMute = () => {
-    setIsMuted((prev) => !prev);
+    const currentSlide = hotelSlides[currentIndex];
+    const currentVideo = currentSlide ? videoRefs.current.get(currentSlide.id) : null;
+
+    if (currentVideo) {
+      // Joriy vaqtni saqlash
+      videoTimes.current.set(currentSlide.id, currentVideo.currentTime);
+      setIsMuted((prev) => !prev);
+    }
+  };
+
+  const handleVideoLoadedData = (slideId: number) => {
+    const video = videoRefs.current.get(slideId);
+    if (video) {
+      video.muted = isMuted;
+      video.volume = isMuted ? 0 : volume;
+      // Saqlangan vaqtni qayta o'rnatish
+      const savedTime = videoTimes.current.get(slideId) || 0;
+      video.currentTime = savedTime;
+      console.log(`Video yuklandi (ID: ${slideId}):`, hotelSlides[currentIndex]?.home_file);
+    }
+  };
+
+  const handleVideoEnded = () => {
+    setIsVideoPlaying(false);
+    setShowVideoControls(false);
+    const currentSlide = hotelSlides[currentIndex];
+    if (currentSlide) {
+      videoTimes.current.set(currentSlide.id, 0); // Video tugaganda vaqtni 0 ga o'rnatish
+    }
+  };
+
+  const handleVideoError = (e: any, slideId: number) => {
+    console.error(`Video yuklash xatosi (ID: ${slideId}):`, e);
+    setIsVideoPlaying(false);
   };
 
   const variants = {
@@ -220,14 +317,22 @@ const HotelCarousel = () => {
     if (slide.file_type === "video") {
       return (
         <motion.video
-          ref={videoRef}
+          ref={(el) => {
+            if (el) {
+              videoRefs.current.set(slide.id, el);
+            } else {
+              videoRefs.current.delete(slide.id);
+              videoTimes.current.delete(slide.id); // Ref o'chirilganda vaqtni ham o'chirish
+            }
+          }}
           key={slide.id}
           src={slide.home_file}
-          poster={slide.video_image || ''}
+          poster={slide.video_image || ""}
           loop
           muted={isMuted}
           playsInline
-          className="absolute w-full h-full object-cover z-10 rounded-lg shadow-lg"
+          preload="metadata"
+          className="absolute w-full h-full object-cover z-10 shadow-lg"
           variants={variants}
           initial="enter"
           animate="center"
@@ -243,6 +348,9 @@ const HotelCarousel = () => {
               setShowVideoControls(false);
             }, 2000);
           }}
+          onLoadedData={() => handleVideoLoadedData(slide.id)}
+          onEnded={handleVideoEnded}
+          onError={(e) => handleVideoError(e, slide.id)}
         />
       );
     }
@@ -251,32 +359,30 @@ const HotelCarousel = () => {
         key={slide.id}
         src={slide.home_file}
         alt={getLocalizedText(slide.title)}
-        className="absolute w-full h-full  z-10 rounded-lg shadow-lg"
+        className="absolute w-full h-full object-cover z-10 shadow-lg"
         variants={variants}
         initial="enter"
         animate="center"
         exit="exit"
         custom={direction}
         transition={{ duration: 0.8, ease: "easeInOut" }}
+        onError={(e) => console.error(`Rasm yuklash xatosi (ID: ${slide.id}):`, e)}
       />
     );
   };
 
   return (
     <div className="relative w-full" id="home">
-      {/* Navbar */}
       <div className="relative w-full z-[9999]">
         <Navbar />
       </div>
 
-      {/* Karusel */}
-      <div className="relative w-full h-[80vh]  lg:h-[80vh] overflow-hidden z-10">
+      <div className="relative w-full h-[80vh] lg:h-[80vh] overflow-hidden z-10">
         <AnimatePresence initial={false} custom={direction}>
           {renderMedia(activeSlide)}
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
         </AnimatePresence>
 
-        {/* Markaziy Play Tugma - faqat video bo'lganda va o'ynalmagan bo'lsa */}
         {activeSlide.file_type === "video" && !isVideoPlaying && (
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
@@ -285,7 +391,6 @@ const HotelCarousel = () => {
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30"
           >
-            {/* Aylanuvchi SHOWREEL yozuvi */}
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
@@ -306,7 +411,6 @@ const HotelCarousel = () => {
               </svg>
             </motion.div>
 
-            {/* Play tugma */}
             <motion.button
               whileHover={{
                 scale: 1.05,
@@ -319,7 +423,6 @@ const HotelCarousel = () => {
                 boxShadow: "0 8px 32px rgba(77, 199, 232, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
               }}
             >
-              {/* Glowing effect */}
               <motion.div
                 className="absolute inset-0 rounded-full"
                 style={{
@@ -331,7 +434,6 @@ const HotelCarousel = () => {
                 }}
                 transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
               />
-              {/* Inner glow */}
               <motion.div
                 className="absolute inset-2 rounded-full"
                 style={{
@@ -347,7 +449,6 @@ const HotelCarousel = () => {
               </div>
             </motion.button>
 
-            {/* Floating particles */}
             {[...Array(8)].map((_, i) => (
               <motion.div
                 key={i}
@@ -375,7 +476,6 @@ const HotelCarousel = () => {
           </motion.div>
         )}
 
-        {/* Video Boshqaruv Paneli - chap tarafda */}
         {activeSlide.file_type === "video" && isVideoPlaying && (
           <AnimatePresence>
             <motion.div
@@ -397,7 +497,7 @@ const HotelCarousel = () => {
               onMouseLeave={handleVideoControlsLeave}
             >
               <motion.div
-                className="flex flex-col gap-4 bg-black/50 backdrop-blur-2xl rounded-2xl p-4 border border-white/20"
+                className="flex flex-col gap-4 bg-black/50 backdrop-blur-2xl p-4 rounded-xl border border-white/20"
                 style={{
                   boxShadow: `
                     0 20px 60px rgba(77, 199, 232, 0.2),
@@ -406,7 +506,6 @@ const HotelCarousel = () => {
                   `,
                 }}
               >
-                {/* Pause/Play tugma */}
                 <motion.button
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -455,7 +554,6 @@ const HotelCarousel = () => {
                   </AnimatePresence>
                 </motion.button>
 
-                {/* Volume tugma */}
                 <motion.button
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -502,7 +600,6 @@ const HotelCarousel = () => {
                   </AnimatePresence>
                 </motion.button>
 
-                {/* Decorative elements */}
                 <motion.div
                   className="absolute -top-1 -right-1 w-3 h-3 rounded-full"
                   style={{ background: "rgba(77, 199, 232, 0.7)" }}
@@ -526,7 +623,6 @@ const HotelCarousel = () => {
           </AnimatePresence>
         )}
 
-        {/* Matn va Navigatsiya */}
         <motion.div
           className="absolute w-[300px] sm:w-[250px] md:w-[350px] lg:w-[405px] bottom-[120px] sm:bottom-[100px] md:bottom-[140px] left-1/2 -translate-x-1/2 text-white bg-transparent z-20"
           variants={textVariants}
@@ -539,7 +635,6 @@ const HotelCarousel = () => {
           </h2>
         </motion.div>
 
-        {/* Chap tomondagi matn */}
         <motion.div
           className="hidden md:block absolute border-t pt-1 border-[#878787] space-y-[10px] top-[50%] md:top-[84%] left-[20px] md:left-[40px] lg:left-[80px] text-white bg-transparent max-w-xs z-20"
           variants={textVariants}
@@ -552,7 +647,6 @@ const HotelCarousel = () => {
           </h2>
         </motion.div>
 
-        {/* O'ng tomondagi matn */}
         <motion.div
           className="hidden md:block absolute border-t pt-1 border-[#878787] space-y-[10px] top-[70%] md:top-[84%] right-[20px] md:right-[40px] lg:right-[80px] text-white bg-transparent max-w-xs z-20"
           variants={textVariants}
@@ -565,7 +659,6 @@ const HotelCarousel = () => {
           </h2>
         </motion.div>
 
-        {/* Slide Indikatorlar */}
         <div className="absolute bottom-[80px] md:bottom-[100px] left-1/2 -translate-x-1/2 flex gap-2 z-20">
           {hotelSlides.map((_, index) => (
             <motion.button
@@ -573,15 +666,12 @@ const HotelCarousel = () => {
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => goToSlide(index, index > currentIndex ? 1 : -1)}
-              className={`h-2 w-12 cursor-pointer transition-all duration-300 rounded-full ${
-                currentIndex === index ? "bg-white shadow-lg" : "bg-white/40 hover:bg-white/60"
-              }`}
+              className={`h-2 w-12 cursor-pointer transition-all duration-300 rounded-full ${currentIndex === index ? "bg-white shadow-lg" : "bg-white/40 hover:bg-white/60"}`}
               disabled={isTransitioning}
             />
           ))}
         </div>
 
-        {/* Navigatsiya Tugmalari */}
         <motion.button
           whileHover={{ scale: 1.1, x: -5 }}
           whileTap={{ scale: 0.95 }}

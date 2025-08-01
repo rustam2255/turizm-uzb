@@ -85,6 +85,8 @@
     "title": "Hotel Magazines",
     "booksIn": "Books in {{year}}",
     "view_pdf": "View PDF",
+    "open_pdf": "Open PDF",
+    "see_pdf": "View PDF",
     "ts": "Description",
     "see": "Click to view",
     "title_home": "Magazines of 2025",

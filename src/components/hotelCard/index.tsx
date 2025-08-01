@@ -57,7 +57,7 @@ const HotelCard: React.FC<HotelCardProps> = ({ id, name, images, description }) 
         <p className="text-gray-700 hover:text-sky-700 text-sm leading-relaxed line-clamp-3 mb-4">
           {description.substring(0, 100)}...
         </p>
-        <div className="flex items-center text-sky-600 font-medium text-sm group-hover:text-sky-700 transition-colors duration-300">
+        <div className="flex items-center text-[rgba(77,199,232,255)] font-medium text-sm group-hover:text-blue-700 transition-colors duration-300">
           <span>{t("common.details")}</span>
           <svg
             className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300"

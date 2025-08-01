@@ -297,7 +297,7 @@ const Banks: React.FC = () => {
 
       {/* Title */}
       <motion.h1
-        className="text-[20px] md:text-[30px] font-bold mt-3 md:mt-6 mb-4 text-[#131313]"
+        className="text-[20px] md:text-[30px] font-bold mt-3 md:mt-6 mb-4 text-sky-900"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
@@ -315,7 +315,7 @@ const Banks: React.FC = () => {
         <motion.input
           type="text"
           placeholder={t("placeholder.bank")}
-          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[#4DC7E8]/70 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
+          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border font-semibold border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[#4DC7E8]/70 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
@@ -331,7 +331,7 @@ const Banks: React.FC = () => {
             setCurrentPage(1);
           }}
           value={selectedCity || ""}
-          className="w-full sm:w-1/3 px-4 py-2 rounded-lg border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
+          className="w-full sm:w-1/3 px-4 py-2 text-[#4DC7E8]/70 rounded-lg border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}

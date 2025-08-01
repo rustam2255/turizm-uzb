@@ -10,13 +10,14 @@ import { slugify } from "@/utils/slugify";
 import image from "@assets/images/place3.png";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// HotelCard Component
+// HotelCard Component (unchanged)
 const HotelCard: React.FC<{
   name: string;
   id: number;
   desc: string;
   images: { id: number; image: string }[];
   rating: string;
+  
 }> = ({ id, images, rating, name, desc }) => {
   const [isImageHovered, setIsImageHovered] = useState(false);
   const parsedRating = parseFloat(rating);
@@ -119,7 +120,7 @@ const HotelCard: React.FC<{
   );
 };
 
-// Breadcrumb Component
+// Breadcrumb Component (unchanged)
 const Breadcrumb: React.FC = () => {
   const { t } = useTranslation();
   return (
@@ -202,9 +203,8 @@ const HotelUI: React.FC = () => {
 
   const renderPaginationButtons = () => {
     const buttons = [];
-    const maxVisiblePages = 3; // `NewsPage` dagi kabi 5 ta sahifa ko'rsatiladi
+    const maxVisiblePages = 3;
 
-    // Previous button
     if (currentPage > 1) {
       buttons.push(
         <button
@@ -218,7 +218,6 @@ const HotelUI: React.FC = () => {
       );
     }
 
-    // Page numbers
     let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
     const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
@@ -226,7 +225,6 @@ const HotelUI: React.FC = () => {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    // Birinchi sahifa
     if (startPage > 1) {
       buttons.push(
         <button
@@ -250,7 +248,6 @@ const HotelUI: React.FC = () => {
       }
     }
 
-    // Joriy sahifa atrofidagi sahifalar
     for (let i = startPage; i <= endPage; i++) {
       buttons.push(
         <button
@@ -267,7 +264,6 @@ const HotelUI: React.FC = () => {
       );
     }
 
-    // Ellipsis (agar kerak bo'lsa)
     if (endPage < totalPages) {
       if (endPage < totalPages - 1) {
         buttons.push(
@@ -276,7 +272,6 @@ const HotelUI: React.FC = () => {
           </span>
         );
       }
-      // Oxirgi sahifa
       buttons.push(
         <button
           key={totalPages}
@@ -292,7 +287,6 @@ const HotelUI: React.FC = () => {
       );
     }
 
-    // Next button
     if (currentPage < totalPages) {
       buttons.push(
         <button
@@ -318,7 +312,7 @@ const HotelUI: React.FC = () => {
     >
       <Breadcrumb />
       <motion.h1
-        className="text-[20px] md:text-[30px] font-bold mt-3 md:mt-6 mb-4 text-[#131313]"
+        className="text-[20px] md:text-[30px] font-bold mt-3 md:mt-6 mb-4 text-sky-900"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.4 }}
@@ -327,13 +321,13 @@ const HotelUI: React.FC = () => {
       </motion.h1>
 
       <motion.div
-        className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mb-6"
+        className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mb-6 relative z-[10000]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
       >
         <motion.div
-          className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"} w-full md:w-auto`}
+          className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"} w-full md:w-auto relative z-[10001]`}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
@@ -343,12 +337,13 @@ const HotelUI: React.FC = () => {
             selectedCity={selectedCity}
             setSelectedCity={handleCityChange}
             fetchHotels={() => refetchHotels()}
+            
           />
         </motion.div>
         <motion.input
           type="text"
           placeholder={t("hotels.searchPlaceholder")}
-          className="w-full md:w-64 px-4 py-2 rounded-lg border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[#4DC7E8]/70 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
+          className="w-full md:w-64 px-4 py-2 rounded-lg border font-semibold border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[#4DC7E8]/70 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
           value={searchTerm}
           onChange={handleSearch}
           initial={{ opacity: 0, x: 20 }}
@@ -356,7 +351,7 @@ const HotelUI: React.FC = () => {
           transition={{ delay: 0.4, duration: 0.4 }}
         />
         <motion.div
-          className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"} w-full md:w-auto`}
+          className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"} w-full md:w-auto relative z-[10001]`}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
@@ -364,13 +359,14 @@ const HotelUI: React.FC = () => {
           <RatingSelect
             selectedRating={selectedRating}
             setSelectedRating={handleRatingChange}
+            className="z-[10002]" // Ensure dropdown menu has higher z-index
           />
         </motion.div>
       </motion.div>
 
       {hotelsLoading && !hotelsData ? (
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-[1000]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -381,7 +377,7 @@ const HotelUI: React.FC = () => {
         </motion.div>
       ) : hotelsError ? (
         <motion.div
-          className="text-red-500 text-center text-[16px] md:text-[18px] font-medium"
+          className="text-red-500 text-center text-[16px] md:text-[18px] font-medium relative z-[1000]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -390,7 +386,7 @@ const HotelUI: React.FC = () => {
         </motion.div>
       ) : hotelsData && hotelsData.results.length === 0 ? (
         <motion.div
-          className="text-gray-600 text-center text-[16px] md:text-[18px] font-medium"
+          className="text-gray-600 text-center text-[16px] md:text-[18px] font-medium relative z-[1000]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -399,7 +395,7 @@ const HotelUI: React.FC = () => {
         </motion.div>
       ) : (
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-[1000]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -428,7 +424,7 @@ const HotelUI: React.FC = () => {
 
       {totalPages > 1 && (
         <motion.div
-          className="mt-8 flex justify-center items-center gap-1 bg-white rounded-xl shadow-sm border border-[#4DC7E8]/20 p-2"
+          className="mt-8 flex justify-center items-center gap-1 bg-white rounded-xl shadow-sm border border-[#4DC7E8]/20 p-2 relative z-[1000]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.5 }}
@@ -438,7 +434,7 @@ const HotelUI: React.FC = () => {
       )}
       {citiesError && (
         <motion.div
-          className="text-red-500 text-center text-[16px] md:text-[18px] font-medium mt-4"
+          className="text-red-500 text-center text-[16px] md:text-[18px] font-medium mt-4 relative z-[1000]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}

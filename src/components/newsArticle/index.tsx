@@ -53,7 +53,7 @@ const NewsArticle: React.FC = () => {
         <div className="text-red-500 text-center">{t("newsArticle.error")}</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-[1.5fr_3fr_1.5fr] gap-x-4">
-          <div className="md:col-span-1 md:border-gray-300 md:border-r md:pr-4 space-y-4">
+          <div className="md:col-span-1 md:border-gray-300 md:border-r md:pr-4 space-y-19">
             {newsdata?.slice(0, 2).map((item, index) => (
               <div 
                 key={item.id}
@@ -115,7 +115,7 @@ const NewsArticle: React.FC = () => {
                 {t("newsArticle.article")}
               </h3>
               <div className="space-y-3">
-                {articles.slice(0, 5).map((article, index) => (
+                {articles.slice(0, 8).map((article, index) => (
                   <div
                     key={article.id}
                     className="opacity-100 hover:scale-102 transition-all duration-300 ease-out hover:shadow-md border-l-2 border-transparent hover:border-blue-600 pl-2 animate-fade-in-stagger"

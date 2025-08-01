@@ -210,7 +210,7 @@ const NewsPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-white min-h-screen">
+    <div >
       <div className="max-w-[1800px] mx-auto px-4 md:px-[80px]">
         {/* Enhanced Filters */}
         <div   className="bg-gray-50 rounded-2xl p-6 mb-10 border border-gray-100">

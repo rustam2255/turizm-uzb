@@ -66,7 +66,7 @@ const CityFilter = ({
             "
             aria-label="Select city"
           >
-            <span className="block truncate">{getLocalizedText(selected?.name,currentLang)}</span>
+            <span className="block truncate text-[#4DC7E8]/70">{getLocalizedText(selected?.name,currentLang)}</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronDown className="h-4 w-4 md:h-5 md:w-5 text-gray-400" aria-hidden="true" />
             </span>

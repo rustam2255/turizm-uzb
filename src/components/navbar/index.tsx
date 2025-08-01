@@ -51,11 +51,11 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* Zaxira element navbar balandligi uchun */}
-      <div style={{ height: '100px' }}></div>
+      {/* Placeholder for navbar height */}
+      <div style={{ height: '11vh' }}></div>
       
       <nav
-        className="fixed top-0 h-[100px] left-0 w-full z-[9999] transition-all duration-300 shadow-lg"
+        className="fixed top-0 h-[11vh] left-0 w-full z-[9999] transition-all duration-300 shadow-lg flex items-center"
         style={{
           background: 'rgba(77,199,232,255)',
           backdropFilter: 'blur(12px)',
@@ -67,28 +67,28 @@ const Navbar: React.FC = () => {
         {/* Decorative top border */}
         <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-sky-300 via-sky-400 to-sky-300 opacity-60"></div>
 
-        <div className="px-4 sm:px-6 sm:py-4 md:px-[80px] md:py-[20px] flex items-center justify-between">
+        <div className="px-4 sm:px-6 md:px-[80px] w-full flex items-center justify-between h-full">
           <Link to="/" className="flex items-center flex-shrink-0 transition-all duration-200">
             <img
               src={Logo}
               alt="Logo"
-              className="w-auto h-full max-h-[50px] sm:max-h-[70px] md:max-h-[50px]"
+              className="w-auto h-auto max-h-[50px] sm:max-h-[60px] md:max-h-[50px]"
               loading="eager"
             />
           </Link>
 
-          <div className="hidden lg:flex flex-1 justify-center max-w-4xl mx-4">
-            <ul className="flex space-x-4 xl:space-x-[40px] text-[14px] xl:text-[15px] font-medium">
+          <div className="hidden lg:flex  justify-center items-center max-w-4xl mx-4">
+            <ul className="flex space-x-4 xl:space-x-[40px] text-[14px] xl:text-[15px] font-medium items-center">
               {NavbarItem.map((item) => (
                 <li key={item.id} className="relative group">
                   <NavLink
                     to={item.link}
                     className={({ isActive }) =>
-                      `py-2 px-3 xl:px-4 block text-white relative whitespace-nowrap
+                      `py-1 px-3 xl:px-2 block text-white relative whitespace-nowrap
                        hover:text-sky-100 transition-all duration-200 rounded-md
                        hover:bg-white/10 hover:shadow-sm
                        ${isActive ?
-                         'after:absolute after:left-0 after:right-0 after:bottom-[-20px] after:h-[2px] after:bg-white after:rounded-full after:shadow-sm bg-white/15' :
+                         'after:absolute after:left-0 after:right-0 after:bottom-[-10px] after:h-[2px] after:bg-white after:rounded-full after:shadow-sm bg-white/15' :
                          ''
                        }`
                     }
@@ -97,7 +97,7 @@ const Navbar: React.FC = () => {
                     }}
                   >
                     {item.title}
-                  </NavLink>
+                  </NavLink>  
                 </li>
               ))}
             </ul>

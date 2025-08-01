@@ -32,7 +32,7 @@ const HotelCard: React.FC<HotelCardProps> = ({ id, title, description, images })
               target.src = IMAGE;
             }
           }}
-          className="w-full h-75 md:h-[240px] object-cover group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-75 md:h-[293px] object-cover group-hover:scale-105 transition-transform duration-500"
         />
       </div>
       

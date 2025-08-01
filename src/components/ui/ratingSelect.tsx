@@ -38,7 +38,7 @@ const RatingSelect = ({ selectedRating, setSelectedRating, className }: RatingSe
             "
             aria-label="Select rating"
           >
-            <span className="block truncate">
+            <span className="block truncate text-[#4DC7E8]/70">
               {selected === 0 ? "All Ratings" : `${selected} star${selected > 1 ? "s" : ""}`}
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
