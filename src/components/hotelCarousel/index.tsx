@@ -6,7 +6,7 @@ import Right from "@assets/icons/moveRight.svg";
 import { useTranslation } from "react-i18next";
 import Navbar from "../navbar";
 import { useGetHomeListQuery } from "@/services/api";
-
+import IMAGE from '@assets/images/place3.png'
 interface MultilangText {
   en?: string;
   uz?: string;
@@ -48,6 +48,7 @@ const HotelCarousel = () => {
       : "image",
   }));
 
+
   // Tasodifiy indeks tanlash
   useEffect(() => {
     if (hotelSlides.length > 0) {
@@ -71,36 +72,33 @@ const HotelCarousel = () => {
     };
   }, [isVideoPlaying, hotelSlides.length]);
 
-  // Video holatini boshqarish
   useEffect(() => {
     const currentSlide = hotelSlides[currentIndex];
     const currentVideo = currentSlide ? videoRefs.current.get(currentSlide.id) : null;
 
-    // Barcha videolarni to'xtatish va vaqtni saqlash
-    videoRefs.current.forEach((video, id) => {
-      if (id !== currentSlide?.id && video) {
-        videoTimes.current.set(id, video.currentTime); // Joriy vaqtni saqlash
-        video.pause();
-      }
-    });
+    setIsVideoPlaying(false);
+    setShowVideoControls(false);
 
-    // Joriy video holatini sozlash
     if (currentVideo && currentSlide?.file_type === "video") {
       currentVideo.muted = isMuted;
       currentVideo.volume = isMuted ? 0 : volume;
-      // Oldingi saqlangan vaqtni qayta o'rnatish
-      const savedTime = videoTimes.current.get(currentSlide.id) || 0;
-      currentVideo.currentTime = savedTime;
-      if (isVideoPlaying) {
-        currentVideo.play().catch((error) => {
-          console.error(`Video o'ynatish xatosi (ID: ${currentSlide.id}):`, error);
-          setIsVideoPlaying(false);
-        });
-      } else {
-        currentVideo.pause();
-      }
+      currentVideo.pause(); // poster yo'qolmasligi uchun
     }
-  }, [currentIndex, isVideoPlaying, isMuted, volume, hotelSlides]);
+
+    if (videoControlsTimeoutRef.current) {
+      clearTimeout(videoControlsTimeoutRef.current);
+    }
+  }, [currentIndex]);
+  useEffect(() => {
+    const currentSlide = hotelSlides[currentIndex];
+    const currentVideo = currentSlide ? videoRefs.current.get(currentSlide.id) : null;
+
+    if (currentVideo && currentSlide?.file_type === "video") {
+      currentVideo.muted = isMuted;
+      currentVideo.volume = isMuted ? 0 : volume;
+    }
+  }, [isMuted, volume, currentIndex]);
+
 
   // Slayd o'zgarganda video holatini tozalash
   useEffect(() => {
@@ -246,10 +244,7 @@ const HotelCarousel = () => {
     if (video) {
       video.muted = isMuted;
       video.volume = isMuted ? 0 : volume;
-      // Saqlangan vaqtni qayta o'rnatish
-      const savedTime = videoTimes.current.get(slideId) || 0;
-      video.currentTime = savedTime;
-      console.log(`Video yuklandi (ID: ${slideId}):`, hotelSlides[currentIndex]?.home_file);
+      video.pause(); // Yuklangandan keyin to'xtatamiz -> poster ko'rinib turadi
     }
   };
 
@@ -327,12 +322,12 @@ const HotelCarousel = () => {
           }}
           key={slide.id}
           src={slide.home_file}
-          poster={slide.video_image || ""}
+          poster={slide.video_image || IMAGE}
           loop
           muted={isMuted}
           playsInline
           preload="metadata"
-          className="absolute w-full h-full object-cover z-10 shadow-lg"
+          className="absolute w-full h-full object-cover shadow-lg"
           variants={variants}
           initial="enter"
           animate="center"
@@ -341,6 +336,7 @@ const HotelCarousel = () => {
           transition={{ duration: 0.8, ease: "easeInOut" }}
           onMouseMove={handleVideoMouseMove}
           onMouseLeave={() => {
+            if (!isVideoPlaying) return; // faqat video o'ynayotgan bo'lsa controlsni yashiramiz
             if (videoControlsTimeoutRef.current) {
               clearTimeout(videoControlsTimeoutRef.current);
             }
@@ -351,6 +347,7 @@ const HotelCarousel = () => {
           onLoadedData={() => handleVideoLoadedData(slide.id)}
           onEnded={handleVideoEnded}
           onError={(e) => handleVideoError(e, slide.id)}
+
         />
       );
     }

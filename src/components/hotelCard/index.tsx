@@ -22,7 +22,7 @@ const HotelCard: React.FC<HotelCardProps> = ({ id, name, images, description }) 
   return (
     <div
       onClick={() => handleHomeDetail(id, name)}
-      className="cursor-pointer flex flex-col bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-sky-100 hover:border-sky-300 group"
+      className="cursor-pointer flex flex-col bg-white dark:bg-transparent dark:border-blue-950 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-sky-100 hover:border-sky-300 group"
     >
       <div className="relative overflow-hidden">
         {images[0]?.image ? (
@@ -51,10 +51,10 @@ const HotelCard: React.FC<HotelCardProps> = ({ id, name, images, description }) 
         <div className="absolute inset-0 bg-gradient-to-t from-sky-900/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       </div>
       <div className="p-6">
-        <h3 className="text-xl font-bold text-sky-900 mb-3 line-clamp-2 group-hover:text-sky-700 transition-colors duration-300">
+        <h3 className="text-xl font-bold text-sky-900 dark:text-white mb-3 line-clamp-2 group-hover:text-sky-700 transition-colors duration-300">
           {name}
         </h3>
-        <p className="text-gray-700 hover:text-sky-700 text-sm leading-relaxed line-clamp-3 mb-4">
+        <p className="text-gray-700 hover:text-sky-700 dark:text-white text-sm leading-relaxed line-clamp-3 mb-4">
           {description.substring(0, 100)}...
         </p>
         <div className="flex items-center text-[rgba(77,199,232,255)] font-medium text-sm group-hover:text-blue-700 transition-colors duration-300">

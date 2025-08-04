@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import Logo from "@/assets/images/logo.png";
-import SearchIcon from "@assets/icons/Search1.svg";
 import { motion } from "framer-motion";
 import LanguageSelector from './translateSelect';
 import { useTranslation } from 'react-i18next';
+import ModeToggle from '../shared/mode-toggle';
 
-const Navbar: React.FC = () => {
+
+const Navbar = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const NavbarItem = [
@@ -53,9 +54,9 @@ const Navbar: React.FC = () => {
     <>
       {/* Placeholder for navbar height */}
       <div style={{ height: '11vh' }}></div>
-      
+
       <nav
-        className="fixed top-0 h-[11vh] left-0 w-full z-[9999] transition-all duration-300 shadow-lg flex items-center"
+        className="fixed top-0 h-[11vh] left-0 w-full z-[9000] transition-all duration-300 shadow-lg flex items-center"
         style={{
           background: 'rgba(77,199,232,255)',
           backdropFilter: 'blur(12px)',
@@ -77,7 +78,7 @@ const Navbar: React.FC = () => {
             />
           </Link>
 
-          <div className="hidden lg:flex  justify-center items-center max-w-4xl mx-4">
+          <div className="hidden lg:flex justify-center items-center max-w-4xl mx-4">
             <ul className="flex space-x-4 xl:space-x-[40px] text-[14px] xl:text-[15px] font-medium items-center">
               {NavbarItem.map((item) => (
                 <li key={item.id} className="relative group">
@@ -88,68 +89,61 @@ const Navbar: React.FC = () => {
                        hover:text-sky-100 transition-all duration-200 rounded-md
                        hover:bg-white/10 hover:shadow-sm
                        ${isActive ?
-                         'after:absolute after:left-0 after:right-0 after:bottom-[-10px] after:h-[2px] after:bg-white after:rounded-full after:shadow-sm bg-white/15' :
-                         ''
-                       }`
+                        'after:absolute after:left-0 after:right-0 after:bottom-[-10px] after:h-[2px] after:bg-white after:rounded-full after:shadow-sm bg-white/15' :
+                        ''
+                      }`
                     }
                     style={{
                       textShadow: '1px 1px 2px rgba(0,0,0,0.3)'
                     }}
                   >
                     {item.title}
-                  </NavLink>  
+                  </NavLink>
                 </li>
               ))}
             </ul>
           </div>
 
           <div className="flex items-center gap-x-3 sm:gap-x-4 md:gap-x-5">
-            <div className="z-[9999] relative order-2 md:order-1 drop-shadow-sm">
+            <div className="z-[12000] relative cursor-pointer order-2 md:order-1 drop-shadow-sm">
               <LanguageSelector />
             </div>
 
             <button
               onClick={toggleMobileMenu}
               className="block lg:hidden text-white focus:outline-none order-1 md:order-2
-                         hover:bg-white/10 p-2 rounded-md transition-all duration-200"
+               hover:bg-white/10 p-2 rounded-md transition-all duration-200 z-[9500]"
             >
               <div className="space-y-1.5">
                 <div
                   className={`w-5 sm:w-6 h-0.5 bg-white transition-transform origin-top-left duration-300
-                             ${isMobileMenuOpen ? 'rotate-45' : ''}`}
+                   ${isMobileMenuOpen ? 'rotate-45' : ''}`}
                   style={{ filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.3))' }}
                 />
                 <div
                   className={`w-5 sm:w-6 h-0.5 bg-white transition-transform origin-bottom-left duration-300
-                             ${isMobileMenuOpen ? '-rotate-45 translate-y-2' : ''}`}
+                   ${isMobileMenuOpen ? '-rotate-45 translate-y-2' : ''}`}
                   style={{ filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.3))' }}
                 />
                 <div
                   className={`w-5 sm:w-6 h-0.5 bg-white transition-opacity duration-300
-                             ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}
+                   ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}
                   style={{ filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.3))' }}
                 />
               </div>
             </button>
 
-            <button className="h-5 w-5 sm:h-6 sm:w-6 hidden md:block order-3
-                             hover:bg-white/10 p-1 rounded-md transition-all duration-200">
-              <img
-                src={SearchIcon}
-                alt="Search icon"
-                className="w-full h-full drop-shadow-sm"
-                loading="eager"
-              />
-            </button>
+            <div className="z-[12000] relative  cursor-pointer drop-shadow-sm">
+              <ModeToggle />
+            </div>
           </div>
         </div>
 
         <motion.div
-          className={`z-[9999] lg:hidden flex flex-col items-center w-full transition-all duration-300 ${
-            isMobileMenuOpen
-              ? 'h-screen pt-6 sm:pt-10 px-4 overflow-auto'
-              : 'h-0 overflow-hidden'
-          }`}
+          className={`z-[9500] lg:hidden flex flex-col items-center w-full transition-all duration-300 ${isMobileMenuOpen
+            ? 'h-screen pt-6 sm:pt-10 px-4 overflow-auto'
+            : 'h-0 overflow-hidden'
+            }`}
           style={{
             background: isMobileMenuOpen ?
               'linear-gradient(180deg, rgba(14, 116, 188, 0.98) 0%, rgba(56, 178, 237, 0.95) 50%, rgba(79, 172, 254, 0.92) 100%)' :

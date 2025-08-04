@@ -23,6 +23,7 @@ import BankDetail from './pages/banks/bankDetail';
 import Media from './pages/media';
 import ArticleDetail from './pages/media/article-Detail';
 import NewsDetailPage from './pages/media/news-Detail';
+// import Footer from './components/footer';
 
 const Home = lazy(() => import('@pages/home'));
 const Magazines = lazy(() => import('@/pages/magazines'));
@@ -87,6 +88,7 @@ const AppContent = () => {
           <Route path='/media/news/detail/:idSlug' element={<NewsDetailPage />} />
         </Routes>
       </Suspense>
+      {/* <Footer /> */}
     </>
   );
 };

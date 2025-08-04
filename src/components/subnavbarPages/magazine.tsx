@@ -77,11 +77,11 @@ const MagazineHome: React.FC = () => {
                   />
                 </Link>
                 <div className="text-center text-black font-normal leading-[100%]">
-                  <p className="mb-1 text-[14px] md:text-[15px] sm:text-[13px]">{item.month}</p>
-                  <p className="mb-1 text-[14px] md:text-[15px] sm:text-[13px]">
+                  <p className="mb-1 dark:text-white text-[14px] md:text-[15px] sm:text-[13px]">{item.month}</p>
+                  <p className="mb-1 text-[14px] dark:text-sky-500 md:text-[15px] sm:text-[13px]">
                     {getLocalizedText(item.title)}
                   </p>
-                  <p className="text-[14px] md:text-[15px] sm:text-[13px]">{item.year}</p>
+                  <p className="text-[14px] dark:text-white md:text-[15px] sm:text-[13px]">{item.year}</p>
                 </div>
               </div>
               <div className="p-6">

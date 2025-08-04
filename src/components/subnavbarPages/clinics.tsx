@@ -61,7 +61,7 @@ const ClinicHome: React.FC = () => {
               className="group block transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-sky-100 group-hover:border-sky-300">
+              <div className="bg-white dark:bg-transparent dark:border-blue-950 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-sky-100 group-hover:border-sky-300">
                 <div className="relative overflow-hidden">
                   {item.images[0]?.photo ? (
                     <img
@@ -89,10 +89,10 @@ const ClinicHome: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-sky-900/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-sky-900 mb-3 line-clamp-2 group-hover:text-sky-700 transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-sky-900 dark:text-white mb-3 line-clamp-2 group-hover:text-sky-700 transition-colors duration-300">
                     {item.name}
                   </h3>
-                  <div className="flex items-center text-gray-600 text-sm mb-3">
+                  <div className="flex items-center text-gray-600 dark:text-sky-500 text-sm mb-3">
                     <svg
                       className="w-4 h-4 mr-2 flex-shrink-0"
                       fill="none"

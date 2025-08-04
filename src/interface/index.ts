@@ -570,8 +570,7 @@ export interface HomeList{
     id: number;
     title: MultilangText;
     home_file: string;
-    video_image: string | "";
-    
+    video_image: string | "";   
 }
 //services-list
 export interface DashboardList{

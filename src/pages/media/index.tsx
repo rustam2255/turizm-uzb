@@ -10,18 +10,21 @@ const Media: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="bg-gradient-to-br ">
-      <div className='max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-8'>
+    <div className="">
+      <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
-        <nav className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2" aria-label="Breadcrumb">
+        <nav
+          className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2"
+          aria-label="Breadcrumb"
+        >
           <Link
             to="/"
-            className="hover:underline transition-all duration-200 text-gray-700 hover:text-[rgba(77,199,232,1)]"
+            className="text-gray-700 dark:text-white hover:text-[rgba(77,199,232,1)] transition-colors duration-200"
           >
             {t("breadcrumb.home")}
           </Link>
-          <span className="mx-2 text-gray-400">&gt;</span>
-          <span className="font-semibold" style={{ color: 'rgba(77,199,232,1)' }}>
+          <span className="mx-2 text-black dark:text-white">&gt;</span>
+          <span className="font-semibold text-[rgba(77,199,232,1)]">
             {t("media.title")}
           </span>
         </nav>
@@ -35,26 +38,20 @@ const Media: React.FC = () => {
             transition={{ duration: 0.7 }}
             className="lg:col-span-3 order-1"
           >
-            <div className="bg-white rounded-3xl shadow-lg border border-gray-200/50 p-3 lg:p-2 backdrop-blur-sm hover:shadow-xl transition-all duration-500">
+            <div className="rounded-3xl shadow-lg border border-gray-200/50 dark:border-gray-500/50 p-3 lg:p-2 backdrop-blur-sm bg-white/90 dark:bg-transparent hover:shadow-xl hover:-translate-y-0.5 transition-all duration-500">
               <div className="flex items-center gap-3 mb-6">
-                {/* <div 
-                  className="p-3 rounded-xl transition-all duration-300 hover:scale-105"
-                  style={{ 
-                    background: `linear-gradient(135deg, rgba(77,199,232,0.1), rgba(77,199,232,0.2))`,
-                    border: `1px solid rgba(77,199,232,0.3)`
-                  }}
-                >
-                  <Newspaper 
-                    className="w-7 h-7 transition-all duration-300" 
-                    style={{ color: 'rgba(77,199,232,1)' }}
+                {/* Ikonka va sarlavha joyi (agar kerak bo'lsa) */}
+                {/* <div className="p-3 rounded-xl bg-[rgba(77,199,232,0.1)] border border-[rgba(77,199,232,0.3)] hover:scale-105 transition-transform duration-300 dark:bg-[rgba(77,199,232,0.2)] dark:border-[rgba(77,199,232,0.4)]">
+                  <Newspaper
+                    className="w-7 h-7 text-[rgba(77,199,232,1)]"
                   />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 hover:scale-105 transition-transform duration-300">
-                    {t('media.news')}
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white hover:scale-105 transition-transform duration-300">
+                    {t("media.news")}
                   </h2>
-                  <p className="text-sm text-gray-600">
-                    {t('media.import')}
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    {t("media.import")}
                   </p>
                 </div> */}
               </div>
@@ -69,29 +66,22 @@ const Media: React.FC = () => {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="lg:col-span-2 order-2"
           >
-            <div className="bg-white rounded-3xl shadow-lg border border-gray-200/50 backdrop-blur-sm sticky top-8 hover:shadow-xl transition-all duration-500">
-              {/* <div className="p-6 border-b border-gray-100">
+            <div className="bg-white/90 dark:bg-transparent rounded-3xl shadow-lg border border-gray-200/50 dark:border-gray-500/50 backdrop-blur-sm sticky top-8 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-500">
+              {/* Sarlavha joyi (agar kerak bo'lsa) */}
+              {/* <div className="p-6 border-b border-gray-100 dark:border-gray-700">
                 <div className="flex items-center gap-3 mb-2">
-                  <div 
-                    className="p-3 rounded-xl transition-all duration-300 hover:scale-105"
-                    style={{ 
-                      background: `linear-gradient(135deg, rgba(77,199,232,0.1), rgba(77,199,232,0.2))`,
-                      border: `1px solid rgba(77,199,232,0.3)`
-                    }}
-                  >
-                    <BookOpen 
-                      className="w-7 h-7 transition-all duration-300" 
-                      style={{ color: 'rgba(77,199,232,1)' }}
+                  <div className="p-3 rounded-xl bg-[rgba(77,199,232,0.1)] border border-[rgba(77,199,232,0.3)] hover:scale-105 transition-transform duration-300 dark:bg-[rgba(77,199,232,0.2)] dark:border-[rgba(77,199,232,0.4)]">
+                    <BookOpen
+                      className="w-7 h-7 text-[rgba(77,199,232,1)]"
                     />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 hover:scale-105 transition-transform duration-300">
-                      {t('media.articles')}
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white hover:scale-105 transition-transform duration-300">
+                      {t("media.articles")}
                     </h2>
                   </div>
                 </div>
               </div> */}
-              
               <div className="p-6 max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
                 <ArticlesPage />
               </div>
@@ -100,6 +90,7 @@ const Media: React.FC = () => {
         </div>
 
         <style>{`
+          /* Custom scrollbar */
           .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
           }
@@ -115,13 +106,18 @@ const Media: React.FC = () => {
           .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, rgba(77,199,232,0.8), rgba(77,199,232,1));
           }
-
-          /* Enhanced hover effects for cards */
-          .bg-white:hover {
-            transform: translateY(-2px);
+          .dark .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.5);
+          }
+          .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, rgba(77,199,232,0.7), rgba(77,199,232,0.9));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          }
+          .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, rgba(77,199,232,0.9), rgba(77,199,232,1));
           }
 
-          /* Custom blue accent animations */
+          /* Custom blue glow animation */
           @keyframes blueGlow {
             0%, 100% {
               box-shadow: 0 0 5px rgba(77,199,232,0.3);
@@ -130,48 +126,19 @@ const Media: React.FC = () => {
               box-shadow: 0 0 20px rgba(77,199,232,0.5), 0 0 30px rgba(77,199,232,0.3);
             }
           }
-
-          .bg-white:hover {
-            animation: blueGlow 2s ease-in-out infinite;
-          }
-
-          /* Enhanced responsive design */
-          @media (max-width: 1024px) {
-            .lg\\:col-span-3,
-            .lg\\:col-span-2 {
-              grid-column: span 1;
+          @keyframes blueGlowDark {
+            0%, 100% {
+              box-shadow: 0 0 5px rgba(77,199,232,0.4);
+            }
+            50% {
+              box-shadow: 0 0 20px rgba(77,199,232,0.6), 0 0 30px rgba(77,199,232,0.4);
             }
           }
-
-          /* Smooth animations */
-          * {
-            transition: all 0.2s ease-in-out;
+          .hover\\:shadow-glow:hover {
+            animation: blueGlow 2s ease-in-out infinite;
           }
-
-          /* Glass morphism effect with blue tint */
-          .backdrop-blur-sm {
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            background: rgba(255, 255, 255, 0.9);
-          }
-
-          /* Blue accent for interactive elements */
-          .hover\\:text-\\[rgba\\(77\\,199\\,232\\,1\\)\\]:hover {
-            color: rgba(77,199,232,1) !important;
-          }
-
-          /* Custom blue gradient backgrounds */
-          .blue-gradient-bg {
-            background: linear-gradient(135deg, rgba(77,199,232,0.05), rgba(77,199,232,0.1));
-          }
-
-          /* Blue theme accents */
-          .blue-accent-border {
-            border: 1px solid rgba(77,199,232,0.2);
-          }
-
-          .blue-accent-shadow:hover {
-            box-shadow: 0 10px 25px rgba(77,199,232,0.15);
+          .dark .hover\\:shadow-glow:hover {
+            animation: blueGlowDark 2s ease-in-out infinite;
           }
         `}</style>
       </div>

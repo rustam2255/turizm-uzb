@@ -16,6 +16,8 @@ type SectionId = 'home' | 'media' | 'hotelCard' | 'detanation' | 'magazine' | 'r
 const Home: React.FC = () => {
   const [activeSection, setActiveSection] = useState<SectionId>('home');
   const [isSticky, setIsSticky] = useState<boolean>(false);
+  
+
 
   // Section refs
   const sectionRefs = {
@@ -54,7 +56,6 @@ const Home: React.FC = () => {
         const element = document.getElementById(sectionId);
         if (element) {
           const rect = element.getBoundingClientRect();
-          // Sticky navbar balandligini hisobga olish
           const offset = isSticky ? 80 : 200;
           if (rect.top <= offset && rect.bottom >= offset) {
             currentSection = sectionId;
@@ -71,7 +72,7 @@ const Home: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isSticky]);
 
-  // Animations
+  // Animatsiyalar
   const fadeInUp = {
     hidden: { opacity: 0, y: 50 },
     visible: { 
@@ -100,18 +101,23 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-gray-50 font-sans">
+    <div 
+      className={`relative min-h-screen overflow-x-hidden font-sans bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`} 
+    >
+    
+ 
+
       {/* Home Section */}
       <div id="home" className="relative">
-        <div >
+        <div>
           <HomeCarousel />
         </div>
         <div
           className={`
             w-full z-50 transition-all duration-300
             ${isSticky
-              ? 'fixed top-0 left-0 bg-white/90 backdrop-blur-md shadow-lg'
-              : 'absolute bottom-0 left-0 transform translate-y-full md:translate-y-1/2'
+              ? `fixed top-0 left-0  bg-white/90 dark:bg-[oklch(22%_0.06_265/0.9)]   backdrop-blur-md shadow-lg`
+              : 'absolute bottom-0 left-0 transformtranslate-y-full md:translate-y-1/2'
             }
           `}
         >
@@ -129,7 +135,7 @@ const Home: React.FC = () => {
         <motion.div
           id="media"
           ref={sectionRefs.media}
-          className="bg-white"
+          className='bg-white dark:bg-[oklch(22%_0.06_265/0.9)]'
           initial="hidden"
           animate={isMediaInView ? 'visible' : 'hidden'}
           variants={slideInLeft}
@@ -140,7 +146,7 @@ const Home: React.FC = () => {
         <motion.div
           id="magazine"
           ref={sectionRefs.magazine}
-          className="px-4 md:px-10 lg:px-20 py-10 bg-gray-100 scroll-mt-20"
+          className={`px-4 md:px-10 lg:px-20 py-10 $bg-white dark:bg-[oklch(22%_0.06_265/0.9)] scroll-mt-20`}
           initial="hidden"
           animate={isMagazineInView ? 'visible' : 'hidden'}
           variants={fadeInUp}
@@ -151,7 +157,7 @@ const Home: React.FC = () => {
         <motion.div
           id="hotelCard"
           ref={sectionRefs.hotelCard}
-          className="px-4 md:px-10 lg:px-20 py-0 bg-gray-100 scroll-mt-20"
+          className={`px-4 md:px-10 lg:px-20 py-0 bg-white dark:bg-[oklch(22%_0.06_265/0.9)] scroll-mt-20`}
           initial="hidden"
           animate={isHotelCardInView ? 'visible' : 'hidden'}
           variants={slideInRight}
@@ -162,7 +168,7 @@ const Home: React.FC = () => {
         <motion.div
           id="resort"
           ref={sectionRefs.resort}
-          className="px-4 md:px-10 lg:px-20 py-10 bg-white scroll-mt-20"
+          className={`px-4 md:px-10 lg:px-20 py-10 bg-white dark:bg-[oklch(22%_0.06_265/0.9)] scroll-mt-20`}
           initial="hidden"
           animate={isResortInView ? 'visible' : 'hidden'}
           variants={fadeInUp}
@@ -173,7 +179,7 @@ const Home: React.FC = () => {
         <motion.div
           id="bank"
           ref={sectionRefs.bank}
-          className="px-4 md:px-10 lg:px-20 py-10 bg-gray-100 scroll-mt-20"
+          className={`px-4 md:px-10 lg:px-20 py-10 bg-white dark:bg-[oklch(22%_0.06_265/0.9)] scroll-mt-20`}
           initial="hidden"
           animate={isBankInView ? 'visible' : 'hidden'}
           variants={slideInLeft}
@@ -184,7 +190,7 @@ const Home: React.FC = () => {
         <motion.div
           id="clinic"
           ref={sectionRefs.clinic}
-          className="px-4 md:px-10 lg:px-20 py-10 bg-white scroll-mt-20"
+          className={`px-4 md:px-10 lg:px-20 py-10 bg-white dark:bg-[oklch(22%_0.06_265/0.9)] scroll-mt-20`}
           initial="hidden"
           animate={isClinicInView ? 'visible' : 'hidden'}
           variants={slideInRight}
@@ -195,7 +201,7 @@ const Home: React.FC = () => {
         <motion.div
           id="market"
           ref={sectionRefs.market}
-          className="px-4 md:px-10 lg:px-20 py-10 bg-gray-100 scroll-mt-20"
+          className={`px-4 md:px-10 lg:px-20 py-10 bg-white dark:bg-[oklch(22%_0.06_265/0.9)] scroll-mt-20`}
           initial="hidden"
           animate={isMarketInView ? 'visible' : 'hidden'}
           variants={fadeInUp}
@@ -206,7 +212,7 @@ const Home: React.FC = () => {
         <motion.div
           id="detanation"
           ref={sectionRefs.detanation}
-          className="px-4 md:px-10 lg:px-20 py-10 bg-white scroll-mt-20"
+          className={`px-4 md:px-10 lg:px-20 py-10 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]  scroll-mt-20`}
           initial="hidden"
           animate={isDetanationInView ? 'visible' : 'hidden'}
           variants={slideInLeft}

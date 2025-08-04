@@ -30,7 +30,7 @@ const LanguageSelector = () => {
   };
 
   return (
-    <div className="relative inline-block z-50">
+    <div className="relative cursor-pointer inline-block z-50">
       <Menu>
         <Menu.Button className="inline-flex items-center px-3 py-1.5 border border-white text-white rounded-md text-sm hover:bg-white hover:text-black transition-all">
           {languages.find((l) => l.code === selectedLang)?.label}

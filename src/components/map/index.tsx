@@ -110,8 +110,8 @@ const Breadcrumb: React.FC = () => {
   const { t } = useTranslation();
   return (
     <div className="flex items-center text-[14px] font-medium md:text-[18px] gap-2">
-      <Link to="/" className="hover:underline text-black">{t("breadcrumb.home")}</Link>
-      <span className="text-black">&gt;</span>
+      <Link to="/" className="hover:underline text-black dark:text-white">{t("breadcrumb.home")}</Link>
+      <span className="text-black dark:text-white">&gt;</span>
       <span className="" style={{ color: 'rgba(77,199,232,1)' }}>{t("map.breadcrumb")}</span>
     </div>
   );

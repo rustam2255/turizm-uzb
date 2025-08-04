@@ -49,7 +49,7 @@ const Magazine: React.FC = () => {
         whileTap={{ scale: 0.98 }}
       >
         <motion.span 
-          className="text-sky-700 font-semibold group-hover:text-sky-600 transition-colors duration-300"
+          className="text-sky-700  dark:text-sky-500 font-semibold group-hover:text-sky-600 transition-colors duration-300"
           style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}
         >
           {t("magazine.booksIn", { year })}

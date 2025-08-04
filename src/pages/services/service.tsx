@@ -104,10 +104,10 @@ const Breadcrumb: React.FC = () => {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Link to="/" className="hover:underline text-black">
+      <Link to="/" className="hover:underline text-black dark:text-white">
         {t("breadcrumb.home")}
       </Link>
-      <span className="text-black">&gt;</span>
+      <span className="text-black dark:text-white">&gt;</span>
       <span className="" style={{ color: "rgba(77,199,232,1)" }}>
         {t("services.title")}
       </span>

@@ -61,12 +61,12 @@ const CompactArticleCard = ({ article }: { article: ArticleItem }) => {
 
           {/* Content */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-sm leading-snug mb-2 line-clamp-2 text-gray-800 group-hover:text-blue-600 transition-colors duration-200">
+            <h3 className="font-semibold text-sm leading-snug mb-2 line-clamp-2 text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors duration-200">
               {article.title[lang]}
             </h3>
 
             {/* Meta information */}
-            <div className="flex items-center text-xs text-gray-500 space-x-3">
+            <div className="flex items-center text-xs text-gray-500 dark:text-sky-500 space-x-3">
               <div className="flex items-center space-x-1">
                 <User className="w-3 h-3" />
                 <span className="truncate max-w-20">{article.author}</span>
@@ -137,7 +137,7 @@ const ArticlesPage = () => {
           placeholder={t('placeholder.articles')}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full border border-gray-200 px-4 py-3 pl-10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-gray-50/50"
+          className="w-full border border-gray-200 px-4 py-3 pl-10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-gray-50/50 dark:bg-transparent"
         />
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
       </div>

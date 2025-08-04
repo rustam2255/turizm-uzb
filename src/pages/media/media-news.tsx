@@ -210,10 +210,10 @@ const NewsPage: React.FC = () => {
   };
 
   return (
-    <div >
-      <div className="max-w-[1800px] mx-auto px-4 md:px-[80px]">
+    <div  >
+      <div className="max-w-[1800px]  mx-auto  px-4 md:px-[80px]">
         {/* Enhanced Filters */}
-        <div   className="bg-gray-50 rounded-2xl p-6 mb-10 border border-gray-100">
+        <div   className="bg-gray-50 dark:bg-transparent rounded-2xl p-6 mb-10 border dark:border-gray-600">
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -221,7 +221,7 @@ const NewsPage: React.FC = () => {
                 placeholder={t("placeholder.news") || "Yangiliklar ichidan qidirish..."}
                 value={search}
                 onChange={handleSearchChange}
-                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white shadow-sm transition-all duration-200"
+                className="w-full pl-12 pr-4 text-black dark:text-white py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white dark:bg-transparent shadow-sm transition-all duration-200"
               />
             </div>
 
@@ -230,7 +230,7 @@ const NewsPage: React.FC = () => {
               <select
                 value={category ?? ""}
                 onChange={handleCategoryChange}
-                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white shadow-sm appearance-none cursor-pointer transition-all duration-200"
+                className="w-full pl-12 pr-4 py-3 border text-black dark:text-white border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white dark:bg-transparent shadow-sm appearance-none cursor-pointer transition-all duration-200"
               >
                 <option value="">{t("media.category") || "Barcha kategoriyalar"}</option>
                 {categories.map((cat: NewsCategory) => (
@@ -246,7 +246,7 @@ const NewsPage: React.FC = () => {
 
         {/* Results Count */}
         {!newsLoading && (
-          <div className="mb-6 text-gray-600 text-sm">
+          <div className="mb-6 text-gray-600 dark:text-white text-sm">
             {filteredNews.length > 0 ? `${filteredNews.length} ta yangilik topildi` : "Yangilik topilmadi"}
             {search && ` "${search}" bo'yicha`}
             {category && categories.find(cat => cat.id === category) &&
@@ -262,7 +262,7 @@ const NewsPage: React.FC = () => {
               <Link to={`/media/news/detail/${item.id}-${slugify(item.title.uz || '')}`}>
                 <div
                   key={item.id}
-                  className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-lg hover:border-sky-200 transition-all duration-300 group cursor-pointer h-[430px]"
+                  className="bg-white dark:bg-transparent border border-gray-100 dark:border-blue-950 rounded-2xl shadow-sm overflow-hidden hover:shadow-lg hover:border-sky-200 transition-all duration-300 group cursor-pointer h-[430px]"
                 >
                   <div className="relative overflow-hidden">
                     <img
@@ -283,10 +283,10 @@ const NewsPage: React.FC = () => {
                   </div>
 
                   <div className="p-6">
-                    <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
                       {getText(item.title)}
                     </h3>
-                    <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">
+                    <p className="text-gray-600 dark:text-gray-500 text-sm line-clamp-3 leading-relaxed">
                       {getText(item.description)}
                     </p>
 
