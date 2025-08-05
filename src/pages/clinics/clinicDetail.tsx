@@ -79,19 +79,19 @@ const ClinicDetail: React.FC = () => {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
       >
-        <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">
+        <Link to="/" className=" transition-colors duration-200">
           {t("breadcrumb.home")}
         </Link>
-        <span className="text-[#4DC7E8]">&gt;</span>
-        <Link to="/services" className="hover:text-[#4DC7E8] transition-colors duration-200">
+        <span className="">&gt;</span>
+        <Link to="/services" className=" transition-colors duration-200">
           {t("services.title")}
         </Link>
         <span className="text-[#4DC7E8">&gt;</span>
-        <Link to="/services/clinics" className="hover:text-[#4DC7E8] transition-colors duration-200">
+        <Link to="/services/clinics" className=" transition-colors duration-200">
           {t("services.clinic")}
         </Link>
         <span className="text-[#4DC7E8">&gt;</span>
-        <span className="text-[#4DC7E8] font-semibold">{clinic.name}</span>
+        <span className="text-[rgba(25,110,150,255)] font-semibold">{clinic.name}</span>
       </motion.div>
 
       {/* Title */}
@@ -139,7 +139,7 @@ const ClinicDetail: React.FC = () => {
                   onClick={prevImage}
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-all duration-300"
                 >
-                  <ChevronLeft className="w-5 h-5 text-[#4DC7E8]" />
+                  <ChevronLeft className="w-5 h-5 text-[rgba(25,110,150,255)]" />
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.1 }}
@@ -147,7 +147,7 @@ const ClinicDetail: React.FC = () => {
                   onClick={nextImage}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-all duration-300"
                 >
-                  <ChevronRight className="w-5 h-5 text-[#4DC7E8]" />
+                  <ChevronRight className="w-5 h-5 text-[rgba(25,110,150,255)]" />
                 </motion.button>
               </>
             )}
@@ -156,7 +156,7 @@ const ClinicDetail: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
-              className="absolute bottom-3 right-3 bg-white/80 px-3 py-1 text-sm font-medium text-[#4DC7E8] rounded-md shadow-sm shadow-[#4DC7E8]/20"
+              className="absolute bottom-3 right-3 bg-white/80 px-3 py-1 text-sm font-medium text-[rgba(25,110,150,255)] rounded-md shadow-sm shadow-[#4DC7E8]/20"
             >
               {currentImageIndex + 1} {t("hotelDetail.of")} {images.length}
             </motion.div>
@@ -231,7 +231,7 @@ const ClinicDetail: React.FC = () => {
         >
           {clinic.latitude && clinic.longitude && (
             <div className="bg-white p-4 rounded-xl shadow-md shadow-[#4DC7E8]/20 border border-[#4DC7E8]/10 sticky top-24">
-              <h2 className="text-base md:text-lg font-medium text-[#4DC7E8] mb-3">{t("hotelDetail.location_map")}</h2>
+              <h2 className="text-base md:text-lg font-medium text-[rgba(25,110,150,255)] mb-3">{t("hotelDetail.location_map")}</h2>
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -257,7 +257,7 @@ const ClinicDetail: React.FC = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => openNativeMap(clinic.latitude, clinic.longitude, clinic.name)}
-                    className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
+                    className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                     title="Telefon navigatorida ochish"
                   >
                     📱 Navigator
@@ -266,7 +266,7 @@ const ClinicDetail: React.FC = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => openGoogleMaps(clinic.latitude, clinic.longitude, clinic.name)}
-                    className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
+                    className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                     title="Google Maps da ochish"
                   >
                     🗺️ Google
@@ -276,7 +276,7 @@ const ClinicDetail: React.FC = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => openYandexMaps(clinic.latitude, clinic.longitude)}
-                  className="w-full bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
+                  className="w-full bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                   title="Yandex Maps da ochish"
                 >
                   🗺️ Yandex Maps

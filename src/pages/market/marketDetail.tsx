@@ -70,16 +70,16 @@ const MarketDetail: React.FC = () => {
   }
 
   return (
-    <div className="w-full px-4 md:px-[80px] pt-[30px] pb-16 max-w-[11t00px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen">
+    <div className="w-full px-4 md:px-[80px] pt-[30px] pb-16 max-w-[1100px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen">
       {/* Breadcrumb */}
       <div className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 animate-slide-in-left text-[#131313]">
         <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("breadcrumb.home")}</Link>
-        <span className="text-[#4DC7E8]">&gt;</span>
-        <Link to="/services" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("services.title")}</Link>
-        <span className="text-[#4DC7E8">&gt;</span>
-        <Link to="/services/market" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("services.market")}</Link>
-        <span className="text-[#4DC7E8">&gt;</span>
-        <span className="text-[#4DC7E8] font-semibold">{market.name}</span>
+        <span className="">&gt;</span>
+        <Link to="/services" className=" transition-colors duration-200">{t("services.title")}</Link>
+        <span className="">&gt;</span>
+        <Link to="/services/market" className=" transition-colors duration-200">{t("services.market")}</Link>
+        <span className="">&gt;</span>
+        <span className="text-[rgba(25,110,150,255)] font-semibold">{market.name}</span>
       </div>
 
       {/* Title */}
@@ -106,18 +106,18 @@ const MarketDetail: React.FC = () => {
                   onClick={prevImage}
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-all duration-300 hover:scale-110"
                 >
-                  <ChevronLeft className="w-5 h-5 text-[#4DC7E8]" />
+                  <ChevronLeft className="w-5 h-5 text-[rgba(25,110,150,255)]" />
                 </button>
                 <button
                   onClick={nextImage}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-all duration-300 hover:scale-110"
                 >
-                  <ChevronRight className="w-5 h-5 text-[#4DC7E8]" />
+                  <ChevronRight className="w-5 h-5 text-[rgba(25,110,150,255)]" />
                 </button>
               </>
             )}
 
-            <div className="absolute bottom-3 right-3 bg-white/80 px-3 py-1 text-sm font-medium text-[#4DC7E8] rounded-md shadow-sm shadow-[#4DC7E8]/20 animate-fade-in">
+            <div className="absolute bottom-3 right-3 bg-white/80 px-3 py-1 text-sm font-medium text-[rgba(25,110,150,255)] rounded-md shadow-sm shadow-[#4DC7E8]/20 animate-fade-in">
               {currentImageIndex + 1} {t("hotelDetail.of")} {images.length}
             </div>
 
@@ -127,7 +127,7 @@ const MarketDetail: React.FC = () => {
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all hover:scale-125 ${index === currentImageIndex ? 'bg-[#4DC7E8] scale-125' : 'bg-[#4DC7E8]/50'}`}
+                    className={`w-2 h-2 rounded-full transition-all hover:scale-125 ${index === currentImageIndex ? 'bg-[rgba(25,110,150,255)] scale-125' : 'bg-[#4DC7E8]/50'}`}
                   />
                 ))}
               </div>
@@ -165,7 +165,7 @@ const MarketDetail: React.FC = () => {
         <div className="lg:col-span-1">
           {market.latitude && market.longitude && (
             <div className="bg-white p-4 rounded-xl shadow-md shadow-[#4DC7E8]/20 border border-[#4DC7E8]/10 sticky top-24 animate-slide-up">
-              <h2 className="text-base md:text-lg font-medium text-[#4DC7E8] mb-3">{t("hotelDetail.location_map")}</h2>
+              <h2 className="text-base md:text-lg font-medium text-[rgba(25,110,150,255)] mb-3">{t("hotelDetail.location_map")}</h2>
               <div className="h-64 lg:h-80 bg-[#4DC7E8]/10 overflow-hidden rounded-md shadow-sm shadow-[#4DC7E8]/20 transition-transform duration-300 hover:scale-105">
                 <iframe
                   title="map"
@@ -179,14 +179,14 @@ const MarketDetail: React.FC = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => openNativeMap(market.latitude, market.longitude, market.name)}
-                    className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 hover:scale-105"
+                    className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 hover:scale-105"
                     title="Telefon navigatorida ochish"
                   >
                     📱 Navigator
                   </button>
                   <button
                     onClick={() => openGoogleMaps(market.latitude, market.longitude, market.name)}
-                    className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 hover:scale-105"
+                    className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 hover:scale-105"
                     title="Google Maps da ochish"
                   >
                     🗺️ Google
@@ -194,7 +194,7 @@ const MarketDetail: React.FC = () => {
                 </div>
                 <button
                   onClick={() => openYandexMaps(market.latitude, market.longitude)}
-                  className="w-full bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 hover:scale-105"
+                  className="w-full bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 hover:scale-105"
                   title="Yandex Maps da ochish"
                 >
                   🗺️ Yandex Maps

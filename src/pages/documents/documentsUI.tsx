@@ -80,7 +80,7 @@ const DocumentUI: React.FC = () => {
           >
             &gt;
           </motion.span>
-          <span className=" font-semibold" style={{ color: 'rgba(77,199,232,1)' }}>{t("breadcrumb.documents")}</span>
+          <span className=" font-semibold text-sky-900" >{t("breadcrumb.documents")}</span>
         </motion.div>
 
   
@@ -98,12 +98,12 @@ const DocumentUI: React.FC = () => {
               placeholder={t("documents.search_documents")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full border-2 border-sky-200 focus:border-sky-400 focus:ring-4 focus:ring-sky-100 rounded-2xl px-6 py-3 text-sm outline-none transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md placeholder-sky-400"
+              className="w-full border-2 border-sky-200 focus:border-sky-400 focus:ring-4 focus:ring-sky-100 rounded-2xl px-6 py-3 text-sm outline-none transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md placeholder-sky-900"
               whileFocus={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             />
             {/* Search icon */}
-            <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sky-400">
+            <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sky-900">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
@@ -119,7 +119,7 @@ const DocumentUI: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <motion.h2 
-            className="text-xl font-semibold mb-6 text-sky-800"
+            className="text-xl font-semibold mb-6 text-sky-900"
             whileHover={{ x: 5 }}
             transition={{ duration: 0.2 }}
           >

@@ -48,7 +48,7 @@ const HotelDetailsPage: React.FC = () => {
 
   return (
     <motion.div
-      className="max-w-[1000px] md:ml-5 mx-auto py-5 md:py-7.5 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
+      className="max-w-[1000px] md:ml-5 mx-auto py-5 md:py-7.5 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen dark:bg-[oklch(22% 0.06 265 / 0.9)]"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -60,8 +60,8 @@ const HotelDetailsPage: React.FC = () => {
         transition={{ delay: 0.1, duration: 0.5 }}
       >
         <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("breadcrumb.home")}</Link>
-        <span className="text-[#4DC7E8]">&gt;</span>
-        <span className="text-[#4DC7E8] font-semibold">{t("breadcrumb.hotels")}</span>
+        <span className="">&gt;</span>
+        <span className="text-[rgba(25,110,150,255)] font-semibold">{t("breadcrumb.hotels")}</span>
       </motion.div>
 
       <motion.h1
@@ -111,7 +111,7 @@ const HotelDetailsPage: React.FC = () => {
                   transition={{ delay: 0.7, duration: 0.5 }}
                   whileHover={{ scale: 1.1 }}
                 >
-                  <ChevronLeft className="w-5 h-5 text-[#4DC7E8]" />
+                  <ChevronLeft className="w-5 h-5 text-[rgba(25,110,150,255)]" />
                 </motion.button>
                 <motion.button
                   onClick={nextImage}
@@ -121,13 +121,13 @@ const HotelDetailsPage: React.FC = () => {
                   transition={{ delay: 0.7, duration: 0.5 }}
                   whileHover={{ scale: 1.1 }}
                 >
-                  <ChevronRight className="w-5 h-5 text-[#4DC7E8]" />
+                  <ChevronRight className="w-5 h-5 text-[rgba(25,110,150,255)]" />
                 </motion.button>
               </>
             )}
 
             <motion.div
-              className="absolute bottom-3 right-3 bg-white/80 px-3 py-1 text-sm font-medium text-[#4DC7E8] rounded-md shadow-sm shadow-[#4DC7E8]/20"
+              className="absolute bottom-3 right-3 bg-white/80 px-3 py-1 text-sm font-medium text-[rgba(25,110,150,255)] rounded-md shadow-sm shadow-[#4DC7E8]/20"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.5 }}
@@ -146,7 +146,7 @@ const HotelDetailsPage: React.FC = () => {
                   <motion.button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all ${index === currentImageIndex ? 'bg-[#4DC7E8]' : 'bg-[#4DC7E8]/50'}`}
+                    className={`w-2 h-2 rounded-full transition-all ${index === currentImageIndex ? 'bg-[rgba(25,110,150,255)]' : 'bg-[#4DC7E8]/50'}`}
                     whileHover={{ scale: 1.2 }}
                   />
                 ))}
@@ -189,7 +189,7 @@ const HotelDetailsPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.5 }}
           >
-            <h2 className="text-[20px] md:text-[24px] text-[#4DC7E8] mb-4 font-semibold">{t("hotelDetail.amenities")}</h2>
+            <h2 className="text-[20px] md:text-[24px] text-[rgba(25,110,150,255)] mb-4 font-semibold">{t("hotelDetail.amenities")}</h2>
             <ul className="space-y-3">
               {hotel.amenities.length > 0 ? (
                 hotel.amenities.map((amenity) => (
@@ -200,7 +200,7 @@ const HotelDetailsPage: React.FC = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 1.3 + amenity.id * 0.1, duration: 0.5 }}
                   >
-                    <Award className="w-5 h-5 text-[#4DC7E8]" />
+                    <Award className="w-5 h-5 text-[rgba(25,110,150,255)]" />
                     <p className="text-[14px] font-medium leading-[26px] md:text-[18px] text-[#131313]">
                       {amenity.name[lang]}
                     </p>
@@ -218,7 +218,7 @@ const HotelDetailsPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.4, duration: 0.5 }}
           >
-            <h2 className="text-[15px] md:text-[18px] font-medium text-[#4DC7E8] mb-1">{t("hotelDetail.location_map")}</h2>
+            <h2 className="text-[15px] md:text-[18px] font-medium text-[rgba(25,110,150,255)] mb-1">{t("hotelDetail.location_map")}</h2>
             <div className="h-64 bg-[#4DC7E8]/10 overflow-hidden rounded-md shadow-sm shadow-[#4DC7E8]/20">
               <iframe
                 title="map"
@@ -237,7 +237,7 @@ const HotelDetailsPage: React.FC = () => {
               <div className="flex gap-2">
                 <motion.button
                   onClick={() => openNativeMap(hotel.latitude, hotel.longitude, hotel.name)}
-                  className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
+                  className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 1.6, duration: 0.5 }}
@@ -247,7 +247,7 @@ const HotelDetailsPage: React.FC = () => {
                 </motion.button>
                 <motion.button
                   onClick={() => openGoogleMaps(hotel.latitude, hotel.longitude, hotel.name)}
-                  className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
+                  className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 1.6, duration: 0.5 }}
@@ -258,7 +258,7 @@ const HotelDetailsPage: React.FC = () => {
               </div>
               <motion.button
                 onClick={() => openYandexMaps(hotel.latitude, hotel.longitude)}
-                className="w-full bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
+                className="w-full bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.7, duration: 0.5 }}
@@ -275,7 +275,7 @@ const HotelDetailsPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.8, duration: 0.5 }}
           >
-            <h2 className="text-[15px] md:text-[18px] font-medium text-[#4DC7E8] mb-2">{t("hotelDetail.contact")}</h2>
+            <h2 className="text-[15px] md:text-[18px] font-medium text-[rgba(25,110,150,255)] mb-2">{t("hotelDetail.contact")}</h2>
             <div className="space-y-2 font-medium text-[15px] md:text-[18px]">
               <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.address")}</h3>
               <motion.p
@@ -284,7 +284,7 @@ const HotelDetailsPage: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.9, duration: 0.5 }}
               >
-                <MapPin className="w-5 h-5 text-[#4DC7E8] mt-0.5" />
+                <MapPin className="w-5 h-5 text-[rgba(25,110,150,255)] mt-0.5" />
                 <span>{hotel.address?.[lang]}</span>
               </motion.p>
               <motion.p
@@ -293,7 +293,7 @@ const HotelDetailsPage: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 2.0, duration: 0.5 }}
               >
-                <Phone className="w-5 h-5 text-[#4DC7E8]" />
+                <Phone className="w-5 h-5 text-[rgba(25,110,150,255)]" />
                 <a
                   href={`tel:${hotel.phone?.replace(/[^0-9+]/g, "")}`}
                   className="hover:text-[#4DC7E8] text-[#131313] transition-colors duration-200"

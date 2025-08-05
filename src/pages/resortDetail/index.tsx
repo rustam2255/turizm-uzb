@@ -74,12 +74,12 @@ const ResortDetail: React.FC = () => {
         transition={{ delay: 0.1, duration: 0.5 }}
       >
         <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("breadcrumb.home")}</Link>
-        <span className="text-[#4DC7E8]">&gt;</span>
-        <Link to="/services" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("services.title")}</Link>
+        <span className="">&gt;</span>
+        <Link to="/services" className=" transition-colors duration-200">{t("services.title")}</Link>
         <span className="text-[#4DC7E8">&gt;</span>
-        <Link to="/services/resort" className="hover:text-[#4DC7E8] transition-colors duration-200">{t("services.resort")}</Link>
-        <span className="text-[#4DC7E8">&gt;</span>
-        <span className="text-[#4DC7E8] font-semibold">{resort.name}</span>
+        <Link to="/services/resort" className=" transition-colors duration-200">{t("services.resort")}</Link>
+        <span >&gt;</span>
+        <span className="text-[rgba(25,110,150,255)] font-semibold">{resort.name}</span>
       </motion.div>
 
       {/* Title */}
@@ -136,7 +136,7 @@ const ResortDetail: React.FC = () => {
                   transition={{ delay: 0.7, duration: 0.5 }}
                   whileHover={{ scale: 1.1 }}
                 >
-                  <ChevronLeft className="w-5 h-5 text-[#4DC7E8]" />
+                  <ChevronLeft className="w-5 h-5 text-[rgba(25,110,150,255)]" />
                 </motion.button>
                 <motion.button
                   onClick={nextImage}
@@ -146,13 +146,13 @@ const ResortDetail: React.FC = () => {
                   transition={{ delay: 0.7, duration: 0.5 }}
                   whileHover={{ scale: 1.1 }}
                 >
-                  <ChevronRight className="w-5 h-5 text-[#4DC7E8]" />
+                  <ChevronRight className="w-5 h-5 text-[rgba(25,110,150,255)]" />
                 </motion.button>
               </>
             )}
 
             <motion.div
-              className="absolute bottom-3 right-3 bg-white/80 px-3 py-1 text-sm font-medium text-[#4DC7E8] rounded-md shadow-sm shadow-[#4DC7E8]/20"
+              className="absolute bottom-3 right-3 bg-white/80 px-3 py-1 text-sm font-medium text-[rgba(25,110,150,255)] rounded-md shadow-sm shadow-[#4DC7E8]/20"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.5 }}
@@ -187,11 +187,11 @@ const ResortDetail: React.FC = () => {
             transition={{ delay: 1.0, duration: 0.5 }}
           >
             <div className="flex items-center gap-2">
-              <MapPin size={18} className="text-[#4DC7E8]" />
+              <MapPin size={18} className="text-[rgba(25,110,150,255)]" />
               <span className="truncate font-medium">{getLocalizedText(resort.city, lang)}</span>
             </div>
             <div className="flex items-center gap-2">
-              <LocateFixed size={18} className="text-[#4DC7E8]" />
+              <LocateFixed size={18} className="text-[rgba(25,110,150,255)]" />
               <span className="truncate italic">{getLocalizedText(resort.type, lang)}</span>
             </div>
           </motion.div>
@@ -246,7 +246,7 @@ const ResortDetail: React.FC = () => {
               transition={{ delay: 1.4, duration: 0.5 }}
             >
               <motion.h2
-                className="text-base md:text-lg font-medium text-[#4DC7E8] mb-3"
+                className="text-base md:text-lg font-medium text-[rgba(25,110,150,255)] mb-3"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.5, duration: 0.5 }}
@@ -271,7 +271,7 @@ const ResortDetail: React.FC = () => {
                 <div className="flex gap-2">
                   <motion.button
                     onClick={() => openNativeMap(resort.latitude, resort.longitude, resort.name)}
-                    className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
+                    className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 1.7, duration: 0.5 }}
@@ -281,7 +281,7 @@ const ResortDetail: React.FC = () => {
                   </motion.button>
                   <motion.button
                     onClick={() => openGoogleMaps(resort.latitude, resort.longitude, resort.name)}
-                    className="flex-1 bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
+                    className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                     initial={{ opacity: 0, x: 10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 1.7, duration: 0.5 }}
@@ -292,7 +292,7 @@ const ResortDetail: React.FC = () => {
                 </div>
                 <motion.button
                   onClick={() => openYandexMaps(resort.latitude, resort.longitude)}
-                  className="w-full bg-[#4DC7E8] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
+                  className="w-full bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.8, duration: 0.5 }}

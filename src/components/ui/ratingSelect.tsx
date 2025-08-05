@@ -38,11 +38,11 @@ const RatingSelect = ({ selectedRating, setSelectedRating, className }: RatingSe
             "
             aria-label="Select rating"
           >
-            <span className="block truncate text-[#4DC7E8]/70">
+            <span className="block truncate text-rgba(25,110,150,255)">
               {selected === 0 ? "All Ratings" : `${selected} star${selected > 1 ? "s" : ""}`}
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5 text-[#4DC7E8]" aria-hidden="true" />
+              <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5 text-rgba(25,110,150,255)" aria-hidden="true" />
             </span>
           </Listbox.Button>
 
@@ -60,7 +60,7 @@ const RatingSelect = ({ selectedRating, setSelectedRating, className }: RatingSe
                 value={rating}
                 className={({ active }) =>
                   `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                    active ? "bg-[#4DC7E8]/10 text-[#4DC7E8]" : "text-gray-900"
+                    active ? "bg-[#4DC7E8]/10 text-[rgba(25,110,150,255)]" : "text-sky-900"
                   } transition-colors duration-200`
                 }
               >
@@ -68,7 +68,7 @@ const RatingSelect = ({ selectedRating, setSelectedRating, className }: RatingSe
                   <>
                     <span
                       className={`block truncate ${
-                        selected ? "font-semibold text-[#4DC7E8]" : "font-normal"
+                        selected ? "font-semibold text-[rgba(25,110,150,255)]" : "font-normal"
                       }`}
                     >
                       {rating === 0 ? "All Ratings" : `${rating} star${rating > 1 ? "s" : ""}`}

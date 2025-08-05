@@ -108,7 +108,7 @@ const Breadcrumb: React.FC = () => {
         {t("breadcrumb.home")}
       </Link>
       <span className="text-black dark:text-white">&gt;</span>
-      <span className="" style={{ color: "rgba(77,199,232,1)" }}>
+      <span className="" style={{ color: "rgba(25,110,150,255)" }}>
         {t("services.title")}
       </span>
     </motion.div>

@@ -30,15 +30,15 @@ const Breadcrumb: React.FC = () => {
   const { t } = useTranslation();
   return (
     <div className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313] animate-slide-in-left">
-      <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">
+      <Link to="/" className=" transition-colors duration-200">
         {t("breadcrumb.home")}
       </Link>
-      <span className="text-[#4DC7E8]">&gt;</span>
-      <Link to="/services" className="hover:text-[#4DC7E8] transition-colors duration-200">
+      <span className="">&gt;</span>
+      <Link to="/services" className="transition-colors duration-200">
         <span>{t("services.title")}</span>
       </Link>
-      <span className="text-[#4DC7E8]">&gt;</span>
-      <span className="text-[#4DC7E8] font-semibold">{t("services.market")}</span>
+      <span className="">&gt;</span>
+      <span className="text-sky-900 font-semibold">{t("services.market")}</span>
     </div>
   );
 };
@@ -94,7 +94,7 @@ const MarketCard: React.FC<marketCardProps> = ({ market, lang, index }) => {
       <div className="flex flex-col flex-grow p-4">
         <h2 className="text-[16px] md:text-[20px] font-semibold mb-2 line-clamp-2 text-[#131313] animate-fade-in">{market.name}</h2>
         <div className="flex items-center gap-1 text-gray-500 text-[14px] md:text-[15px] mt-auto pt-2 border-t border-[#4DC7E8]/10 animate-fade-in">
-          <MapPin size={16} className="text-[#4DC7E8] mr-1" />
+          <MapPin size={16} className="text-rgba(25,110,150,255) mr-1" />
           <span className="truncate">{getLocalizedText({
             uz: market.city.name_uz,
             ru: market.city.name_ru,
@@ -290,7 +290,7 @@ const Market = () => {
           <input
             type="text"
             placeholder={t("placeholder.market")}
-            className="w-full sm:w-1/2 px-4 py-2 rounded-lg font-semibold border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[#4DC7E8]/70 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300 animate-slide-in-left"
+            className="w-full sm:w-1/2 px-4 py-2 rounded-lg font-semibold border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-sky-900 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300 animate-slide-in-left"
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
@@ -303,7 +303,7 @@ const Market = () => {
               setCurrentPage(1);
             }}
             value={selectedCity || ""}
-            className="w-full sm:w-1/3 px-4 py-2 rounded-lg border text-[#4DC7E8]/70 border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300 animate-slide-in-right"
+            className="w-full sm:w-1/3 px-4 py-2 rounded-lg border text-sky-900 border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300 animate-slide-in-right"
           >
             <option value="">{t("travel.select_city")}</option>
             {cities.map((city: MarketCity) => (

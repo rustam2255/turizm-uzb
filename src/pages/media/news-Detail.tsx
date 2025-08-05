@@ -60,7 +60,7 @@ const NewsDetailPage = () => {
   }
 
   return (
-    <div className="max-w-[1000px] ml-20 bg-white min-h-screen">
+    <div className="max-w-[1000px] md:ml-20 mx-auto bg-white min-h-screen">
       <div className="px-6 py-10">
         {/* Animated breadcrumbs with stagger effect */}
         <div className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2 animate-[slideInLeft_0.6s_ease-out] transform-gpu">

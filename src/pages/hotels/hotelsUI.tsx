@@ -130,11 +130,11 @@ const Breadcrumb: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">
+      <Link to="/" className="transition-colors duration-200">
         {t("breadcrumb.home")}
       </Link>
-      <span className="text-[#4DC7E8]">&gt;</span>
-      <span className="text-[#4DC7E8] font-semibold">{t("breadcrumb.hotels")}</span>
+      <span className="text-black">&gt;</span>
+      <span className="text-sky-900 font-semibold">{t("breadcrumb.hotels")}</span>
     </motion.div>
   );
 };
@@ -343,7 +343,7 @@ const HotelUI: React.FC = () => {
         <motion.input
           type="text"
           placeholder={t("hotels.searchPlaceholder")}
-          className="w-full md:w-64 px-4 py-2 rounded-lg border font-semibold border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[#4DC7E8]/70 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
+          className="w-full md:w-64 px-4 py-2 rounded-lg border font-semibold border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[rgba(25,110,150,255)] bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
           value={searchTerm}
           onChange={handleSearch}
           initial={{ opacity: 0, x: 20 }}

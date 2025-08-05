@@ -14,17 +14,17 @@ const Media: React.FC = () => {
       <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <nav
-          className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2"
+          className="flex items-center t  ext-[14px] font-sans font-medium md:text-[18px] gap-2"
           aria-label="Breadcrumb"
         >
           <Link
             to="/"
-            className="text-gray-700 dark:text-white hover:text-[rgba(77,199,232,1)] transition-colors duration-200"
+            className="text-gray-700 dark:text-white  transition-colors duration-200"
           >
             {t("breadcrumb.home")}
           </Link>
           <span className="mx-2 text-black dark:text-white">&gt;</span>
-          <span className="font-semibold text-[rgba(77,199,232,1)]">
+          <span className="font-semibold text-sky-900">
             {t("media.title")}
           </span>
         </nav>

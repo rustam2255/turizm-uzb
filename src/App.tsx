@@ -35,7 +35,7 @@ const NotFound = lazy(() => import('@pages/notFound'));
 const Maps = lazy(() => import('@pages/maps'));
 
 const knownPaths = [
-  '/news', '/magazines', '/article', '/hotels',
+  '/news', '/magazines', '/article', '/hotels', '/',
   '/travel-destination', '/documents', '/maps',
   '/magazines/:id', '/hotels/:idAndSlug', '/hotels/:id',
   '/travel-destination/:id', "/news/:idAndSlug", "/article/:id", "/services",

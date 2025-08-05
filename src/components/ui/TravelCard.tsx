@@ -36,11 +36,11 @@ const Travel: React.FC<TravelCardProps> = ({ id, title, description, image }) =>
       </div>
       
       <div className="space-y-3">
-        <p className="text-[14px] md:text-[16px] leading-[120%] text-sky-500 font-semibold tracking-wide uppercase">
+        <p className="text-[14px] md:text-[16px] leading-[120%] text-[rgba(25,110,150,255)] font-semibold tracking-wide uppercase">
           {t('media.news')}
         </p>
         <div className="flex flex-col items-start gap-y-2.5">
-          <h2 className="text-gray-900 text-[20px] dark:text-white md:text-[32px] leading-[110%] font-bold group-hover:text-sky-300 transition-colors duration-200">
+          <h2 className="text-gray-900 text-[20px] dark:text-white md:text-[32px] leading-[110%] font-bold group-hover:text-sky-900 transition-colors duration-200">
             {title}
           </h2>
           <p className="text-gray-700 text-[14px] dark:text-white/50 md:text-[16px] leading-[140%] font-medium line-clamp-3">

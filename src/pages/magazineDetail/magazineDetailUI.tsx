@@ -88,10 +88,10 @@ const MagazineDetailUI: React.FC = () => {
         >
           {t("breadcrumb.home")}
         </Link>
-        <span className="text-gray-400">&gt;</span>
+        <span className="">&gt;</span>
         <Link 
           to="/magazines" 
-          className="hover:underline text-blue-500  transition-colors duration-200"
+          className="hover:underline text-sky-900  transition-colors duration-200"
         >
           {t("breadcrumb.magazines")}
         </Link>

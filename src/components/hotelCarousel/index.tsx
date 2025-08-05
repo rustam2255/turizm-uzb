@@ -4,7 +4,7 @@ import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 import Left from "@assets/icons/moveLeft.svg";
 import Right from "@assets/icons/moveRight.svg";
 import { useTranslation } from "react-i18next";
-import Navbar from "../navbar";
+
 import { useGetHomeListQuery } from "@/services/api";
 import IMAGE from '@assets/images/place3.png'
 interface MultilangText {
@@ -370,9 +370,7 @@ const HotelCarousel = () => {
 
   return (
     <div className="relative w-full" id="home">
-      <div className="relative w-full z-[9999]">
-        <Navbar />
-      </div>
+      
 
       <div className="relative w-full h-[80vh] lg:h-[80vh] overflow-hidden z-10">
         <AnimatePresence initial={false} custom={direction}>

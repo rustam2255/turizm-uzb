@@ -133,10 +133,10 @@ const ResortCard: React.FC<{ resort: Resort; lang: Lang }> = ({ resort, lang }) 
           transition={{ delay: 0.4, duration: 0.4 }}
         >
           <div className="flex items-center gap-1">
-            <MapPin size={16} className="text-[#4DC7E8]" />
+            <MapPin size={16} className="text-rgba(25,110,150,255)" />
             <span className="truncate">{getLocalizedText(resort.city as Record<Lang, string>, lang)}</span>
           </div>
-          <span className="truncate text-[#4DC7E8]">{resort.type}</span>
+          <span className="truncate text-rgba(25,110,150,255)">{resort.type}</span>
         </motion.div>
       </motion.div>
     </motion.div>
@@ -300,15 +300,15 @@ const Resort: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.4 }}
       >
-        <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">
+        <Link to="/" className=" transition-colors duration-200">
           {t("breadcrumb.home")}
         </Link>
-        <span className="text-[#4DC7E8]">&gt;</span>
-        <Link to="/services" className="hover:text-[#4DC7E8] transition-colors duration-200">
+        <span className="rgba(25,110,150,255)">&gt;</span>
+        <Link to="/services" className=" transition-colors duration-200">
           {t("services.title")}
         </Link>
-        <span className="text-[#4DC7E8]">&gt;</span>
-        <span className="text-[#4DC7E8] font-semibold">{t("services.resort")}</span>
+        <span className="rgba(25,110,150,255)">&gt;</span>
+        <span className="text-sky-900 font-semibold">{t("services.resort")}</span>
       </motion.div>
 
       {/* Title */}
@@ -331,7 +331,7 @@ const Resort: React.FC = () => {
         <motion.input
           type="text"
           placeholder={t("placeholder.resort")}
-          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border font-semibold border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[#4DC7E8]/70 bg-white shadow-sm hover:shadow-[#4DC7E8] transition-all duration-300"
+          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border font-semibold border-rgba(25,110,150,255) focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-sky-900 bg-white shadow-sm hover:shadow-[#4DC7E8] transition-all duration-300"
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
@@ -347,7 +347,7 @@ const Resort: React.FC = () => {
             setCurrentPage(1);
           }}
           value={selectedCity || ""}
-          className="w-full sm:w-1/3 px-4 py-2 text-[#4DC7E8]/70 font-semibold rounded-lg border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
+          className="w-full sm:w-1/3 px-4 py-2 rgba(25,110,150,255) text-sky-900 font-semibold rounded-lg border border-rgba(25,110,150,255) focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}

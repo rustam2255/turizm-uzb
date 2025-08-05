@@ -283,7 +283,7 @@ const NewsPage: React.FC = () => {
                   </div>
 
                   <div className="p-6">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-sky-900 transition-colors duration-200">
                       {getText(item.title)}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-500 text-sm line-clamp-3 leading-relaxed">
@@ -292,7 +292,7 @@ const NewsPage: React.FC = () => {
 
                     {/* Read More Button */}
                     <div className="mt-4 pt-4 border-t border-gray-100">
-                      <span className="text-sky-500 text-sm font-medium group-hover:text-sky-600 transition-colors duration-200">
+                      <span className="text-sky-900 text-sm font-medium group-hover:text-sky-600 transition-colors duration-200">
                         {t('media.full')} →
                       </span>
                     </div>

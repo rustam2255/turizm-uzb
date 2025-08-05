@@ -66,9 +66,9 @@ const CityFilter = ({
             "
             aria-label="Select city"
           >
-            <span className="block truncate text-[#4DC7E8]/70">{getLocalizedText(selected?.name,currentLang)}</span>
+            <span className="block truncate text-sky-900">{getLocalizedText(selected?.name,currentLang)}</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronDown className="h-4 w-4 md:h-5 md:w-5 text-gray-400" aria-hidden="true" />
+              <ChevronDown className="h-4 w-4 md:h-5 md:w-5 text-sky-900" aria-hidden="true" />
             </span>
           </Listbox.Button>
 
@@ -83,7 +83,7 @@ const CityFilter = ({
                 key={city.id}
                 value={city}
                 className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-7 md:pl-10 pr-3 md:pr-4 ${active ? "text-sky-600 bg-[rgba(77,199,232,255)]" : "text-gray-900"
+                  `relative cursor-default select-none py-2 pl-7 md:pl-10 pr-3 md:pr-4 ${active ? "text-sky-900 bg-[rgba(77,199,232,255)]" : "text-gray-900"
                   }`
                 }
               >
@@ -96,7 +96,7 @@ const CityFilter = ({
                       {getLocalizedText(city.name, currentLang)}
                     </span>
                     {selected && (
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sky-300">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sky-900">
                         <Check className="h-3 w-3 md:h-5 md:w-5" aria-hidden="true" />
                       </span>
                     )}

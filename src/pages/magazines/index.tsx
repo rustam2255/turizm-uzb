@@ -49,7 +49,7 @@ const Magazine: React.FC = () => {
         whileTap={{ scale: 0.98 }}
       >
         <motion.span 
-          className="text-sky-700  dark:text-sky-500 font-semibold group-hover:text-sky-600 transition-colors duration-300"
+          className="text-sky-900  dark:text-sky-500 font-semibold group-hover:text-sky-600 transition-colors duration-300"
           style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}
         >
           {t("magazine.booksIn", { year })}
@@ -151,13 +151,13 @@ const Magazine: React.FC = () => {
             {t("breadcrumb.home")}
           </Link>
           <motion.span 
-            className="text-sky-400"
+            className=""
             animate={{ rotate: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
           >
             {">"}
           </motion.span>
-          <span className=" font-semibold" style={{ color: 'rgba(77,199,232,1)' }}>{t("breadcrumb.magazines")}</span>
+          <span className=" font-semibold" style={{ color: 'rgba(25,110,150,255)' }}>{t("breadcrumb.magazines")}</span>
         </motion.div>
 
 

@@ -41,7 +41,7 @@ const NewsArticle: React.FC = () => {
 
   return (
     <div className="w-full px-4 pt-[65px] md:pt-[60px] md:min-h-screen lg:px-[80px] mb-8" id="media">
-      <h1 className="text-[24px] text-[rgba(77,199,232,255)] text-center leading-[100%] mb-1.5 md:leading-[50px] md:text-[40px] md:text-center md:mb-8 hover:scale-105 transition-all duration-500 ease-out font-bold">
+      <h1 className="text-[24px] text-[rgba(25,110,150,255)] text-center leading-[100%] mb-1.5 md:leading-[50px] md:text-[40px] md:text-center md:mb-8 hover:scale-105 transition-all duration-500 ease-out font-bold">
         {t("newsArticle.title")}
       </h1>
 
@@ -111,7 +111,7 @@ const NewsArticle: React.FC = () => {
 
           <div className="md:col-span-1">
             <div className="pt-4 md:pt-0 opacity-100 animate-slide-in-right" style={{animationDelay: '600ms'}}>
-              <h3 className="text-[24px] leading-[100%] text-[rgba(77,199,232,255)] font-normal mb-1.5 md:mb-3 hover:text-sky-200 transition-colors duration-300">
+              <h3 className="text-[24px] leading-[100%] text-[rgba(25,110,150,255)] font-normal mb-1.5 md:mb-3 hover:text-sky-200 transition-colors duration-300">
                 {t("newsArticle.article")}
               </h3>
               <div className="space-y-3">

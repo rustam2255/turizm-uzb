@@ -111,7 +111,7 @@ const BankCard: React.FC<{ bank: Bank; lang: Lang }> = ({ bank, lang }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.5 }}
         >
-          <MapPin size={16} className="text-[#4DC7E8] mr-1" />
+          <MapPin size={16} className="text-sky-900  mr-1" />
           <span className="truncate">
             {getLocalizedText(
               {
@@ -284,15 +284,15 @@ const Banks: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.5 }}
       >
-        <Link to="/" className="hover:text-[#4DC7e8] transition-colors duration-200">
+        <Link to="/" className=" transition-colors duration-200">
           {t("breadcrumb.home")}
         </Link>
-        <span className="text-[#4DC7E8]">&gt;</span>
-        <Link to="/services" className="hover:text-[#4DC7E8] transition-colors duration-200">
+        <span className="">&gt;</span>
+        <Link to="/services" className=" transition-colors duration-200">
           <span>{t("services.title")}</span>
         </Link>
-        <span className="text-[#4DC7E8]">&gt;</span>
-        <span className="text-[#4DC7E8] font-semibold">{t("services.banks")}</span>
+        <span className="">&gt;</span>
+        <span className="text-sky-900 font-semibold">{t("services.banks")}</span>
       </motion.div>
 
       {/* Title */}
@@ -315,7 +315,7 @@ const Banks: React.FC = () => {
         <motion.input
           type="text"
           placeholder={t("placeholder.bank")}
-          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border font-semibold border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[#4DC7E8]/70 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
+          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border font-semibold border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-sky-900 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
@@ -331,7 +331,7 @@ const Banks: React.FC = () => {
             setCurrentPage(1);
           }}
           value={selectedCity || ""}
-          className="w-full sm:w-1/3 px-4 py-2 text-[#4DC7E8]/70 rounded-lg border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
+          className="w-full sm:w-1/3 px-4 py-2 text-sky-900 rounded-lg border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}

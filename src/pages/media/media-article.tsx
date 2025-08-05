@@ -61,12 +61,12 @@ const CompactArticleCard = ({ article }: { article: ArticleItem }) => {
 
           {/* Content */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-sm leading-snug mb-2 line-clamp-2 text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors duration-200">
+            <h3 className="font-semibold text-sm leading-snug mb-2 line-clamp-2 text-gray-800 dark:text-white group-hover:text-sky-900 transition-colors duration-200">
               {article.title[lang]}
             </h3>
 
             {/* Meta information */}
-            <div className="flex items-center text-xs text-gray-500 dark:text-sky-500 space-x-3">
+            <div className="flex items-center text-xs text-gray-500 dark:text-sky-900 space-x-3">
               <div className="flex items-center space-x-1">
                 <User className="w-3 h-3" />
                 <span className="truncate max-w-20">{article.author}</span>

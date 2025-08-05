@@ -30,15 +30,15 @@ const Breadcrumb: React.FC = () => {
   const { t } = useTranslation();
   return (
     <div className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]">
-      <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">
+      <Link to="/" className=" transition-colors duration-200">
         {t("breadcrumb.home")}
       </Link>
-      <span className="text-[#4DC7E8]">&gt;</span>
-      <Link to="/services" className="hover:text-[#4DC7E8] transition-colors duration-200">
+      <span className="">&gt;</span>
+      <Link to="/services" className=" transition-colors duration-200">
         <span>{t("services.title")}</span>
       </Link>
-      <span className="text-[#4DC7E8]">&gt;</span>
-      <span className="text-[#4DC7E8] font-semibold">{t("services.clinic")}</span>
+      <span className="">&gt;</span>
+      <span className="text-sky-900 font-semibold">{t("services.clinic")}</span>
     </div>
   );
 };
@@ -136,7 +136,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, lang }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.5 }}
         >
-          <MapPin size={16} className="text-[#4DC7E8] mr-1" />
+          <MapPin size={16} className="text-rgba(25,110,150,255) mr-1" />
           <span className="truncate">{getLocalizedText({
             uz: clinic.city.name_uz,
             ru: clinic.city.name_ru,
@@ -173,7 +173,7 @@ const Clinics = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const renderPaginationButtons = () => {
+  const   renderPaginationButtons = () => {
     const buttons = [];
     const maxVisiblePages = 3; // NewsPage dagi kabi 5 ta sahifa ko'rsatiladi
 
@@ -326,7 +326,7 @@ const Clinics = () => {
           <motion.input
             type="text"
             placeholder={t("placeholder.clinic")}
-            className="w-full sm:w-1/2 px-4 py-2 rounded-lg border font-semibold border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[#4DC7E8]/70 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
+            className="w-full sm:w-1/2 px-4 py-2 rounded-lg border font-semibold border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-sky-900 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
@@ -342,7 +342,7 @@ const Clinics = () => {
               setCurrentPage(1);
             }}
             value={selectedCity || ""}
-            className="w-full sm:w-1/3 px-4 py-2 rounded-lg text-[#4DC7E8]/70 border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
+            className="w-full sm:w-1/3 px-4 py-2 rounded-lg text-sky-900 border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
@@ -400,7 +400,7 @@ const Clinics = () => {
 
       {totalPages > 1 && (
         <motion.div
-          className="flex justify-center items-center gap-1 mt-8 bg-white rounded-xl shadow-sm border border-[#4DC7E8]/20 p-2"
+          className="flex justify-center items-center mx-20 gap-1 mt-8 bg-white rounded-xl shadow-sm border border-[#4DC7E8]/20 p-2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.5 }}

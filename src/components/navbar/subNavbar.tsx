@@ -50,7 +50,7 @@ const SubNavbar: React.FC<SubNavbarProps> = ({ activeSection, setActiveSection }
               className={`
                 px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full
                 ${activeSection === item.id
-                  ? 'text-white bg-[rgba(77,199,232,1)]'
+                  ? 'text-white bg-[rgba(25,110,150,255)]'
                   : 'text-sky-900 hover:text-white hover:bg-sky-500/20'
                 }
               `}
