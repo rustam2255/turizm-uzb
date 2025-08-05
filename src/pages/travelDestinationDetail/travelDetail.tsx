@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { getLocalizedText } from "@/utils/getLocalized";
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
