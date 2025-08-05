@@ -83,10 +83,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.5 }}
         >
-          <div className="text-[rgba(25,110,150,255)] font-medium text-[15px] flex flex-row items-center gap-1">
-            <span><MapPin className="text-[rgba(25,110,150,255)] w-5 h-5" /></span>
-            <span>{getLocalizedText(place.address, lang)}</span>
-          </div>
+         
         </motion.div>
 
         <motion.div
