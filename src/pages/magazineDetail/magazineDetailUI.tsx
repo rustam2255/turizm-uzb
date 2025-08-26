@@ -100,9 +100,9 @@ const MagazineDetailUI: React.FC = () => {
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
    
         <div className="p-6 sm:p-8 border-b border-gray-100">
-          <h1 className="text-[24px] md:text-[32px] text-gray-900 font-bold leading-[110%] mb-3 animate-slideInLeft">
+          <p className="text-[24px] md:text-[32px] text-gray-900 font-bold leading-[110%] mb-3 animate-slideInLeft">
             {getLocalizedText(magazine.title)}
-          </h1>
+          </p>
           <div className="inline-flex items-center px-3 py-1.5 bg-orange-50 text-sky-400 rounded-full text-[14px] font-semibold animate-slideInLeft delay-150">
             📅 {magazine.month}, {magazine.year}
           </div>

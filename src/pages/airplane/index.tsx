@@ -3,13 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, ChevronLeft, ChevronRight } from "lucide-react";
-import { useGetBanksQuery, useGetCitiesHotelQuery } from "@/services/api";
+import {  useGetAirplaneQuery, useGetCitiesHotelQuery } from "@/services/api";
 import SkeletonCard from "@/components/ui/loaderSkleton/travelDestinationSkleton";
 import IMAGE1 from "@/assets/images/banks.png";
 import IMAGE from "@/assets/images/place3.png";
 import { slugify } from "@/utils/slugify";
 
-const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
+
 
 type Lang = "uz" | "ru" | "en";
 
@@ -46,14 +46,14 @@ const getLocalizedText = (
 const BankCard: React.FC<{ bank: Bank; lang: Lang }> = ({ bank, lang }) => {
   const navigate = useNavigate();
   const firstImage =
-    bank.images && bank.images.length > 0 ? `${MEDIA_URL}${bank.images[0].photo}` : IMAGE;
+    bank.images && bank.images.length > 0 ? `${bank.images[0].photo}` : IMAGE;
   const secondImage =
-    bank.images && bank.images.length > 1 ? `${MEDIA_URL}${bank.images[1].photo}` : IMAGE1;
+    bank.images && bank.images.length > 1 ? `${bank.images[1].photo}` : IMAGE1;
 
   return (
     <motion.div
       className="flex flex-col w-full h-[300px] md:h-[300px] bg-white rounded-xl shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-shadow duration-300 border border-[#4DC7E8]/10 overflow-hidden cursor-pointer"
-      onClick={() => navigate(`/services/bank/${bank.id}-${slugify(bank.name)}`)}
+      onClick={() => navigate(`/services/airplane/${bank.id}-${slugify(bank.name)}`)}
       initial={{ opacity: 0, y: 50, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5 }}
@@ -128,7 +128,7 @@ const BankCard: React.FC<{ bank: Bank; lang: Lang }> = ({ bank, lang }) => {
   );
 };
 
-const Banks: React.FC = () => {
+const Airplane: React.FC = () => {
   const { t, i18n } = useTranslation();
   const lang = (i18n.language.split("-")[0] as Lang) || "en";
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
@@ -146,7 +146,7 @@ const Banks: React.FC = () => {
     data: bankData,
     isLoading: loadingBanks,
     isError: errorBanks,
-  } = useGetBanksQuery({
+  } = useGetAirplaneQuery({
     page: currentPage,
     search: searchQuery || undefined,
     city: selectedCity || undefined,
@@ -292,7 +292,7 @@ const Banks: React.FC = () => {
           <span>{t("services.title")}</span>
         </Link>
         <span className="">&gt;</span>
-        <span className="text-sky-900 font-semibold">{t("services.banks")}</span>
+        <span className="text-sky-900 font-semibold">{t("services.airplane")}</span>
       </motion.div>
 
       {/* Title */}
@@ -302,7 +302,7 @@ const Banks: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
       >
-        {t("services.banks")}
+        {t("services.airplane")}
       </motion.p>
 
       {/* Filters */}
@@ -314,7 +314,7 @@ const Banks: React.FC = () => {
       >
         <motion.input
           type="text"
-          placeholder={t("placeholder.bank")}
+          placeholder={t("placeholder.airplane")}
           className="w-full sm:w-1/2 px-4 py-2 rounded-lg border font-semibold border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-sky-900 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
           value={searchQuery}
           onChange={(e) => {
@@ -417,4 +417,4 @@ const Banks: React.FC = () => {
   );
 };
 
-export default Banks;
+export default Airplane;

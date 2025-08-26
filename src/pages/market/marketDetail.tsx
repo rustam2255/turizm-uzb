@@ -8,9 +8,10 @@ import IMAGE from "@assets/images/samarkand-img.png";
 import IMAGE1 from "@assets/images/place1.png";
 import IMAGE2 from "@assets/images/place3.png";
 import HotelDetailsSkeleton from "@/components/ui/loaderSkleton/hotelDetailsSkeleton";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
 import { stripHtmlTags } from "@/utils/getHtmlTags";
+import GalleryModal from "@/utils/galleryModal";
 
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
@@ -20,7 +21,10 @@ const MarketDetail: React.FC = () => {
   const { t, i18n } = useTranslation();
   type Lang = "uz" | "ru" | "en";
   const lang = (i18n.language.split("-")[0] as Lang) || "en";
-
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   const {
     data: market,
     isLoading,
@@ -83,14 +87,15 @@ const MarketDetail: React.FC = () => {
       </div>
 
       {/* Title */}
-      <h1 className="text-[24px] md:text-[36px] font-semibold mb-4 animate-slide-in-right text-[#131313]">{market.name}</h1>
+      <p className="text-[24px] md:text-[36px] font-semibold mb-4 animate-slide-in-right text-[#131313]">{market.name}</p>
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Left Column - Image and Information */}
         <div className="lg:col-span-2 space-y-6">
           {/* Image Carousel */}
-          <div className="w-full relative h-[300px] md:h-[450px] overflow-hidden rounded-xl animate-slide-up border border-[#4DC7E8]/10 shadow-md shadow-[#4DC7E8]/20">
+          <div className="w-full relative h-[300px] md:h-[450px] overflow-hidden rounded-xl animate-slide-up border border-[#4DC7E8]/10 shadow-md shadow-[#4DC7E8]/20" onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}>
             <img
               src={`${MEDIA_URL}${images[currentImageIndex].photo}`}
               alt={market.name}
@@ -99,6 +104,14 @@ const MarketDetail: React.FC = () => {
                 (e.target as HTMLImageElement).src = FallbackImage;
               }}
             />
+            {isHovered && (
+              <div
+                className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-xl"
+                onClick={openModal}
+              >
+                <ZoomIn className="w-10 h-10 text-white bg-[rgba(25,110,150,0.7)] p-2 rounded-full" />
+              </div>
+            )}
 
             {images.length > 1 && (
               <>
@@ -135,26 +148,19 @@ const MarketDetail: React.FC = () => {
           </div>
 
           {/* Address */}
-          <div className="text-gray-700 animate-slide-in-left">
-            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.address")}</h3>
-            <p className="whitespace-pre-line">{getLocalizedText({
-              uz: market.address.address_uz,
-              ru: market.address.address_ru,
-              en: market.address.address_en
-            }, lang)}</p>
-          </div>
+
 
           {/* Description */}
           <div className="text-gray-700 animate-slide-in-right">
-            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.description")}</h3>
-            <p className="whitespace-pre-line leading-relaxed">
+
+            <p className="text-lg font-semibold mb-2 text-[#131313]">
               {getLocalizedText(normalizeDescription(market.description), lang)}
             </p>
           </div>
 
           {/* Body */}
           <div className="text-gray-700 animate-slide-in-left">
-            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.details")}</h3>
+
             <p className="whitespace-pre-line leading-relaxed">
               {stripHtmlTags(getLocalizedText(normalizeBody(market.body), lang))}
             </p>
@@ -200,10 +206,26 @@ const MarketDetail: React.FC = () => {
                   🗺️ Yandex Maps
                 </button>
               </div>
+              <div className="text-gray-700 animate-slide-in-left">
+                <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.address")}</h3>
+                <p className="whitespace-pre-line">{getLocalizedText({
+                  uz: market.address.address_uz,
+                  ru: market.address.address_ru,
+                  en: market.address.address_en
+                }, lang)}</p>
+              </div>
             </div>
           )}
         </div>
       </div>
+      {isModalOpen &&
+        <GalleryModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          images={images.map(img => ({ id: img.id, image: `${MEDIA_URL}${img.photo}` }))}
+          title={market.name}
+        />
+      }
     </div>
   );
 };

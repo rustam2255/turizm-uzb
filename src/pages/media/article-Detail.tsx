@@ -100,9 +100,9 @@ const ArticleDetail = () => {
         </div>
 
         {/* Animated title */}
-        <h1 className="text-3xl md:text-4xl font-bold mb-4 animate-[fadeInUp_0.8s_ease-out_0.2s] opacity-0 [animation-fill-mode:forwards] bg-gradient-to-r from-[rgba(77,199,232,1)] via-gray-700 to-[rgba(77,199,232,1)] bg-clip-text text-transparent">
+        <p className="text-3xl md:text-4xl font-bold mb-4 animate-[fadeInUp_0.8s_ease-out_0.2s] opacity-0 [animation-fill-mode:forwards] bg-gradient-to-r from-[rgba(77,199,232,1)] via-gray-700 to-[rgba(77,199,232,1)] bg-clip-text text-transparent">
           {article.title[currentLang]}
-        </h1>
+        </p>
 
         {/* Animated description */}
         <p className="text-lg text-gray-600 mb-6 animate-[fadeInUp_0.8s_ease-out_0.4s] opacity-0 [animation-fill-mode:forwards]">

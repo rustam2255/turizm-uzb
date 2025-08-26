@@ -285,7 +285,7 @@ const Market = () => {
     <div className="w-full py-6 pt-[80px] md:pt-[30px] bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen">
       <div className="max-w-[1600px]  mx-auto px-4 sm:px-6 md:px-12 lg:px-[80px]">
         <Breadcrumb />
-        <h1 className="text-[20px] sm:text-[24px] md:text-[30px] lg:text-[36px] font-bold mb-4 sm:mb-6 text-sky-900 animate-slide-in-right">{t("services.market")}</h1>
+        <p className="text-[20px] sm:text-[24px] md:text-[30px] lg:text-[36px] font-bold mb-4 sm:mb-6 text-sky-900 animate-slide-in-right">{t("services.market")}</p>
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <input
             type="text"

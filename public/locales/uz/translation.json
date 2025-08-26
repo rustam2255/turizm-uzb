@@ -139,7 +139,9 @@
     "tour-firm": "Sayohat firmalari",
     "banks": "Banklar",
     "clinic": "Shifoxona",
-    "market": "Supermarket"
+    "market": "Supermarket",
+    "airplane": "Aviaparvozlar",
+    "tourbus": "Tur avtobusi"
   },
   "common": {
     "loading": "Yuklanmoqda...",
@@ -174,7 +176,9 @@
     "market": "Savdo Marketlarini Qidirish",
     "hotel": "Mehmonxona Qidirish",
     "news": "Yangiliklarni qidiring",
-    "articles": "Maqolalar ichidan qidirish"
+    "articles": "Maqolalar ichidan qidirish",
+    "bus": "Avtobuslarni qidirish",
+    "airplane": "Aviaparvozlarni qidirish"
   },
   "tips": {
     "tip": "💡 Tip:",

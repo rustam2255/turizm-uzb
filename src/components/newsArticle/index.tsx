@@ -41,9 +41,9 @@ const NewsArticle: React.FC = () => {
 
   return (
     <div className="w-full px-4 pt-[65px] md:pt-[60px] md:min-h-screen lg:px-[80px] mb-8" id="media">
-      <h1 className="text-[24px] text-[rgba(25,110,150,255)] text-center leading-[100%] mb-1.5 md:leading-[50px] md:text-[40px] md:text-center md:mb-8 hover:scale-105 transition-all duration-500 ease-out font-bold">
+      <p className="text-[24px] text-[rgba(25,110,150,255)] text-center leading-[100%] mb-1.5 md:leading-[50px] md:text-[40px] md:text-center md:mb-8 hover:scale-105 transition-all duration-500 ease-out font-bold">
         {t("newsArticle.title")}
-      </h1>
+      </p>
 
       {loading ? (
         <div className="animate-pulse">

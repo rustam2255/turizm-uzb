@@ -6,9 +6,9 @@ const TourismLoader = () => {
         <div className="text-7xl mb-6 animate-bounce">✈️</div>
         
         {/* Loading text */}
-        <h1 className="text-2xl font-bold mb-4 animate-pulse">
+        <p className="text-2xl font-bold mb-4 animate-pulse">
           Sayohat Dunyosiga Xush Kelibsiz
-        </h1>
+        </p>
         
         {/* Progress bar */}
         <div className="w-64 h-1 bg-white bg-opacity-30 rounded-full overflow-hidden mx-auto">

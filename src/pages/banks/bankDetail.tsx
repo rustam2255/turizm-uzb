@@ -9,8 +9,10 @@ import IMAGE from "@assets/images/samarkand-img.png";
 import IMAGE1 from "@assets/images/place1.png";
 import IMAGE2 from "@assets/images/place3.png";
 import HotelDetailsSkeleton from "@/components/ui/loaderSkleton/hotelDetailsSkeleton";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
+import { stripHtmlTags } from "@/utils/getHtmlTags";
+import GalleryModal from "@/utils/galleryModal";
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
 const BankDetail: React.FC = () => {
@@ -19,6 +21,10 @@ const BankDetail: React.FC = () => {
   const { t, i18n } = useTranslation();
   type Lang = "uz" | "ru" | "en";
   const lang = (i18n.language.split("-")[0] as Lang) || "en";
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const {
     data: bank,
@@ -81,14 +87,14 @@ const BankDetail: React.FC = () => {
       </motion.div>
 
       {/* Title */}
-      <motion.h1
+      <motion.p
         className="text-[24px] md:text-[36px] font-semibold mb-4 text-[#131313]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
       >
         {bank.name}
-      </motion.h1>
+      </motion.p>
 
       {/* Main Content Grid */}
       <motion.div
@@ -110,6 +116,8 @@ const BankDetail: React.FC = () => {
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
             <motion.img
               src={`${MEDIA_URL}${images[currentImageIndex].photo}`}
@@ -123,6 +131,17 @@ const BankDetail: React.FC = () => {
               transition={{ delay: 0.6, duration: 0.5 }}
               whileHover={{ scale: 1.05 }}
             />
+            {isHovered && (
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-xl"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                onClick={openModal}
+              >
+                <ZoomIn className="w-10 h-10 text-white bg-[rgba(25,110,150,0.7)] p-2 rounded-full" />
+              </motion.div>
+            )}
 
             {images.length > 1 && (
               <>
@@ -178,15 +197,7 @@ const BankDetail: React.FC = () => {
           </motion.div>
 
           {/* Address */}
-          <motion.div
-            className="text-gray-700"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, duration: 0.5 }}
-          >
-            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.address")}</h3>
-            <p className="whitespace-pre-line">{getLocalizedText(bank.address, lang)}</p>
-          </motion.div>
+
 
           {/* Description */}
           <motion.div
@@ -195,8 +206,7 @@ const BankDetail: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1, duration: 0.5 }}
           >
-            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.description")}</h3>
-            <p className="whitespace-pre-line leading-relaxed">
+            <p className="text-lg font-semibold mb-2 text-[#131313]">
               {getLocalizedText(bankNormalizeDescription(bank.description), lang)}
             </p>
           </motion.div>
@@ -208,9 +218,9 @@ const BankDetail: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.5 }}
           >
-            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.details")}</h3>
+
             <p className="whitespace-pre-line leading-relaxed">
-              {getLocalizedText(bankNormalizeDescription(bank.body), lang)}
+              {stripHtmlTags(getLocalizedText(bankNormalizeDescription(bank.body), lang))}
             </p>
           </motion.div>
         </motion.div>
@@ -286,10 +296,27 @@ const BankDetail: React.FC = () => {
                   🗺️ Yandex Maps
                 </motion.button>
               </motion.div>
+              <motion.div
+                className="text-gray-700"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.0, duration: 0.5 }}
+              >
+                <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.address")}</h3>
+                <p className="whitespace-pre-line">{getLocalizedText(bank.address, lang)}</p>
+              </motion.div>
             </motion.div>
           )}
         </motion.div>
       </motion.div>
+      {isModalOpen &&
+        <GalleryModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          images={images.map(img => ({ id: img.id, image: `${MEDIA_URL}${img.photo}` }))}
+          title={bank.name}
+        />
+      }
     </motion.div>
   );
 };

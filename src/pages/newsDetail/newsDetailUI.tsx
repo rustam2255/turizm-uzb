@@ -31,9 +31,9 @@ const NewsDetailUI: React.FC = () => {
       </div>
 
       <div className=" w-full mt-4 md:mt-5">
-        <h1 className="text-[20px] md:text-[24px] text-[#131313] leading-[100%] mb-1">
+        <p className="text-[20px] md:text-[24px] text-[#131313] leading-[100%] mb-1">
           {getLocalized(newsItem.title, lang)}
-        </h1>
+        </p>
 
         <img
           src={newsItem.image || IMAGE}

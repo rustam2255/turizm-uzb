@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { getLocalizedText } from "@/utils/getLocalized";
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
 import { stripHtmlTags } from "@/utils/getHtmlTags";
+import GalleryModal from "@/utils/galleryModal";
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
 export interface MultilangText {
@@ -21,6 +22,7 @@ export interface Tour {
   latitude: number;
   longitude: number;
   body: MultilangText;
+  description: MultilangText;
 }
 
 interface TravelPlaceDetailProps {
@@ -38,6 +40,10 @@ interface TravelPlaceDetailProps {
 const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage, prevImage, currentImageIndex, images, setCurrentImageIndex }) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language as "uz" | "ru" | "en";
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <motion.div
@@ -68,14 +74,14 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
       >
-        <motion.h1
+        <motion.p
           className="text-[24px] md:text-[36px] text-[#131313] leading-[100%] mb-1 font-semibold"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
           {place.name}
-        </motion.h1>
+        </motion.p>
 
         <motion.div
           className="flex flex-row items-center mb-3 md:mb-4"
@@ -83,7 +89,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.5 }}
         >
-         
+
         </motion.div>
 
         <motion.div
@@ -105,6 +111,8 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.7, duration: 0.5 }}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
             >
               <motion.img
                 src={`${MEDIA_URL}${images[currentImageIndex].photo}`}
@@ -115,6 +123,17 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
                 transition={{ delay: 0.8, duration: 0.5 }}
                 whileHover={{ scale: 1.05 }}
               />
+              {isHovered && (
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-xl"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                  onClick={openModal}
+                >
+                  <ZoomIn className="w-10 h-10 text-white bg-[rgba(25,110,150,0.7)] p-2 rounded-full" />
+                </motion.div>
+              )}
 
               {images.length > 1 && (
                 <>
@@ -169,15 +188,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
               )}
             </motion.div>
 
-            <motion.div
-              className="text-gray-700"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, duration: 0.5 }}
-            >
-              <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.address")}</h3>
-              <p className="whitespace-pre-line">{getLocalizedText(place.address, lang)}</p>
-            </motion.div>
+
 
             {/* Body */}
             <motion.div
@@ -186,7 +197,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.3, duration: 0.5 }}
             >
-              <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.details")}</h3>
+              <h3 className="text-lg font-semibold mb-2 text-[#131313]">{getLocalizedText(place.description, lang)}</h3>
               <p className="whitespace-pre-line leading-relaxed">
                 {stripHtmlTags(getLocalizedText(place.body, lang))}
               </p>
@@ -264,11 +275,26 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
                     🗺️ Yandex Maps
                   </motion.button>
                 </motion.div>
+                <div
+                  className="text-gray-700 "
+                >
+                  <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.address")}</h3>
+                  <p className="whitespace-pre-line">{getLocalizedText(place.address, lang)}</p>
+                </div>
               </motion.div>
             )}
+
           </motion.div>
         </motion.div>
       </motion.div>
+      {isModalOpen &&
+        <GalleryModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          images={images.map(img => ({ id: img.id, image: `${MEDIA_URL}${img.photo}` }))}
+          title={place.name}
+        />
+      }
     </motion.div>
   );
 };

@@ -153,8 +153,9 @@ export interface TourById {
     city: CityName;
     latitude: number;
     longitude: number;
-    body:MultilangText;
-    address:MultilangText;
+    description: MultilangText
+    body: MultilangText;
+    address: MultilangText;
     images: {
         id: number;
         photo: string;
@@ -167,8 +168,9 @@ export interface Tour {
     city: CityName;
     latitude: number;
     longitude: number;
-    body:MultilangText;
-    address:MultilangText;
+    description: MultilangText
+    body: MultilangText;
+    address: MultilangText;
     image: {
         id: number;
         photo: string;
@@ -283,8 +285,8 @@ export type HotelData = {
     city: number;
     rating: number;
     images: {
-        id:number;
-        image:string;
+        id: number;
+        image: string;
     }[];
     amenities: { id: number; name: Record<string, string> }[];
 };
@@ -379,6 +381,100 @@ export interface BanksResponse {
     results: Bank[];
 }
 
+// Bus
+export interface BusDetailBody{
+    body_en: string;
+    body_ru: string;
+    body_uz: string;
+}
+export interface BusDetailDescription{
+    description_en: string;
+    description_ru: string;
+    description_uz: string;
+}
+export interface BusAdress{
+    address_en: string;
+    address_ru: string;
+    address_uz:string;
+}
+export interface Bus {
+    id: number;
+    name: string;
+    city: BankCity;
+    latitude: number;
+    longitude: number;
+    images: {
+        id: number;
+        photo: string;
+    }[]
+}
+export interface BusResponse {
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: Bus[];
+}
+export interface BusDetail {
+    id: number;
+    name: string;
+    address: BusAdress;
+    latitude: number;
+    longitude: number;
+    body: BusDetailBody;
+    description: BusDetailDescription;
+    images: {
+        id: number;
+        photo: string;
+    }[];
+}
+
+//airplanes
+export interface AirplaneDetailBody{
+    body_en: string;
+    body_ru: string;
+    body_uz: string;
+}
+export interface AirplaneDetailDescription{
+    description_en: string;
+    description_ru: string;
+    description_uz: string;
+}
+export interface AirplaneAdress{
+    address_en: string;
+    address_ru: string;
+    address_uz:string;
+}
+export interface Airplane {
+    id: number;
+    name: string;
+    city: BankCity;
+    latitude: number;
+    longitude: number;
+    images: {
+        id: number;
+        photo: string;
+    }[]
+}
+export interface AirplaneResponse {
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: Bus[];
+}
+export interface AirplaneDetail {
+    id: number;
+    name: string;
+    address: BusAdress;
+    latitude: number;
+    longitude: number;
+    body: BusDetailBody;
+    description: BusDetailDescription;
+    images: {
+        id: number;
+        photo: string;
+    }[];
+}
+
 //clinics
 
 export interface ClinicCity {
@@ -393,7 +489,7 @@ export interface Clinic {
     city: ClinicCity;
     latitude: number;
     longitude: number;
-    images:   {
+    images: {
         id: number;
         photo: string;
     }[];
@@ -433,6 +529,7 @@ export interface ClinicsResponse {
     previous: string | null;
     results: Clinic[];
 }
+//airplanes
 
 //shops
 
@@ -502,23 +599,23 @@ export interface NewsItem {
 }
 
 export interface newsDetail {
-      id: number;
-  title: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  image: string | null;
-  description: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
-  body: {
-    uz: string;
-    en: string;
-    ru: string;
-  };
+    id: number;
+    title: {
+        uz: string;
+        en: string;
+        ru: string;
+    };
+    image: string | null;
+    description: {
+        uz: string;
+        en: string;
+        ru: string;
+    };
+    body: {
+        uz: string;
+        en: string;
+        ru: string;
+    };
 
 }
 //article
@@ -554,33 +651,33 @@ export interface ArticleDetail {
 
 //magazine images
 export interface MagazineImage {
-  id: number;
-  image: string;
+    id: number;
+    image: string;
 }
 
 export interface MagazineImageResponse {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: MagazineImage[];
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: MagazineImage[];
 }
 
 //home-list
-export interface HomeList{
+export interface HomeList {
     id: number;
     title: MultilangText;
     home_file: string;
-    video_image: string | "";   
+    video_image: string | "";
 }
 //services-list
-export interface DashboardList{
+export interface DashboardList {
     id: number;
     title: MultilangText;
     file: string
 }
 
 //,agazineback
-export interface MagazineBackgroundImage{
+export interface MagazineBackgroundImage {
     id: number;
     title: MultilangText;
     file: string

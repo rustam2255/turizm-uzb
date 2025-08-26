@@ -139,7 +139,9 @@
     "tour-firm": "Tour Firm",
     "banks": "Banks",
     "clinic": "Clinic",
-    "market": "Supermarket"
+    "market": "Supermarket",
+    "airplane": "Airplane",
+  "tourbus": "Tour Bus"
   },
   "common": {
     "loading": "Loading...",
@@ -174,7 +176,9 @@
     "market": "Search for markets",
     "hotel": "Search for hotels",
     "news": "Search for news",
-    "articles": "Search through articles"
+    "articles": "Search through articles",
+    "bus": "Search buses",
+    "airplane": "Search for flights"
   },
   "tips": {
     "tip": "💡 Tip:",

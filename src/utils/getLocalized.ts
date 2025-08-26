@@ -1,4 +1,4 @@
-import { BankDetailBody, BankDetailDescription, ShopDetailBody, ShopDetailDescription } from "@/interface";
+import { BankDetailBody, BankDetailDescription, BusAdress, ShopDetailBody, ShopDetailDescription } from "@/interface";
 
 type MultilingualText = {
   en?: string;
@@ -25,6 +25,11 @@ export const normalizeBody =(body: ShopDetailBody): Record<Lang, string> => ({
   en: body.body_en,
   ru: body.body_ru,
   uz: body.body_uz
+})
+export const normalizeAddress =(add: BusAdress): Record<Lang, string> => ({
+  en: add.address_en,
+  ru: add.address_ru,
+  uz: add.address_uz
 })
 
 export const bankNormalizeBody = (body: BankDetailBody): Record<Lang, string> => ({

@@ -18,7 +18,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
   render(): ReactNode {
     if (this.state.hasError) {
-      return <h1>{this.state.hasError}</h1>;
+      return <p className='text-xl'>{this.state.hasError}</p>;
     }
     return this.props.children;
   }

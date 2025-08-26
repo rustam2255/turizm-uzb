@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { MapPin, LocateFixed, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, LocateFixed, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { useGetResortDetailQuery } from "@/services/api";
 import FallbackImage from "@assets/images/place3.png";
 import { getLocalizedText } from "@/utils/getLocalized";
@@ -13,6 +13,7 @@ import HotelDetailsSkeleton from "@/components/ui/loaderSkleton/hotelDetailsSkel
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
 import { stripHtmlTags } from "@/utils/getHtmlTags";
 import { useTranslation } from "react-i18next";
+import GalleryModal from "@/utils/galleryModal";
 
 const ResortDetail: React.FC = () => {
   const { idSlug } = useParams<{ idSlug: string }>();
@@ -20,6 +21,10 @@ const ResortDetail: React.FC = () => {
   const { t, i18n } = useTranslation();
   type Lang = "uz" | "ru" | "en";
   const lang = (i18n.language.split("-")[0] as Lang) || "en";
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const {
     data: resort,
@@ -83,14 +88,14 @@ const ResortDetail: React.FC = () => {
       </motion.div>
 
       {/* Title */}
-      <motion.h1
+      <motion.p
         className="text-[24px] md:text-[36px] font-semibold mb-4 text-[#131313]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
       >
         {resort.name}
-      </motion.h1>
+      </motion.p>
 
       {/* Main Content Grid */}
       <motion.div
@@ -105,6 +110,7 @@ const ResortDetail: React.FC = () => {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.4, duration: 0.5 }}
+
         >
           {/* Image */}
           <motion.div
@@ -112,6 +118,8 @@ const ResortDetail: React.FC = () => {
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
             <motion.img
               src={`${MEDIA_URL}${images[currentImageIndex].photo}`}
@@ -125,6 +133,17 @@ const ResortDetail: React.FC = () => {
               transition={{ delay: 0.6, duration: 0.5 }}
               whileHover={{ scale: 1.05 }}
             />
+            {isHovered && (
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-xl"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                onClick={openModal}
+              >
+                <ZoomIn className="w-10 h-10 text-white bg-[rgba(25,110,150,0.7)] p-2 rounded-full" />
+              </motion.div>
+            )}
 
             {images.length > 1 && (
               <>
@@ -179,33 +198,6 @@ const ResortDetail: React.FC = () => {
             )}
           </motion.div>
 
-          {/* Meta info */}
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[14px] md:text-[16px] text-gray-600"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, duration: 0.5 }}
-          >
-            <div className="flex items-center gap-2">
-              <MapPin size={18} className="text-[rgba(25,110,150,255)]" />
-              <span className="truncate font-medium">{getLocalizedText(resort.city, lang)}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <LocateFixed size={18} className="text-[rgba(25,110,150,255)]" />
-              <span className="truncate italic">{getLocalizedText(resort.type, lang)}</span>
-            </div>
-          </motion.div>
-
-          {/* Address */}
-          <motion.div
-            className="text-gray-700"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1, duration: 0.5 }}
-          >
-            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.address")}</h3>
-            <p className="whitespace-pre-line">{getLocalizedText(resort.address, lang)}</p>
-          </motion.div>
 
           {/* Description */}
           <motion.div
@@ -214,8 +206,8 @@ const ResortDetail: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.5 }}
           >
-            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.description")}</h3>
-            <p className="whitespace-pre-line leading-relaxed">{getLocalizedText(resort.description, lang)}</p>
+
+            <p className="text-lg font-semibold mb-2 text-[#131313]">{getLocalizedText(resort.description, lang)}</p>
           </motion.div>
 
           {/* Body */}
@@ -225,7 +217,7 @@ const ResortDetail: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.3, duration: 0.5 }}
           >
-            <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.details")}</h3>
+
             <p className="whitespace-pre-line leading-relaxed">{stripHtmlTags(getLocalizedText(resort.body, lang))}</p>
           </motion.div>
         </motion.div>
@@ -301,10 +293,47 @@ const ResortDetail: React.FC = () => {
                   🗺️ Yandex Maps
                 </motion.button>
               </motion.div>
+              {/* Meta info */}
+              <motion.div
+                className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[14px] md:text-[16px] text-gray-600"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.0, duration: 0.5 }}
+              >
+                <div className="flex items-center gap-2">
+                  <MapPin size={18} className="text-[rgba(25,110,150,255)]" />
+                  <span className="truncate font-medium">{getLocalizedText(resort.city, lang)}</span>
+                </div>
+                <br />
+                <div className="flex items-center gap-2">
+                  <LocateFixed size={18} className="text-[rgba(25,110,150,255)]" />
+                  <span className="truncate italic">{getLocalizedText(resort.type, lang)}</span>
+                </div>
+              </motion.div>
+
+              {/* Address */}
+              <motion.div
+                className="text-gray-700"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.1, duration: 0.5 }}
+              >
+                <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.address")}</h3>
+                <p className="whitespace-pre-line">{getLocalizedText(resort.address, lang)}</p>
+              </motion.div>
+
             </motion.div>
           )}
         </motion.div>
       </motion.div>
+      {isModalOpen &&
+        <GalleryModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          images={images.map(img => ({ id: img.id, image: `${MEDIA_URL}${img.photo}` }))}
+          title={resort.name}
+        />
+      }
     </motion.div>
   );
 };

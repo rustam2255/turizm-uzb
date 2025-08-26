@@ -309,14 +309,14 @@ const Clinics = () => {
         >
           <Breadcrumb />
         </motion.div>
-        <motion.h1
+        <motion.p
           className="text-[20px] sm:text-[24px] md:text-[30px] lg:text-[36px] font-bold mb-4 sm:mb-6 text-sky-900"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.5 }}
         >
           {t("services.clinic")}
-        </motion.h1>
+        </motion.p>
         <motion.div
           className="flex flex-col sm:flex-row gap-4 mb-6"
           initial={{ opacity: 0, y: 20 }}

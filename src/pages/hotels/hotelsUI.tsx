@@ -311,14 +311,14 @@ const HotelUI: React.FC = () => {
       transition={{ duration: 0.5 }}
     >
       <Breadcrumb />
-      <motion.h1
+      <motion.p
         className="text-[20px] md:text-[30px] font-bold mt-3 md:mt-6 mb-4 text-sky-900"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.4 }}
       >
         {t("hotels.title")}
-      </motion.h1>
+      </motion.p>
 
       <motion.div
         className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mb-6 relative z-[10000]"

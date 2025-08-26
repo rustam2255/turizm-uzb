@@ -7,7 +7,7 @@ import {
 } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-
+const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -51,7 +51,10 @@ type APIMapPoint = {
     en: string;
     ru: string;
   };
-  images?: string;
+  images?: string | {
+    id: number;
+    photo: string;
+  }[];
 };
 
 // Har xil marker turlari uchun ranglar
@@ -231,11 +234,18 @@ const Map: React.FC = () => {
           <Popup>
             <div className="rounded overflow-hidden shadow-lg bg-white w-72">
               <img
-                src={item.images || IMAGE2}
+                src={
+                  typeof item.images === "string"
+                    ? item.images // agar string bo'lsa to'g'ridan-to'g'ri qo'yamiz
+                    : item.images && item.images.length > 0
+                      ? `${MEDIA_URL}${item.images[0].photo}` // array bo'lsa birinchi rasmi
+                      : "/placeholder.png" // fallback rasm
+                }
                 alt={item.name}
                 className="w-full h-32 object-cover"
                 onError={handleImageError}
               />
+
               <div className="p-4">
                 <h2 className="font-bold text-lg mb-2">{item.name}</h2>
                 <p className="text-sm text-gray-600 mb-2">
@@ -315,7 +325,7 @@ const Map: React.FC = () => {
   return (
     <div className=" px-4 py-5 md:py-8">
       <Breadcrumb />
-   
+
 
       {/* Statistika */}
       <div className="mb-4 flex mt-5 flex-wrap gap-4 text-sm">

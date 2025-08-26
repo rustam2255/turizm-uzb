@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
 const ClinicHome: React.FC = () => {
-  const { data: clinicsData = { results: [] }, isLoading, isError } = useGetClinicsQuery({ page: 4 });
+  const { data: clinicsData = { results: [] }, isLoading, isError } = useGetClinicsQuery({ page: 1 });
   const [clinicItems, setClinicItems] = useState<Clinic[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);

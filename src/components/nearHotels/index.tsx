@@ -33,9 +33,9 @@ const NearTravels: React.FC<Props> = ({ hotelId }) => {
 
   return (
     <div className="container py-6 md:py-[60px] w-full ">
-      <h1 className="text-[24px] leading-[100%] text-start md:text-center md:text-[40px] text-[#161616] mb-[10px] md:mb-[20px]">
+      <p className="text-[24px] leading-[100%] text-start md:text-center md:text-[40px] text-[#161616] mb-[10px] md:mb-[20px]">
         {t("travel.nearby_travel_places")}
-      </h1>
+      </p>
 
       <div className="md:grid md:grid-cols-2 lg:grid-cols-4 gap-7.5 overflow-x-auto flex md:overflow-visible space-x-4 md:space-x-0 snap-x snap-mandatory scrollbar-hide">
         {travels.slice(0, 4).map((travel: TravelItem) => (

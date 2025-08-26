@@ -23,6 +23,10 @@ import BankDetail from './pages/banks/bankDetail';
 import Media from './pages/media';
 import ArticleDetail from './pages/media/article-Detail';
 import NewsDetailPage from './pages/media/news-Detail';
+import Airplane from './pages/airplane';
+import TourBus from './pages/tourbus';
+import BusDetail from './pages/tourbus/busDetail';
+import AirplaneDetail from './pages/airplane/airplaneDetail';
 // import Footer from './components/footer';
 
 const Home = lazy(() => import('@pages/home'));
@@ -39,9 +43,9 @@ const knownPaths = [
   '/travel-destination', '/documents', '/maps',
   '/magazines/:id', '/hotels/:idAndSlug', '/hotels/:id',
   '/travel-destination/:id', "/news/:idAndSlug", "/article/:id", "/services",
-  '/services/resort', '/services/tour-firm', '/services/banks', '/services/clinics',
+  '/services/resort', '/services/tour-firm','/services/airplanes', '/services/tour-bus', '/services/banks', '/services/clinics',
   '/services/market', '/services/resort/:id', '/services/tours', '/services/tour/:id', '/services/shop/:id', '/services/clinic/:id',
-  '/services/bank/:id', '/media/news', '/media/article/detail/:id', '/media/news/detail/:id'
+  '/services/bank/:id', '/media/news', '/media/article/detail/:id', '/media/news/detail/:id', '/services/airplane/:id','/services/tour-bus/:idSlug'
 ];
 
 const AppContent = () => {
@@ -83,9 +87,13 @@ const AppContent = () => {
           <Route path='/services/shop/:idSlug' element={<MarketDetail />} />
           <Route path='/services/clinic/:idSlug' element={<ClinicDetail />} />
           <Route path='/services/bank/:idSlug' element={<BankDetail />} />
+          <Route path='/services/tour-bus/:idSlug' element={<BusDetail />} />
+          <Route path='/services/airplane/:idSlug' element={<AirplaneDetail />} />
           <Route path='/media/news/' element={<Media />} />
           <Route path='/media/article/detail/:idSlug' element={<ArticleDetail />} />
           <Route path='/media/news/detail/:idSlug' element={<NewsDetailPage />} />
+          <Route path='/services/airplanes' element={<Airplane />} />
+          <Route path='/services/tour-bus' element={<TourBus/>}/>
         </Routes>
       </Suspense>
       {/* <Footer /> */}
