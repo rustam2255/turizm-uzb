@@ -141,7 +141,7 @@
     "clinic": "Clinic",
     "market": "Supermarket",
     "airplane": "Airplane",
-  "tourbus": "Tour Bus"
+    "tourbus": "Tour Bus"
   },
   "common": {
     "loading": "Loading...",
