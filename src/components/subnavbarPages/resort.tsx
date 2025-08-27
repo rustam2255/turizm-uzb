@@ -86,6 +86,7 @@ const ResortHome: React.FC = () => {
   }
 
   const ResortCard = ({ item }: { item: Resort; index: number }) => (
+    
     <Link
       to={`/services/resort/${item.id}-${slugify(item.name)}`}
       className=" block transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
@@ -137,7 +138,9 @@ const ResortHome: React.FC = () => {
   );
 
   return (
-    <div className="py-12 sm:py-16 lg:py-20">
+    <>
+      {resortItems.length > 0 && (
+        <div className="py-12 sm:py-16 lg:py-20">
       <div className="max-w-[1900px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[rgba(25,110,150,255)] mb-4">
@@ -326,6 +329,9 @@ const ResortHome: React.FC = () => {
         }
       `}</style>
     </div>
+      )}
+    </>
+    
   );
 };
 

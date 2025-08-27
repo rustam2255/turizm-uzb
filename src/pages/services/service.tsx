@@ -16,6 +16,7 @@ interface Service {
   key: string;
   link: string;
   titleEn: string;
+  is_active?: boolean;
 }
 
 interface ServiceCardProps {
@@ -47,9 +48,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           xl:h-[300px] 
           2xl:h-[320px]
           min-h-[250px]
-          relative rounded-2xl overflow-hidden cursor-pointer ${
-          isActive ? "ring-2 ring-[rgba(77,199,232,1)] ring-offset-2" : ""
-        }`}
+          relative rounded-2xl overflow-hidden cursor-pointer ${isActive ? "ring-2 ring-[rgba(77,199,232,1)] ring-offset-2" : ""
+          }`}
         initial={{ scale: 0.8, opacity: 0, y: 50 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.8, opacity: 0 }}
@@ -117,15 +117,15 @@ const Breadcrumb: React.FC = () => {
 
 // Statik services massivi (link va key bilan)
 const staticServices: Service[] = [
-  { id: 1, key: "services.hotels", link: "/hotels", titleEn: "Hotels" },
+  { id: 1, key: "services.hotels", link: "/hotels", titleEn: "Hotels", },
   { id: 2, key: "services.resort", link: "/services/resort", titleEn: "Resort" },
   { id: 3, key: "services.tour-firm", link: "/services/tours", titleEn: "Tour Firm" },
   { id: 4, key: "services.banks", link: "/services/banks", titleEn: "Bank" },
   { id: 5, key: "services.clinic", link: "/services/clinics", titleEn: "Clinic" },
   { id: 6, key: "services.market", link: "/services/market", titleEn: "Market" },
-  {id: 7, key: 'services.airplane', link: "/services/airplanes", titleEn: "Airplane"},
-  { id:8, key: 'services.tourbus', link: '/services/tour-bus', titleEn: 'Tour Bus' }
-  ];
+  { id: 7, key: 'services.airplane', link: "/services/airplanes", titleEn: "Airplane" },
+  { id: 8, key: 'services.tourbus', link: '/services/tour-bus', titleEn: 'Tour Bus' }
+];
 
 const ServiceUI: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -136,18 +136,30 @@ const ServiceUI: React.FC = () => {
   const currentLanguage = i18n.language as keyof MultilangText;
 
   // API va statik ma'lumotlarni birlashtirish
-  const formattedServices = apiServices?.map((apiService) => {
-    const staticService = staticServices.find(
-      (s) => s.id === apiService.id || s.titleEn.toLowerCase() === (apiService.title.en ?? '').toLowerCase()
-    );
-    return {
-      id: apiService.id,
-      title: apiService.title,
-      file: `${apiService.file}?w=800`, // Rasm o'lchamini cheklash
-      key: staticService?.key || "services.default",
-      link: staticService?.link || "/services/default",
-    };
-  }) || [];
+  const formattedServices =
+    apiServices
+      ?.map((apiService) => {
+        const staticService = staticServices.find(
+          (s) =>
+            s.id === apiService.id ||
+            s.titleEn.toLowerCase() === (apiService.title.en ?? "").toLowerCase()
+        );
+        return {
+          id: apiService.id,
+          title: apiService.title,
+          file: apiService.file ? `${apiService.file}?w=800` : "",
+          key: staticService?.key || "services.default",
+          link: staticService?.link || "/services/default",
+        };
+      })
+      // 🔹 faqat ichi to‘liq bo‘lganlarni chiqarish
+      .filter(
+        (service) =>
+          service.title &&
+          Object.values(service.title).some((t) => t?.trim() !== "") && // title bo‘sh emas
+          service.file // rasm mavjud
+      ) || [];
+
 
   if (isLoading) {
     return (

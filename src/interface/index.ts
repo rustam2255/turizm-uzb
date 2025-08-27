@@ -673,7 +673,8 @@ export interface HomeList {
 export interface DashboardList {
     id: number;
     title: MultilangText;
-    file: string
+    file: string,
+    is_active: boolean
 }
 
 //,agazineback
