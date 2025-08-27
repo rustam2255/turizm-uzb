@@ -29,6 +29,7 @@ const HotelCard: React.FC<HotelCardProps> = ({ id, name, images, description }) 
           <img
             src={images[0].image}
             alt={`${name} room`}
+            loading="lazy"
             className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
           />
         ) : (

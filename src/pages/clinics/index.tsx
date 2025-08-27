@@ -97,6 +97,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, lang }) => {
           <img
             src={firstImage}
             alt={clinic.name}
+            loading="lazy"
             className="w-full h-full object-cover absolute top-0 left-0 rounded-t-xl"
             style={{ backfaceVisibility: "hidden" }}
             onError={(e) => {
@@ -108,6 +109,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, lang }) => {
           <img
             src={secondImage}
             alt={clinic.name}
+            loading="lazy"
             className="w-full h-full object-cover absolute top-0 left-0 rounded-t-xl"
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
             onError={(e) => {

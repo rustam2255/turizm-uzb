@@ -3,8 +3,8 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import Logo from "@/assets/images/logo.png";
 import { motion, AnimatePresence } from "framer-motion";
 import LanguageSelector from './translateSelect';
+
 import { useTranslation } from 'react-i18next';
-import ModeToggle from '../shared/mode-toggle';
 
 const Navbar = () => {
   const { t } = useTranslation();
@@ -99,7 +99,8 @@ const Navbar = () => {
               src={Logo}
               alt="Logotip"
               className="w-auto h-auto max-h-[24px] sm:max-h-[30px] md:max-h-[35px] lg:max-h-[40px]"
-              loading="eager"
+              loading="lazy"
+              
             />
           </Link>
 
@@ -166,10 +167,7 @@ const Navbar = () => {
               </div>
             </button>
 
-            {/* Mode Toggle (hidden for now) */}
-            <div className="z-[10001] hidden relative cursor-pointer drop-shadow-sm">
-              <ModeToggle />
-            </div>
+            
           </div>
         </div>
       </nav>

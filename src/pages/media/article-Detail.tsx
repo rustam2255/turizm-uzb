@@ -115,6 +115,7 @@ const ArticleDetail = () => {
             <img
               src={article.author_photo || mockImage}
               alt="Author"
+              loading='lazy'
               className="w-[50px] h-[50px] rounded-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_5px_10px_rgba(77,199,232,0.3)]"
             />
             <span className="transition-all duration-300 group-hover:text-[rgba(77,199,232,1)]">
@@ -135,6 +136,7 @@ const ArticleDetail = () => {
             <img
               src={article.article_image || mockImage}
               alt="Article"
+              loading='lazy'
               className="w-full h-[400px] object-cover transition-all duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[rgba(77,199,232,0.7)] to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>

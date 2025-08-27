@@ -252,6 +252,7 @@ const Map: React.FC = () => {
                 }
                 alt={item.name}
                 className="w-full h-32 object-cover"
+                loading='lazy'
                 onError={handleImageError}
               />
 

@@ -26,6 +26,7 @@ const HotelCard: React.FC<HotelCardProps> = ({ id, title, description, images })
         <img
           src={images || IMAGE}
           alt={title}
+          loading="lazy"
           onError={(e) => {
             const target = e.currentTarget as HTMLImageElement;
             if (target.src !== IMAGE) {

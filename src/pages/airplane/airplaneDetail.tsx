@@ -147,6 +147,7 @@ const AirplaneDetail: React.FC = () => {
               }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
+              loading="lazy"
               transition={{ delay: 0.6, duration: 0.5 }}
               whileHover={{ scale: 1.05 }}
             />

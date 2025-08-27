@@ -45,6 +45,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ isOpen, onClose, images, ti
               <img
                 src={image.image}
                 alt={`${title || "Gallery"} ${index + 1}`}
+                loading="lazy"
                 className="w-full h-[300px] object-cover rounded-lg"
               />
             </motion.div>

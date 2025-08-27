@@ -130,7 +130,7 @@ const Home: React.FC = () => {
             }
           `}
         >
-          <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1600px] mx-auto px-4 hidden  md:block sm:px-6 lg:px-8">
             <SubNavbar
               activeSection={activeSection}
               setActiveSection={setActiveSection}

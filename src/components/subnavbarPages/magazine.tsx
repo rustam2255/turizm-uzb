@@ -114,6 +114,7 @@ const MagazineHome: React.FC = () => {
                     <img
                       src={item.card}
                       alt={`${item.title.en} magazine cover`}
+                      loading='lazy'
                       className="w-full rounded-xl h-[300px] md:w-[200px] md:h-[250px] object-cover mb-4 transition-transform duration-200 hover:scale-105 shadow-lg"
                     />
                     <div className="text-center text-black font-normal leading-[100%]">
@@ -169,6 +170,7 @@ const MagazineHome: React.FC = () => {
                                 <div className="relative mb-6">
                                   <img
                                     src={item.card}
+                                    loading='lazy'
                                     alt={`${item.title.en} magazine cover`}
                                     className="w-48 h-64 sm:w-56 sm:h-72 object-cover rounded-xl shadow-2xl transform hover:scale-105 transition-transform duration-300"
                                   />

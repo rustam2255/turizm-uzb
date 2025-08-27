@@ -31,6 +31,7 @@ const MagazineUI: React.FC<MagazineUIProps> = ({ id, title, coverImage, dateRang
             alt={`${title} magazine cover`}
             className="w-full rounded-xl h-[300px] md:w-[200px] md:h-[250px] sm:w-[160px] sm:h-[200px] object-cover mb-4 transition-transform duration-200 hover:scale-105"
             onError={handleImageError}
+            loading="lazy"
           />
         </Link>
         <div className="text-center text-black font-normal leading-[100%]">

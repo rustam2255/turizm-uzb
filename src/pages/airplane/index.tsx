@@ -73,6 +73,7 @@ const BankCard: React.FC<{ bank: Bank; lang: Lang }> = ({ bank, lang }) => {
             alt={bank.name}
             className="w-full h-full object-cover absolute top-0 left-0 rounded-t-xl"
             style={{ backfaceVisibility: "hidden" }}
+            loading="lazy"
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE1;
             }}
@@ -85,6 +86,7 @@ const BankCard: React.FC<{ bank: Bank; lang: Lang }> = ({ bank, lang }) => {
             alt={bank.name}
             className="w-full h-full object-cover absolute top-0 left-0 rounded-t-xl"
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+            loading="lazy"
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE;
             }}

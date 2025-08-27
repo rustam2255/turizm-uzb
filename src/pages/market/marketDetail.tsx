@@ -99,6 +99,7 @@ const MarketDetail: React.FC = () => {
             <img
               src={`${MEDIA_URL}${images[currentImageIndex].photo}`}
               alt={market.name}
+              loading="lazy"
               className="w-full h-full object-cover transition-opacity duration-500 ease-in-out"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = FallbackImage;

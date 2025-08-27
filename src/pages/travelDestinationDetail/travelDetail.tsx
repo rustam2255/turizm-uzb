@@ -133,6 +133,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
               <motion.img
                 src={`${MEDIA_URL}${images[currentImageIndex].photo}`}
                 alt={place.name}
+                loading="lazy"
                 className="w-full h-full object-cover"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

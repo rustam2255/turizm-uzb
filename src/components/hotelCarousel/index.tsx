@@ -362,6 +362,7 @@ const HotelCarousel = () => {
         animate="center"
         exit="exit"
         custom={direction}
+        loading="lazy"
         transition={{ duration: 0.8, ease: "easeInOut" }}
         onError={(e) => console.error(`Rasm yuklash xatosi (ID: ${slide.id}):`, e)}
       />
@@ -674,7 +675,7 @@ const HotelCarousel = () => {
           disabled={isTransitioning}
           className="absolute bottom-[90px] md:bottom-[110px] left-[20px] md:left-[40px] lg:left-[80px] text-white transition-all cursor-pointer z-20 p-3 bg-white/20 rounded-full backdrop-blur-sm hover:bg-white/30 disabled:opacity-50"
         >
-          <img src={Left} alt="Chap" className="w-8 h-6" />
+          <img src={Left} alt="Chap" className="w-8 h-6" loading="lazy" />
         </motion.button>
 
         <motion.button
@@ -684,7 +685,7 @@ const HotelCarousel = () => {
           disabled={isTransitioning}
           className="absolute bottom-[90px] md:bottom-[110px] right-[20px] md:right-[40px] lg:right-[80px] text-white transition-all cursor-pointer z-20 p-3 bg-white/20 rounded-full backdrop-blur-sm hover:bg-white/30 disabled:opacity-50"
         >
-          <img src={Right} alt="O'ng" className="w-8 h-6" />
+          <img src={Right} alt="O'ng" className="w-8 h-6" loading="lazy" />
         </motion.button>
       </div>
     </div>

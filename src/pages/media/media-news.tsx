@@ -268,6 +268,7 @@ const NewsPage: React.FC = () => {
                     <img
                       src={item.image || IMAGE}
                       alt={getText(item.title)}
+                      loading="lazy"
                       onError={(e) => ((e.target as HTMLImageElement).src = IMAGE)}
                       className="h-48 w-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />

@@ -93,6 +93,7 @@ const ShopHome: React.FC = () => {
           {item.images[0]?.photo ? (
             <img
               src={`${MEDIA_URL}${item.images[0].photo}`}
+              loading='lazy'
               alt={item.name}
               className="w-full h-48 sm:h-52 lg:h-48 object-cover transition-transform duration-500 group-hover:scale-110"
             />

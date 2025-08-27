@@ -27,6 +27,7 @@ const Travel: React.FC<TravelCardProps> = ({ id, title, description, image }) =>
         <img
           src={image || IMAGE}
           alt={title}
+          loading="lazy"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.src = IMAGE;

@@ -96,6 +96,7 @@ const ClinicHome: React.FC = () => {
             <img
               src={`${MEDIA_URL}${item.images[0].photo}`}
               alt={item.name}
+              loading='lazy'
               className="w-full h-48 sm:h-52 lg:h-48 object-cover transition-transform duration-500 group-hover:scale-110"
             />
           ) : (

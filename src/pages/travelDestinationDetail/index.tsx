@@ -24,7 +24,7 @@ const TravelDetailPage: React.FC = () => {
     place?.images?.length && place.images[0].photo
       ? place.images
       : mockImage.map((img, index) => ({ id: index, photo: img }));
-  console.log(images);
+  
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 

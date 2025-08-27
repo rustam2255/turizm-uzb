@@ -153,6 +153,7 @@ const BankDetail: React.FC = () => {
                 (e.target as HTMLImageElement).src = FallbackImage;
               }}
               initial={{ opacity: 0 }}
+              loading="lazy"
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.5 }}
               whileHover={{ scale: 1.05 }}

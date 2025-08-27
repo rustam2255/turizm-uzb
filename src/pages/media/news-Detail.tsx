@@ -105,6 +105,7 @@ const NewsDetailPage = () => {
             <img
               src={newData.image || mockImage}
               alt="News"
+              loading='lazy'
               className="w-full h-[400px] object-cover transition-all duration-700 group-hover:scale-110 transform-gpu"
             />
             {/* Overlay with gradient animation */}

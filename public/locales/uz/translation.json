@@ -160,13 +160,13 @@
     "news": "So'nggi Yangiliklar",
     "import": "Eng muhim voqealar va xabarlar",
     "articles": "Maqolalar",
-     "show_less": "Показать меньше",
-  "show_more": "Показать больше",
-  "no_results": "bo'yicha natija topilmadi",
-  "total_articles": "Jami maqolalar soni",
-  "no_results_hint": "Qidiruv so'zingizni o'zgartiring yoki boshqa kategoriyani tanlang",
-   "next": "Keyingi",
-  "previous": "Oldingi"
+    "show_less": "Показать меньше",
+    "show_more": "Показать больше",
+    "no_results": "bo'yicha natija topilmadi",
+    "total_articles": "Jami maqolalar soni",
+    "no_results_hint": "Qidiruv so'zingizni o'zgartiring yoki boshqa kategoriyani tanlang",
+    "next": "Keyingi",
+    "previous": "Oldingi"
   },
   "placeholder": {
     "travel": "Sayohat Firmalarini Qidirish",
@@ -191,5 +191,27 @@
     "navigator": "Telefoningizda navigator dasturini ochadi",
     "google": "Google Maps da yo'l ko'rsatadi",
     "yandex": "Yandex Maps da yo'l ko'rsatadi"
+  },
+  "footer": {
+    "about": "Bizning saytda siz dunyoning turli burchaklaridagi sayyohlik manzillari, sayohat paketlari va foydali maslahatlarni topishingiz mumkin. Siz uchun qulay va tezkor xizmatlar taqdim etamiz.",
+    "pages": {
+      "home": "Bosh sahifa",
+      "tours": "Turlar",
+      "hotels": "Mehmonxonalar",
+      "resorts": "Resortlar",
+      "shops": "Do‘konlar",
+      "airplane": "Aviaparvozlar",
+      "tourbus": "Tur avtobusi",
+      "magazines": "Jurnallar"
+    },
+    "contact": "Aloqa: info@tourismwebsite.uz | Telefon: +998 90 123 45 67",
+    "rights": "© 2025 Barcha huquqlar himoyalangan.",
+    "pagesTitle": "Sayt havolalari",
+    "contactTitle": "Aloqa",
+    "contactEmail": "Email",
+    "contactPhone": "Telefon",
+    "contactAddress": "Manzil",
+    "socialTitle": "Ijtimoiy tarmoqlar",
+    "companyDescription": "Bizning kompaniya Oʻzbekistonda sifatli xizmatlar koʻrsatadi va mijozlarga eng yaxshi tajribani taqdim etadi."
   }
 }

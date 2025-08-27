@@ -67,6 +67,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
             <motion.img
               src={imageUrl}
               alt={title}
+              
               className="w-full h-full object-cover"
               loading="lazy" // Lazy loading qo'shildi
               initial={{ scale: 1 }}

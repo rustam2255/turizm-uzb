@@ -54,6 +54,7 @@ const NearTravels: React.FC<Props> = ({ hotelId }) => {
                     const target = e.target as HTMLImageElement;
                     target.src = IMAGE;
                   }}
+                  loading="lazy"
                 />
               </div>
               <div className="flex flex-col justify-between">

@@ -110,6 +110,7 @@ const TravelCollection: React.FC = () => {
             <img
               src={imageUrl}
               alt={destination.name}
+              loading="lazy"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = IMAGE;
               }}

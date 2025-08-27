@@ -71,6 +71,7 @@ const BankCard: React.FC<{ bank: Bank; lang: Lang }> = ({ bank, lang }) => {
           <img
             src={firstImage}
             alt={bank.name}
+            loading="lazy"
             className="w-full h-full object-cover absolute top-0 left-0 rounded-t-xl"
             style={{ backfaceVisibility: "hidden" }}
             onError={(e) => {
@@ -82,6 +83,7 @@ const BankCard: React.FC<{ bank: Bank; lang: Lang }> = ({ bank, lang }) => {
           {/* Back Image */}
           <img
             src={secondImage}
+            loading="lazy"
             alt={bank.name}
             className="w-full h-full object-cover absolute top-0 left-0 rounded-t-xl"
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}

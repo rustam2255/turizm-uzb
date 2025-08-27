@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import IMAGE from "@assets/images/samarkand-img.png";
 import { useTranslation } from "react-i18next";
@@ -28,9 +28,8 @@ const MagazineDetailUI: React.FC = () => {
 
 
 
-  useEffect(() => {
-    console.log("Modal state changed:", { isModalOpen });
-  }, [isModalOpen]);
+
+   
 
   const getLocalizedText = (
     field: { uz?: string; en?: string; ru?: string } | undefined
@@ -40,12 +39,12 @@ const MagazineDetailUI: React.FC = () => {
   };
 
   const handleImageClick = () => {
-    console.log("Image clicked, opening modal...");
+    
     setIsModalOpen(true);
   };
 
   const handleModalClose = () => {
-    console.log("Closing modal...");
+    
     setIsModalOpen(false);
   };
 
@@ -82,7 +81,7 @@ const MagazineDetailUI: React.FC = () => {
   const imageback = backImage?.file ? `${BaseUrl}${backImage.file}` : IMAGE;
 
   return (
-    <div className="max-w-[1000px] ml-[90px] py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
+    <div className="max-w-[1000px] md:ml-[90px] py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
       <Helmet>
         <title>{getLocalizedText(magazine.title)} | O‘zbekiston elektron jurnallari</title>
         <meta
@@ -141,12 +140,13 @@ const MagazineDetailUI: React.FC = () => {
 
           <div className="group relative mb-8  bg-cover bg-no-repeat bg-center   animate-slideInUp" style={{ backgroundImage: `url(${imageback})` }}>
             <div className="absolute top-3 left-2">
-              <img src={Logo} alt="" className="w-auto h-auto max-h-[50px] sm:max-h-[60px] md:max-h-[50px]" />
+              <img src={Logo} alt="Logo" loading="lazy" className="w-auto h-auto max-h-[50px] sm:max-h-[60px] md:max-h-[50px]" />
             </div>
             <div className="overflow-hiddenrounded-xl shadow-lg  group-hover:shadow-xl transition-shadow duration-300">
               <img
                 src={magazine.card || IMAGE}
                 alt={getLocalizedText(magazine.title)}
+                loading="lazy"
                 className="w-fit mx-auto max-h-[500px] p-5 rounded-xl   hover:cursor-pointer  group-hover:scale-105 transition-transform duration-500"
                 onClick={handleImageClick}
                 onError={(e) => ((e.target as HTMLImageElement).src = IMAGE)}

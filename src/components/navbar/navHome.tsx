@@ -68,7 +68,7 @@ const NavbarHome: React.FC = () => {
     >
       <div className="px-4 py-3 sm:px-6 sm:py-4 md:px-[80px] md:py-[20px] flex items-center justify-between">
         <Link to="/" className="flex items-center flex-shrink-0">
-        <img src={Logo} alt="Logo" className='w-20 h-12 sm:w-24 sm:h-14 md:w-32 md:h-16 rounded-xl' />
+        <img src={Logo} alt="Logo" loading='lazy' className='w-20 h-12 sm:w-24 sm:h-14 md:w-32 md:h-16 rounded-xl' />
           
         </Link>
 
@@ -141,7 +141,7 @@ const NavbarHome: React.FC = () => {
           </button>
 
           <button className="h-5 w-5 sm:h-6 sm:w-6 hidden md:block order-3">
-            <img src={SearchIcon} alt="Search icon" className="w-full h-full" />
+            <img src={SearchIcon} alt="Search icon" loading='lazy' className="w-full h-full" />
           </button>
         </div>
       </div>

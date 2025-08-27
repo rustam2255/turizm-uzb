@@ -16,7 +16,7 @@ const NewsDetailUI: React.FC = () => {
     skip: !id,
   });
 
-  console.log(newsItem);
+  
 
   if (isLoading) return <div className="text-center py-10">Yuklanmoqda...</div>;
   if (error) return <div className="text-center text-red-500">Ma'lumotlarni yuklashda xatolik yuz berdi</div>;
@@ -38,6 +38,7 @@ const NewsDetailUI: React.FC = () => {
         <img
           src={newsItem.image || IMAGE}
           alt={getLocalized(newsItem.title)}
+          loading="lazy"
           className="w-full max-h-96 h-[300px] sm:h-[350px] md:h-[400px] object-cover mb-[13px] mt-7"
           onError={(e) => ((e.target as HTMLImageElement).src = IMAGE)}
         />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, ChevronLeft, ChevronRight } from "lucide-react";
@@ -72,6 +72,7 @@ const TourCard: React.FC<{
             <motion.img
               src={firstImage}
               alt={name}
+              loading="lazy"
               className="w-full h-full object-cover rounded-t-xl"
               onError={(e) => (e.target as HTMLImageElement).src = IMAGE}
               whileHover={{ scale: 1.1 }}
@@ -89,6 +90,7 @@ const TourCard: React.FC<{
             <motion.img
               src={secondImage}
               alt={`${name} - 2`}
+              loading="lazy"
               className="w-full h-full object-cover rounded-t-xl"
               onError={(e) => (e.target as HTMLImageElement).src = IMAGE}
               whileHover={{ scale: 1.1 }}
@@ -150,9 +152,7 @@ const TravelDestination: React.FC = () => {
   });
 
   const tours = tourData?.results || [];
-  useEffect(() => {
-    console.log("Tour object:", tours);
-  }, [tours]);
+ 
   const totalPages = Math.ceil((tourData?.count || 0) / pageSize);
   const isLoading = loadingTours || loadingCities;
 

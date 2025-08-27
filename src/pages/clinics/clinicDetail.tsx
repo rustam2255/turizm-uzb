@@ -181,6 +181,7 @@ const ClinicDetail: React.FC = () => {
               key={currentImageIndex}
               src={`${MEDIA_URL}${images[currentImageIndex].photo}`}
               alt={clinic.name}
+              loading="lazy"
               className="w-full h-full object-cover"
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}

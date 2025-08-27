@@ -73,6 +73,7 @@ const MarketCard: React.FC<marketCardProps> = ({ market, lang, index }) => {
           <img
             src={firstImage}
             alt={market.name}
+            loading="lazy"
             className="w-full h-full object-cover absolute top-0 left-0 rounded-t-xl"
             style={{ backfaceVisibility: 'hidden' }}
             onError={(e) => {
@@ -83,6 +84,7 @@ const MarketCard: React.FC<marketCardProps> = ({ market, lang, index }) => {
           <img
             src={secondImage}
             alt={market.name}
+            loading="lazy"
             className="w-full h-full object-cover absolute top-0 left-0 rounded-t-xl"
             style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
             onError={(e) => {

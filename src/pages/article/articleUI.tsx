@@ -28,6 +28,7 @@ const ArticleCard: React.FC<{
         <img
           src={image || "/placeholder.svg"}
           alt={title}
+          loading="lazy"
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
           onError={handleImageError}
         />
@@ -41,6 +42,7 @@ const ArticleCard: React.FC<{
           <img
             src={author_photo || IMAGE1}
             alt={author}
+            loading="lazy"
             className="w-5 h-5 sm:w-6 sm:h-6 rounded-full object-cover flex-shrink-0"
             onError={handleImageError}
           />

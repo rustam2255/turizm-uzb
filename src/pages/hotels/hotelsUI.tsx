@@ -57,6 +57,7 @@ const HotelCard: React.FC<{
               <motion.img
                 src={firstImage}
                 alt={name}
+                loading="lazy"
                 className="w-full h-full object-cover rounded-t-xl"
                 onError={(e) => (e.currentTarget.src = image)}
                 whileHover={{ scale: 1.1 }}
@@ -74,6 +75,7 @@ const HotelCard: React.FC<{
               <motion.img
                 src={secondImage}
                 alt={`${name} - 2`}
+                loading="lazy"
                 className="w-full h-full object-cover rounded-t-xl"
                 onError={(e) => (e.currentTarget.src = image)}
                 whileHover={{ scale: 1.1 }}

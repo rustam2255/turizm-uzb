@@ -63,7 +63,7 @@ const Magazine: React.FC = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
-          <img src={SelectedIcon} alt="Toggle" className="w-5 h-5 filter drop-shadow-sm" />
+          <img src={SelectedIcon} loading="lazy" alt="Toggle" className="w-5 h-5 filter drop-shadow-sm" />
         </motion.span>
       </motion.button>
 

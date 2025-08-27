@@ -167,6 +167,7 @@ const HotelDetailsPage: React.FC = () => {
             <motion.img
               src={images[currentImageIndex].image}
               alt={hotel.name}
+              loading="lazy"
               className="w-full h-[400px] rounded-xl object-cover cursor-pointer"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

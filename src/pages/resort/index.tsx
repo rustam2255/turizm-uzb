@@ -81,6 +81,7 @@ const ResortCard: React.FC<{ resort: Resort; lang: Lang }> = ({ resort, lang }) 
             <motion.img
               src={firstImage}
               alt={resort.name}
+              loading="lazy"
               className="w-full h-full object-cover rounded-t-xl"
               onError={(e) => (e.currentTarget.src = FallbackImage)}
               whileHover={{ scale: 1.1 }}
@@ -98,6 +99,7 @@ const ResortCard: React.FC<{ resort: Resort; lang: Lang }> = ({ resort, lang }) 
             <motion.img
               src={secondImage}
               alt={`${resort.name} - 2`}
+              loading="lazy"
               className="w-full h-full object-cover rounded-t-xl"
               onError={(e) => (e.currentTarget.src = FallbackImage)}
               whileHover={{ scale: 1.1 }}

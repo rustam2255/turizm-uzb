@@ -140,8 +140,8 @@
     "banks": "Banks",
     "clinic": "Clinic",
     "market": "Supermarket",
-      "airplane": "Airplane",
-      "tourbus": "Tour Bus"
+    "airplane": "Airplane",
+    "tourbus": "Tour Bus"
   },
   "common": {
     "loading": "Loading...",
@@ -191,5 +191,29 @@
     "navigator": " Opens the navigator app on your phone",
     "google": " Shows route in Google Maps",
     "yandex": " Shows route in Yandex Maps"
+  },
+  "footer": {
+    "about": "On our website, you can find travel destinations, tour packages, and useful tips from around the world. We provide convenient and fast services for you.",
+    "pages": {
+      "home": "Home",
+      "tours": "Tours",
+      "hotels": "Hotels",
+      "resorts": "Resorts",
+      "shops": "Shops",
+      "news": "News",
+      "contact": "Contact",
+       "airplane": "Airplane",
+    "tourbus": "Tour Bus",
+    "magazines": "Magazines"
+    },
+    "contact": "Contact: info@tourismwebsite.uz | Phone: +998 90 123 45 67",
+    "rights": "© 2025 All rights reserved.",
+    "pagesTitle": "Site Links",
+    "contactTitle": "Contact",
+    "contactEmail": "Email",
+    "contactPhone": "Phone",
+    "contactAddress": "Address",
+    "socialTitle": "Social Networks",
+        "companyDescription": "Our company provides high-quality services in Uzbekistan and delivers the best experience to our clients."
   }
 }

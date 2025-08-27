@@ -27,6 +27,7 @@ import Airplane from './pages/airplane';
 import TourBus from './pages/tourbus';
 import BusDetail from './pages/tourbus/busDetail';
 import AirplaneDetail from './pages/airplane/airplaneDetail';
+import Footer from './components/footer';
 // import Footer from './components/footer';
 
 const Home = lazy(() => import('@pages/home'));
@@ -99,7 +100,7 @@ const AppContent = () => {
           <Route path='/services/tour-bus' element={<TourBus/>}/>
         </Routes>
       </Suspense>
-      {/* <Footer /> */}
+      <Footer /> 
     </>
   );
 };
