@@ -6,7 +6,7 @@ import IMAGE from "@assets/images/samarkand-img.png";
 import IMAGE1 from "@assets/images/place1.png";
 import IMAGE2 from "@assets/images/place3.png"
 
-
+import { Helmet } from "react-helmet-async";
 
 const TravelDetailPage: React.FC = () => {
   const { idSlug } = useParams<{ idSlug: string }>();
@@ -45,6 +45,22 @@ const TravelDetailPage: React.FC = () => {
 
   return (
     <div className="px-4">
+      <Helmet>
+        <title>{place.name || "Travel Place"} | Uzbekistan Tours</title>
+        <meta
+          name="description"
+          content={ "Uzbekistan travel companies"}
+        />
+        <meta name="keywords" content={`travel, tour, Uzbekistan, ${place.name}`} />
+        <link rel="canonical" href={window.location.href} />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={`${place.name} | Uzbekistan Tours`} />
+        <meta property="og:description" content={"Uzbekistan trave companies"} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={images[0]?.photo || IMAGE} />
+      </Helmet>
       <TravelPlaceDetail place={place} nextImage={nextImage} prevImage={prevImage} currentImageIndex={currentImageIndex} images={images} setCurrentImageIndex={setCurrentImageIndex} />
     </div>
   );

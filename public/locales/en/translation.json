@@ -140,8 +140,8 @@
     "banks": "Banks",
     "clinic": "Clinic",
     "market": "Supermarket",
-    "airplane": "Airplane",
-    "tourbus": "Tour Bus"
+      "airplane": "Airplane",
+      "tourbus": "Tour Bus"
   },
   "common": {
     "loading": "Loading...",

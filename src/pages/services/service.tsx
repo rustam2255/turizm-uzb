@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGetDashboardListQuery } from "@/services/api";
-
+import { Helmet } from "react-helmet-async";
 // Interfeyslar
 interface MultilangText {
   uz: string;
@@ -189,6 +189,45 @@ const ServiceUI: React.FC = () => {
         />
       )}
       <div className="w-full min-h-screen py-4 sm:py-6 md:py-8">
+        <Helmet>
+          <title>{t("seo.servicesTitle", "O‘zbekiston xizmatlari | Tourism Uzbekistan | Turizm xizmatlari")}</title>
+          <meta
+            name="description"
+            content={t("seo.servicesDescription", "O‘zbekiston bo‘yicha mehmonxonalar, kurortlar, banklar, klinikalar va boshqa xizmatlar ro‘yxati")}
+          />
+          <meta
+            name="keywords"
+            content="O‘zbekiston turizmi, mehmonxonalar, kurortlar, banklar, klinikalar, bozorlari, transport, sayohat, tours, hotels, PDF download, airlines, tour bus O‘zbekiston turizmi, O'zbekiston hotels, O‘zbek kurortlari, mehmonxonalar Uzbekistan, O‘zbekcha sayohat, Uzbekistan travel, PDF download, tours Uzbekistan, airlines Uzbekistan, tour bus, banklar O‘zbekistan, klinikalar Uzbekistan, bozorlari O‘zbekistan, hotels in Tashkent, resorts in Samarkand, Uzbekistan tourism, O‘zbekcha magazine, PDF magazine Uzbekistan, Uzbekistan news, O‘zbekiston transport, Uzbekistan flights, Uzbekistan tour packages, O‘zbekcha shops, O‘zbekiston hotels booking, Uzbekistan adventure, Uzbekistan cultural tours, Uzbekistan city guides, O‘zbekiston sightseeing, Uzbekistan family tours, Uzbekistan vacation, Uzbekistan tours & travel
+"
+          />
+          <link rel="canonical" href="https://tourism-uzbekistan.uz/services" />
+          {/* Open Graph */}
+          <meta property="og:title" content="O‘zbekiston xizmatlari" />
+          <meta property="og:description" content="O‘zbekiston bo‘yicha mehmonxonalar, kurortlar, banklar, klinikalar va boshqa xizmatlar ro‘yxati" />
+          <meta property="og:url" content="https://tourism-uzbekistan.uz/services" />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content={formattedServices[0]?.file || "/fallback-image.webp"} />
+          {/* Twitter */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="O‘zbekiston xizmatlari" />
+          <meta name="twitter:description" content="O‘zbekiston bo‘yicha mehmonxonalar, kurortlar, banklar, klinikalar va boshqa xizmatlar ro‘yxati" />
+          <meta name="twitter:image" content={formattedServices[0]?.file || "/fallback-image.webp"} />
+          {/* JSON-LD structured data */}
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "name": "O‘zbekiston xizmatlari",
+              "url": "https://tourism-uzbekistan.uz/services",
+              "itemListElement": formattedServices.map((service, index) => ({
+                "@type": "ListItem",
+                "position": index + 1,
+                "name": service.title[currentLanguage] || service.title.en,
+                "url": `https://tourism-uzbekistan.uz${service.link}`
+              }))
+            })}
+          </script>
+        </Helmet>
         <div className="max-w-[1800px] mx-auto px-4 sm:px-6 md:px-[80px]">
           <Breadcrumb />
           <motion.div

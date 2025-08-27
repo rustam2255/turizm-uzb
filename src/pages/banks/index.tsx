@@ -8,7 +8,7 @@ import SkeletonCard from "@/components/ui/loaderSkleton/travelDestinationSkleton
 import IMAGE1 from "@/assets/images/banks.png";
 import IMAGE from "@/assets/images/place3.png";
 import { slugify } from "@/utils/slugify";
-
+import { Helmet } from "react-helmet-async";
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
 type Lang = "uz" | "ru" | "en";
@@ -163,7 +163,7 @@ const Banks: React.FC = () => {
 
   const renderPaginationButtons = () => {
     const buttons = [];
-    const maxVisiblePages = 3; 
+    const maxVisiblePages = 3;
 
     // Previous buttons
     if (currentPage > 1) {
@@ -193,11 +193,10 @@ const Banks: React.FC = () => {
         <button
           key={1}
           onClick={() => handlePageChange(1)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            currentPage === 1
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === 1
               ? "bg-blue-500 text-white"
               : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+            }`}
         >
           1
         </button>
@@ -217,11 +216,10 @@ const Banks: React.FC = () => {
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            i === currentPage
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${i === currentPage
               ? "bg-blue-500 text-white"
               : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+            }`}
         >
           {i}
         </button>
@@ -242,11 +240,10 @@ const Banks: React.FC = () => {
         <button
           key={totalPages}
           onClick={() => handlePageChange(totalPages)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            currentPage === totalPages
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === totalPages
               ? "bg-blue-500 text-white"
               : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+            }`}
         >
           {totalPages}
         </button>
@@ -277,6 +274,30 @@ const Banks: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
+      <Helmet>
+        <title>{t("services.banks")} - MySite</title>
+        <meta name="description" content={`List of banks in different cities. Search and filter banks by city or name.`} />
+        <meta name="keywords" content="banks, bank in city, bank services, online banking, {t('services.banks')}" />
+        <link rel="canonical" href={window.location.href} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": t("services.banks"),
+            "itemListElement": banks.map((bank, index) => ({
+              "@type": "ListItem",
+              "position": index + 1,
+              "name": bank.name,
+              "url": `${window.location.origin}/services/bank/${bank.id}-${slugify(bank.name)}`,
+              "image": bank.images.length > 0 ? `${MEDIA_URL}${bank.images[0].photo}` : IMAGE,
+              "address": getLocalizedText(
+                { uz: bank.city.name_uz, ru: bank.city.name_ru, en: bank.city.name_en },
+                lang
+              ),
+            })),
+          })}
+        </script>
+      </Helmet>
       {/* Breadcrumb */}
       <motion.div
         className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
@@ -367,26 +388,26 @@ const Banks: React.FC = () => {
         <AnimatePresence>
           {isLoading
             ? Array.from({ length: 10 }).map((_, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                >
-                  <SkeletonCard />
-                </motion.div>
-              ))
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+              >
+                <SkeletonCard />
+              </motion.div>
+            ))
             : banks.map((bank) => (
-                <motion.div
-                  key={bank.id}
-                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -50, scale: 0.9 }}
-                  transition={{ duration: 0.5, delay: banks.indexOf(bank) * 0.1 }}
-                >
-                  <BankCard bank={bank} lang={lang} />
-                </motion.div>
-              ))}
+              <motion.div
+                key={bank.id}
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -50, scale: 0.9 }}
+                transition={{ duration: 0.5, delay: banks.indexOf(bank) * 0.1 }}
+              >
+                <BankCard bank={bank} lang={lang} />
+              </motion.div>
+            ))}
         </AnimatePresence>
       </motion.div>
 

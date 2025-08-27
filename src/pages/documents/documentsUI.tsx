@@ -7,19 +7,19 @@ import {
   useGetDocumentCategoriesQuery,
   useGetDocumentsQuery,
 } from "@/services/api";
-
+import { Helmet } from "react-helmet-async";
 const DocumentUI: React.FC = () => {
   const { i18n, t } = useTranslation();
   const currentLang = i18n.language.split("-")[0] as "uz" | "ru" | "en";
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [debouncedSearch, setDebouncedSearch] = useState(searchQuery);
-  
+
   useEffect(() => {
     const handler = setTimeout(() => setDebouncedSearch(searchQuery), 300);
     return () => clearTimeout(handler);
   }, [searchQuery]);
-  
+
   const {
     data: categories = [],
     isLoading: loadingCategories,
@@ -34,27 +34,53 @@ const DocumentUI: React.FC = () => {
     search: debouncedSearch,
     category: selectedCategoryId,
   });
+  const metaKeywords = [
+    "O‘zbekiston hujjatlari", "Uzbekistan documents", "Документы Узбекистан",
+    "PDF download", "Rasmiy hujjatlar", "Government documents",
+    "O‘zbekcha regulations", "Uzbek laws", "Legal documents Uzbekistan",
+    "Tashkent documents", "Samarkand documents", "Document categories Uzbekistan",
+    "PDF Uzbekistan", "PDF rasmiy", "Uzbekistan news PDF"
+  ].join(", ");
+
+  // Dynamic description
+  const metaDescription =
+    "O‘zbekiston rasmiy hujjatlari, kategoriyalari va PDF fayllarni tez va oson toping. Qidiruv va filtrlash funksiyalari bilan barcha rasmiy dokumentlar bir joyda.";
 
   return (
-    <motion.div 
+    <motion.div
       className="px-4 sm:px-6 lg:px-8 py-8 max-w-[1200px] ml-5    min-h-screen bg-gradient-to-br  relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
+      <Helmet>
+        <title>{t("documents.title") || "O‘zbekiston Hujjatlari"}</title>
+        <meta name="description" content={metaDescription} />
+        <meta name="keywords" content={metaKeywords} />
+        <link rel="canonical" href={window.location.href} />
+        {/* Open Graph */}
+        <meta property="og:title" content={t("documents.title") || "O‘zbekiston Hujjatlari"} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={t("documents.title") || "O‘zbekiston Hujjatlari"} />
+        <meta name="twitter:description" content={metaDescription} />
+      </Helmet>
       {/* Background decorations */}
       <div className="absolute inset-0 bg-[rgba(245, 245, 245, 1)] pointer-events-none">
-        <motion.div 
+        <motion.div
           className="absolute top-20 -left-20 w-40 h-40  rounded-full blur-3xl"
-          animate={{ 
+          animate={{
             x: [0, 30, 0],
             y: [0, 20, 0],
           }}
           transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
         />
-        <motion.div 
+        <motion.div
           className="absolute bottom-20 -right-20 w-60 h-60 bg-blue-200/20 rounded-full blur-3xl"
-          animate={{ 
+          animate={{
             x: [0, -20, 0],
             y: [0, -30, 0],
           }}
@@ -64,7 +90,7 @@ const DocumentUI: React.FC = () => {
 
       <div className="relative z-10">
         {/* Breadcrumb */}
-        <motion.div 
+        <motion.div
           className="flex items-center text-[14px] font-sans font-medium md:text-[18px] gap-2 mb-4"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -73,7 +99,7 @@ const DocumentUI: React.FC = () => {
           <Link to="/" className="hover:underline transition-colors duration-200">
             {t("breadcrumb.home")}
           </Link>
-          <motion.span 
+          <motion.span
             className=""
             animate={{ rotate: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
@@ -83,10 +109,10 @@ const DocumentUI: React.FC = () => {
           <span className=" font-semibold text-sky-900" >{t("breadcrumb.documents")}</span>
         </motion.div>
 
-  
+
 
         {/* Search Input */}
-        <motion.div 
+        <motion.div
           className="mb-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -112,29 +138,28 @@ const DocumentUI: React.FC = () => {
         </motion.div>
 
         {/* Categories */}
-        <motion.div 
+        <motion.div
           className="mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <motion.h2 
+          <motion.h2
             className="text-xl font-semibold mb-6 text-sky-900"
             whileHover={{ x: 5 }}
             transition={{ duration: 0.2 }}
           >
             {t("documents.categories")}
           </motion.h2>
-          
+
           <div className="flex flex-wrap gap-3">
             {/* Clear filter button */}
             <motion.button
               onClick={() => setSelectedCategoryId(null)}
-              className={`text-sm cursor-pointer px-4 py-2 rounded-full transition-all duration-300 border-2 backdrop-blur-sm ${
-                selectedCategoryId === null
-                  ? "bg-sky-500 text-white border-sky-500 shadow-lg shadow-sky-200"
-                  : "bg-white/70 text-sky-600 hover:bg-sky-50 border-sky-200 hover:border-sky-300"
-              }`}
+              className={`text-sm cursor-pointer px-4 py-2 rounded-full transition-all duration-300 border-2 backdrop-blur-sm ${selectedCategoryId === null
+                ? "bg-sky-500 text-white border-sky-500 shadow-lg shadow-sky-200"
+                : "bg-white/70 text-sky-600 hover:bg-sky-50 border-sky-200 hover:border-sky-300"
+                }`}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, scale: 0.8 }}
@@ -145,7 +170,7 @@ const DocumentUI: React.FC = () => {
             </motion.button>
 
             {loadingCategories ? (
-              <motion.div 
+              <motion.div
                 className="flex items-center gap-2 text-sky-600"
                 animate={{ opacity: [1, 0.5, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
@@ -154,7 +179,7 @@ const DocumentUI: React.FC = () => {
                 <span>{t("loading")}</span>
               </motion.div>
             ) : categoriesError ? (
-              <motion.p 
+              <motion.p
                 className="text-red-500 bg-red-50 px-4 py-2 rounded-full border border-red-200"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -167,11 +192,10 @@ const DocumentUI: React.FC = () => {
                 <motion.button
                   key={category.id}
                   onClick={() => setSelectedCategoryId(category.id)}
-                  className={`text-sm cursor-pointer px-4 py-2 rounded-full transition-all duration-300 border-2 backdrop-blur-sm ${
-                    selectedCategoryId === category.id
-                      ? "bg-sky-500 text-white border-sky-500 shadow-lg shadow-sky-200"
-                      : "bg-white/70 text-sky-600 hover:bg-sky-50 border-sky-200 hover:border-sky-300"
-                  }`}
+                  className={`text-sm cursor-pointer px-4 py-2 rounded-full transition-all duration-300 border-2 backdrop-blur-sm ${selectedCategoryId === category.id
+                    ? "bg-sky-500 text-white border-sky-500 shadow-lg shadow-sky-200"
+                    : "bg-white/70 text-sky-600 hover:bg-sky-50 border-sky-200 hover:border-sky-300"
+                    }`}
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -258,28 +282,28 @@ const DocumentUI: React.FC = () => {
                     className="border-2 border-sky-100 bg-white/80 backdrop-blur-sm shadow-md rounded-2xl p-6 hover:shadow-xl transition-all duration-300 group"
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ 
-                      duration: 0.5, 
+                    transition={{
+                      duration: 0.5,
                       delay: index * 0.1,
                       type: "spring",
                       stiffness: 100
                     }}
-                    whileHover={{ 
+                    whileHover={{
                       y: -8,
                       scale: 1.02,
                       borderColor: "rgb(56 189 248)",
                       boxShadow: "0 20px 25px -5px rgba(56, 189, 248, 0.1), 0 10px 10px -5px rgba(56, 189, 248, 0.04)"
                     }}
                   >
-                    <motion.h2 
+                    <motion.h2
                       className="text-lg font-semibold text-sky-800 mb-4 group-hover:text-sky-600 transition-colors duration-300"
                       style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}
                     >
                       {title}
                     </motion.h2>
-                    
+
                     <div className="space-y-3 mb-6">
-                      <motion.div 
+                      <motion.div
                         className="text-sm text-sky-600"
                         whileHover={{ x: 5 }}
                         transition={{ duration: 0.2 }}
@@ -289,8 +313,8 @@ const DocumentUI: React.FC = () => {
                         </span>{" "}
                         <span className="ml-1">{doc.number}</span>
                       </motion.div>
-                      
-                      <motion.div 
+
+                      <motion.div
                         className="text-sm text-sky-500"
                         whileHover={{ x: 5 }}
                         transition={{ duration: 0.2 }}
@@ -301,7 +325,7 @@ const DocumentUI: React.FC = () => {
                         <span className="ml-1">{doc.date}</span>
                       </motion.div>
                     </div>
-                    
+
                     {link && (
                       <motion.a
                         href={link}
@@ -312,10 +336,10 @@ const DocumentUI: React.FC = () => {
                         whileTap={{ scale: 0.95 }}
                       >
                         <span>{t("documents.view_document")}</span>
-                        <motion.svg 
-                          className="w-4 h-4 ml-2" 
-                          fill="none" 
-                          stroke="currentColor" 
+                        <motion.svg
+                          className="w-4 h-4 ml-2"
+                          fill="none"
+                          stroke="currentColor"
                           viewBox="0 0 24 24"
                           animate={{ x: [0, 3, 0] }}
                           transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}

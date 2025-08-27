@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useGetBusbyIdQuery } from "@/services/api";
 import FallbackImage from "@assets/images/place3.png";
-import {  getLocalizedText, normalizeAddress, normalizeBody, normalizeDescription } from "@/utils/getLocalized";
+import { getLocalizedText, normalizeAddress, normalizeBody, normalizeDescription } from "@/utils/getLocalized";
 import IMAGE from "@assets/images/samarkand-img.png";
 import IMAGE1 from "@assets/images/place1.png";
 import IMAGE2 from "@assets/images/place3.png";
@@ -14,7 +14,7 @@ import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnaviga
 import { stripHtmlTags } from "@/utils/getHtmlTags";
 import GalleryModal from "@/utils/galleryModal";
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
-
+import { Helmet } from "react-helmet-async";
 const BusDetail: React.FC = () => {
   const { idSlug } = useParams<{ idSlug: string }>();
   const bankId = Number(idSlug?.split("-")[0]);
@@ -62,6 +62,10 @@ const BusDetail: React.FC = () => {
       </motion.div>
     );
   }
+  const pageTitle = bank ? bank.name : t("services.tourbus");
+  const pageDescription = bank
+    ? stripHtmlTags(getLocalizedText(normalizeDescription(bank.description), lang)).slice(0, 160)
+    : t("services.tourbus_description");
 
   return (
     <motion.div
@@ -70,6 +74,49 @@ const BusDetail: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <link rel="canonical" href={window.location.href} />
+
+        {/* OpenGraph */}
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={bank?.images?.[0]?.photo ? `${MEDIA_URL}${bank.images[0].photo}` : IMAGE} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:image" content={bank?.images?.[0]?.photo ? `${MEDIA_URL}${bank.images[0].photo}` : IMAGE} />
+
+        {/* JSON-LD Schema */}
+        {bank && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "TravelService",
+              "name": bank.name,
+              "image": bank.images?.map(img => `${MEDIA_URL}${img.photo}`) || [],
+              "description": stripHtmlTags(getLocalizedText(normalizeDescription(bank.description), lang)),
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": getLocalizedText(normalizeAddress(bank.address), lang),
+                
+                "addressCountry": "UZ"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": bank.latitude,
+                "longitude": bank.longitude
+              },
+              "url": window.location.href
+            })}
+          </script>
+        )}
+      </Helmet>
       {/* Breadcrumb */}
       <motion.div
         className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
@@ -81,7 +128,7 @@ const BusDetail: React.FC = () => {
         <span className="">&gt;</span>
         <Link to="/services" className=" transition-colors duration-200">{t("services.title")}</Link>
         <span className="text-[#4DC7E8">&gt;</span>
-        <Link to="/services/clinics" className=" transition-colors duration-200">{t("services.tourbus")}</Link>
+        <Link to="/services/tour-bus" className=" transition-colors duration-200">{t("services.tourbus")}</Link>
         <span className="">&gt;</span>
         <span className="text-[rgba(25,110,150,255)] font-semibold">{bank.name}</span>
       </motion.div>

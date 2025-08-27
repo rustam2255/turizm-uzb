@@ -7,7 +7,7 @@ import { useGetCitiesHotelQuery, useGetToursQuery } from "@/services/api";
 import TravelDestionationSkleton from "@/components/ui/loaderSkleton/travelDestinationSkleton";
 import IMAGE from "@assets/images/samarkand-img.png";
 import { slugify } from "@/utils/slugify";
-
+import { Helmet } from "react-helmet-async";
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
 type Lang = "uz" | "ru" | "en";
@@ -163,7 +163,7 @@ const TravelDestination: React.FC = () => {
 
   const renderPaginationButtons = () => {
     const buttons = [];
-    const maxVisiblePages = 3; 
+    const maxVisiblePages = 3;
 
     // Previous button
     if (currentPage > 1) {
@@ -193,11 +193,10 @@ const TravelDestination: React.FC = () => {
         <button
           key={1}
           onClick={() => handlePageChange(1)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            currentPage === 1
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === 1
               ? "bg-blue-500 text-white"
               : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+            }`}
         >
           1
         </button>
@@ -217,11 +216,10 @@ const TravelDestination: React.FC = () => {
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            i === currentPage
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${i === currentPage
               ? "bg-blue-500 text-white"
               : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+            }`}
         >
           {i}
         </button>
@@ -242,11 +240,10 @@ const TravelDestination: React.FC = () => {
         <button
           key={totalPages}
           onClick={() => handlePageChange(totalPages)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            currentPage === totalPages
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === totalPages
               ? "bg-blue-500 text-white"
               : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+            }`}
         >
           {totalPages}
         </button>
@@ -277,6 +274,18 @@ const TravelDestination: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
+      <Helmet>
+        <title>{t("services.tour-firm")} | Uzbekistan Travel Tours</title>
+        <meta name="description" content={t("services.tour-firm_description")} />
+        <meta name="keywords" content={`tour, travel, Uzbekistan, ${t("services.tour-firm")}`} />
+        <link rel="canonical" href={window.location.href} />
+        {/* Open Graph */}
+        <meta property="og:title" content={`${t("services.tour-firm")} | Uzbekistan Travel Tours`} />
+        <meta property="og:description" content={t("services.tour-firm_description")} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={IMAGE} />
+      </Helmet>
       {/* Breadcrumb */}
       <motion.div
         className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
@@ -370,38 +379,38 @@ const TravelDestination: React.FC = () => {
         <AnimatePresence>
           {isLoading
             ? Array.from({ length: 6 }).map((_, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <TravelDestionationSkleton />
-                </motion.div>
-              ))
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <TravelDestionationSkleton />
+              </motion.div>
+            ))
             : tours.map((tour) => (
-                <motion.div
-                  key={tour.id}
-                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -40, scale: 0.95 }}
-                  transition={{ duration: 0.5, delay: tours.indexOf(tour) * 0.1 }}
-                >
-                  <TourCard
-                    id={tour.id}
-                    name={tour.name}
-                    city={getLocalizedText(
-                      {
-                        uz: tour.city.name_uz,
-                        en: tour.city.name_en,
-                        ru: tour.city.name_ru,
-                      },
-                      lang
-                    )}
-                    image={tour.image}
-                  />
-                </motion.div>
-              ))}
+              <motion.div
+                key={tour.id}
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -40, scale: 0.95 }}
+                transition={{ duration: 0.5, delay: tours.indexOf(tour) * 0.1 }}
+              >
+                <TourCard
+                  id={tour.id}
+                  name={tour.name}
+                  city={getLocalizedText(
+                    {
+                      uz: tour.city.name_uz,
+                      en: tour.city.name_en,
+                      ru: tour.city.name_ru,
+                    },
+                    lang
+                  )}
+                  image={tour.image}
+                />
+              </motion.div>
+            ))}
         </AnimatePresence>
       </motion.div>
 
@@ -428,7 +437,7 @@ const TravelDestination: React.FC = () => {
           {renderPaginationButtons()}
         </motion.div>
       )}
-      
+
     </motion.div>
   );
 };

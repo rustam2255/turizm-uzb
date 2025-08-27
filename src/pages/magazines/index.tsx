@@ -7,8 +7,8 @@ import SelectedIcon from "@assets/icons/vector-select.svg";
 import MagazineSkeleton from "@/components/ui/loaderSkleton/magazineSkeleton";
 import { useTranslation } from "react-i18next";
 import { useGetMagazinesQuery } from "@/services/api";
-import { MagazineItem} from "@/interface";
-
+import { MagazineItem } from "@/interface";
+import { Helmet } from "react-helmet-async";
 const Magazine: React.FC = () => {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language.split("-")[0] as "uz" | "ru" | "en";
@@ -31,13 +31,13 @@ const Magazine: React.FC = () => {
   };
 
   const renderMagazineSection = (year: string, items: MagazineItem[]) => (
-    <motion.div 
-      key={year} 
+    <motion.div
+      key={year}
       className="font-sans border border-sky-200 hover:border-sky-300 py-6 px-5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-sky-50/30 to-blue-50/30 backdrop-blur-sm"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      whileHover={{ 
+      whileHover={{
         y: -2,
         boxShadow: "0 10px 25px rgba(56, 178, 237, 0.15)"
       }}
@@ -48,16 +48,18 @@ const Magazine: React.FC = () => {
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
-        <motion.span 
+        <motion.span
           className="text-sky-900  dark:text-sky-500 font-semibold group-hover:text-sky-600 transition-colors duration-300"
           style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}
         >
-          {t("magazine.booksIn", { year })}
-        </motion.span>
+          <h1>
+            {t("magazine.booksIn", { year })}
+          </h1>
+
+        </motion.span>  
         <motion.span
-          className={`transform transition-all duration-500 p-2 rounded-full bg-sky-100 hover:bg-sky-200 ${
-            openYear.includes(year) ? "rotate-180 bg-sky-200" : "rotate-0"
-          }`}
+          className={`transform transition-all duration-500 p-2 rounded-full bg-sky-100 hover:bg-sky-200 ${openYear.includes(year) ? "rotate-180 bg-sky-200" : "rotate-0"
+            }`}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -71,7 +73,7 @@ const Magazine: React.FC = () => {
             initial={{ height: 0, opacity: 0, scale: 0.95 }}
             animate={{ height: "auto", opacity: 1, scale: 1 }}
             exit={{ height: 0, opacity: 0, scale: 0.95 }}
-            transition={{ 
+            transition={{
               duration: 0.5,
               type: "spring",
               stiffness: 100,
@@ -80,14 +82,14 @@ const Magazine: React.FC = () => {
             className="overflow-hidden"
           >
             {/* Decorative line */}
-            <motion.div 
+            <motion.div
               className="w-full h-0.5 bg-gradient-to-r from-transparent via-sky-300 to-transparent my-4 rounded-full"
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             />
-            
-            <motion.div 
+
+            <motion.div
               className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mt-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -98,13 +100,13 @@ const Magazine: React.FC = () => {
                   key={mag.id}
                   initial={{ opacity: 0, y: 30, scale: 0.9 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ 
-                    duration: 0.5, 
+                  transition={{
+                    duration: 0.5,
                     delay: index * 0.1,
                     type: "spring",
                     stiffness: 100
                   }}
-                  whileHover={{ 
+                  whileHover={{
                     y: -8,
                     scale: 1.05,
                     transition: { duration: 0.2 }
@@ -128,20 +130,65 @@ const Magazine: React.FC = () => {
 
   return (
     <div className="max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-30 mb-20 min-h-screen">
+      <Helmet>
+        <title>{t("seo.magazineTitle", "Jurnallar | Rasmiy sayti")}</title>
+        <meta
+          name="description"
+          content={t(
+            "seo.magazineDescription",
+            "O‘zbekiston bo‘yicha barcha elektron jurnallarni bu sahifadan topishingiz mumkin. PDF ko‘rinishida yuklab oling."
+          )}
+        />
+        <meta
+          name="keywords"
+          content="O‘zbekiston jurnallari, elektron jurnal, magazine Uzbekistan, PDF download, mehmonxonalar, hotels, o'zbekcha kitoblar, "
+        />
+
+        {/* Canonical */}
+        <link rel="canonical" href="https://tourism-uzbekistan.uz/" />
+
+        {/* Open Graph (Facebook, Telegram preview) */}
+        <meta property="og:title" content="O‘zbekiston elektron jurnallari" />
+        <meta
+          property="og:description"
+          content="Barcha yangi jurnallarni elektron ko‘rinishda bu sahifada toping."
+        />
+        <meta
+          property="og:image"
+          content="https://api.tourism-uzbekistan.uz/media/magazines/Screenshot_2025-08-26_at_16.17.42.png"
+        />
+        <meta property="og:url" content="https://tourism-uzbekistan.uz/magazines" />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="O‘zbekiston elektron jurnallari"
+        />
+        <meta
+          name="twitter:description"
+          content="Barcha yangi jurnallarni elektron ko‘rinishda bu sahifada toping."
+        />
+        <meta
+          name="twitter:image"
+          content="https://api.tourism-uzbekistan.uz/media/magazines/Screenshot_2025-08-26_at_16.17.42.png"
+        />
+      </Helmet>
       {/* Background decoration */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-sky-200/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-200/10 rounded-full blur-3xl"></div>
       </div>
-      
-      <motion.div 
+
+      <motion.div
         className="pt-6 md:mt-[30px] relative z-10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
         {/* Breadcrumb */}
-        <motion.div 
+        <motion.div
           className="flex items-center text-[14px] font-medium md:text-[18px] leading-[100%] gap-2 mb-4"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -150,7 +197,7 @@ const Magazine: React.FC = () => {
           <Link to="/" className="hover:underline transition-colors duration-200">
             {t("breadcrumb.home")}
           </Link>
-          <motion.span 
+          <motion.span
             className=""
             animate={{ rotate: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
@@ -163,7 +210,7 @@ const Magazine: React.FC = () => {
 
         {/* Content */}
         {isError ? (
-          <motion.div 
+          <motion.div
             className="text-center mt-10 p-8 bg-red-50 border border-red-200 rounded-2xl"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -172,7 +219,7 @@ const Magazine: React.FC = () => {
             <div className="text-red-500 text-lg font-medium">Ma'lumotlarni olishda xatolik yuz berdi</div>
           </motion.div>
         ) : isLoading ? (
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mt-5"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -194,7 +241,7 @@ const Magazine: React.FC = () => {
         ) : (
           <motion.div className="space-y-6">
             {Object.entries(magazines)
-              .sort((a, b) => Number(b[0]) - Number(a[0])) 
+              .sort((a, b) => Number(b[0]) - Number(a[0]))
               .map(([year, items], index) => (
                 <motion.div
                   key={year}

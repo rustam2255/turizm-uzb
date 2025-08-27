@@ -10,13 +10,13 @@ import ResortMapHome from '@/components/subnavbarPages/resort';
 import BankHome from '@/components/subnavbarPages/bank';
 import ClinicHome from '@/components/subnavbarPages/clinics';
 import ShopHome from '@/components/subnavbarPages/market';
-
+import { Helmet } from 'react-helmet-async';
 type SectionId = 'home' | 'media' | 'hotelCard' | 'detanation' | 'magazine' | 'resort' | 'bank' | 'clinic' | 'market';
 
 const Home: React.FC = () => {
   const [activeSection, setActiveSection] = useState<SectionId>('home');
   const [isSticky, setIsSticky] = useState<boolean>(false);
-  
+
 
 
   // Section refs
@@ -75,8 +75,8 @@ const Home: React.FC = () => {
   // Animatsiyalar
   const fadeInUp = {
     hidden: { opacity: 0, y: 50 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.8, ease: 'easeOut' }
     }
@@ -84,8 +84,8 @@ const Home: React.FC = () => {
 
   const slideInLeft = {
     hidden: { opacity: 0, x: -100 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       x: 0,
       transition: { duration: 0.8, ease: 'easeOut' }
     }
@@ -93,19 +93,28 @@ const Home: React.FC = () => {
 
   const slideInRight = {
     hidden: { opacity: 0, x: 100 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       x: 0,
       transition: { duration: 0.8, ease: 'easeOut' }
     }
   };
 
   return (
-    <div 
-      className={`relative min-h-screen overflow-x-hidden font-sans bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`} 
+    <div
+      className={`relative min-h-screen overflow-x-hidden font-sans bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
     >
-    
- 
+      <Helmet>
+        <title>Eng yaxshi sayohat, turizm va xizmatlar – MySite</title>
+        <meta name="description" content="MySite orqali mehmonxonalar, turistik joylar, transport va boshqa xizmatlarni toping. Sayohatlaringizni rejalashtiring va eng yaxshi xizmatlardan foydalaning." />
+        <meta property="og:title" content="Eng yaxshi sayohat, turizm va xizmatlar – MySite" />
+        <meta property="og:description" content="MySite orqali mehmonxonalar, turistik joylar, transport va boshqa xizmatlarni toping. Sayohatlaringizni rejalashtiring va eng yaxshi xizmatlardan foydalaning." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://tourism-uzbekistan.uz/" />
+        <meta property="og:image" content="https://tourism-uzbekistan.uz/image" />
+      </Helmet>
+
+
 
       {/* Home Section */}
       <div id="home" className="relative">

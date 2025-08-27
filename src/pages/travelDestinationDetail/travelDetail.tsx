@@ -8,7 +8,7 @@ import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnaviga
 import { stripHtmlTags } from "@/utils/getHtmlTags";
 import GalleryModal from "@/utils/galleryModal";
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
-
+import { Helmet } from "react-helmet-async";
 export interface MultilangText {
   uz?: string;
   ru?: string;
@@ -44,7 +44,8 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
   const [isHovered, setIsHovered] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
+  const descriptionText = stripHtmlTags(getLocalizedText(place.description, lang));
+  
   return (
     <motion.div
       className="w-full px-4 md:px-[80px] pt-[50px] pb-16 max-w-[1100px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
@@ -52,6 +53,21 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
+      <Helmet>
+        <title>{place.name} | Uzbekistan Tours</title>
+        <meta name="description" content={descriptionText.substring(0, 160)} />
+        <meta name="keywords" content={`travel, tour, Uzbekistan, ${place.name}`} />
+        <link rel="canonical" href={window.location.href} />
+        <meta property="og:title" content={`${place.name} | Uzbekistan Tours`} />
+        <meta property="og:description" content={descriptionText.substring(0, 160)} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={images[0] ? `${MEDIA_URL}${images[0].photo}` : ""} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${place.name} | Uzbekistan Tours`} />
+        <meta name="twitter:description" content={descriptionText.substring(0, 160)} />
+        <meta name="twitter:image" content={images[0] ? `${MEDIA_URL}${images[0].photo}` : ""} />
+      </Helmet>
       {/* Breadcrumb */}
       <motion.div
         className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"

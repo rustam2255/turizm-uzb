@@ -13,6 +13,7 @@ import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
 import { stripHtmlTags } from "@/utils/getHtmlTags";
 import GalleryModal from "@/utils/galleryModal";
+import { Helmet } from "react-helmet-async";
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
 const BankDetail: React.FC = () => {
@@ -70,6 +71,31 @@ const BankDetail: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
+      <Helmet>
+        <title>{bank.name} - {t("services.banks")}</title>
+        <meta name="description" content={"O'zbekistondagi banklar"} />
+        <meta name="keywords" content={"bank of uzbekistan, o'zbekistondagi banklar"} />
+        <link rel="canonical" href={window.location.href} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BankOrCreditUnion",
+            "name": bank.name,
+            "image": bank.images.length > 0 ? `${MEDIA_URL}${bank.images[0].photo}` : IMAGE,
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": getLocalizedText(bank.address, lang),
+              
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": bank.latitude,
+              "longitude": bank.longitude
+            },
+            "url": window.location.href
+          })}
+        </script>
+      </Helmet>
       {/* Breadcrumb */}
       <motion.div
         className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"

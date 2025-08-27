@@ -11,7 +11,7 @@ const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-
+import { Helmet } from 'react-helmet-async';
 import IMAGE1 from "@assets/images/hotel113.jpg";
 import IMAGE2 from "@assets/images/hotel12.jpg";
 import IMAGE3 from "@assets/images/hotel124.jpg";
@@ -111,6 +111,7 @@ const MapSkeleton: React.FC = () => {
 
 const Breadcrumb: React.FC = () => {
   const { t } = useTranslation();
+
   return (
     <div className="flex items-center text-[14px] font-medium md:text-[18px] gap-2">
       <Link to="/" className="hover:underline text-black dark:text-white">{t("breadcrumb.home")}</Link>
@@ -124,6 +125,14 @@ const Map: React.FC = () => {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language.split("-")[0] as "uz" | "ru" | "en";
   const navigate = useNavigate();
+  // SEO meta
+  const metaTitle = t("map.title") || "O‘zbekiston interaktiv xarita";
+  const metaDescription = t("map.description") || "O‘zbekiston mehmonxonalar, banklar, bozorlari, klinikalar, kurortlar va sayohat markerlari bilan interaktiv xarita.";
+  const metaKeywords = [
+    "O‘zbekiston xarita", "Uzbekistan map", "interactive map Uzbekistan",
+    "hotels Uzbekistan", "banks Uzbekistan", "clinics Uzbekistan",
+    "resorts Uzbekistan", "tours Uzbekistan", "shops Uzbekistan"
+  ].join(", ");
 
   // Barcha API'larni chaqirish
   const { data: hotels = [], isLoading: hotelsLoading, isError: hotelsError } = useGetHotelsMapQuery();
@@ -307,6 +316,11 @@ const Map: React.FC = () => {
   const hasError = hotelsError || banksError || shopsError ||
     clinicsError || resortsError || toursError;
 
+  const tashkentBounds: [[number, number], [number, number]] = [
+    [41.2, 69.15], // janubi-g‘arbiy
+    [41.4, 69.4],  // shimoli-sharqiy
+  ];
+
   if (isLoading) {
     return <MapSkeleton />;
   }
@@ -324,6 +338,46 @@ const Map: React.FC = () => {
 
   return (
     <div className=" px-4 py-5 md:py-8">
+      <Helmet>
+        <title>{metaTitle}</title>
+        <meta name="description" content={metaDescription} />
+        <meta name="keywords" content={metaKeywords} />
+        <link rel="canonical" href={window.location.href} />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={metaTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={metaTitle} />
+        <meta name="twitter:description" content={metaDescription} />
+
+        {/* Structured Data JSON-LD */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Map",
+            "name": metaTitle,
+            "description": metaDescription,
+            "hasMap": {
+              "@type": "Map",
+              "mapType": "interactive",
+              "url": window.location.href,
+              "marker": [
+                ...hotels.map(h => ({ "@type": "Place", "name": h.name, "geo": { "@type": "GeoCoordinates", "latitude": h.position[0], "longitude": h.position[1] } })),
+                ...banks.map(b => ({ "@type": "Place", "name": b.name, "geo": { "@type": "GeoCoordinates", "latitude": b.position[0], "longitude": b.position[1] } })),
+                ...shops.map(s => ({ "@type": "Place", "name": s.name, "geo": { "@type": "GeoCoordinates", "latitude": s.position[0], "longitude": s.position[1] } })),
+                ...clinics.map(c => ({ "@type": "Place", "name": c.name, "geo": { "@type": "GeoCoordinates", "latitude": c.position[0], "longitude": c.position[1] } })),
+                ...resorts.map(r => ({ "@type": "Place", "name": r.name, "geo": { "@type": "GeoCoordinates", "latitude": r.position[0], "longitude": r.position[1] } })),
+                ...tours.map(t => ({ "@type": "Place", "name": t.name, "geo": { "@type": "GeoCoordinates", "latitude": t.position[0], "longitude": t.position[1] } }))
+              ]
+            }
+          })}
+        </script>
+      </Helmet>
       <Breadcrumb />
 
 
@@ -359,9 +413,11 @@ const Map: React.FC = () => {
 
       <div className="w-full h-[72vh] rounded-lg overflow-hidden shadow-lg">
         <MapContainer
-          center={[41.31, 69.28]}
-          zoom={5}
+          bounds={tashkentBounds}
+          maxBounds={tashkentBounds}
+          maxBoundsViscosity={1.0}
           scrollWheelZoom={true}
+          zoom={5}
           style={{ height: '100%', width: '100%' }}
         >
           <TileLayer

@@ -12,7 +12,7 @@ import "@/i18n/i18n"
 import ScrollToTop from './components/ScroolToTop';
 import Service from './pages/services';
 import Resort from './pages/resort';
-
+import { Helmet } from 'react-helmet-async';
 import Banks from './pages/banks';
 import Clinics from './pages/clinics';
 import Markets from './pages/market';
@@ -59,6 +59,9 @@ const AppContent = () => {
 
   return (
     <>
+    <Helmet>
+      <meta name="google-site-verification" content="google846d702df5c0d815" />
+    </Helmet>
       {isKnownPath && <Navbar />}
       <Suspense fallback={<p className="text-center mt-10 text-gray-500">Loading...</p>}>
         <ScrollToTop />

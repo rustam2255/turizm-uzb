@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { MapPin, Phone, ChevronLeft, ChevronRight, ZoomIn, Zap, } from "lucide-react";
-
+import { Helmet } from "react-helmet-async";
 import HotelDetailsSkeleton from "@/components/ui/loaderSkleton/hotelDetailsSkeleton";
 import NearHotels from "@/components/nearHotels";
 import IMAGE from "@assets/images/samarkand-img.png";
@@ -88,6 +88,10 @@ const HotelDetailsPage: React.FC = () => {
         {t("error.loading")}
       </div>
     );
+  const pageTitle = `${hotel.name} - ${t("hotels.title")}`;
+  const pageDescription =
+    stripHtmlTags(hotel.body?.[lang])?.slice(0, 160) || `${hotel.name} ${t("hotels.description")}`;
+  const pageImage = images[0]?.image || IMAGE;
 
   return (
     <motion.div
@@ -96,6 +100,24 @@ const HotelDetailsPage: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
+      <Helmet>
+        {/* Basic SEO */}
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={pageImage} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:image" content={pageImage} />
+      </Helmet>
       {/* breadcrumb */}
       <motion.div
         className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
@@ -299,13 +321,13 @@ const HotelDetailsPage: React.FC = () => {
 
       {/* ✅ Modal portal */}
       {isModalOpen &&
-        <GalleryModal 
+        <GalleryModal
           isOpen={isModalOpen}
           onClose={closeModal}
           images={images}
           title={hotel.name}
-          />
-        }
+        />
+      }
     </motion.div>
   );
 };

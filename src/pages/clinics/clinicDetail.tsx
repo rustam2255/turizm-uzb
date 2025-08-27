@@ -13,7 +13,8 @@ import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnaviga
 import { motion, } from "framer-motion";
 import { stripHtmlTags } from "@/utils/getHtmlTags";
 import GalleryModal from "@/utils/galleryModal";
-
+import { ShopDetailDescription } from "@/interface";
+import { Helmet } from "react-helmet-async";
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
 const ClinicDetail: React.FC = () => {
@@ -37,7 +38,18 @@ const ClinicDetail: React.FC = () => {
       ? clinic.images
       : mockImage.map((img, index) => ({ id: index, photo: img }));
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const pageTitle = clinic?.name || t("services.clinic");
+  const pageDescription =
+    stripHtmlTags(getLocalizedText(normalizeDescription(clinic?.description as ShopDetailDescription), lang)) ||
+    t("services.clinic");
+  const pageImage =
+    images && images.length > 0 ? `${MEDIA_URL}${images[0].photo}` : IMAGE;
 
+  const keywords = [
+    getLocalizedText(clinic?.name, lang),
+    
+    t("services.clinic"),
+  ].join(", ");
   // Auto-slide for image carousel
   useEffect(() => {
     const interval = setInterval(() => {
@@ -78,6 +90,47 @@ const ClinicDetail: React.FC = () => {
       transition={{ duration: 0.6 }}
       className="w-full px-4 md:px-[80px] pt-[30px] pb-16 max-w-[1100px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
     >
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta name="keywords" content={keywords} />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={pageImage} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:image" content={pageImage} />
+
+        {/* Structured Data - JSON-LD */}
+        {clinic && clinic.latitude && clinic.longitude && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "MedicalBusiness",
+              name: clinic.name,
+              image: pageImage,
+              description: pageDescription,
+              address: {
+                "@type": "PostalAddress",
+                addressCountry: "UZ",
+              },
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: clinic.latitude,
+                longitude: clinic.longitude,
+              },
+              url: window.location.href,
+            })}
+          </script>
+        )}
+      </Helmet>
       {/* Breadcrumb */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
@@ -306,7 +359,7 @@ const ClinicDetail: React.FC = () => {
           )}
         </motion.div>
       </div>
-       {isModalOpen &&
+      {isModalOpen &&
         <GalleryModal
           isOpen={isModalOpen}
           onClose={closeModal}

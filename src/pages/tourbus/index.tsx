@@ -3,12 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, ChevronLeft, ChevronRight } from "lucide-react";
-import {  useGetBusQuery, useGetCitiesHotelQuery } from "@/services/api";
+import { useGetBusQuery, useGetCitiesHotelQuery } from "@/services/api";
 import SkeletonCard from "@/components/ui/loaderSkleton/travelDestinationSkleton";
 import IMAGE1 from "@/assets/images/banks.png";
 import IMAGE from "@/assets/images/place3.png";
 import { slugify } from "@/utils/slugify";
-
+import { Helmet } from "react-helmet-async";
 
 
 type Lang = "uz" | "ru" | "en";
@@ -163,7 +163,7 @@ const TourBus: React.FC = () => {
 
   const renderPaginationButtons = () => {
     const buttons = [];
-    const maxVisiblePages = 3; 
+    const maxVisiblePages = 3;
 
     // Previous buttons
     if (currentPage > 1) {
@@ -193,11 +193,10 @@ const TourBus: React.FC = () => {
         <button
           key={1}
           onClick={() => handlePageChange(1)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            currentPage === 1
-              ? "bg-blue-500 text-white"
-              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === 1
+            ? "bg-blue-500 text-white"
+            : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+            }`}
         >
           1
         </button>
@@ -217,11 +216,10 @@ const TourBus: React.FC = () => {
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            i === currentPage
-              ? "bg-blue-500 text-white"
-              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${i === currentPage
+            ? "bg-blue-500 text-white"
+            : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+            }`}
         >
           {i}
         </button>
@@ -242,11 +240,10 @@ const TourBus: React.FC = () => {
         <button
           key={totalPages}
           onClick={() => handlePageChange(totalPages)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            currentPage === totalPages
-              ? "bg-blue-500 text-white"
-              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === totalPages
+            ? "bg-blue-500 text-white"
+            : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+            }`}
         >
           {totalPages}
         </button>
@@ -269,6 +266,8 @@ const TourBus: React.FC = () => {
 
     return buttons;
   };
+  const pageTitle = t("services.tourbus");
+  const pageDescription = t("services.tourbus_description") || "Tour Bus services in Uzbekistan";
 
   return (
     <motion.div
@@ -277,6 +276,22 @@ const TourBus: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <link rel="canonical" href={window.location.href} />
+        {/* OpenGraph */}
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={IMAGE} />
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:image" content={IMAGE} />
+      </Helmet>
       {/* Breadcrumb */}
       <motion.div
         className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
@@ -367,26 +382,26 @@ const TourBus: React.FC = () => {
         <AnimatePresence>
           {isLoading
             ? Array.from({ length: 10 }).map((_, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                >
-                  <SkeletonCard />
-                </motion.div>
-              ))
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+              >
+                <SkeletonCard />
+              </motion.div>
+            ))
             : banks.map((bank) => (
-                <motion.div
-                  key={bank.id}
-                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -50, scale: 0.9 }}
-                  transition={{ duration: 0.5, delay: banks.indexOf(bank) * 0.1 }}
-                >
-                  <BankCard bank={bank} lang={lang} />
-                </motion.div>
-              ))}
+              <motion.div
+                key={bank.id}
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -50, scale: 0.9 }}
+                transition={{ duration: 0.5, delay: banks.indexOf(bank) * 0.1 }}
+              >
+                <BankCard bank={bank} lang={lang} />
+              </motion.div>
+            ))}
         </AnimatePresence>
       </motion.div>
 

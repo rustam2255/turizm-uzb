@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import {  Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { useGetClinicsQuery, useGetCitiesHotelQuery } from "@/services/api";
 import SkeletonCard from "@/components/ui/loaderSkleton/travelDestinationSkleton";
@@ -9,7 +9,7 @@ const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 import IMAGE1 from '@/assets/images/place3.png';
 import { slugify } from "@/utils/slugify";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { Helmet } from "react-helmet-async";
 type Lang = "uz" | "ru" | "en";
 
 interface ClinicCity {
@@ -167,13 +167,22 @@ const Clinics = () => {
   const dataClinic: dataClinic[] = dataClinics?.results || [];
   const totalPages = Math.ceil((dataClinics?.count || 0) / 10);
   const isLoading = loadingClinis || loadingCities;
+    // SEO ma'lumotlari
+  const pageTitle = t("services.clinic") + " - " + t("services.title");
+  const pageDescription =
+    dataClinic[0]
+      ? getLocalizedText(dataClinic[0].name, lang).slice(0, 160)
+      : t("services.clinic_description");
+  const pageImage = dataClinic[0]?.images?.[0]?.photo
+    ? `${MEDIA_URL}${dataClinic[0].images[0].photo}`
+    : IMAGE;
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const   renderPaginationButtons = () => {
+  const renderPaginationButtons = () => {
     const buttons = [];
     const maxVisiblePages = 3; // NewsPage dagi kabi 5 ta sahifa ko'rsatiladi
 
@@ -205,11 +214,10 @@ const Clinics = () => {
         <button
           key={1}
           onClick={() => handlePageChange(1)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            currentPage === 1
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === 1
               ? "bg-blue-500 text-white"
               : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+            }`}
         >
           1
         </button>
@@ -229,11 +237,10 @@ const Clinics = () => {
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            i === currentPage
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${i === currentPage
               ? "bg-blue-500 text-white"
               : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+            }`}
         >
           {i}
         </button>
@@ -254,11 +261,10 @@ const Clinics = () => {
         <button
           key={totalPages}
           onClick={() => handlePageChange(totalPages)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            currentPage === totalPages
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === totalPages
               ? "bg-blue-500 text-white"
               : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+            }`}
         >
           {totalPages}
         </button>
@@ -292,6 +298,7 @@ const Clinics = () => {
       {t("error.failed_to_load_data")}
     </motion.div>
   );
+  
 
   return (
     <motion.div
@@ -300,6 +307,39 @@ const Clinics = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+
+        {/* Keywords */}
+        <meta
+          name="keywords"
+          content={
+            dataClinic.length > 0
+              ? dataClinic
+                .map((c) => getLocalizedText(c.name, lang))
+                .concat(
+                  cities.map((city) => getLocalizedText(city.name, lang)),
+                  t("services.clinic")
+                )
+                .join(", ")
+              : t("services.clinic")
+          }
+        />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={pageImage} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:image" content={pageImage} />
+      </Helmet>
       <div className="max-w-[1600px] xl:max-w-[1600px] mx-auto px-4 sm:px-6 md:px-[80px] lg:px-[80px]">
         <motion.div
           className="flex items-center text-[14px] md:text-[16px] font-medium gap-2"

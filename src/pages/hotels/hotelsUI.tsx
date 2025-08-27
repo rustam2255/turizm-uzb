@@ -9,7 +9,7 @@ import { useGetHotelsQuery, useGetCitiesHotelQuery } from "@/services/api";
 import { slugify } from "@/utils/slugify";
 import image from "@assets/images/place3.png";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
+import { Helmet } from "react-helmet-async";
 // HotelCard Component (unchanged)
 const HotelCard: React.FC<{
   name: string;
@@ -17,7 +17,7 @@ const HotelCard: React.FC<{
   desc: string;
   images: { id: number; image: string }[];
   rating: string;
-  
+
 }> = ({ id, images, rating, name, desc }) => {
   const [isImageHovered, setIsImageHovered] = useState(false);
   const parsedRating = parseFloat(rating);
@@ -230,11 +230,10 @@ const HotelUI: React.FC = () => {
         <button
           key={1}
           onClick={() => handlePageChange(1)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            currentPage === 1
-              ? "bg-blue-500 text-white"
-              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === 1
+            ? "bg-blue-500 text-white"
+            : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+            }`}
         >
           1
         </button>
@@ -253,11 +252,10 @@ const HotelUI: React.FC = () => {
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            i === currentPage
-              ? "bg-blue-500 text-white"
-              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${i === currentPage
+            ? "bg-blue-500 text-white"
+            : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+            }`}
         >
           {i}
         </button>
@@ -276,11 +274,10 @@ const HotelUI: React.FC = () => {
         <button
           key={totalPages}
           onClick={() => handlePageChange(totalPages)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
-            currentPage === totalPages
-              ? "bg-blue-500 text-white"
-              : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
-          }`}
+          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === totalPages
+            ? "bg-blue-500 text-white"
+            : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
+            }`}
         >
           {totalPages}
         </button>
@@ -302,6 +299,17 @@ const HotelUI: React.FC = () => {
 
     return buttons;
   };
+  const seoTitle = selectedCity
+    ? `${t("hotels.title")} in ${cities.find(c => c.id === selectedCity)?.name || ""}`
+    : t("hotels.title");
+  const seoDescription = `Explore hotels${selectedCity ? ` in ${cities.find(c => c.id === selectedCity)?.name || ""}` : ""}.`;
+  const imageArray = Array.isArray(hotelsData?.results?.[0]?.images)
+  ? hotelsData.results[0].images
+  : hotelsData?.results?.[0]?.images
+  ? [hotelsData.results[0].images]
+  : [];
+  
+const seoImage = imageArray[0]?.image || image; 
 
   return (
     <motion.div
@@ -310,6 +318,15 @@ const HotelUI: React.FC = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={seoImage} />
+        <meta property="og:locale" content={currentLang} />
+      </Helmet>
       <Breadcrumb />
       <motion.p
         className="text-[20px] md:text-[30px] font-bold mt-3 md:mt-6 mb-4 text-sky-900"
@@ -337,7 +354,7 @@ const HotelUI: React.FC = () => {
             selectedCity={selectedCity}
             setSelectedCity={handleCityChange}
             fetchHotels={() => refetchHotels()}
-            
+
           />
         </motion.div>
         <motion.input

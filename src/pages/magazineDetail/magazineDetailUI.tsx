@@ -5,22 +5,24 @@ import { useTranslation } from "react-i18next";
 import { useGetMagazineBackgroundQuery, useGetMagazineByIdQuery, useGetMagazineImagesQuery } from "@/services/api";
 import PdfToImage from "@/components/Pdf/PdfToImage";
 import SliderModal from "./magazineImage";
+import { Helmet } from "react-helmet-async";
 import Logo from "@/assets/images/logo.png";
+import { slugify } from "@/utils/slugify";
 const BaseUrl = import.meta.env.VITE_API_MEDIA_URL
 const MagazineDetailUI: React.FC = () => {
-   const { idSlug } = useParams<{ idSlug: string }>();
+  const { idSlug } = useParams<{ idSlug: string }>();
 
-  
+
   const magazineID = Number(idSlug?.split("-")[0]);
-  
+
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language.split("-")[0] as "uz" | "ru" | "en";
 
   const { data: magazine, error, isLoading } = useGetMagazineByIdQuery(magazineID, {
     skip: !magazineID,
   });
-  const {data: magzineImage, error: imageError, isLoading: imagesLoading} = useGetMagazineImagesQuery({id: magazineID})
-   const {data: backImage} = useGetMagazineBackgroundQuery()
+  const { data: magzineImage, error: imageError, isLoading: imagesLoading } = useGetMagazineImagesQuery({ id: magazineID })
+  const { data: backImage } = useGetMagazineBackgroundQuery()
   const [showPdf, setShowPdf] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -49,6 +51,7 @@ const MagazineDetailUI: React.FC = () => {
 
   if (isLoading) {
     return (
+
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="relative mb-4">
@@ -74,23 +77,48 @@ const MagazineDetailUI: React.FC = () => {
     );
   }
 
- 
+
   const imagesList = magzineImage?.results?.map((item) => item.image) || [];
   const imageback = backImage?.file ? `${BaseUrl}${backImage.file}` : IMAGE;
 
   return (
     <div className="max-w-[1000px] ml-[90px] py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
+      <Helmet>
+        <title>{getLocalizedText(magazine.title)} | O‘zbekiston elektron jurnallari</title>
+        <meta
+          name="description"
+          content={getLocalizedText(magazine.description)?.slice(0, 160) || "O‘zbekiston elektron jurnallarini PDF ko‘rinishda toping."}
+        />
+        <meta
+          name="keywords"
+          content={`O‘zbekiston jurnallari, ${getLocalizedText(magazine.title)}, PDF, magazine, ${magazine.month}, ${magazine.year}, onlayn jurnallar, elektron nashrlar`}
+        />
+        <link rel="canonical" href={`https://tourism-uzbekistan.uz/magazines/${magazineID}-${slugify(getLocalizedText(magazine.title))}`} />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={getLocalizedText(magazine.title)} />
+        <meta property="og:description" content={getLocalizedText(magazine.description)?.slice(0, 200)} />
+        <meta property="og:image" content={magazine.card ? `${BaseUrl}${magazine.card}` : IMAGE} />
+        <meta property="og:url" content={`https://tourism-uzbekistan.uz/magazines/${magazineID}-${slugify(getLocalizedText(magazine.title))}`} />
+        <meta property="og:type" content="article" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={getLocalizedText(magazine.title)} />
+        <meta name="twitter:description" content={getLocalizedText(magazine.description)?.slice(0, 200)} />
+        <meta name="twitter:image" content={magazine.card ? `${BaseUrl}${magazine.card}` : IMAGE} />
+      </Helmet>
       {/* Breadcrumb */}
       <nav className="flex items-center text-[14px] font-medium md:text-[18px] gap-2 mb-8">
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="hover:underline text-gray-700 hover:blue-900 transition-colors duration-200"
         >
           {t("breadcrumb.home")}
         </Link>
         <span className="">&gt;</span>
-        <Link 
-          to="/magazines" 
+        <Link
+          to="/magazines"
           className="hover:underline text-sky-900  transition-colors duration-200"
         >
           {t("breadcrumb.magazines")}
@@ -98,7 +126,7 @@ const MagazineDetailUI: React.FC = () => {
       </nav>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-   
+
         <div className="p-6 sm:p-8 border-b border-gray-100">
           <p className="text-[24px] md:text-[32px] text-gray-900 font-bold leading-[110%] mb-3 animate-slideInLeft">
             {getLocalizedText(magazine.title)}
@@ -110,10 +138,10 @@ const MagazineDetailUI: React.FC = () => {
 
 
         <div className="p-6 sm:p-8">
-     
+
           <div className="group relative mb-8  bg-cover bg-no-repeat bg-center   animate-slideInUp" style={{ backgroundImage: `url(${imageback})` }}>
             <div className="absolute top-3 left-2">
-              <img src={Logo} alt="" className="w-auto h-auto max-h-[50px] sm:max-h-[60px] md:max-h-[50px]"/>
+              <img src={Logo} alt="" className="w-auto h-auto max-h-[50px] sm:max-h-[60px] md:max-h-[50px]" />
             </div>
             <div className="overflow-hiddenrounded-xl shadow-lg  group-hover:shadow-xl transition-shadow duration-300">
               <img
@@ -130,7 +158,7 @@ const MagazineDetailUI: React.FC = () => {
               </div>
             </div>
           </div>
-    
+
           <div className="mb-8 animate-slideInUp delay-200">
             <h2 className="text-[20px] font-semibold text-gray-900 mb-4">{t('magazine.ts')}</h2>
             <p className="text-gray-700 text-[16px] md:text-[18px] leading-[140%] tracking-wide bg-gray-50 p-6 rounded-lg border-l-4 border-[rgba(77,199,232,1)]">
@@ -138,7 +166,7 @@ const MagazineDetailUI: React.FC = () => {
             </p>
           </div>
 
-     
+
           <div className="animate-slideInUp delay-300">
             {!showPdf ? (
               <div className="text-center">
@@ -148,10 +176,10 @@ const MagazineDetailUI: React.FC = () => {
                 >
                   <span className="text-xl group-hover:scale-110 transition-transform duration-200">📄</span>
                   {t("magazine.view_pdf")}
-                  <svg 
-                    className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" 
-                    fill="none" 
-                    stroke="currentColor" 
+                  <svg
+                    className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -171,7 +199,7 @@ const MagazineDetailUI: React.FC = () => {
         </div>
       </div>
 
-    
+
       <SliderModal
         isOpen={isModalOpen}
         onClose={handleModalClose}
