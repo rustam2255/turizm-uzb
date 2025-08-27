@@ -13,7 +13,7 @@ import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnaviga
 import { motion, } from "framer-motion";
 import { stripHtmlTags } from "@/utils/getHtmlTags";
 import GalleryModal from "@/utils/galleryModal";
-import { ShopDetailDescription } from "@/interface";
+
 import { Helmet } from "react-helmet-async";
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 
@@ -39,9 +39,7 @@ const ClinicDetail: React.FC = () => {
       : mockImage.map((img, index) => ({ id: index, photo: img }));
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const pageTitle = clinic?.name || t("services.clinic");
-  const pageDescription =
-    stripHtmlTags(getLocalizedText(normalizeDescription(clinic?.description as ShopDetailDescription), lang)) ||
-    t("services.clinic");
+  
   const pageImage =
     images && images.length > 0 ? `${MEDIA_URL}${images[0].photo}` : IMAGE;
 
@@ -92,12 +90,12 @@ const ClinicDetail: React.FC = () => {
     >
       <Helmet>
         <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
+        <meta name="description" />
         <meta name="keywords" content={keywords} />
 
         {/* Open Graph */}
         <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
+        <meta property="og:description"  />
         <meta property="og:image" content={pageImage} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={window.location.href} />
@@ -105,7 +103,7 @@ const ClinicDetail: React.FC = () => {
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:description"  />
         <meta name="twitter:image" content={pageImage} />
 
         {/* Structured Data - JSON-LD */}
@@ -116,7 +114,7 @@ const ClinicDetail: React.FC = () => {
               "@type": "MedicalBusiness",
               name: clinic.name,
               image: pageImage,
-              description: pageDescription,
+              description: 'Descr',
               address: {
                 "@type": "PostalAddress",
                 addressCountry: "UZ",
