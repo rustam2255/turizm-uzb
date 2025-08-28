@@ -54,8 +54,9 @@ const CityFilter = ({
           setSelectedCity(cityId);
         }}
         
+        
       >
-        <div className="relative">
+        <div className="relative z-[1000]">
           <Listbox.Button
             className="
               relative w-full cursor-default  border border-gray-300 
@@ -75,7 +76,7 @@ const CityFilter = ({
 
           <Listbox.Options
             className="
-              absolute z-10 mt-1 max-h-60 w-full overflow-auto  bg-white py-1
+              absolute z-1000 mt-1 max-h-60 w-full overflow-auto  bg-white py-1
               text-xs sm:text-sm md:text-base shadow-lg ring-1 ring-black/10 focus:outline-none
               scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
           >

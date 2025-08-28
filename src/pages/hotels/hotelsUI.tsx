@@ -271,7 +271,7 @@ const HotelUI: React.FC = () => {
         {t("hotels.title")}
       </p>
 
-      <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mb-6 relative z-[10000]">
+      <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mb-6 relative ">
         <div
           className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"} w-full md:w-auto relative z-[10001]`}
         >
