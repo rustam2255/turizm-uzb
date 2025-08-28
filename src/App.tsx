@@ -105,7 +105,7 @@ const AppContent = () => {
   );
 };
 
-const App: React.FC = () => {
+const App: React.FC = () => { 
   return (
     <ErrorBoundary>
       <Router>

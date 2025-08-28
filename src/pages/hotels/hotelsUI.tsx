@@ -4,20 +4,19 @@ import CityFilter from "@/components/ui/CityFilter";
 import RatingSelect from "@/components/ui/ratingSelect";
 import HotelCardSkeleton from "@/components/ui/loaderSkleton/homeSkleton";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
 import { useGetHotelsQuery, useGetCitiesHotelQuery } from "@/services/api";
 import { slugify } from "@/utils/slugify";
 import image from "@assets/images/place3.png";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Helmet } from "react-helmet-async";
-// HotelCard Component (unchanged)
+
+// HotelCard Component
 const HotelCard: React.FC<{
   name: string;
   id: number;
   desc: string;
   images: { id: number; image: string }[];
   rating: string;
-
 }> = ({ id, images, rating, name, desc }) => {
   const [isImageHovered, setIsImageHovered] = useState(false);
   const parsedRating = parseFloat(rating);
@@ -30,76 +29,29 @@ const HotelCard: React.FC<{
 
   return (
     <Link to={`/hotels/${id}-${slugify(name)}`}>
-      <motion.div
-        className="flex flex-col w-full h-[360px] md:h-[420px] text-[#131313] bg-white rounded-xl shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-shadow duration-300 border border-[#4DC7E8]/10 overflow-hidden"
-        initial={{ opacity: 0, y: 40, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        whileHover={{ scale: 1.03 }}
-      >
-        <motion.div
-          className="relative w-full h-[160px] md:h-[200px] rounded-t-xl overflow-hidden"
+      <div className="flex flex-col w-full h-[360px] md:h-[420px] text-[#131313] bg-white  border border-[#4DC7E8]/10 overflow-hidden">
+        <div
+          className="relative w-full h-[160px] md:h-[200px]  overflow-hidden"
           onMouseEnter={() => setIsImageHovered(true)}
           onMouseLeave={() => setIsImageHovered(false)}
-          style={{ perspective: "1000px" }}
         >
-          <motion.div
-            className="relative w-full h-full transition-transform duration-700 ease-in-out transform-style-preserve-3d"
-            style={{
-              transformStyle: "preserve-3d",
-              transform: isImageHovered ? "rotateY(180deg)" : "rotateY(0deg)",
-            }}
-          >
-            <motion.div
-              className="absolute inset-0 w-full h-full backface-hidden"
-              style={{ backfaceVisibility: "hidden" }}
-            >
-              <motion.img
-                src={firstImage}
+          <div className="relative w-full h-full">
+            <div className="absolute inset-0 w-full h-full">
+              <img
+                src={isImageHovered ? secondImage : firstImage}
                 alt={name}
                 loading="lazy"
-                className="w-full h-full object-cover rounded-t-xl"
+                className="w-full h-full object-cover"
                 onError={(e) => (e.currentTarget.src = image)}
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.3 }}
               />
-              <div className="absolute inset-0 bg-[#4DC7E8]/20 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
-            </motion.div>
-            <motion.div
-              className="absolute inset-0 w-full h-full backface-hidden"
-              style={{
-                backfaceVisibility: "hidden",
-                transform: "rotateY(180deg)",
-              }}
-            >
-              <motion.img
-                src={secondImage}
-                alt={`${name} - 2`}
-                loading="lazy"
-                className="w-full h-full object-cover rounded-t-xl"
-                onError={(e) => (e.currentTarget.src = image)}
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.3 }}
-              />
-              <div className="absolute inset-0 bg-[#4DC7E8]/20 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
-            </motion.div>
-          </motion.div>
-        </motion.div>
-        <motion.div
-          className="flex flex-col flex-grow p-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
-        >
-          <h3 className="text-[16px] md:text-[20px] font-semibold mb-2 line-clamp-1 text-[#131313]">
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col flex-grow p-4">
+          <h3 className="text-[16px] md:text-[20px] font-semibold mb-2 line-clamp- Rens1 text-[#131313]">
             {name}
           </h3>
-          <motion.div
-            className="flex items-center gap-1 mb-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
-          >
+          <div className="flex items-center gap-1 mb-2">
             {[...Array(fullStars)].map((_, i) => (
               <span key={i} className="text-yellow-300 text-sm md:text-base">★</span>
             ))}
@@ -107,37 +59,27 @@ const HotelCard: React.FC<{
             {[...Array(maxStars - fullStars - (hasHalfStar ? 1 : 0))].map((_, i) => (
               <span key={i} className="text-gray-300 text-sm md:text-base">★</span>
             ))}
-          </motion.div>
-          <motion.p
-            className="text-[14px] md:text-[15px] font-medium text-gray-600 line-clamp-3 flex-grow"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.4 }}
-          >
+          </div>
+          <p className="text-[14px] md:text-[15px] font-medium text-gray-600 line-clamp-3 flex-grow">
             {desc}
-          </motion.p>
-        </motion.div>
-      </motion.div>
+          </p>
+        </div>
+      </div>
     </Link>
   );
 };
 
-// Breadcrumb Component (unchanged)
+// Breadcrumb Component
 const Breadcrumb: React.FC = () => {
   const { t } = useTranslation();
   return (
-    <motion.div
-      className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-    >
+    <div className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]">
       <Link to="/" className="transition-colors duration-200">
         {t("breadcrumb.home")}
       </Link>
       <span className="text-black">&gt;</span>
       <span className="text-sky-900 font-semibold">{t("breadcrumb.hotels")}</span>
-    </motion.div>
+    </div>
   );
 };
 
@@ -212,7 +154,7 @@ const HotelUI: React.FC = () => {
         <button
           key="prev"
           onClick={() => handlePageChange(currentPage - 1)}
-          className="flex items-center px-3 py-2 text-gray-500 hover:text-blue-500 hover:bg-orange-50 rounded-lg transition-colors duration-200"
+          className="flex items-center px-3 py-2 text-gray-500 hover:text-blue-500 rounded-lg"
         >
           <ChevronLeft className="w-4 h-4" />
           <span className="ml-1 hidden sm:inline">{t("media.previous")}</span>
@@ -232,7 +174,7 @@ const HotelUI: React.FC = () => {
         <button
           key={1}
           onClick={() => handlePageChange(1)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === 1
+          className={`px-3 py-2 rounded-lg ${currentPage === 1
             ? "bg-blue-500 text-white"
             : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
             }`}
@@ -254,7 +196,7 @@ const HotelUI: React.FC = () => {
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${i === currentPage
+          className={`px-3 py-2 rounded-lg ${i === currentPage
             ? "bg-blue-500 text-white"
             : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
             }`}
@@ -276,7 +218,7 @@ const HotelUI: React.FC = () => {
         <button
           key={totalPages}
           onClick={() => handlePageChange(totalPages)}
-          className={`px-3 py-2 rounded-lg transition-colors duration-200 ${currentPage === totalPages
+          className={`px-3 py-2 rounded-lg ${currentPage === totalPages
             ? "bg-blue-500 text-white"
             : "text-gray-700 hover:text-sky-100 hover:bg-sky-400"
             }`}
@@ -291,7 +233,7 @@ const HotelUI: React.FC = () => {
         <button
           key="next"
           onClick={() => handlePageChange(currentPage + 1)}
-          className="flex items-center px-3 py-2 text-gray-500 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors duration-200"
+          className="flex items-center px-3 py-2 text-gray-500 hover:text-orange-500 rounded-lg"
         >
           <span className="mr-1 hidden sm:inline">{t("media.next")}</span>
           <ChevronRight className="w-4 h-4" />
@@ -301,25 +243,20 @@ const HotelUI: React.FC = () => {
 
     return buttons;
   };
+
   const seoTitle = selectedCity
     ? `${t("hotels.title")} in ${cities.find(c => c.id === selectedCity)?.name || ""}`
     : t("hotels.title");
   const seoDescription = `Explore hotels${selectedCity ? ` in ${cities.find(c => c.id === selectedCity)?.name || ""}` : ""}.`;
   const imageArray = Array.isArray(hotelsData?.results?.[0]?.images)
-  ? hotelsData.results[0].images
-  : hotelsData?.results?.[0]?.images
-  ? [hotelsData.results[0].images]
-  : [];
-  
-const seoImage = imageArray[0]?.image || image; 
+    ? hotelsData.results[0].images
+    : hotelsData?.results?.[0]?.images
+    ? [hotelsData.results[0].images]
+    : [];
+  const seoImage = imageArray[0]?.image || image;
 
   return (
-    <motion.div
-      className="max-w-[1600px] mx-auto py-6 md:py-10 px-4 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <div className="max-w-[1600px] mx-auto py-6 md:py-10 px-4 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen">
       <Helmet>
         <title>{seoTitle}</title>
         <meta name="description" content={seoDescription} />
@@ -330,138 +267,80 @@ const seoImage = imageArray[0]?.image || image;
         <meta property="og:locale" content={currentLang} />
       </Helmet>
       <Breadcrumb />
-      <motion.p
-        className="text-[20px] md:text-[30px] font-bold mt-3 md:mt-6 mb-4 text-sky-900"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.4 }}
-      >
+      <p className="text-[20px] md:text-[30px] font-bold mt-3 md:mt-6 mb-4 text-sky-900">
         {t("hotels.title")}
-      </motion.p>
+      </p>
 
-      <motion.div
-        className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mb-6 relative z-[10000]"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.4 }}
-      >
-        <motion.div
+      <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mb-6 relative z-[10000]">
+        <div
           className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"} w-full md:w-auto relative z-[10001]`}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
         >
           <CityFilter
             cities={cities}
             selectedCity={selectedCity}
             setSelectedCity={handleCityChange}
             fetchHotels={() => refetchHotels()}
-
           />
-        </motion.div>
-        <motion.input
+        </div>
+        <input
           type="text"
           placeholder={t("hotels.searchPlaceholder")}
-          className="w-full md:w-64 px-4 py-2 rounded-lg border font-semibold border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[rgba(25,110,150,255)] bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
+          className="w-full md:w-64 px-4 py-2  border font-semibold border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-[rgba(25,110,150,255)] bg-white"
           value={searchTerm}
           onChange={handleSearch}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4, duration: 0.4 }}
         />
-        <motion.div
+        <div
           className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"} w-full md:w-auto relative z-[10001]`}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
         >
           <RatingSelect
             selectedRating={selectedRating}
             setSelectedRating={handleRatingChange}
-            className="z-[10002]" // Ensure dropdown menu has higher z-index
+            className="z-[10002]"
           />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {hotelsLoading && !hotelsData ? (
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-[1000]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-[1000]">
           {[...Array(8)].map((_, index) => (
             <HotelCardSkeleton key={index} />
           ))}
-        </motion.div>
+        </div>
       ) : hotelsError ? (
-        <motion.div
-          className="text-red-500 text-center text-[16px] md:text-[18px] font-medium relative z-[1000]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
+        <div className="text-red-500 text-center text-[16px] md:text-[18px] font-medium relative z-[1000]">
           {t("hotels.errorLoading")}
-        </motion.div>
+        </div>
       ) : hotelsData && hotelsData.results.length === 0 ? (
-        <motion.div
-          className="text-gray-600 text-center text-[16px] md:text-[18px] font-medium relative z-[1000]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
+        <div className="text-gray-600 text-center text-[16px] md:text-[18px] font-medium relative z-[1000]">
           {t("hotels.noResult")}
-        </motion.div>
+        </div>
       ) : (
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-[1000]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <AnimatePresence>
-            {hotelsData?.results.map((hotel, idx) => (
-              <motion.div
-                key={`${hotel.id}-${idx}`}
-                initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -40, scale: 0.95 }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-              >
-                <HotelCard
-                  id={hotel.id}
-                  desc={getLocalizedText(hotel.description)}
-                  images={Array.isArray(hotel.images) ? hotel.images : [hotel.images]}
-                  rating={hotel.rating || "0"}
-                  name={hotel.name}
-                />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-[1000]">
+          {hotelsData?.results.map((hotel, idx) => (
+            <div key={`${hotel.id}-${idx}`}>
+              <HotelCard
+                id={hotel.id}
+                desc={getLocalizedText(hotel.description)}
+                images={Array.isArray(hotel.images) ? hotel.images : [hotel.images]}
+                rating={hotel.rating || "0"}
+                name={hotel.name}
+              />
+            </div>
+          ))}
+        </div>
       )}
 
       {totalPages > 1 && (
-        <motion.div
-          className="mt-8 flex justify-center items-center gap-1 bg-white rounded-xl shadow-sm border border-[#4DC7E8]/20 p-2 relative z-[1000]"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-        >
+        <div className="mt-8 flex justify-center items-center gap-1 bg-white rounded-xl border border-[#4DC7E8]/20 p-2 relative z-[1000]">
           {renderPaginationButtons()}
-        </motion.div>
+        </div>
       )}
       {citiesError && (
-        <motion.div
-          className="text-red-500 text-center text-[16px] md:text-[18px] font-medium mt-4 relative z-[1000]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
+        <div className="text-red-500 text-center text-[16px] md:text-[18px] font-medium mt-4 relative z-[1000]">
           {t("hotels.errorLoadingCities")}
-        </motion.div>
+        </div>
       )}
-    </motion.div>
+    </div>
   );
 };
 

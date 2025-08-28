@@ -53,7 +53,7 @@ const CompanySection: React.FC = memo(() => {
           <div className="relative mb-4">
             {/* Hexagon shape around logo */}
 
-            <div className="w-full h-full transform  rounded-lg flex items-center justify-center">
+            <div className="w-full h-full transform   flex items-center justify-center">
               <img
                 src={companyInfo.logo}
                 alt={`${companyInfo.name} logo`}
@@ -83,9 +83,9 @@ const CompanySection: React.FC = memo(() => {
         </div>
 
         {/* Developer credit */}
-        <div className="inline-flex items-center space-x-3 bg-black/20 backdrop-blur-sm rounded-full px-6 py-3 border border-white/10">
+        <div className="inline-flex items-center space-x-3 bg-black/20 backdrop-blur-sm  px-6 py-3 border border-white/10">
           <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 animate-pulse"></div>
+            <div className="w-3 h-3  bg-gradient-to-r from-green-400 to-emerald-500 animate-pulse"></div>
             <span className="text-white/70 text-sm">Made with</span>
             <span className="text-white/70 text-sm">by</span>
           </div>
@@ -115,7 +115,7 @@ const NavigationSection: React.FC = memo(() => {
           <li key={key}>
             <a
               href={href}
-              className="hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 rounded"
+              className="hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
             >
               {t(`footer.pages.${key}`)}
             </a>
@@ -138,7 +138,7 @@ const ContactSection: React.FC = memo(() => {
           {t('footer.contactEmail')}:{' '}
           <a
             href={`mailto:${contactInfo.email}`}
-            className="hover:text-gray-200 transition-colors duration-200 ml-1 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 rounded"
+            className="hover:text-gray-200 transition-colors duration-200 ml-1 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 "
           >
             {contactInfo.email}
           </a>
@@ -147,7 +147,7 @@ const ContactSection: React.FC = memo(() => {
           {t('footer.contactPhone')}:{' '}
           <a
             href={`tel:${contactInfo.phone}`}
-            className="hover:text-gray-200 transition-colors duration-200 ml-1 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 rounded"
+            className="hover:text-gray-200 transition-colors duration-200 ml-1 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 "
           >
             {contactInfo.phone}
           </a>
@@ -172,7 +172,7 @@ const SocialMediaSection: React.FC = memo(() => {
           <a
             key={label}
             href={href}
-            className="text-2xl hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 rounded p-1"
+            className="text-2xl hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600  p-1"
             aria-label={`${label} sahifamizga tashrif buyuring`}
             target="_blank"
             rel="noopener noreferrer"

@@ -22,7 +22,7 @@ const HotelCard: React.FC<HotelCardProps> = ({ id, name, images, description }) 
   return (
     <div
       onClick={() => handleHomeDetail(id, name)}
-      className="cursor-pointer flex flex-col bg-white dark:bg-transparent dark:border-blue-950 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-sky-100 hover:border-sky-300 group"
+      className="cursor-pointer flex flex-col bg-white dark:bg-transparent dark:border-blue-950  shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-sky-100 hover:border-sky-300 group"
     >
       <div className="relative overflow-hidden">
         {images[0]?.image ? (

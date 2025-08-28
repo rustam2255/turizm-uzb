@@ -30,10 +30,10 @@ const CompactArticleCard = ({ article }: { article: ArticleItem }) => {
 
   return (
     <Link to={`/media/article/detail/${article.id}-${slugify(article.title.uz || '')}`}>
-      <div className="group cursor-pointer border-b border-gray-100 pb-4 mb-4 last:border-b-0 hover:bg-gray-50/50 rounded-lg transition-all duration-200 p-2 -m-2">
+      <div className="group cursor-pointer border-b border-gray-100 pb-4 mb-4 last:border-b-0 hover:bg-gray-50/50  transition-all duration-200 p-2 -m-2">
         <div className="flex gap-3">
           {/* Compact Image */}
-          <div className="relative overflow-hidden rounded-lg flex-shrink-0">
+          <div className="relative overflow-hidden flex-shrink-0">
             {article.article_image ? (
               <img
                 src={article.article_image || IMAGE}
@@ -42,7 +42,7 @@ const CompactArticleCard = ({ article }: { article: ArticleItem }) => {
                 className="w-16 h-16 sm:w-20 sm:h-20 object-cover transition-transform duration-300 group-hover:scale-105"
               />
             ) : (
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg flex items-center justify-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-50 to-blue-100  flex items-center justify-center">
                 <svg
                   className="w-6 h-6 text-blue-400"
                   fill="none"
@@ -97,7 +97,7 @@ const ShowMoreButton = ({
 }) => (
   <button
     onClick={onClick}
-    className="w-full mt-4 py-2 px-4 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 text-blue-600 rounded-lg flex items-center justify-center gap-2 text-sm font-medium transition-all duration-200 group border border-blue-200/50"
+    className="w-full mt-4 py-2 px-4 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 text-blue-600  flex items-center justify-center gap-2 text-sm font-medium transition-all duration-200 group border border-blue-200/50"
   >
     {isExpanded ? (
       <>
@@ -138,7 +138,7 @@ const ArticlesPage = () => {
           placeholder={t('placeholder.articles')}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full border border-gray-200 px-4 py-3 pl-10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-gray-50/50 dark:bg-transparent"
+          className="w-full border border-gray-200 px-4 py-3 pl-10  text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-gray-50/50 dark:bg-transparent"
         />
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
       </div>

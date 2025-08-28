@@ -115,7 +115,7 @@ const MagazineHome: React.FC = () => {
                       src={item.card}
                       alt={`${item.title.en} magazine cover`}
                       loading='lazy'
-                      className="w-full rounded-xl h-[300px] md:w-[200px] md:h-[250px] object-cover mb-4 transition-transform duration-200 hover:scale-105 shadow-lg"
+                      className="w-full  h-[300px] md:w-[200px] md:h-[250px] object-cover mb-4 transition-transform duration-200 hover:scale-105 shadow-lg"
                     />
                     <div className="text-center text-black font-normal leading-[100%]">
                       <p className="mb-1 dark:text-white text-[14px] md:text-[15px]">{item.month}</p>
@@ -164,7 +164,7 @@ const MagazineHome: React.FC = () => {
                             to={`/magazines/${item.id}-${slugify(item.title.en)}`}
                             className="block"
                           >
-                            <div className="rounded-2xl p-6 mx-2">
+                            <div className=" p-6 mx-2">
                               <div className="flex flex-col items-center">
                                 {/* Magazine Cover */}
                                 <div className="relative mb-6">
@@ -172,9 +172,9 @@ const MagazineHome: React.FC = () => {
                                     src={item.card}
                                     loading='lazy'
                                     alt={`${item.title.en} magazine cover`}
-                                    className="w-48 h-64 sm:w-56 sm:h-72 object-cover rounded-xl shadow-2xl transform hover:scale-105 transition-transform duration-300"
+                                    className="w-48 h-64 sm:w-56 sm:h-72 object-cover  shadow-2xl transform hover:scale-105 transition-transform duration-300"
                                   />
-                                  <div className="absolute inset-0 rounded-xl"></div>
+                                  <div className="absolute inset-0 "></div>
                                 </div>
 
                                 {/* Magazine Info */}
@@ -273,7 +273,7 @@ const MagazineHome: React.FC = () => {
               <div className="text-center mt-12">
                 <Link
                   to="/magazines"
-                  className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-sky-900 to-cyan-600 text-white font-semibold rounded-full hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-sky-900 to-cyan-600 text-white font-semibold  hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   <span>{t("magazine.allsee")}</span>
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

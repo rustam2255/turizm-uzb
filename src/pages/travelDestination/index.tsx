@@ -1,6 +1,6 @@
 import React, {  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import {  AnimatePresence } from "framer-motion";
 import { MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useGetCitiesHotelQuery, useGetToursQuery } from "@/services/api";
@@ -43,86 +43,72 @@ const TourCard: React.FC<{
   const secondImage = image && image.length > 1 ? `${MEDIA_URL}${image[1].photo}` : firstImage;
 
   return (
-    <motion.div
+    <div
       onClick={() => navigate(`/services/tour/${id}-${slugify(name)}`)}
-      className="flex flex-col w-full h-[300px] md:h-[300px] bg-white rounded-xl shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-shadow duration-300 border border-[#4DC7E8]/10 overflow-hidden cursor-pointer"
-      initial={{ opacity: 0, y: 40, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ scale: 1.03 }}
+      className="flex flex-col w-full h-[300px] md:h-[300px] bg-white border  overflow-hidden cursor-pointer"
     >
       {/* 3D Flip Image Container */}
-      <motion.div
-        className="relative h-[160px] md:h-[200px] rounded-t-xl overflow-hidden"
+      <div
+        className="relative h-[160px] md:h-[200px]  overflow-hidden"
         onMouseEnter={() => setIsImageHovered(true)}
         onMouseLeave={() => setIsImageHovered(false)}
         style={{ perspective: "1000px" }}
       >
-        <motion.div
+        <div
           className="relative w-full h-full transition-transform duration-700 ease-in-out transform-style-preserve-3d"
           style={{
             transformStyle: "preserve-3d",
             transform: isImageHovered ? "rotateY(180deg)" : "rotateY(0deg)",
           }}
         >
-          <motion.div
+          <div
             className="absolute inset-0 w-full h-full backface-hidden"
             style={{ backfaceVisibility: "hidden" }}
           >
-            <motion.img
+            <img
               src={firstImage}
               alt={name}
               loading="lazy"
-              className="w-full h-full object-cover rounded-t-xl"
+              className="w-full h-full object-cover"
               onError={(e) => (e.target as HTMLImageElement).src = IMAGE}
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.3 }}
             />
-            <div className="absolute inset-0 bg-[#4DC7E8]/20 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
-          </motion.div>
-          <motion.div
+            <div className="absolute inset-0 bg-[#4DC7E8]/20 opacity-0 hover:opacity-100 transition-opacity duration-300" />
+          </div>
+          <div
             className="absolute inset-0 w-full h-full backface-hidden"
             style={{
               backfaceVisibility: "hidden",
               transform: "rotateY(180deg)",
             }}
           >
-            <motion.img
+            <img
               src={secondImage}
               alt={`${name} - 2`}
               loading="lazy"
-              className="w-full h-full object-cover rounded-t-xl"
+              className="w-full h-full object-cover"
               onError={(e) => (e.target as HTMLImageElement).src = IMAGE}
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.3 }}
             />
-            <div className="absolute inset-0 bg-[#4DC7E8]/20 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
-          </motion.div>
-        </motion.div>
-      </motion.div>
+            <div className="absolute inset-0 bg-[#4DC7E8]/20 opacity-0 hover:opacity-100 transition-opacity duration-300" />
+          </div>
+        </div>
+      </div>
 
-      <motion.div
+      <div
         className="flex flex-col flex-grow p-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.4 }}
       >
         <h2
           className="text-[16px] md:text-[20px] font-semibold mb-2 line-clamp-1 text-[#131313]"
         >
           {name}
         </h2>
-        <motion.div
+        <div
           className="flex items-center text-gray-500 text-[14px] md:text-[15px] mt-auto"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
         >
           <MapPin size={16} className="text-rgba(25,110,150,255) mr-1" />
           <span className="truncate">{city}</span>
-        </motion.div>
-      </motion.div>
-    </motion.div>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -268,11 +254,8 @@ const TravelDestination: React.FC = () => {
   };
 
   return (
-    <motion.div
+    <div
       className="max-w-[1600px] mx-auto px-4 md:px-[80px] py-6 md:py-10 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
     >
       <Helmet>
         <title>{t("services.tour-firm")} | Uzbekistan Travel Tours</title>
@@ -287,11 +270,8 @@ const TravelDestination: React.FC = () => {
         <meta property="og:image" content={IMAGE} />
       </Helmet>
       {/* Breadcrumb */}
-      <motion.div
+      <div
         className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.4 }}
       >
         <Link to="/" className=" transition-colors duration-200">
           {t("breadcrumb.home")}
@@ -305,48 +285,36 @@ const TravelDestination: React.FC = () => {
         </Link>
         <span className="">&gt;</span>
         <span className="text-sky-900 font-semibold">{t("services.tour-firm")}</span>
-      </motion.div>
+      </div>
 
       {/* Title */}
-      <motion.p
+      <p
         className="text-[20px] md:text-[30px] font-bold mt-3 md:mt-6 mb-4 text-sky-900"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.4 }}
       >
         {t("services.tour-firm")}
-      </motion.p>
+      </p>
 
       {/* Filter */}
-      <motion.div
+      <div
         className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.4 }}
       >
-        <motion.input
+        <input
           type="text"
           placeholder={t("placeholder.travel")}
-          className="w-full sm:w-1/2 px-4 py-2 font-semibold rounded-lg border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-sky-900 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
+          className="w-full sm:w-1/2 px-4 py-2 font-semibold  border  text-sm md:text-base placeholder:text-sky-900 bg-white  transition-all duration-300"
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
             setCurrentPage(1);
           }}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4, duration: 0.4 }}
         />
-        <motion.select
+        <select
           onChange={(e) => {
             setSelectedCity(Number(e.target.value) || null);
             setCurrentPage(1);
           }}
           value={selectedCity || ""}
-          className="w-full sm:w-1/3 px-4 py-2 rounded-lg text-sky-900 border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
+          className="w-full sm:w-1/3 px-4 py-2  text-sky-900 border text-sm md:text-base bg-white transition-all duration-300"
         >
           <option value="">{t("travel.select_city")}</option>
           {cities.map((city: City) => (
@@ -354,47 +322,34 @@ const TravelDestination: React.FC = () => {
               {getLocalizedText(city.name, lang)}
             </option>
           ))}
-        </motion.select>
-      </motion.div>
+        </select>
+      </div>
 
       {/* Error */}
       {(errorCities || errorTours) && (
-        <motion.div
+        <div
           className="text-center text-red-500 text-[16px] md:text-[18px] font-medium my-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
         >
           {t("error.failed_to_load_data")}
-        </motion.div>
+        </div>
       )}
 
       {/* Cards */}
-      <motion.div
+      <div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6, duration: 0.5 }}
       >
         <AnimatePresence>
           {isLoading
             ? Array.from({ length: 6 }).map((_, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <TravelDestionationSkleton />
-              </motion.div>
+              </div>
             ))
             : tours.map((tour) => (
-              <motion.div
+              <div
                 key={tour.id}
-                initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -40, scale: 0.95 }}
-                transition={{ duration: 0.5, delay: tours.indexOf(tour) * 0.1 }}
               >
                 <TourCard
                   id={tour.id}
@@ -409,36 +364,30 @@ const TravelDestination: React.FC = () => {
                   )}
                   image={tour.image}
                 />
-              </motion.div>
+              </div>
             ))}
         </AnimatePresence>
-      </motion.div>
+      </div>
 
       {/* Empty */}
       {!isLoading && tours.length === 0 && (
-        <motion.p
+        <p
           className="text-center text-gray-600 text-[16px] md:text-[18px] font-medium mt-10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
         >
           {t("common.noData")}
-        </motion.p>
+        </p>
       )}
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <motion.div
-          className="flex justify-center items-center gap-1 mt-8 bg-white rounded-xl shadow-sm border border-[#4DC7E8]/20 p-2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.5 }}
+        <div
+          className="flex justify-center items-center gap-1 mt-8 bg-white    border border-[#4DC7E8]/20 p-2"
         >
           {renderPaginationButtons()}
-        </motion.div>
+        </div>
       )}
 
-    </motion.div>
+    </div>
   );
 };
 

@@ -50,7 +50,7 @@ const NewsDetailPage = () => {
         </p>
         <button
           onClick={() => window.history.back()}
-          className="group inline-flex items-center px-6 py-3 bg-[rgba(77,199,232,1)] text-white rounded-lg hover:bg-[rgba(77,199,232,0.8)] transform transition-all duration-300 hover:scale-105 hover:shadow-[0_5px_15px_rgba(77,199,232,0.5)] animate-[fadeInUp_0.6s_ease-out_0.4s] opacity-0 [animation-fill-mode:forwards] active:scale-95"
+          className="group inline-flex items-center px-6 py-3 bg-[rgba(77,199,232,1)] text-white hover:bg-[rgba(77,199,232,0.8)] transform transition-all duration-300 hover:scale-105 hover:shadow-[0_5px_15px_rgba(77,199,232,0.5)] animate-[fadeInUp_0.6s_ease-out_0.4s] opacity-0 [animation-fill-mode:forwards] active:scale-95"
         >
           <ArrowLeft className="w-4 h-4 mr-2 transition-transform duration-300 group-hover:-translate-x-1" />
           {t('go_back')}
@@ -101,7 +101,7 @@ const NewsDetailPage = () => {
 
         {/* Enhanced image container with parallax-like effect */}
         <div className="mb-10 animate-[fadeInUp_0.8s_ease-out_0.6s] opacity-0 [animation-fill-mode:forwards] transform-gpu">
-          <div className="relative overflow-hidden rounded-2xl shadow-[0_5px_15px_rgba(77,199,232,0.3)] hover:shadow-[0_10px_20px_rgba(77,199,232,0.5)] transition-all duration-700 group cursor-pointer">
+          <div className="relative overflow-hidden  shadow-[0_5px_15px_rgba(77,199,232,0.3)] hover:shadow-[0_10px_20px_rgba(77,199,232,0.5)] transition-all duration-700 group cursor-pointer">
             <img
               src={newData.image || mockImage}
               alt="News"

@@ -88,7 +88,7 @@ const ShopHome: React.FC = () => {
       className="block transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
       style={{ animationDelay: `${index * 0.1}s` }}
     >
-      <div className="bg-white dark:bg-transparent dark:border-blue-950 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-sky-100 group-hover:border-sky-300">
+      <div className="bg-white dark:bg-transparent dark:border-blue-950  shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-sky-100 group-hover:border-sky-300">
         <div className="relative overflow-hidden">
           {item.images[0]?.photo ? (
             <img
@@ -223,10 +223,10 @@ const ShopHome: React.FC = () => {
                     <>
                       <button
                         onClick={prevSlide}
-                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 z-10"
+                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-3 rounded-ful shadow-lg hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 z-10"
                         disabled={currentSlide === 0}
                       >
-                        <svg
+                        <svg  
                           className={`w-5 h-5 ${currentSlide === 0 ? 'text-gray-400' : 'text-gray-700 dark:text-white'}`}
                           fill="none"
                           stroke="currentColor"
@@ -294,7 +294,7 @@ const ShopHome: React.FC = () => {
               <div className="text-center mt-12">
                 <Link
                   to="/services/market"
-                  className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-sky-900 to-cyan-600 text-white font-semibold rounded-full hover:from-sky-900 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-sky-900 to-cyan-600 text-white font-semibold  hover:from-sky-900 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   <span>{t("market.see")}</span>
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

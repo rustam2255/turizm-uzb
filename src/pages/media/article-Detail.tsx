@@ -100,7 +100,7 @@ const ArticleDetail = () => {
         </div>
 
         {/* Animated title */}
-        <p className="text-3xl md:text-4xl font-bold mb-4 animate-[fadeInUp_0.8s_ease-out_0.2s] opacity-0 [animation-fill-mode:forwards] bg-gradient-to-r from-[rgba(77,199,232,1)] via-gray-700 to-[rgba(77,199,232,1)] bg-clip-text text-transparent">
+        <p className="text-3xl md:text-4xl font-bold mb-4 ">
           {article.title[currentLang]}
         </p>
 
@@ -132,14 +132,13 @@ const ArticleDetail = () => {
 
         {/* Animated image with hover effects */}
         <div className="mb-10 animate-[fadeInUp_0.8s_ease-out_0.8s] opacity-0 [animation-fill-mode:forwards]">
-          <div className="relative overflow-hidden rounded-2xl shadow-[0_5px_15px_rgba(77,199,232,0.3)] hover:shadow-[0_10px_20px_rgba(77,199,232,0.5)] transition-all duration-500 group">
+          <div className="relative overflow-hidden transition-all duration-500 group">
             <img
               src={article.article_image || mockImage}
               alt="Article"
               loading='lazy'
               className="w-full h-[400px] object-cover transition-all duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[rgba(77,199,232,0.7)] to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
           </div>
         </div>
 

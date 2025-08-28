@@ -10,7 +10,7 @@ import IMAGE2 from "@assets/images/place3.png";
 import HotelDetailsSkeleton from "@/components/ui/loaderSkleton/hotelDetailsSkeleton";
 import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { openGoogleMaps, openNativeMap, openYandexMaps } from "@/utils/mapnavigate";
-import { motion, } from "framer-motion";
+
 import { stripHtmlTags } from "@/utils/getHtmlTags";
 import GalleryModal from "@/utils/galleryModal";
 
@@ -70,22 +70,16 @@ const ClinicDetail: React.FC = () => {
 
   if (isError || !clinic) {
     return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
+      <div
         className="w-full px-4 md:px-[80px] pt-[100px] bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
       >
         <p className="text-center text-red-500 text-[16px] md:text-[18px] font-medium">{t("error.failed_to_load_data")}</p>
-      </motion.div>
+      </div>
     );
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
+    <div
       className="w-full px-4 md:px-[80px] pt-[30px] pb-16 max-w-[1100px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
     >
       <Helmet>
@@ -130,10 +124,7 @@ const ClinicDetail: React.FC = () => {
         )}
       </Helmet>
       {/* Breadcrumb */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+      <div
         className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
       >
         <Link to="/" className=" transition-colors duration-200">
@@ -149,153 +140,117 @@ const ClinicDetail: React.FC = () => {
         </Link>
         <span className="text-[#4DC7E8">&gt;</span>
         <span className="text-[rgba(25,110,150,255)] font-semibold">{clinic.name}</span>
-      </motion.div>
+      </div>
 
       {/* Title */}
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
+      <p
         className="text-[24px] md:text-[36px] font-semibold mb-4 text-[#131313]"
       >
         {clinic.name}
-      </motion.p>
+      </p>
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Left Column - Image and Information */}
         <div className="lg:col-span-2 space-y-6">
           {/* Image Carousel */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="w-full relative h-[300px] md:h-[450px] overflow-hidden rounded-xl border border-[#4DC7E8]/10 shadow-md shadow-[#4DC7E8]/20"
+          <div
+            className="w-full relative h-[300px] md:h-[450px] overflow-hidden  border"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
 
-            <motion.img
+            <img
               key={currentImageIndex}
               src={`${MEDIA_URL}${images[currentImageIndex].photo}`}
               alt={clinic.name}
               loading="lazy"
               className="w-full h-full object-cover"
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.5 }}
               onError={(e) => {
                 (e.target as HTMLImageElement).src = FallbackImage;
               }}
             />
             {isHovered && (
-              <motion.div
-                className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-xl"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
+              <div
+                className="absolute inset-0 flex items-center justify-center bg-black/30 "
                 onClick={openModal}
               >
                 <ZoomIn className="w-10 h-10 text-white bg-[rgba(25,110,150,0.7)] p-2 rounded-full" />
-              </motion.div>
+              </div>
             )}
 
 
             {images.length > 1 && (
               <>
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                <button
                   onClick={prevImage}
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-all duration-300"
                 >
                   <ChevronLeft className="w-5 h-5 text-[rgba(25,110,150,255)]" />
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                </button>
+                <button
                   onClick={nextImage}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-all duration-300"
                 >
                   <ChevronRight className="w-5 h-5 text-[rgba(25,110,150,255)]" />
-                </motion.button>
+                </button>
               </>
             )}
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="absolute bottom-3 right-3 bg-white/80 px-3 py-1 text-sm font-medium text-[rgba(25,110,150,255)] rounded-md shadow-sm shadow-[#4DC7E8]/20"
+            <div
+              className="absolute bottom-3 right-3 bg-white/80 px-3 py-1 text-sm font-medium text-[rgba(25,110,150,255)]  shadow-sm shadow-[#4DC7E8]/20"
             >
               {currentImageIndex + 1} {t("hotelDetail.of")} {images.length}
-            </motion.div>
+            </div>
 
             {images.length > 1 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
+              <div
                 className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-2"
               >
                 {images.map((_, index) => (
-                  <motion.button
+                  <button
                     key={index}
-                    whileHover={{ scale: 1.2 }}
                     onClick={() => setCurrentImageIndex(index)}
                     className={`w-2 h-2 rounded-full transition-all ${index === currentImageIndex ? 'bg-[#4DC7E8]' : 'bg-[#4DC7E8]/50'}`}
                   />
                 ))}
-              </motion.div>
+              </div>
             )}
-          </motion.div>
+          </div>
 
           {/* Address */}
 
 
           {/* Description */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+          <div
             className="text-gray-700"
           >
 
             <p className="text-lg font-semibold mb-2 text-[#131313]">
               {stripHtmlTags(getLocalizedText(normalizeDescription(clinic.description), lang))}
             </p>
-          </motion.div>
+          </div>
 
           {/* Body */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
+          <div
             className="text-gray-700"
           >
 
             <p className="whitespace-pre-line leading-relaxed">
               {stripHtmlTags(getLocalizedText(normalizeBody(clinic.body), lang))}
             </p>
-          </motion.div>
+          </div>
         </div>
 
         {/* Right Column - Map */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
+        <div
           className="lg:col-span-1"
         >
           {clinic.latitude && clinic.longitude && (
-            <div className="bg-white p-4 rounded-xl shadow-md shadow-[#4DC7E8]/20 border border-[#4DC7E8]/10 sticky top-24">
+            <div className="bg-white p-4  border sticky top-24">
               <h2 className="text-base md:text-lg font-medium text-[rgba(25,110,150,255)] mb-3">{t("hotelDetail.location_map")}</h2>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.9 }}
-                className="h-64 lg:h-80 bg-[#4DC7E8]/10 overflow-hidden rounded-md shadow-sm shadow-[#4DC7E8]/20"
+              <div
+                className="h-64 lg:h-80 bg-[#4DC7E8]/10 overflow-hidden "
               >
                 <iframe
                   title="map"
@@ -304,47 +259,35 @@ const ClinicDetail: React.FC = () => {
                   loading="lazy"
                   src={`https://maps.google.com/maps?q=${clinic.latitude},${clinic.longitude}&z=15&output=embed`}
                 ></iframe>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1 }}
+              </div>
+              <div
                 className="flex flex-col gap-2 mt-3"
               >
                 <div className="flex gap-2">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  <button
                     onClick={() => openNativeMap(clinic.latitude, clinic.longitude, clinic.name)}
                     className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                     title="Telefon navigatorida ochish"
                   >
                     📱 Navigator
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  </button>
+                  <button
                     onClick={() => openGoogleMaps(clinic.latitude, clinic.longitude, clinic.name)}
                     className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                     title="Google Maps da ochish"
                   >
                     🗺️ Google
-                  </motion.button>
+                  </button>
                 </div>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <button
                   onClick={() => openYandexMaps(clinic.latitude, clinic.longitude)}
                   className="w-full bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
                   title="Yandex Maps da ochish"
                 >
                   🗺️ Yandex Maps
-                </motion.button>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
+                </button>
+              </div>
+              <div
                 className="text-gray-700"
               >
                 <h3 className="text-lg font-semibold mb-2 text-[#131313]">{t("common.address")}</h3>
@@ -353,10 +296,10 @@ const ClinicDetail: React.FC = () => {
                   ru: clinic.address.address_ru,
                   en: clinic.address.address_en
                 }, lang)}</p>
-              </motion.div>
+              </div>
             </div>
           )}
-        </motion.div>
+        </div>
       </div>
       {isModalOpen &&
         <GalleryModal
@@ -366,7 +309,7 @@ const ClinicDetail: React.FC = () => {
           title={clinic.name}
         />
       }
-    </motion.div>
+    </div>
   );
 };
 

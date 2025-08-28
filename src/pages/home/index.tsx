@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
 import HotelCard from '@/components/hotelCard/hotelCardUI';
 import SubNavbar from '@/components/navbar/subNavbar';
 import NewsArticle from '@/components/newsArticle';
@@ -31,15 +30,7 @@ const Home: React.FC = () => {
     market: useRef<HTMLDivElement>(null),
   };
 
-  // InView hooks
-  const isMediaInView = useInView(sectionRefs.media, { once: false, margin: '-20% 0px' });
-  const isHotelCardInView = useInView(sectionRefs.hotelCard, { once: false, margin: '-20% 0px' });
-  const isDetanationInView = useInView(sectionRefs.detanation, { once: false, margin: '-20% 0px' });
-  const isMagazineInView = useInView(sectionRefs.magazine, { once: false, margin: '-20% 0px' });
-  const isResortInView = useInView(sectionRefs.resort, { once: false, margin: '-20% 0px' });
-  const isBankInView = useInView(sectionRefs.bank, { once: false, margin: '-20% 0px' });
-  const isClinicInView = useInView(sectionRefs.clinic, { once: false, margin: '-20% 0px' });
-  const isMarketInView = useInView(sectionRefs.market, { once: false, margin: '-20% 0px' });
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -72,33 +63,10 @@ const Home: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isSticky]);
 
-  // Animatsiyalar
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: 'easeOut' }
-    }
-  };
 
-  const slideInLeft = {
-    hidden: { opacity: 0, x: -100 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.8, ease: 'easeOut' }
-    }
-  };
 
-  const slideInRight = {
-    hidden: { opacity: 0, x: 100 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.8, ease: 'easeOut' }
-    }
-  };
+
+
 
   return (
     <div
@@ -141,93 +109,80 @@ const Home: React.FC = () => {
 
       {/* Content Sections */}
       <div className={`${isSticky ? 'pt-20' : 'pt-10'} md:pt-10`}>
-        <motion.div
+        <div
           id="media"
           ref={sectionRefs.media}
           className='bg-white dark:bg-[oklch(22%_0.06_265/0.9)]'
-          initial="hidden"
-          animate={isMediaInView ? 'visible' : 'hidden'}
-          variants={slideInLeft}
+        
         >
           <NewsArticle />
-        </motion.div>
+        </div>
 
-        <motion.div
+        <div
           id="magazine"
           ref={sectionRefs.magazine}
-          className={`px-4 md:px-10 lg:px-20 py-10 $bg-white dark:bg-[oklch(22%_0.06_265/0.9)] scroll-mt-20`}
-          initial="hidden"
-          animate={isMagazineInView ? 'visible' : 'hidden'}
-          variants={fadeInUp}
+          className={`px-4 md:px-10 lg:px-20  $bg-white dark:bg-[oklch(22%_0.06_265/0.9)] `}
+  
         >
           <MagazineHome />
-        </motion.div>
+        </div>
 
-        <motion.div
+        <div
           id="hotelCard"
           ref={sectionRefs.hotelCard}
-          className={`px-4 md:px-10 lg:px-20 py-0 bg-white dark:bg-[oklch(22%_0.06_265/0.9)] scroll-mt-20`}
-          initial="hidden"
-          animate={isHotelCardInView ? 'visible' : 'hidden'}
-          variants={slideInRight}
+          className={`px-4 md:px-10 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+        
         >
           <HotelCard />
-        </motion.div>
+        </div>
 
-        <motion.div
+        <div
           id="resort"
           ref={sectionRefs.resort}
-          className={`px-4 md:px-10 lg:px-20 py-10 bg-white dark:bg-[oklch(22%_0.06_265/0.9)] scroll-mt-20`}
-          initial="hidden"
-          animate={isResortInView ? 'visible' : 'hidden'}
-          variants={fadeInUp}
+          className={`px-4 md:px-10 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+       
         >
           <ResortMapHome />
-        </motion.div>
+        </div>
 
-        <motion.div
+        <div
           id="bank"
           ref={sectionRefs.bank}
-          className={`px-4 md:px-10 lg:px-20 py-10 bg-white dark:bg-[oklch(22%_0.06_265/0.9)] scroll-mt-20`}
-          initial="hidden"
-          animate={isBankInView ? 'visible' : 'hidden'}
-          variants={slideInLeft}
+          className={`px-4 md:px-10 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+      
         >
           <BankHome />
-        </motion.div>
+        </div>
 
-        <motion.div
+        <div
           id="clinic"
           ref={sectionRefs.clinic}
-          className={`px-4 md:px-10 lg:px-20 py-10 bg-white dark:bg-[oklch(22%_0.06_265/0.9)] scroll-mt-20`}
-          initial="hidden"
-          animate={isClinicInView ? 'visible' : 'hidden'}
-          variants={slideInRight}
+          className={`px-4 md:px-10 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+      
         >
           <ClinicHome />
-        </motion.div>
+        </div>
 
-        <motion.div
+        <div
           id="market"
           ref={sectionRefs.market}
-          className={`px-4 md:px-10 lg:px-20 py-10 bg-white dark:bg-[oklch(22%_0.06_265/0.9)] scroll-mt-20`}
-          initial="hidden"
-          animate={isMarketInView ? 'visible' : 'hidden'}
-          variants={fadeInUp}
+          className={`px-4 md:px-10 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+       
+    
         >
           <ShopHome />
-        </motion.div>
+        </div>
 
-        <motion.div
+        <div
           id="detanation"
           ref={sectionRefs.detanation}
-          className={`px-4 md:px-10 lg:px-20 py-10 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]  scroll-mt-20`}
-          initial="hidden"
-          animate={isDetanationInView ? 'visible' : 'hidden'}
-          variants={slideInLeft}
+          className={`px-4 md:px-10 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+        
+         
+    
         >
           <TravelCollection />
-        </motion.div>
+        </div>
       </div>
     </div>
   );

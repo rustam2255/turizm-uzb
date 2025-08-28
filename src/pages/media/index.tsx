@@ -1,14 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-
 import NewsPage from "./media-news";
 import ArticlesPage from "./media-article";
-
 const Media: React.FC = () => {
   const { t } = useTranslation();
-
   return (
     <div className="">
       <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -32,13 +28,10 @@ const Media: React.FC = () => {
         {/* Main Layout - 60/40 split */}
         <div className="grid grid-cols-1 mt-5 lg:grid-cols-5 gap-8">
           {/* News Section - 60% */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
+          <div
             className="lg:col-span-3 order-1"
           >
-            <div className="rounded-3xl shadow-lg border border-gray-200/50 dark:border-gray-500/50 p-3 lg:p-2 backdrop-blur-sm bg-white/90 dark:bg-transparent hover:shadow-xl hover:-translate-y-0.5 transition-all duration-500">
+            <div className="shadow-lg border border-gray-200/50 dark:border-gray-500/50 p-3 lg:p-2 backdrop-blur-sm bg-white/90 dark:bg-transparent hover:shadow-xl hover:-translate-y-0.5 transition-all duration-500">
               <div className="flex items-center gap-3 mb-6">
                 {/* Ikonka va sarlavha joyi (agar kerak bo'lsa) */}
                 {/* <div className="p-3 rounded-xl bg-[rgba(77,199,232,0.1)] border border-[rgba(77,199,232,0.3)] hover:scale-105 transition-transform duration-300 dark:bg-[rgba(77,199,232,0.2)] dark:border-[rgba(77,199,232,0.4)]">
@@ -57,16 +50,13 @@ const Media: React.FC = () => {
               </div>
               <NewsPage />
             </div>
-          </motion.div>
+          </div>
 
           {/* Articles Section - 40% */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
+          <div
             className="lg:col-span-2 order-2"
           >
-            <div className="bg-white/90 dark:bg-transparent rounded-3xl shadow-lg border border-gray-200/50 dark:border-gray-500/50 backdrop-blur-sm sticky top-8 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-500">
+            <div className="bg-white/90 dark:bg-transparent  shadow-lg border border-gray-200/50 dark:border-gray-500/50 backdrop-blur-sm sticky top-8 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-500">
               {/* Sarlavha joyi (agar kerak bo'lsa) */}
               {/* <div className="p-6 border-b border-gray-100 dark:border-gray-700">
                 <div className="flex items-center gap-3 mb-2">
@@ -86,7 +76,7 @@ const Media: React.FC = () => {
                 <ArticlesPage />
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         <style>{`

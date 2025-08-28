@@ -1,6 +1,6 @@
 import { Listbox } from "@headlessui/react";
 import { ChevronDown, Check } from "lucide-react";
-import { motion } from "framer-motion";
+
 
 interface RatingSelectProps {
   selectedRating: number | null;
@@ -14,11 +14,8 @@ const RatingSelect = ({ selectedRating, setSelectedRating, className }: RatingSe
   const selected = selectedRating ?? allRatingOption;
 
   return (
-    <motion.div
-      className={`w-full md:w-64 ${className}`}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+    <div
+      className={`w-full md:w-64 z-10 ${className}`}
     >
       <Listbox
         value={selected}
@@ -29,7 +26,7 @@ const RatingSelect = ({ selectedRating, setSelectedRating, className }: RatingSe
         <div className="relative">
           <Listbox.Button
             className="
-              relative w-full cursor-default rounded-lg border border-[#4DC7E8]/50 
+              relative w-full cursor-default  border border-[#4DC7E8]/50 
               bg-white py-2 pl-3 pr-10 text-left shadow-sm shadow-[#4DC7E8]/20
               focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30
               text-xs sm:text-sm md:text-base
@@ -48,7 +45,7 @@ const RatingSelect = ({ selectedRating, setSelectedRating, className }: RatingSe
 
           <Listbox.Options
             className="
-              absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1
+              absolute z-50 mt-1 max-h-60 w-full overflow-auto  bg-white py-1
               text-xs sm:text-sm md:text-base shadow-lg shadow-[#4DC7E8]/20 
               ring-1 ring-[#4DC7E8]/20 focus:outline-none
               scrollbar-thin scrollbar-thumb-[#4DC7E8] scrollbar-track-gray-100
@@ -85,7 +82,7 @@ const RatingSelect = ({ selectedRating, setSelectedRating, className }: RatingSe
           </Listbox.Options>
         </div>
       </Listbox>
-    </motion.div>
+    </div>
   );
 };
 

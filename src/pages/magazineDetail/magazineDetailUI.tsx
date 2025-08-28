@@ -124,13 +124,13 @@ const MagazineDetailUI: React.FC = () => {
         </Link>
       </nav>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white  shadow-sm border border-gray-100 overflow-hidden">
 
         <div className="p-6 sm:p-8 border-b border-gray-100">
           <p className="text-[24px] md:text-[32px] text-gray-900 font-bold leading-[110%] mb-3 animate-slideInLeft">
             {getLocalizedText(magazine.title)}
           </p>
-          <div className="inline-flex items-center px-3 py-1.5 bg-orange-50 text-sky-400 rounded-full text-[14px] font-semibold animate-slideInLeft delay-150">
+          <div className="inline-flex items-center px-3 py-1.5 bg-orange-50 text-sky-400   text-[14px] font-semibold animate-slideInLeft delay-150">
             📅 {magazine.month}, {magazine.year}
           </div>
         </div>
@@ -142,12 +142,12 @@ const MagazineDetailUI: React.FC = () => {
             <div className="absolute top-3 left-2">
               <img src={Logo} alt="Logo" loading="lazy" className="w-auto h-auto max-h-[50px] sm:max-h-[60px] md:max-h-[50px]" />
             </div>
-            <div className="overflow-hiddenrounded-xl shadow-lg  group-hover:shadow-xl transition-shadow duration-300">
+            <div className="overflow-hidden shadow-lg  group-hover:shadow-xl transition-shadow duration-300">
               <img
                 src={magazine.card || IMAGE}
                 alt={getLocalizedText(magazine.title)}
                 loading="lazy"
-                className="w-fit mx-auto max-h-[500px] p-5 rounded-xl   hover:cursor-pointer  group-hover:scale-105 transition-transform duration-500"
+                className="w-fit mx-auto max-h-[500px] p-5   hover:cursor-pointer  group-hover:scale-105 transition-transform duration-500"
                 onClick={handleImageClick}
                 onError={(e) => ((e.target as HTMLImageElement).src = IMAGE)}
               />
@@ -161,7 +161,7 @@ const MagazineDetailUI: React.FC = () => {
 
           <div className="mb-8 animate-slideInUp delay-200">
             <h2 className="text-[20px] font-semibold text-gray-900 mb-4">{t('magazine.ts')}</h2>
-            <p className="text-gray-700 text-[16px] md:text-[18px] leading-[140%] tracking-wide bg-gray-50 p-6 rounded-lg border-l-4 border-[rgba(77,199,232,1)]">
+            <p className="text-gray-700 text-[16px] md:text-[18px] leading-[140%] tracking-wide bg-gray-50 p-6]">
               {getLocalizedText(magazine.description)}
             </p>
           </div>
@@ -172,7 +172,7 @@ const MagazineDetailUI: React.FC = () => {
               <div className="text-center">
                 <button
                   onClick={() => setShowPdf(true)}
-                  className="group inline-flex items-center gap-3 bg-gradient-to-r from-sky-900 to-sky-400 text-white px-8 py-4 rounded-xl font-semibold text-[16px] hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300"
+                  className="group inline-flex items-center gap-3 bg-gradient-to-r from-sky-900 to-sky-400 text-white px-8 py-4  font-semibold text-[16px] hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <span className="text-xl group-hover:scale-110 transition-transform duration-200">📄</span>
                   {t("magazine.view_pdf")}
@@ -187,7 +187,7 @@ const MagazineDetailUI: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <div className="bg-gray-50 rounded-xl p-6 animate-slideInUp">
+              <div className="bg-gray-50  p-6 animate-slideInUp">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-gray-700 font-medium">{t("magazine.see_pdf")}</span>

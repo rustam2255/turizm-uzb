@@ -8,7 +8,7 @@ import { MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 const MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 import IMAGE1 from '@/assets/images/place3.png';
 import { slugify } from "@/utils/slugify";
-import { motion, AnimatePresence } from "framer-motion";
+import {  AnimatePresence } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 type Lang = "uz" | "ru" | "en";
 
@@ -75,16 +75,12 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, lang }) => {
   console.log(isImageHovered);
 
   return (
-    <motion.div
-      className="flex flex-col w-full h-[300px] md:h-[300px] bg-white rounded-xl shadow-md shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40 transition-shadow duration-300 border border-[#4DC7E8]/10 overflow-hidden cursor-pointer"
+    <div
+      className="flex flex-col w-full h-[300px] md:h-[300px] bg-white  duration-300 border overflow-hidden cursor-pointer"
       onClick={() => navigate(`/services/clinic/${clinic.id}-${slugify(clinic.name)}`)}
-      initial={{ opacity: 0, y: 50, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
     >
-      <motion.div
-        className="relative h-[160px] md:h-[200px] overflow-hidden mb-3 rounded-t-xl group"
+      <div
+        className="relative h-[160px] md:h-[200px] overflow-hidden mb-3  group"
         onMouseEnter={() => setIsImageHovered(true)}
         onMouseLeave={() => setIsImageHovered(false)}
         style={{ perspective: '1000px' }}
@@ -98,45 +94,36 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, lang }) => {
             src={firstImage}
             alt={clinic.name}
             loading="lazy"
-            className="w-full h-full object-cover absolute top-0 left-0 rounded-t-xl"
+            className="w-full h-full object-cover absolute top-0 left-0 "
             style={{ backfaceVisibility: "hidden" }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE1;
             }}
           />
-          <div className="absolute inset-0 bg-[#4DC7E8]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
+          <div className="absolute inset-0  opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           {/* Back Image */}
           <img
             src={secondImage}
             alt={clinic.name}
             loading="lazy"
-            className="w-full h-full object-cover absolute top-0 left-0 rounded-t-xl"
+            className="w-full h-full object-cover absolute top-0 left-0 "
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = IMAGE;
             }}
           />
         </div>
-      </motion.div>
-      <motion.div
+      </div>
+      <div
         className="flex flex-col flex-grow p-4"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.5 }}
       >
-        <motion.h2
+        <h2
           className="text-[16px] md:text-[20px] font-semibold mb-2 line-clamp-2 text-[#131313]"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
         >
           {clinic.name}
-        </motion.h2>
-        <motion.div
-          className="flex items-center gap-1 text-gray-500 text-[14px] md:text-[15px] mt-auto pt-2 border-t border-[#4DC7E8]/10"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
+        </h2>
+        <div
+          className="flex items-center gap-1 text-gray-500 text-[14px] md:text-[15px] mt-auto pt-2 border-t "
         >
           <MapPin size={16} className="text-rgba(25,110,150,255) mr-1" />
           <span className="truncate">{getLocalizedText({
@@ -144,9 +131,9 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, lang }) => {
             ru: clinic.city.name_ru,
             en: clinic.city.name_en,
           }, lang)}</span>
-        </motion.div>
-      </motion.div>
-    </motion.div>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -291,23 +278,17 @@ const Clinics = () => {
   };
 
   if (isError || !dataClinic || errorCities) return (
-    <motion.div
+    <div
       className="text-center text-red-500 text-[16px] md:text-[18px] font-medium my-8"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
     >
       {t("error.failed_to_load_data")}
-    </motion.div>
+    </div>
   );
   
 
   return (
-    <motion.div
+    <div
       className="w-full py-6 pt-[80px] md:pt-[30px] bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
     >
       <Helmet>
         <title>{pageTitle}</title>
@@ -343,51 +324,36 @@ const Clinics = () => {
         <meta name="twitter:image" content={pageImage} />
       </Helmet>
       <div className="max-w-[1600px] xl:max-w-[1600px] mx-auto px-4 sm:px-6 md:px-[80px] lg:px-[80px]">
-        <motion.div
+        <div
           className="flex items-center text-[14px] md:text-[16px] font-medium gap-2"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.5 }}
         >
           <Breadcrumb />
-        </motion.div>
-        <motion.p
+        </div>
+        <p
           className="text-[20px] sm:text-[24px] md:text-[30px] lg:text-[36px] font-bold mb-4 sm:mb-6 text-sky-900"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
         >
           {t("services.clinic")}
-        </motion.p>
-        <motion.div
+        </p>
+        <div
           className="flex flex-col sm:flex-row gap-4 mb-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <motion.input
+          <input
             type="text"
             placeholder={t("placeholder.clinic")}
-            className="w-full sm:w-1/2 px-4 py-2 rounded-lg border font-semibold border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base placeholder:text-sky-900 bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
+            className="w-full sm:w-1/2 px-4 py-2 border font-semibold text-sm md:text-base placeholder:text-sky-900 bg-white  transition-all duration-300"
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
               setCurrentPage(1);
             }}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
           />
-          <motion.select
+          <select
             onChange={(e) => {
               setSelectedCity(String(e.target.value) || null);
               setCurrentPage(1);
             }}
             value={selectedCity || ""}
-            className="w-full sm:w-1/3 px-4 py-2 rounded-lg text-sky-900 border border-[#4DC7E8]/50 focus:border-[#4DC7E8] focus:ring-2 focus:ring-[#4DC7E8]/30 text-sm md:text-base bg-white shadow-sm hover:shadow-[#4DC7E8]/30 transition-all duration-300"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
+            className="w-full sm:w-1/3 px-4 py-2  text-sky-900 border text-sm md:text-base bg-white transition-all duration-300"
           >
             <option value="">{t("travel.select_city")}</option>
             {cities.map((city: ClinicCity) => (
@@ -395,62 +361,46 @@ const Clinics = () => {
                 {getLocalizedText(city.name, lang)}
               </option>
             ))}
-          </motion.select>
-        </motion.div>
-        <motion.div
+          </select>
+        </div>
+        <div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
         >
           <AnimatePresence>
             {isLoading
               ? Array.from({ length: 12 }).map((_, i) => (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
                 >
                   <SkeletonCard />
-                </motion.div>
+                </div>
               ))
               : dataClinic.map((clinic) => (
-                <motion.div
+                <div
                   key={clinic.id}
-                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -50, scale: 0.9 }}
-                  transition={{ duration: 0.5, delay: dataClinic.indexOf(clinic) * 0.1 }}
                 >
                   <ClinicCard clinic={clinic} lang={lang} />
-                </motion.div>
+                </div>
               ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
         {!isLoading && dataClinic.length === 0 && (
-          <motion.p
+          <p
             className="text-center text-gray-600 text-[16px] md:text-[18px] font-medium mt-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
           >
             {t("common.noData")}
-          </motion.p>
+          </p>
         )}
       </div>
 
       {totalPages > 1 && (
-        <motion.div
+        <div
           className="flex justify-center items-center mx-20 gap-1 mt-8 bg-white rounded-xl shadow-sm border border-[#4DC7E8]/20 p-2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.5 }}
         >
           {renderPaginationButtons()}
-        </motion.div>
+        </div>
       )}
-    </motion.div>
+    </div>
   );
 };
 
