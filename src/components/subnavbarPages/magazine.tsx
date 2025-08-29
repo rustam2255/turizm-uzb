@@ -125,8 +125,8 @@ const MagazineHome: React.FC = () => {
                       <p className="text-[14px] dark:text-white md:text-[15px]">{item.year}</p>
                     </div>
                   </div>
-                  <div className="p-6">
-                    <div className="flex items-center justify-center text-[rgba(25,110,150,255)] font-medium text-sm group-hover:text-blue-700 transition-colors duration-300">
+                  <div className="p-2">
+                    <div className="flex items-center  justify-center text-[rgba(25,110,150,255)] md:font-medium text-sm group-hover:text-blue-700 transition-colors duration-300">
                       <span>{t("common.details")}</span>
                       <svg
                         className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300"
@@ -159,7 +159,7 @@ const MagazineHome: React.FC = () => {
                       style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                     >
                       {magazineItems.map((item) => (
-                        <div key={item.id} className="w-full flex-shrink-0">
+                        <div key={item.id} className="w-1/2 flex-shrink-0">
                           <Link
                             to={`/magazines/${item.id}-${slugify(item.title.en)}`}
                             className="block"

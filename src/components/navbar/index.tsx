@@ -6,17 +6,19 @@ import LanguageSelector from './translateSelect';
 
 import { useTranslation } from 'react-i18next';
 
+
 const Navbar = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const NavbarItem = [
-    { id: 1, title: t("navbar.home"), link: "/" },
+    { id: 1, title: t("navbar.aboutus"), link: "/" },
     { id: 2, title: t("navbar.media"), link: "/media/news" },
     { id: 3, title: t("navbar.magazines"), link: "/magazines" },
     { id: 8, title: t("navbar.services"), link: "/services" },
     { id: 6, title: t("navbar.documents"), link: "/documents" },
     { id: 7, title: t("navbar.maps"), link: "/maps" },
-    {id: 8, title: t("navbar.aboutus"), link: "/aboutus"}
+    
+
   ];
   
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -92,7 +94,7 @@ const Navbar = () => {
         <div className="px-4 sm:px-6 md:px-8 lg:px-16 w-full flex items-center justify-between h-full  mx-auto">
           {/* Logo */}
           <Link 
-            to="/" 
+            to="/home" 
             className="flex items-center flex-shrink-0 transition-all duration-200 z-[10001]"
             onClick={closeMobileMenu}
           >

@@ -24,11 +24,7 @@ const socialMedia = [
 ];
 
 // Contact info
-const contactInfo = {
-  email: 'info@tourismwebsite.uz',
-  phone: '+998901234567',
-  address: "Toshkent sh., Amir Temur ko'chasi, 123",
-};
+
 
 // Company and developer info
 const companyInfo = {
@@ -137,23 +133,21 @@ const ContactSection: React.FC = memo(() => {
         <div>
           {t('footer.contactEmail')}:{' '}
           <a
-            href={`mailto:${contactInfo.email}`}
             className="hover:text-gray-200 transition-colors duration-200 ml-1 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 "
           >
-            {contactInfo.email}
+            tourism@gmail.com
           </a>
         </div>
         <div>
           {t('footer.contactPhone')}:{' '}
           <a
-            href={`tel:${contactInfo.phone}`}
             className="hover:text-gray-200 transition-colors duration-200 ml-1 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 "
           >
-            {contactInfo.phone}
+            +998 77 480 00 12
           </a>
         </div>
         <div>
-          {t('footer.contactAddress')}: {contactInfo.address}
+          {t('footer.contactAddress')}: {t('about.add')}
         </div>
       </address>
     </section>

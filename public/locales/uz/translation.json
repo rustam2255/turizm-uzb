@@ -214,5 +214,19 @@
     "contactAddress": "Manzil",
     "socialTitle": "Ijtimoiy tarmoqlar",
     "companyDescription": "Bizning kompaniya Oʻzbekistonda sifatli xizmatlar koʻrsatadi va mijozlarga eng yaxshi tajribani taqdim etadi."
+  },
+  "about": {
+    "title": "Biz haqimizda",
+    "description": "Premium ikki tilli turistik jurnal bo'lib, O‘zbekistonni ichki va xalqaro sayohatchilar uchun eng jozibador yo‘nalishlardan biri sifatida targ'ib etishga xizmat qiladi.",
+    "body": "Biz hashamat va madaniyatni, zamonaviy tendensiyalar va abadiy qadriyatlarni uyg'unlashtirib, O'zbekistonni dunyoga sayohat, tarix, gastronomiya, arxitektura, biznes va tibbiy turizm orqali namoyon etamiz.",
+    "whywe": "Nima uchun biz?",
+    "whydescr": "TOURISM UZBEKISTAN oddiy jurnal emas. U — biznes uchun nufuzli platforma va premium auditoriya bilan ishonchli muloqot vositasi bo‘lib, mamlakatimizning ijobiy qiyofasini shakllantiradi va yangi investitsiya imkoniyatlarini ochadi.",
+    "address": "Bizning manzilimiz",
+    "partner": "Hamkorlarimiz",
+    "marketing": "Marketing bo‘limi",
+    "addresss": "Manzil",
+    "add": "Toshkent shahar Yakkasaroy tumani Qushbegi mavzesi Qushbegi ko'chasi 11A uy.",
+    "tel": "Tel",
+    "set": "Ijtimoiy tarmoqlar"
   }
 }

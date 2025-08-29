@@ -683,3 +683,25 @@ export interface MagazineBackgroundImage {
     title: MultilangText;
     file: string
 }
+
+export interface Service2{
+    id: number;
+    category: string;
+    name: string;
+    copy_count: string;
+    phone: string;
+    connection_person: string;
+    notes: string;
+    city: string;
+    latitude: number;
+    longitude: number;
+    distrubution: string;
+}
+
+
+
+//brand
+export interface Brand{
+    name: string;
+    file: string;
+}

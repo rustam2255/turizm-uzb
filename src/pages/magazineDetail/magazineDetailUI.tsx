@@ -139,7 +139,7 @@ const MagazineDetailUI: React.FC = () => {
         <div className="p-6 sm:p-8">
 
           <div className="group relative mb-8  bg-cover bg-no-repeat bg-center   animate-slideInUp" style={{ backgroundImage: `url(${imageback})` }}>
-            <div className="absolute top-3 left-2">
+            <div className="absolute top-3 hidden md:block left-2 z-10">
               <img src={Logo} alt="Logo" loading="lazy" className="w-auto h-auto max-h-[50px] sm:max-h-[60px] md:max-h-[50px]" />
             </div>
             <div className="overflow-hidden shadow-lg  group-hover:shadow-xl transition-shadow duration-300">
@@ -147,7 +147,7 @@ const MagazineDetailUI: React.FC = () => {
                 src={magazine.card || IMAGE}
                 alt={getLocalizedText(magazine.title)}
                 loading="lazy"
-                className="w-fit mx-auto max-h-[500px] p-5   hover:cursor-pointer  group-hover:scale-105 transition-transform duration-500"
+                className="w-fit mx-auto max-h-[500px] p-5 z-0   hover:cursor-pointer  group-hover:scale-105 transition-transform duration-500"
                 onClick={handleImageClick}
                 onError={(e) => ((e.target as HTMLImageElement).src = IMAGE)}
               />

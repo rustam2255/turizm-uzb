@@ -85,8 +85,8 @@ const Home: React.FC = () => {
 
 
       {/* Home Section */}
-      <div id="home" className="relative">
-        <div>
+      <div id="home" className="relative bg-gray-200">
+        <div className='p-10 '>
           <HomeCarousel />
         </div>
         <div
@@ -110,19 +110,10 @@ const Home: React.FC = () => {
       {/* Content Sections */}
       <div className={`pt-2 md:pt-5`}>
         <div
-          id="media"
-          ref={sectionRefs.media}
-          className='bg-white dark:bg-[oklch(22%_0.06_265/0.9)]'
-        
-        >
-          <NewsArticle />
-        </div>
-
-        <div
           id="magazine"
           ref={sectionRefs.magazine}
           className={`px-1 md:px-3 lg:px-20 $bg-white dark:bg-[oklch(22%_0.06_265/0.9)] `}
-  
+
         >
           <MagazineHome />
         </div>
@@ -131,7 +122,7 @@ const Home: React.FC = () => {
           id="hotelCard"
           ref={sectionRefs.hotelCard}
           className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
-        
+
         >
           <HotelCard />
         </div>
@@ -140,7 +131,7 @@ const Home: React.FC = () => {
           id="resort"
           ref={sectionRefs.resort}
           className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
-       
+
         >
           <ResortMapHome />
         </div>
@@ -149,7 +140,7 @@ const Home: React.FC = () => {
           id="bank"
           ref={sectionRefs.bank}
           className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
-      
+
         >
           <BankHome />
         </div>
@@ -158,7 +149,7 @@ const Home: React.FC = () => {
           id="clinic"
           ref={sectionRefs.clinic}
           className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
-      
+
         >
           <ClinicHome />
         </div>
@@ -167,8 +158,8 @@ const Home: React.FC = () => {
           id="market"
           ref={sectionRefs.market}
           className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
-       
-    
+
+
         >
           <ShopHome />
         </div>
@@ -177,12 +168,18 @@ const Home: React.FC = () => {
           id="detanation"
           ref={sectionRefs.detanation}
           className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
-        
-         
-    
         >
           <TravelCollection />
         </div>
+        <div
+          id="media"
+          ref={sectionRefs.media}
+          className='bg-white dark:bg-[oklch(22%_0.06_265/0.9)]'
+
+        >
+          <NewsArticle />
+        </div>
+
       </div>
     </div>
   );

@@ -43,7 +43,7 @@ const Maps = lazy(() => import('@pages/maps'));
 const knownPaths = [
   '/news', '/magazines', '/article', '/hotels', '/',
   '/travel-destination', '/documents', '/maps',
-  '/magazines/:id', '/hotels/:idAndSlug', '/hotels/:id',
+  '/magazines/:id', '/hotels/:idAndSlug', '/hotels/:id', '/home',
   '/travel-destination/:id', "/news/:idAndSlug", "/article/:id", "/aboutus", "/services",
   '/services/resort', '/services/tour-firm','/services/airplanes', '/services/tour-bus', '/services/banks', '/services/clinics',
   '/services/market', '/services/resort/:id', '/services/tours', '/services/tour/:id', '/services/shop/:id', '/services/clinic/:id',
@@ -68,8 +68,8 @@ const AppContent = () => {
       <Suspense fallback={<p className="text-center mt-10 text-gray-500">Loading...</p>}>
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path='/aboutus' element={<AboutUs />} />
+          <Route path="/" element={<AboutUs />} />
+          <Route path='/home' element={<Home />} />
           <Route path="/news/:idSlug" element={<NewsDetail />} />
           <Route path="/magazines" element={<Magazines />} />
           <Route path="/article" element={<Article />} />

@@ -29,7 +29,7 @@ const HotelCard: React.FC<{
 
   return (
     <Link to={`/hotels/${id}-${slugify(name)}`}>
-      <div className="flex flex-col w-full h-[360px] md:h-[420px] text-[#131313] bg-white  border border-[#4DC7E8]/10 overflow-hidden">
+      <div className="flex flex-col z-[0] w-full h-[360px] md:h-[420px] text-[#131313] bg-white  border border-[#4DC7E8]/10 overflow-hidden">
         <div
           className="relative w-full h-[160px] md:h-[200px]  overflow-hidden"
           onMouseEnter={() => setIsImageHovered(true)}
@@ -273,7 +273,7 @@ const HotelUI: React.FC = () => {
 
       <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mb-6 relative ">
         <div
-          className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"} w-full md:w-auto relative z-[10001]`}
+          className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"} w-full md:w-auto relative z-[500]`}
         >
           <CityFilter
             cities={cities}
@@ -290,18 +290,18 @@ const HotelUI: React.FC = () => {
           onChange={handleSearch}
         />
         <div
-          className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"} w-full md:w-auto relative z-[10001]`}
+          className={`${hotelsData && hotelsData.results.length === 0 ? "hidden" : "block"} w-full md:w-auto relative z-[500]`}
         >
           <RatingSelect
             selectedRating={selectedRating}
             setSelectedRating={handleRatingChange}
-            className="z-[10002]"
+            className="z-[500]"
           />
         </div>
       </div>
 
       {hotelsLoading && !hotelsData ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-[1000]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-[0]">
           {[...Array(8)].map((_, index) => (
             <HotelCardSkeleton key={index} />
           ))}
@@ -315,7 +315,7 @@ const HotelUI: React.FC = () => {
           {t("hotels.noResult")}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-[1000]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-[0]">
           {hotelsData?.results.map((hotel, idx) => (
             <div key={`${hotel.id}-${idx}`}>
               <HotelCard

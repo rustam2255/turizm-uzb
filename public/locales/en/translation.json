@@ -216,5 +216,19 @@
     "contactAddress": "Address",
     "socialTitle": "Social Networks",
         "companyDescription": "Our company provides high-quality services in Uzbekistan and delivers the best experience to our clients."
+  },
+  "about": {
+    "title": "About Us",
+    "description": "A premium bilingual tourism magazine serving to promote Uzbekistan as one of the most attractive destinations for both domestic and international travelers.",
+    "body": "We combine luxury and culture, modern trends and timeless values, showcasing Uzbekistan to the world through travel, history, gastronomy, architecture, business, and medical tourism.",
+    "whywe": "Why Us?",
+    "whydescr": "TOURISM UZBEKISTAN is not an ordinary magazine. It is a prestigious platform for business and a reliable communication tool with a premium audience, shaping a positive image of our country and opening new investment opportunities.",
+    "address": "Our Address",
+    "partner": "Our Partners",
+    "marketing": "Marketing Department",
+    "addresss": "Address",
+    "add": "Tashkent city, Yakkasaroy district, Kushbegi neighborhood, Kushbegi street, house 11A",
+    "tel": "Tel",
+    "set": "Social Networks"
   }
 }

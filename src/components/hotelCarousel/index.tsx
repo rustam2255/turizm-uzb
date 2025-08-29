@@ -327,7 +327,7 @@ const HotelCarousel = () => {
           muted={isMuted}
           playsInline
           preload="metadata"
-          className="absolute w-full h-full object-cover shadow-lg"
+          className="absolute w-full md:h-full h-[500px] object-cover shadow-lg"
           variants={variants}
           initial="enter"
           animate="center"
@@ -356,7 +356,7 @@ const HotelCarousel = () => {
         key={slide.id}
         src={slide.home_file}
         alt={getLocalizedText(slide.title)}
-        className="absolute w-full h-full object-cover z-10 shadow-lg"
+        className="absolute w-full md:h-full h-[500px] object-cover z-10 shadow-lg"
         variants={variants}
         initial="enter"
         animate="center"
@@ -370,13 +370,13 @@ const HotelCarousel = () => {
   };
 
   return (
-    <div className="relative w-full" id="home">
+    <div className="relative  w-full" id="home">
       
 
-      <div className="relative w-full h-[80vh] lg:h-[80vh] overflow-hidden z-10">
+      <div className="relative w-full  h-[500px]  lg:h-[80vh]  z-10">
         <AnimatePresence initial={false} custom={direction}>
           {renderMedia(activeSlide)}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
+          <div className="absolute inset-0  z-10" />
         </AnimatePresence>
 
         {activeSlide.file_type === "video" && !isVideoPlaying && (
@@ -662,7 +662,7 @@ const HotelCarousel = () => {
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => goToSlide(index, index > currentIndex ? 1 : -1)}
-              className={`h-2 w-12 cursor-pointer transition-all duration-300 rounded-full ${currentIndex === index ? "bg-white shadow-lg" : "bg-white/40 hover:bg-white/60"}`}
+              className={`h-2 w-12 cursor-pointer transition-all duration-300  ${currentIndex === index ? "bg-white shadow-lg" : "bg-white/40 hover:bg-white/60"}`}
               disabled={isTransitioning}
             />
           ))}
@@ -673,7 +673,7 @@ const HotelCarousel = () => {
           whileTap={{ scale: 0.95 }}
           onClick={goToPrevSlide}
           disabled={isTransitioning}
-          className="absolute bottom-[90px] md:bottom-[110px] left-[20px] md:left-[40px] lg:left-[80px] text-white transition-all cursor-pointer z-20 p-3 bg-white/20 rounded-full backdrop-blur-sm hover:bg-white/30 disabled:opacity-50"
+          className="absolute bottom-[20px] md:bottom-[110px] left-[20px] md:left-[40px] lg:left-[80px] text-white transition-all cursor-pointer z-20 p-3 bg-black/20  backdrop-blur-sm hover:bg-black/30 disabled:opacity-50"
         >
           <img src={Left} alt="Chap" className="w-8 h-6" loading="lazy" />
         </motion.button>
@@ -683,7 +683,7 @@ const HotelCarousel = () => {
           whileTap={{ scale: 0.95 }}
           onClick={goToNextSlide}
           disabled={isTransitioning}
-          className="absolute bottom-[90px] md:bottom-[110px] right-[20px] md:right-[40px] lg:right-[80px] text-white transition-all cursor-pointer z-20 p-3 bg-white/20 rounded-full backdrop-blur-sm hover:bg-white/30 disabled:opacity-50"
+          className="absolute bottom-[20px] md:bottom-[110px] right-[20px] md:right-[40px] lg:right-[80px] text-white transition-all cursor-pointer z-20 p-3 bg-black/20  backdrop-blur-sm hover:bg-black/30 disabled:opacity-50"
         >
           <img src={Right} alt="O'ng" className="w-8 h-6" loading="lazy" />
         </motion.button>

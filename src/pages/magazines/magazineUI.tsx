@@ -23,13 +23,13 @@ const MagazineUI: React.FC<MagazineUIProps> = ({ id, title, coverImage, dateRang
   };
 
   return (
-    <div className="flex px-[70px] md:px-0 flex-col bg-[rgba(235, 240, 245, 1)] items-start sm:items-center md:items-center">
+    <div className="flex w-1/2 md:px-0 flex-col bg-[rgba(235, 240, 245, 1)] items-start sm:items-center md:items-center">
       <div className="flex flex-col items-center">
         <Link to={`/magazines/${id}-${slugify(title)}`}>
           <img
             src={coverImage}
             alt={`${title} magazine cover`}
-            className="w-full  h-[300px] md:w-[200px] md:h-[250px] sm:w-[160px] sm:h-[200px]  mb-4 transition-transform duration-200 hover:scale-105"
+            className="w-full h-[200px]  md:w-[200px] md:h-[250px] sm:w-[160px] sm:h-[150px]  mb-4 transition-transform duration-200 hover:scale-105"
             onError={handleImageError}
             loading="lazy"
           />

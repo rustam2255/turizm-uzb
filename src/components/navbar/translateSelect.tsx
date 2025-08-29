@@ -55,7 +55,7 @@ const LanguageSelector: React.FC = () => {
                     onClick={() => handleLangChange(lang.code)}
                     className={`${
                       active ? 'bg-gray-100' : 'bg-white'
-                    } block w-full text-left px-2 py-1.5 text-sm flex items-center justify-center`}
+                    }  w-full text-left px-2 py-1.5 text-sm flex items-center justify-center`}
                   >
                     <img
                       src={lang.photo}
