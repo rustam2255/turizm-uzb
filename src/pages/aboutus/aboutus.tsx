@@ -23,7 +23,7 @@ L.Icon.Default.mergeOptions({
 const AboutUs: React.FC = () => {
   const [index, setIndex] = useState(0);
   const { data: Brands } = useGetBrandListQuery();
-  const { data: Images, isLoading, isError } = useGetAboutImageQuery(undefined);
+  const { data: Images, isLoading, isError } = useGetAboutImageQuery([void 0]);
 
   // Images massivini dinamik tarzda yaratish
   const imageList = Images && Array.isArray(Images) ? Images.map((img: { image: string }) => img.image) : [];
