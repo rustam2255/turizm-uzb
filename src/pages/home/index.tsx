@@ -108,7 +108,7 @@ const Home: React.FC = () => {
       </div>
 
       {/* Content Sections */}
-      <div className={`${isSticky ? 'pt-20' : 'pt-10'} md:pt-10`}>
+      <div className={`pt-2 md:pt-5`}>
         <div
           id="media"
           ref={sectionRefs.media}
@@ -121,7 +121,7 @@ const Home: React.FC = () => {
         <div
           id="magazine"
           ref={sectionRefs.magazine}
-          className={`px-4 md:px-10 lg:px-20  $bg-white dark:bg-[oklch(22%_0.06_265/0.9)] `}
+          className={`px-1 md:px-3 lg:px-20 $bg-white dark:bg-[oklch(22%_0.06_265/0.9)] `}
   
         >
           <MagazineHome />
@@ -130,7 +130,7 @@ const Home: React.FC = () => {
         <div
           id="hotelCard"
           ref={sectionRefs.hotelCard}
-          className={`px-4 md:px-10 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+          className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
         
         >
           <HotelCard />
@@ -139,7 +139,7 @@ const Home: React.FC = () => {
         <div
           id="resort"
           ref={sectionRefs.resort}
-          className={`px-4 md:px-10 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+          className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
        
         >
           <ResortMapHome />
@@ -148,7 +148,7 @@ const Home: React.FC = () => {
         <div
           id="bank"
           ref={sectionRefs.bank}
-          className={`px-4 md:px-10 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+          className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
       
         >
           <BankHome />
@@ -157,7 +157,7 @@ const Home: React.FC = () => {
         <div
           id="clinic"
           ref={sectionRefs.clinic}
-          className={`px-4 md:px-10 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+          className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
       
         >
           <ClinicHome />
@@ -166,7 +166,7 @@ const Home: React.FC = () => {
         <div
           id="market"
           ref={sectionRefs.market}
-          className={`px-4 md:px-10 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+          className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
        
     
         >
@@ -176,7 +176,7 @@ const Home: React.FC = () => {
         <div
           id="detanation"
           ref={sectionRefs.detanation}
-          className={`px-4 md:px-10 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+          className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
         
          
     

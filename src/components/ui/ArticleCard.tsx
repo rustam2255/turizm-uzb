@@ -36,7 +36,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ id, article_image, title, aut
         </div>
       </div>
       
-      <div className="w-[100px] mt-2 h-[70px] flex-shrink-0 rounded-lg overflow-hidden shadow-sm group-hover:shadow-md transition-shadow duration-200">
+      <div className="w-[100px] mt-2 h-[70px] flex-shrink-0  overflow-hidden shadow-sm group-hover:shadow-md transition-shadow duration-200">
         <img
           src={article_image || IMAGE}
           loading="lazy"

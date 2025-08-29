@@ -42,8 +42,8 @@ const NewsArticle: React.FC = () => {
   return (
     <>
       {articles.length > 0 && (
-        <div className="w-full px-4 pt-[65px] md:pt-[60px] md:min-h-screen lg:px-[80px] mb-8" id="media">
-          <p className="text-[24px] text-[rgba(25,110,150,255)] text-center leading-[100%] mb-1.5 md:leading-[50px] md:text-[40px] md:text-center md:mb-8 hover:scale-105 transition-all duration-500 ease-out font-bold">
+        <div className="w-full px-4  md:pt-[40px] md:min-h-screen lg:px-[80px] mb-2" id="media">
+          <p className="text-2xl sm:text-2xl text-[rgba(25,110,150,255)] text-center leading-[100%] md:leading-[50px] md:text-3xl md:text-center md:mb-8 hover:scale-105 transition-all duration-500 ease-out font-bold">
             {t("newsArticle.title")}
           </p>
 
@@ -111,12 +111,12 @@ const NewsArticle: React.FC = () => {
                 </div>
               </div>
 
-              <div className="md:col-span-1">
-                <div className="pt-4 md:pt-0 opacity-100 animate-slide-in-right" style={{ animationDelay: '600ms' }}>
+              <div className="md:col-span-1 max-md:mr-20">
+                <div className="md:pt-0 opacity-100 animate-slide-in-right" style={{ animationDelay: '600ms' }}>
                   <h3 className="text-[24px] leading-[100%] text-[rgba(25,110,150,255)] font-normal mb-1.5 md:mb-3 hover:text-sky-200 transition-colors duration-300">
                     {t("newsArticle.article")}
                   </h3>
-                  <div className="space-y-3">
+                  <div className="space-y-1">
                     {articles.slice(0, 8).map((article, index) => (
                       <div
                         key={article.id}

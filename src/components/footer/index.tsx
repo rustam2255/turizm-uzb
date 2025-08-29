@@ -165,9 +165,9 @@ const SocialMediaSection: React.FC = memo(() => {
   const { t } = useTranslation();
 
   return (
-    <section className="flex items-center flex-col min-w-[200px]">
+    <section className="flex md:items-center flex-col min-w-[200px]">
       <h3 className="text-lg font-semibold mb-4">{t('footer.socialTitle')}</h3>
-      <div className="flex gap-4 justify-center" role="list">
+      <div className="flex gap-4 md:justify-center" role="list">
         {socialMedia.map(({ href, icon: Icon, label }) => (
           <a
             key={label}
@@ -191,7 +191,7 @@ const Footer: React.FC = memo(() => {
 
   return (
     <footer className="bg-[rgba(25,110,150,0.95)] text-white py-10 px-5" role="contentinfo">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl md:mx-auto">
         {/* Main footer content */}
         <div className="flex flex-wrap justify-between gap-8 mb-8">
           <NavigationSection />
@@ -216,7 +216,7 @@ const Footer: React.FC = memo(() => {
 CompanySection.displayName = 'CompanySection';
 NavigationSection.displayName = 'NavigationSection';
 ContactSection.displayName = 'ContactSection';
-SocialMediaSection.displayName = 'SocialMediaSection';
+SocialMediaSection.displayName = 'SocialMediaSe ction';
 Footer.displayName = 'Footer';
 
 export default Footer;

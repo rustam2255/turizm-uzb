@@ -4,10 +4,10 @@ import IMAGE from "@assets/images/samarkand-img.png";
 import { useTranslation } from "react-i18next";
 import { useGetMagazineBackgroundQuery, useGetMagazineByIdQuery, useGetMagazineImagesQuery } from "@/services/api";
 import PdfToImage from "@/components/Pdf/PdfToImage";
-import SliderModal from "./magazineImage";
 import { Helmet } from "react-helmet-async";
 import Logo from "@/assets/images/logo.png";
 import { slugify } from "@/utils/slugify";
+import MagazineFlipViewer from "./magazineImage";
 const BaseUrl = import.meta.env.VITE_API_MEDIA_URL
 const MagazineDetailUI: React.FC = () => {
   const { idSlug } = useParams<{ idSlug: string }>();
@@ -200,7 +200,7 @@ const MagazineDetailUI: React.FC = () => {
       </div>
 
 
-      <SliderModal
+      <MagazineFlipViewer
         isOpen={isModalOpen}
         onClose={handleModalClose}
         images={imagesList}

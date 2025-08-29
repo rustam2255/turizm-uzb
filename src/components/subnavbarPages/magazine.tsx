@@ -91,11 +91,11 @@ const MagazineHome: React.FC = () => {
   return (
     <>
       {magazineItems.length > 0 && (
-        <div className="py-12 sm:py-16 lg:py-20">
+        <div className=" lg:py-5">
           <div className="max-w-[1900px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header Section */}
             <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[rgba(25,110,150,255)] mb-4">
+              <h2 className="text-3xl sm:text-2xl lg:text-3xl font-bold text-[rgba(25,110,150,255)] mb-4">
                 {t("magazine.title_home")}
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-sky-900 to-cyan-500 mx-auto rounded-full"></div>
@@ -164,7 +164,7 @@ const MagazineHome: React.FC = () => {
                             to={`/magazines/${item.id}-${slugify(item.title.en)}`}
                             className="block"
                           >
-                            <div className=" p-6 mx-2">
+                            <div className="  mx-2">
                               <div className="flex flex-col items-center">
                                 {/* Magazine Cover */}
                                 <div className="relative mb-6">
@@ -192,7 +192,7 @@ const MagazineHome: React.FC = () => {
 
                                 {/* Action Button */}
                                 <div className="mt-6">
-                                  <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-sky-900 to-cyan-600 text-white font-semibold rounded-full hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
+                                  <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-sky-900 to-cyan-600 text-white font-semibold  hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
                                     <span className="text-sm">{t("common.details")}</span>
                                     <svg
                                       className="w-4 h-4 ml-2"
@@ -270,10 +270,10 @@ const MagazineHome: React.FC = () => {
 
             {/* View All Button */}
             {magazineItems.length > 0 && (
-              <div className="text-center mt-12">
+              <div className="text-center mt-6 mb-2">
                 <Link
                   to="/magazines"
-                  className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-sky-900 to-cyan-600 text-white font-semibold  hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center px-8 py-3 bg-gradient-to-r  from-sky-900 to-cyan-600 text-white font-semibold  hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   <span>{t("magazine.allsee")}</span>
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
