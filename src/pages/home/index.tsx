@@ -91,7 +91,7 @@ const Home: React.FC = () => {
         </div>
         <div
           className={`
-            w-full z-10000 transition-all duration-300
+            w-full z-1000 transition-all duration-300
             ${isSticky
               ? `fixed top-0 left-0  bg-white/90 dark:bg-[oklch(22%_0.06_265/0.9)]   backdrop-blur-md shadow-lg`
               : 'absolute bottom-0 left-0 transformtranslate-y-full md:translate-y-1/2'
@@ -108,7 +108,7 @@ const Home: React.FC = () => {
       </div>
 
       {/* Content Sections */}
-      <div className={`pt-8 md:pt-5`}>
+      <div className={`pt-8 md:pt-12`}>
         <div
           id="magazine"
           ref={sectionRefs.magazine}
