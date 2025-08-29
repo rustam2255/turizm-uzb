@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { type ArticlesResponse, type Category, type DocumentDetailType, type DocumentItem, type GetDocumentsParams, type GetToursParams, type Hotel, type HotelData, type MagazineDetailType, type MagazineMap, type City, type NewsItem, type ToursResponse, type MapPoint, type ResortsResponse, type ResortDetail, BanksResponse, ClinicsResponse, ShopsResponse, ShopDetail, ClinicDetail, BankDetail, MagazineImageResponse, NewsCategory, ArticleDetail, TourById, HomeList, DashboardList, MagazineBackgroundImage, BusResponse, BusDetail, AirplaneResponse, AirplaneDetail, Service2, Brand } from '@/interface';
+import { type ArticlesResponse, type Category, type DocumentDetailType, type DocumentItem, type GetDocumentsParams, type GetToursParams, type Hotel, type HotelData, type MagazineDetailType, type MagazineMap, type City, type NewsItem, type ToursResponse, type MapPoint, type ResortsResponse, type ResortDetail, BanksResponse, ClinicsResponse, ShopsResponse, ShopDetail, ClinicDetail, BankDetail, MagazineImageResponse, NewsCategory, ArticleDetail, TourById, HomeList, DashboardList, MagazineBackgroundImage, BusResponse, BusDetail, AirplaneResponse, AirplaneDetail, Service2, Brand, AboutImage } from '@/interface';
 
 interface HotelsResponse {
   count: number;
@@ -310,11 +310,15 @@ export const API = createApi({
     }),
     getBrandList: builder.query<Brand[], void>({
       query: () => '/brend-list/'
+    }),
+    getAboutImage: builder.query<AboutImage, [void]>({
+      query: () => '/about-us-list/'
     })
   }),
 });
 
 export const {
+  useGetAboutImageQuery,
   useGetBrandListQuery,
   useGetService2Query,
   useGetAirplanebyIdQuery,

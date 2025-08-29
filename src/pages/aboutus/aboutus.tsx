@@ -4,12 +4,10 @@ import { ChevronLeft, ChevronRight, Facebook, Instagram, MapPin, Phone, Users } 
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-
-// Leaflet ikonlarini sozlash
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-import { useGetBrandListQuery } from '@/services/api';
+import { useGetBrandListQuery, useGetAboutImageQuery } from '@/services/api';
 import PartnersSlider from './slider';
 import { t } from 'i18next';
 
@@ -22,23 +20,20 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-const images = [
-  "/images/wow.webp",
-  "/images/place1.png",
-  "/images/place3.png",
-];
-
 const AboutUs: React.FC = () => {
   const [index, setIndex] = useState(0);
+  const { data: Brands } = useGetBrandListQuery();
+  const { data: Images, isLoading, isError } = useGetAboutImageQuery(undefined);
 
-  const { data: Brands } = useGetBrandListQuery()
+  // Images massivini dinamik tarzda yaratish
+  const imageList = Images && Array.isArray(Images) ? Images.map((img: { image: string }) => img.image) : [];
 
   const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % images.length);
+    setIndex((prev) => (prev + 1) % (imageList.length || 1));
   };
 
   const prevSlide = () => {
-    setIndex((prev) => (prev - 1 + images.length) % images.length);
+    setIndex((prev) => (prev - 1 + (imageList.length || 1)) % (imageList.length || 1));
   };
 
   const goToSlide = (i: number) => {
@@ -80,40 +75,58 @@ const AboutUs: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 py-5">
         {/* Slayder */}
         <div className="relative w-full mx-auto mb-8 overflow-hidden shadow-lg">
-          <AnimatePresence mode="wait">
-            <motion.img
-              key={index}
-              src={images[index]}
-              alt={`slide-${index}`}
-              className="w-full h-[60vh] object-cover"
+          {isLoading ? (
+            <div className="flex justify-center items-center h-[60vh]">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+              <span className="ml-3 text-blue-600 text-lg font-medium">Yuklanmoqda...</span>
+            </div>
+          ) : isError || !imageList.length ? (
+            <div className="flex justify-center items-center h-[60vh]">
+              <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+                <div className="text-red-500 text-lg font-medium">Rasm yuklashda xatolik!</div>
+                <p className="text-red-400 text-sm mt-2">Iltimos, qaytadan urinib ko'ring</p>
+              </div>
+            </div>
+          ) : (
+            <>
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={index}
+                  src={imageList[index]}
+                  alt={`Slide ${index + 1}`}
+                  className="w-full h-[60vh] object-cover"
+              
+                />
+              </AnimatePresence>
 
-            />
-          </AnimatePresence>
-
-          {/* Prev button */}
-          <button
-            onClick={prevSlide}
-            className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/50 text-white p-2 "
-          >
-            <ChevronLeft />
-          </button>
-
-          {/* Next button */}
-          <button
-            onClick={nextSlide}
-            className="absolute top-1/2 right-4 -translate-y-1/2 bg-black/50 text-white p-2 "
-          >
-            <ChevronRight />
-          </button>
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-            {images.map((_, i) => (
+              {/* Prev button */}
               <button
-                key={i}
-                onClick={() => goToSlide(i)}
-                className={`w-3 h-3 rounded-full ${i === index ? "bg-white" : "bg-white/50"}`}
-              />
-            ))}
-          </div>
+                onClick={prevSlide}
+                className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors duration-200"
+              >
+                <ChevronLeft />
+              </button>
+
+              {/* Next button */}
+              <button
+                onClick={nextSlide}
+                className="absolute top-1/2 right-4 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors duration-200"
+              >
+                <ChevronRight />
+              </button>
+
+              {/* Dots Indicator */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                {imageList.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => goToSlide(i)}
+                    className={`w-3 h-3 rounded-full ${i === index ? "bg-white" : "bg-white/50"} transition-all duration-300`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Matnli qism */}
@@ -133,9 +146,9 @@ const AboutUs: React.FC = () => {
               {t("about.whydescr")}
             </p>
           </div>
-          <div className=" mt-0 md:mt-8">
+          <div className="mt-0 md:mt-8">
             <h2 className="md:text-3xl text-sm font-bold text-[rgba(25,110,150,255)] mb-4">{t("about.address")}</h2>
-            <div className="w-full h-[400px]  overflow-hidden shadow-lg">
+            <div className="w-full h-[400px] overflow-hidden shadow-lg">
               <MapContainer
                 center={position}
                 zoom={15}
@@ -181,7 +194,8 @@ const AboutUs: React.FC = () => {
             </div>
           </div>
         </div>
-        <div >
+
+        <div>
           <h4 className='md:text-3xl text-sm font-bold md:text-center mt-4 text-[rgba(25,110,150,255)]'>{t("about.partner")}</h4>
           <PartnersSlider brands={Brands} />
         </div>
@@ -209,7 +223,7 @@ const AboutUs: React.FC = () => {
 
             {/* Manzil */}
             <div className='bg-white border border-gray-200 shadow-lg items-center rounded-2xl p-8 w-full lg:w-[450px] flex flex-col justify-center h-[280px] hover:shadow-xl transition-shadow duration-300'>
-              <div className='w-16 h-16 bg-sky-900  flex items-center justify-center mb-6'>
+              <div className='w-16 h-16 bg-sky-900 flex items-center justify-center mb-6'>
                 <MapPin className="w-8 h-8 text-white" />
               </div>
               <h4 className='text-xl font-bold text-gray-900 mb-4'>{t("about.addresss")}</h4>
@@ -223,7 +237,7 @@ const AboutUs: React.FC = () => {
 
             {/* Ijtimoiy tarmoqlar */}
             <div className='bg-white border border-gray-200 shadow-lg rounded-2xl p-8 w-full lg:w-[300px] flex flex-col justify-center items-center h-[280px] hover:shadow-xl transition-shadow duration-300'>
-              <div className='w-16 h-16 bg-sky-900  flex items-center justify-center mb-6'>
+              <div className='w-16 h-16 bg-sky-900 flex items-center justify-center mb-6'>
                 <Users className="w-8 h-8 text-white" />
               </div>
               <h4 className='text-xl font-bold text-gray-900 mb-6 text-center'>{t("about.set")}</h4>
@@ -243,11 +257,10 @@ const AboutUs: React.FC = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
   );
 };
 
-export default AboutUs; 
+export default AboutUs;

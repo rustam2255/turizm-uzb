@@ -49,9 +49,7 @@ const MagazineHome: React.FC = () => {
     }
   };
 
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
+  
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % magazineItems.length);
@@ -95,7 +93,7 @@ const MagazineHome: React.FC = () => {
           <div className="max-w-[1900px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header Section */}
             <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-3xl sm:text-2xl lg:text-3xl font-bold text-[rgba(25,110,150,255)] mb-4">
+              <h2 className="md:text-3xl text-sm  lg:text-3xl font-bold text-[rgba(25,110,150,255)] mb-4">
                 {t("magazine.title_home")}
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-sky-900 to-cyan-500 mx-auto rounded-full"></div>
@@ -192,7 +190,7 @@ const MagazineHome: React.FC = () => {
 
                                 {/* Action Button */}
                                 <div className="mt-6">
-                                  <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-sky-900 to-cyan-600 text-white font-semibold  hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
+                                  <div className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-sky-900 to-cyan-600 text-white font-semibold  hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
                                     <span className="text-sm">{t("common.details")}</span>
                                     <svg
                                       className="w-4 h-4 ml-2"
@@ -243,7 +241,7 @@ const MagazineHome: React.FC = () => {
                     </svg>
                   </button>
 
-                  {/* Dots Indicator */}
+                  {/* Dots Indicator
                   <div className="flex justify-center mt-6 space-x-2">
                     {magazineItems.map((_, index) => (
                       <button
@@ -255,7 +253,7 @@ const MagazineHome: React.FC = () => {
                           }`}
                       />
                     ))}
-                  </div>
+                  </div> */}
 
                   {/* Progress Bar */}
                   <div className="mt-4 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1 overflow-hidden">
@@ -273,9 +271,9 @@ const MagazineHome: React.FC = () => {
               <div className="text-center mt-6 mb-2">
                 <Link
                   to="/magazines"
-                  className="inline-flex items-center px-8 py-3 bg-gradient-to-r  from-sky-900 to-cyan-600 text-white font-semibold  hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center md:px-8 md:py-3 px-2 py-1 bg-gradient-to-r  from-sky-900 to-cyan-600 text-white font-semibold  hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
-                  <span>{t("magazine.allsee")}</span>
+                  <span className='text-sm md:text-xl'>{t("magazine.allsee")}</span>
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>

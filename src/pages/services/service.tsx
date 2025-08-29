@@ -104,12 +104,12 @@ const Breadcrumb: React.FC = () => {
 const staticServices: Service[] = [
   { id: 1, key: "services.hotels", link: "/hotels", titleEn: "Hotels", },
   { id: 2, key: "services.resort", link: "/services/resort", titleEn: "Resort" },
-  { id: 3, key: "services.tour-firm", link: "/services/tours", titleEn: "Tour Firm" },
-  { id: 4, key: "services.banks", link: "/services/banks", titleEn: "Bank" },
-  { id: 5, key: "services.clinic", link: "/services/clinics", titleEn: "Clinic" },
+  { id: 3, key: "services.tour-firm", link: "/services/tours", titleEn: "Tour Companies" },
+  { id: 4, key: "services.banks", link: "/services/banks", titleEn: "Banks" },
+  { id: 5, key: "services.clinic", link: "/services/clinics", titleEn: "Medical Clinics" },
   { id: 6, key: "services.market", link: "/services/market", titleEn: "Market" },
-  { id: 7, key: 'services.airplane', link: "/services/airplanes", titleEn: "Airplane" },
-  { id: 8, key: 'services.tourbus', link: '/services/tour-bus', titleEn: 'Tour Bus' }
+  { id: 7, key: 'services.airplane', link: "/services/airplanes", titleEn: "Helicopters" },
+  { id: 8, key: 'services.tourbus', link: '/services/tour-bus', titleEn: 'Transport Services' }
 ];
 
 const ServiceUI: React.FC = () => {

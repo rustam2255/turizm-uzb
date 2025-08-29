@@ -37,7 +37,7 @@ const LanguageSelector: React.FC = () => {
   return (
     <div className="relative cursor-pointer inline-block z-50">
       <Menu>
-        <Menu.Button className="inline-flex items-center px-2 py-1.5 border border-white  text-white transition-all">
+        <Menu.Button className="inline-flex items-center px-2 py-1.5   text-white transition-all">
           <img
             src={languages.find((l) => l.code === selectedLang)?.photo}
             alt={selectedLang}

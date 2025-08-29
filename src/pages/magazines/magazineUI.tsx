@@ -23,7 +23,7 @@ const MagazineUI: React.FC<MagazineUIProps> = ({ id, title, coverImage, dateRang
   };
 
   return (
-    <div className="flex w-1/2 md:px-0 flex-col bg-[rgba(235, 240, 245, 1)] items-start sm:items-center md:items-center">
+    <div className="flex max-md:w-1/2 md:px-0 flex-col bg-[rgba(235, 240, 245, 1)] items-start sm:items-center md:items-center">
       <div className="flex flex-col items-center">
         <Link to={`/magazines/${id}-${slugify(title)}`}>
           <img

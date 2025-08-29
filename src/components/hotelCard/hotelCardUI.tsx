@@ -84,7 +84,7 @@ const HotelCardUI: React.FC = () => {
           <div className="max-w-[1900px] mx-auto px-1 lg:px-8">
             {/* Header Section */}
             <div className="text-center mb-12 sm:mb-12">
-              <h2 className="text-3xl sm:text-2xl lg:text-3xl font-bold text-[rgba(25,110,150,255)] mb-4">
+              <h2 className="md:text-3xl text-sm   lg:text-3xl font-bold text-[rgba(25,110,150,255)] mb-4">
                 {t("hotels.the_suite_hotels")}
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-sky-900 to-cyan-500 mx-auto rounded-full"></div>
@@ -206,7 +206,7 @@ const HotelCardUI: React.FC = () => {
               <div className="text-center mt-16">
                 <Link
                   to="/hotels"
-                  className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-sky-900 to-cyan-600 text-white font-semibold hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center px-2 py-1 md:px-8 md:py-3 bg-gradient-to-r from-sky-900 to-cyan-600 text-white font-semibold hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   <span>{t('hotels.see')}</span>
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

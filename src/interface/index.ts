@@ -705,3 +705,11 @@ export interface Brand{
     name: string;
     file: string;
 }
+
+//about
+
+export interface AboutImage{
+    id: number;
+    name: string;
+    image: string
+}

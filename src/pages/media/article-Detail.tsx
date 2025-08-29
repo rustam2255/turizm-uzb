@@ -6,7 +6,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGetArticleByIdQuery } from '@/services/api';
 import IMAGE from '@/assets/images/place3.png'
-import { stripHtmlTags } from '@/utils/getHtmlTags';
+
 
 const ArticleDetail = () => {
   const { idSlug } = useParams<{ idSlug: string }>();
@@ -145,7 +145,7 @@ const ArticleDetail = () => {
         {/* Animated content body */}
         <div className="prose prose-lg max-w-none animate-[fadeInUp_1s_ease-out_1s] opacity-0 [animation-fill-mode:forwards]">
           <div className="leading-relaxed text-[rgba(100, 100, 100, 1)] [&>p]:mb-6 [&>p]:transition-all [&>p]:duration-300 [&>p:hover]:text-[rgba(77,199,232,1)] [&>p:hover]:translate-x-2">
-            {stripHtmlTags(article.body[currentLang])}
+            <div dangerouslySetInnerHTML={{ __html: article.body[currentLang] }} />
           </div>
         </div>
       </div>

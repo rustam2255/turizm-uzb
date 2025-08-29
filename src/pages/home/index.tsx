@@ -86,12 +86,12 @@ const Home: React.FC = () => {
 
       {/* Home Section */}
       <div id="home" className="relative bg-gray-200">
-        <div className='p-10 '>
+        <div className='p-10 pt-1 pb-0 '>
           <HomeCarousel />
         </div>
         <div
           className={`
-            w-full z-50 transition-all duration-300
+            w-full z-10000 transition-all duration-300
             ${isSticky
               ? `fixed top-0 left-0  bg-white/90 dark:bg-[oklch(22%_0.06_265/0.9)]   backdrop-blur-md shadow-lg`
               : 'absolute bottom-0 left-0 transformtranslate-y-full md:translate-y-1/2'
@@ -108,7 +108,7 @@ const Home: React.FC = () => {
       </div>
 
       {/* Content Sections */}
-      <div className={`pt-2 md:pt-5`}>
+      <div className={`pt-8 md:pt-5`}>
         <div
           id="magazine"
           ref={sectionRefs.magazine}
@@ -121,7 +121,7 @@ const Home: React.FC = () => {
         <div
           id="hotelCard"
           ref={sectionRefs.hotelCard}
-          className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+          className={`px-1 md:px-3 lg:px-20 pt-6 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
 
         >
           <HotelCard />
@@ -130,7 +130,7 @@ const Home: React.FC = () => {
         <div
           id="resort"
           ref={sectionRefs.resort}
-          className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+          className={`px-1 md:px-3 pt-6 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
 
         >
           <ResortMapHome />
@@ -139,7 +139,7 @@ const Home: React.FC = () => {
         <div
           id="bank"
           ref={sectionRefs.bank}
-          className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+          className={`px-1 md:px-3 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
 
         >
           <BankHome />
@@ -148,7 +148,7 @@ const Home: React.FC = () => {
         <div
           id="clinic"
           ref={sectionRefs.clinic}
-          className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+          className={`px-1 md:px-3 lg:px-20 pt-6 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
 
         >
           <ClinicHome />
@@ -157,7 +157,7 @@ const Home: React.FC = () => {
         <div
           id="market"
           ref={sectionRefs.market}
-          className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+          className={`px-1 md:px-3 lg:px-20 pt-6 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
 
 
         >
@@ -167,14 +167,14 @@ const Home: React.FC = () => {
         <div
           id="detanation"
           ref={sectionRefs.detanation}
-          className={`px-1 md:px-3 lg:px-20 bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
+          className={`px-1 md:px-3 lg:px-20  bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
         >
           <TravelCollection />
         </div>
         <div
           id="media"
           ref={sectionRefs.media}
-          className='bg-white dark:bg-[oklch(22%_0.06_265/0.9)]'
+          className='bg-white pt-4 dark:bg-[oklch(22%_0.06_265/0.9)]'
 
         >
           <NewsArticle />

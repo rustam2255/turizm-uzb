@@ -43,7 +43,7 @@ const NewsArticle: React.FC = () => {
     <>
       {articles.length > 0 && (
         <div className="w-full px-4  md:pt-[40px] md:min-h-screen lg:px-[80px] mb-2" id="media">
-          <p className="text-2xl sm:text-2xl text-[rgba(25,110,150,255)] text-center leading-[100%] md:leading-[50px] md:text-3xl md:text-center md:mb-8 hover:scale-105 transition-all duration-500 ease-out font-bold">
+          <p className="md:text-3xl text-sm text-[rgba(25,110,150,255)] text-center leading-[100%] md:leading-[50px]  md:text-center md:mb-8 hover:scale-105 transition-all duration-500 ease-out font-bold">
             {t("newsArticle.title")}
           </p>
 
