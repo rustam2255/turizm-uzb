@@ -181,21 +181,23 @@ const MagazineFlipViewer: React.FC<MagazineFlipViewerProps> = ({
 
                 {/* Kitob */}
                 <HTMLFlipBook
-                  width={500}
-                  height={700}
-                  size="stretch"
-                  minWidth={300}
-                  maxWidth={800}
-                  minHeight={400}
-                  maxHeight={1200}
-                  drawShadow={true}
-                  flippingTime={500}
-                  useMouseEvents={true}
-                  showCover={true}
-                  mobileScrollSupport={true}
-                  ref={bookRef}
-                  onFlip={onFlip}
-                  className="mx-auto"
+                  {...({
+                    width: 500,
+                    height: 700,
+                    size: "stretch",
+                    minWidth: 300,
+                    maxWidth: 800,
+                    minHeight: 400,
+                    maxHeight: 1200,
+                    drawShadow: true,
+                    flippingTime: 500,
+                    useMouseEvents: true,
+                    showCover: true,
+                    mobileScrollSupport: true,
+                    ref: bookRef,
+                    onFlip,
+                    className: "mx-auto",
+                  } as any)}
                 >
                   {images.map((img, index) => (
                     <div
@@ -204,12 +206,12 @@ const MagazineFlipViewer: React.FC<MagazineFlipViewerProps> = ({
                     >
                       <img
                         src={img}
-                        alt={t("page.alt", { index: index + 1 }, `Sahifa ${index + 1}`)}
+                        alt={'Photo'}
                         className="w-full h-full object-contain rounded-md"
                         loading={index <= 2 ? "eager" : "lazy"}
                         onError={(e) =>
-                          (e.currentTarget.src =
-                            "https://via.placeholder.com/500x700/e2e8f0/64748b?text=Rasm+topilmadi")
+                        (e.currentTarget.src =
+                          "https://via.placeholder.com/500x700/e2e8f0/64748b?text=Rasm+topilmadi")
                         }
                       />
                     </div>
@@ -246,9 +248,8 @@ const MagazineFlipViewer: React.FC<MagazineFlipViewerProps> = ({
                       onChange={handleSliderChange}
                       className="w-32 h-2 bg-gray-700/50 rounded-lg cursor-pointer slider"
                       style={{
-                        background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
-                          (page / (images.length - 1)) * 100
-                        }%, #ffffff33 ${(page / (images.length - 1)) * 100}%, #ffffff33 100%)`,
+                        background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${(page / (images.length - 1)) * 100
+                          }%, #ffffff33 ${(page / (images.length - 1)) * 100}%, #ffffff33 100%)`,
                       }}
                     />
                   </motion.div>
