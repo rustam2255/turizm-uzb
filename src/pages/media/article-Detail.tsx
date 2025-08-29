@@ -6,8 +6,6 @@ import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGetArticleByIdQuery } from '@/services/api';
 import IMAGE from '@/assets/images/place3.png'
-
-
 const ArticleDetail = () => {
   const { idSlug } = useParams<{ idSlug: string }>();
   const articleId = Number(idSlug?.split("-")[0]);
