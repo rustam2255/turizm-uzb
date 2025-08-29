@@ -28,6 +28,7 @@ import TourBus from './pages/tourbus';
 import BusDetail from './pages/tourbus/busDetail';
 import AirplaneDetail from './pages/airplane/airplaneDetail';
 import Footer from './components/footer';
+import AboutUs from './pages/aboutus/aboutus';
 // import Footer from './components/footer';
 
 const Home = lazy(() => import('@pages/home'));
@@ -43,7 +44,7 @@ const knownPaths = [
   '/news', '/magazines', '/article', '/hotels', '/',
   '/travel-destination', '/documents', '/maps',
   '/magazines/:id', '/hotels/:idAndSlug', '/hotels/:id',
-  '/travel-destination/:id', "/news/:idAndSlug", "/article/:id", "/services",
+  '/travel-destination/:id', "/news/:idAndSlug", "/article/:id", "/aboutus", "/services",
   '/services/resort', '/services/tour-firm','/services/airplanes', '/services/tour-bus', '/services/banks', '/services/clinics',
   '/services/market', '/services/resort/:id', '/services/tours', '/services/tour/:id', '/services/shop/:id', '/services/clinic/:id',
   '/services/bank/:id', '/media/news', '/media/article/detail/:id', '/media/news/detail/:id', '/services/airplane/:id','/services/tour-bus/:idSlug'
@@ -68,6 +69,7 @@ const AppContent = () => {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path='/aboutus' element={<AboutUs />} />
           <Route path="/news/:idSlug" element={<NewsDetail />} />
           <Route path="/magazines" element={<Magazines />} />
           <Route path="/article" element={<Article />} />

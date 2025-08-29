@@ -115,7 +115,7 @@ const MagazineHome: React.FC = () => {
                       src={item.card}
                       alt={`${item.title.en} magazine cover`}
                       loading='lazy'
-                      className="w-full  h-[300px] md:w-[200px] md:h-[250px] object-cover mb-4 transition-transform duration-200 hover:scale-105 shadow-lg"
+                      className="w-full  h-[300px] md:w-[200px] md:h-[250px]  mb-4 transition-transform duration-200 hover:scale-105 shadow-lg"
                     />
                     <div className="text-center text-black font-normal leading-[100%]">
                       <p className="mb-1 dark:text-white text-[14px] md:text-[15px]">{item.month}</p>

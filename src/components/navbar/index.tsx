@@ -16,6 +16,7 @@ const Navbar = () => {
     { id: 8, title: t("navbar.services"), link: "/services" },
     { id: 6, title: t("navbar.documents"), link: "/documents" },
     { id: 7, title: t("navbar.maps"), link: "/maps" },
+    {id: 8, title: t("navbar.aboutus"), link: "/aboutus"}
   ];
   
   const [lastScrollY, setLastScrollY] = useState(0);
