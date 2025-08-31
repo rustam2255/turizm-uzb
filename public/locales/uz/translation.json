@@ -211,7 +211,7 @@
     },
     "contact": "Aloqa: info@tourismwebsite.uz | Telefon: +998 90 123 45 67",
     "rights": "© 2025 Barcha huquqlar himoyalangan.",
-    "pagesTitle": "Sayt havolalari",
+    "pagesTitle": "Xizmatlar havolalari",
     "contactTitle": "Aloqa",
     "contactEmail": "Email",
     "contactPhone": "Telefon",
@@ -232,6 +232,20 @@
     "add": "Toshkent shahar Yakkasaroy tumani Qushbegi mavzesi Qushbegi ko'chasi 11A uy.",
     "tel": "Tel",
     "set": "Ijtimoiy tarmoqlar"
+  },
+  "mapLabel": {
+    "H": "Mehmonxonalar",
+    "A": "Aerapeortlar",
+    "D": "Elchixonaalr",
+    "R": "Restoranlar",
+    "M": "Klinikalar",
+    "E": "Ko'rgazmalar",
+    "P": "Hamkorlar",
+    "B": "Banklar",
+    "Sh": "Butiklar",
+    "S": "Maktablar",
+    "T": "Turoperatorlar"
+
   }
   
 }

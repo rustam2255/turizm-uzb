@@ -117,7 +117,7 @@ const MagazineHome: React.FC = () => {
                     />
                     <div className="text-center text-black font-normal leading-[100%]">
                       <p className="mb-1 dark:text-white text-[14px] md:text-[15px]">{item.month}</p>
-                      <p className="mb-1 text-sm dark:text-sky-500 md:text-[15px]">
+                      <p className="mb-1 font-bold dark:text-sky-500 md:text-[15px]">
                         {getLocalizedText(item.title)}
                       </p>
                       <p className="text-sm dark:text-white md:text-[15px]">{item.year}</p>
@@ -170,7 +170,7 @@ const MagazineHome: React.FC = () => {
                                     src={item.card}
                                     loading='lazy'
                                     alt={`${item.title.en} magazine cover`}
-                                    className="w-48 h-[200px] sm:w-56 sm:h-[200px] object-cover  shadow-2xl transform hover:scale-105 transition-transform duration-300"
+                                    className="w-36 h-[200px] sm:w-56 sm:h-[200px]   shadow-2xl transform hover:scale-105 transition-transform duration-300"
                                   />
                                   <div className="absolute inset-0 "></div>
                                 </div>
@@ -180,9 +180,9 @@ const MagazineHome: React.FC = () => {
                                   <p className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
                                     {item.month}
                                   </p>
-                                  <h3 className="text-sm sm:text-xl font-bold text-gray-900 dark:text-white px-4">
+                                  <p className="text-[12px] font-normal text-gray-900 dark:text-white px-4">
                                     {getLocalizedText(item.title)}
-                                  </h3>
+                                  </p>
                                   <p className="text-sm font-bold text-[rgba(25,110,150,255)] dark:text-sky-400">
                                     {item.year}
                                   </p>
@@ -213,7 +213,7 @@ const MagazineHome: React.FC = () => {
                   {/* Navigation Arrows */}
                   <button
                     onClick={prevSlide}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 z-10"
+                    className="absolute left-2 top-75 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 z-10"
                     disabled={currentSlide === 0}
                   >
                     <svg
@@ -228,7 +228,7 @@ const MagazineHome: React.FC = () => {
 
                   <button
                     onClick={nextSlide}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 z-10"
+                    className="absolute right-2 top-75 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 z-10"
                     disabled={currentSlide === magazineItems.length - 1}
                   >
                     <svg

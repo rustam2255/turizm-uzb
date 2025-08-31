@@ -207,19 +207,19 @@
       "shops": "Shops",
       "news": "News",
       "contact": "Contact",
-       "airplane": "Airplane",
-    "tourbus": "Tour Bus",
-    "magazines": "Magazines"
+      "airplane": "Airplane",
+      "tourbus": "Tour Bus",
+      "magazines": "Magazines"
     },
     "contact": "Contact: info@tourismwebsite.uz | Phone: +998 90 123 45 67",
     "rights": "© 2025 All rights reserved.",
-    "pagesTitle": "Site Links",
+    "pagesTitle": "Service Links",
     "contactTitle": "Contact",
     "contactEmail": "Email",
     "contactPhone": "Phone",
     "contactAddress": "Address",
     "socialTitle": "Social Networks",
-        "companyDescription": "Our company provides high-quality services in Uzbekistan and delivers the best experience to our clients."
+    "companyDescription": "Our company provides high-quality services in Uzbekistan and delivers the best experience to our clients."
   },
   "about": {
     "title": "About Us",
@@ -234,5 +234,18 @@
     "add": "Tashkent city, Yakkasaroy district, Kushbegi neighborhood, Kushbegi street, house 11A",
     "tel": "Tel",
     "set": "Social Networks"
+  },
+  "mapLabel": {
+    "H": "Hotels",
+  "A": "Airports",
+  "D": "Embassies",
+  "R": "Restaurants",
+  "M": "Clinics",
+  "E": "Exhibitions",
+  "P": "Partners",
+  "B": "Banks",
+  "Sh": "Boutiques",
+  "S": "Schools",
+  "T": "Tour Operators"
   }
 }

@@ -12,11 +12,28 @@ const categoryColors: { [key: string]: string } = {
   H: 'red',
   M: 'blue',
   A: 'green',
+  D: 'brown',
+  R: 'pink',
+  E: 'cyan',
+  P: 'grey',
   Sh: 'orange',
   B: 'yellow',
   S: 'black',
   T: 'violet'
 };
+const categoryLabels = [
+  { key: "H", color: "bg-red-700", label: t("mapLabel.H") },
+  { key: "M", color: "bg-blue-500", label: t("mapLabel.M") },
+  { key: "A", color: "bg-green-600", label: t("mapLabel.A") },
+  { key: "Sh", color: "bg-orange-500", label: t("mapLabel.Sh") },
+  { key: "B", color: "bg-yellow-500", label: t("mapLabel.B") },
+  { key: "S", color: "bg-black", label: t("mapLabel.S") },
+  { key: "T", color: "bg-violet-500", label: t("mapLabel.T") },
+  { key: "D", color: "bg-amber-700", label: t("mapLabel.D") },   // qo‘shimcha
+  { key: "R", color: "bg-pink-500", label: t("mapLabel.R") },
+  { key: "E", color: "bg-indigo-500", label: t("mapLabel.E") },
+  { key: "P", color: "bg-fuchsia-500", label: t("mapLabel.P") },
+];
 // yordamchi funksiya
 const normalizeCoords = (
   latitude: number | null | undefined,
@@ -65,7 +82,7 @@ const Map: React.FC = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  if (isLoading) return <div className="text-center text-xl">Yuklanmoqda...</div>;
+  if (isLoading) return <div className="text-center  text-xl">Yuklanmoqda...</div>;
   if (error) return <div className="text-center text-red-500">Xatolik yuz berdi!</div>;
 
 
@@ -117,45 +134,17 @@ const Map: React.FC = () => {
             </Popup>
           </Marker>
         ))}
-        <div className='bg-white h-[200px] p-5 z-9999 w-[400px] absolute left-0 bottom-0'>
-          <div className='flex gap-8'>
-            <div>
-              <div className='flex gap-5'>
-                <div className='bg-red-500 w-5 h-5'></div>
-                <p className='text-sm font-semibold'>{t("hotels.title")}</p>
+        <div className='bg-white md:h-[400px]  p-5 z-9999 md:w-[400px] w-full absolute left-0 bottom-0 overflow-y-auto'>
+          <div className='grid grid-cols-2 gap-8'>
+            {categoryLabels.map((cat) => (
+              <div key={cat.key} className='flex gap-3 items-center'>
+                <div className={`${cat.color} w-5 h-5`}></div>
+                <p className='text-sm font-semibold'>{cat.label}</p>
               </div>
-              <div className='flex gap-5'>
-                <div className='bg-blue-500 w-5 h-5'></div>
-                <p className='text-sm font-semibold'>{t("services.clinic")}</p>
-              </div>
-              <div className='flex gap-5'>
-                <div className='bg-green-500 w-5 h-5'></div>
-                <p className='text-sm font-semibold'>{t("map.cars")}</p>
-              </div>
-              <div className='flex gap-5'>
-                <div className='bg-orange-500 w-5 h-5'></div>
-                <p className='text-sm font-semibold'>{t("map.shops")}</p>
-              </div>
-            </div>
-            <div>
-              <div>
-                <div className='flex gap-5'>
-                  <div className='bg-yellow-500 w-5 h-5'></div>
-                  <p className='text-sm font-semibold'>{t("map.busines")}</p>
-                </div>
-                <div className='flex gap-5'>
-                  <div className='bg-black w-5 h-5'></div>
-                  <p className='text-sm font-semibold'>{t("map.scholls")}</p>
-                </div>
-                <div className='flex gap-5'>
-                  <div className='bg-violet-500 w-5 h-5'></div>
-                  <p className='text-sm font-semibold'>{t("services.tour-firm")}</p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-      </MapContainer >  
+      </MapContainer >
 
     </div >
   );
