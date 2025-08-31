@@ -91,14 +91,14 @@ const Home: React.FC = () => {
         </div>
         <div
           className={`
-            w-full z-1000 transition-all duration-300
+            w-full z-10000 transition-all  duration-300
             ${isSticky
-              ? `fixed top-0 left-0  bg-white/90 dark:bg-[oklch(22%_0.06_265/0.9)]   backdrop-blur-md shadow-lg`
+              ? `fixed top-0 left-0   bg-white/90 dark:bg-[oklch(22%_0.06_265/0.9)]   backdrop-blur-md shadow-lg`
               : 'absolute bottom-0 left-0 transformtranslate-y-full md:translate-y-1/2'
             }
           `}
         >
-          <div className="max-w-[1600px] mx-auto px-4 hidden  md:block sm:px-6 lg:px-8">
+          <div className="max-w-[1600px] z-[10000] mx-auto px-4 hidden  md:block sm:px-6 lg:px-8">
             <SubNavbar
               activeSection={activeSection}
               setActiveSection={setActiveSection}

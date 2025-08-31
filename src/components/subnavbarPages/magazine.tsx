@@ -113,14 +113,14 @@ const MagazineHome: React.FC = () => {
                       src={item.card}
                       alt={`${item.title.en} magazine cover`}
                       loading='lazy'
-                      className="w-full  h-[300px] md:w-[200px] md:h-[250px]  mb-4 transition-transform duration-200 hover:scale-105 shadow-lg"
+                      className="w-full   md:w-[200px] md:h-[250px]  mb-4 transition-transform duration-200 hover:scale-105 shadow-lg"
                     />
                     <div className="text-center text-black font-normal leading-[100%]">
                       <p className="mb-1 dark:text-white text-[14px] md:text-[15px]">{item.month}</p>
-                      <p className="mb-1 text-[14px] dark:text-sky-500 md:text-[15px]">
+                      <p className="mb-1 text-sm dark:text-sky-500 md:text-[15px]">
                         {getLocalizedText(item.title)}
                       </p>
-                      <p className="text-[14px] dark:text-white md:text-[15px]">{item.year}</p>
+                      <p className="text-sm dark:text-white md:text-[15px]">{item.year}</p>
                     </div>
                   </div>
                   <div className="p-2">
@@ -170,7 +170,7 @@ const MagazineHome: React.FC = () => {
                                     src={item.card}
                                     loading='lazy'
                                     alt={`${item.title.en} magazine cover`}
-                                    className="w-48 h-64 sm:w-56 sm:h-72 object-cover  shadow-2xl transform hover:scale-105 transition-transform duration-300"
+                                    className="w-48 h-[200px] sm:w-56 sm:h-[200px] object-cover  shadow-2xl transform hover:scale-105 transition-transform duration-300"
                                   />
                                   <div className="absolute inset-0 "></div>
                                 </div>
@@ -180,17 +180,17 @@ const MagazineHome: React.FC = () => {
                                   <p className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
                                     {item.month}
                                   </p>
-                                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white px-4">
+                                  <h3 className="text-sm sm:text-xl font-bold text-gray-900 dark:text-white px-4">
                                     {getLocalizedText(item.title)}
                                   </h3>
-                                  <p className="text-2xl font-bold text-[rgba(25,110,150,255)] dark:text-sky-400">
+                                  <p className="text-sm font-bold text-[rgba(25,110,150,255)] dark:text-sky-400">
                                     {item.year}
                                   </p>
                                 </div>
 
                                 {/* Action Button */}
                                 <div className="mt-6">
-                                  <div className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-sky-900 to-cyan-600 text-white font-semibold  hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
+                                  <div className=" hidden md:block items-center px-3 py-1 bg-gradient-to-r from-sky-900 to-cyan-600 text-white font-semibold  hover:from-sky-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
                                     <span className="text-sm">{t("common.details")}</span>
                                     <svg
                                       className="w-4 h-4 ml-2"

@@ -84,7 +84,7 @@
   },
   "magazine": {
     "title": "Журналы отелей",
-    "booksIn": "Книги за {{year}} год",
+    "booksIn": "Журналы за {{year}} год",
     "view_pdf": "Просмотр PDF",
     "open_pdf": "Открыть PDF",
     "see_pdf": "Просмотр PDF",
@@ -114,7 +114,11 @@
   "map": {
     "breadcrumb": "Карта",
     "title": "Ближайшие места",
-    "viewButton": "Посмотреть"
+    "viewButton": "Посмотреть",
+    "cars": "Автосалоны",
+    "shops": "Магазины",
+    "busines": "Бизнес-центр",
+    "scholls": "Школа"
   },
   "hotelDetail": {
     "amenities": "Удобства",

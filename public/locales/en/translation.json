@@ -84,7 +84,7 @@
   },
   "magazine": {
     "title": "Hotel Magazines",
-    "booksIn": "Books in {{year}}",
+    "booksIn": "Magazines in {{year}}",
     "view_pdf": "View PDF",
     "open_pdf": "Open PDF",
     "see_pdf": "View PDF",
@@ -114,7 +114,11 @@
   "map": {
     "breadcrumb": "Map",
     "title": "Nearby places",
-    "viewButton": "View"
+    "viewButton": "View",
+    "cars": "Car dealerships",
+    "shops": "Shops",
+    "busines": "Business center",
+    "scholls": "School"
   },
   "hotelDetail": {
     "amenities": "Amenities",

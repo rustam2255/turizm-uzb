@@ -48,7 +48,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           xl:h-[300px] 
           2xl:h-[320px]
           min-h-[250px]
-          relative  overflow-hidden cursor-pointer ${isActive ? "ring-2 ring-[rgba(77,199,232,1)] ring-offset-2" : ""
+          relative  overflow-hidden hover:scale-110 transition cursor-pointer ${isActive ? "ring-2 ring-[rgba(77,199,232,1)] ring-offset-2" : ""
           }`}
         
       >
@@ -108,7 +108,7 @@ const staticServices: Service[] = [
   { id: 4, key: "services.banks", link: "/services/banks", titleEn: "Banks" },
   { id: 5, key: "services.clinic", link: "/services/clinics", titleEn: "Medical Clinics" },
   { id: 6, key: "services.market", link: "/services/market", titleEn: "Market" },
-  { id: 7, key: 'services.airplane', link: "/services/airplanes", titleEn: "Helicopters" },
+  { id: 7, key: 'services.airplane', link: "/services/airplanes", titleEn: "Helicopters " },
   { id: 8, key: 'services.tourbus', link: '/services/tour-bus', titleEn: 'Transport Services' }
 ];
 

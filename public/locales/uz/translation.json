@@ -65,7 +65,7 @@
   "article": {
     "title": "Maqolalar",
     "readTime": "2 daqiqa o‘qish"
-  },
+  },  
   "resort": {
     "title": "Top Dam Olish Maskanlari",
     "see": "Barcha dam olish maskanlarini ko'rish"
@@ -84,14 +84,14 @@
   },
   "magazine": {
     "title": "Mehmonxona jurnallari",
-    "booksIn": "{{year}} yil kitoblari",
+    "booksIn": "{{year}} yil jurnallari",
     "view_pdf": "PDF ko'rish",
     "open_pdf": "PDF ni ochish",
     "see_pdf": "PDF ko'rinishi",
     "ts": "Tavsif",
     "see": "Ko'rish uchun bosing",
     "title_home": "2025-yil Jurnallari",
-    "allsee": "Ko'proq jurnallar bu yerda"
+    "allsee": "Ko'proq jurnallar bu yerda"    
   },
   "hotels": {
     "title": "Mehmonxonalar",
@@ -114,7 +114,11 @@
   "map": {
     "breadcrumb": "Xarita",
     "title": "Yaqin joylar",
-    "viewButton": "Ko‘rish"
+    "viewButton": "Ko‘rish",
+    "cars": "Avtosalonlar",
+    "shops": "Do‘konlar",
+    "busines": "Biznes markaz",
+    "scholls": "Maktab"
   },
   "hotelDetail": {
     "amenities": "Quyidagi imkoniyatlar",
@@ -229,4 +233,5 @@
     "tel": "Tel",
     "set": "Ijtimoiy tarmoqlar"
   }
+  
 }

@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { Service2 } from '@/interface';
 import { useGetService2Query } from '@/services/api';
 import { useEffect, useState } from 'react';
+import { t } from 'i18next';
 
 
 // Marker ikonkalari uchun ranglar
@@ -50,7 +51,7 @@ const Map: React.FC = () => {
   const { data: services, isLoading, error } = useGetService2Query();
   const [zoom, setZoom] = useState(7);
   useEffect(() => {
-    
+
 
     const handleResize = () => {
       if (window.innerWidth < 768) {
@@ -69,11 +70,11 @@ const Map: React.FC = () => {
 
 
   return (
-    <div className="h-screen w-full">
+    <div className="h-screen relative w-full">
       <MapContainer
         center={[41.3775, 64.5853]} // O‘zbekiston markazi
         zoom={zoom} // butun respublikani ko‘rsatadi
-        className="h-full w-full">
+        className="h-full relative   w-full">
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -116,7 +117,46 @@ const Map: React.FC = () => {
             </Popup>
           </Marker>
         ))}
-      </MapContainer>
+        <div className='bg-white h-[200px] p-5 z-9999 w-[400px] absolute left-0 bottom-0'>
+          <div className='flex gap-8'>
+            <div>
+              <div className='flex gap-5'>
+                <div className='bg-red-500 w-5 h-5'></div>
+                <p className='text-sm font-semibold'>{t("hotels.title")}</p>
+              </div>
+              <div className='flex gap-5'>
+                <div className='bg-blue-500 w-5 h-5'></div>
+                <p className='text-sm font-semibold'>{t("services.clinic")}</p>
+              </div>
+              <div className='flex gap-5'>
+                <div className='bg-green-500 w-5 h-5'></div>
+                <p className='text-sm font-semibold'>{t("map.cars")}</p>
+              </div>
+              <div className='flex gap-5'>
+                <div className='bg-orange-500 w-5 h-5'></div>
+                <p className='text-sm font-semibold'>{t("map.shops")}</p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <div className='flex gap-5'>
+                  <div className='bg-yellow-500 w-5 h-5'></div>
+                  <p className='text-sm font-semibold'>{t("map.busines")}</p>
+                </div>
+                <div className='flex gap-5'>
+                  <div className='bg-black w-5 h-5'></div>
+                  <p className='text-sm font-semibold'>{t("map.scholls")}</p>
+                </div>
+                <div className='flex gap-5'>
+                  <div className='bg-violet-500 w-5 h-5'></div>
+                  <p className='text-sm font-semibold'>{t("services.tour-firm")}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </MapContainer >  
+
     </div >
   );
 };
