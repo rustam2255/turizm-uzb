@@ -1,58 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset 
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
   <url>
     <loc>https://tourism-uzbekistan.uz/</loc>
+    <lastmod>2025-08-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+    <url>
+    <loc>https://tourism-uzbekistan.uz/home</loc>
+    <lastmod>2025-08-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
   <url>
     <loc>https://tourism-uzbekistan.uz/magazines</loc>
+    <lastmod>2025-08-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://tourism-uzbekistan.uz/services</loc>
+    <lastmod>2025-08-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1</priority>
+  </url>
+
+  <url>
+    <loc>https://tourism-uzbekistan.uz/documents</loc>
+    <lastmod>2025-08-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1</priority>
+  </url>
+
+  <url>
+    <loc>https://tourism-uzbekistan.uz/maps</loc>
+    <lastmod>2025-08-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1</priority>
+  </url>
+   <url>
+    <loc>https://tourism-uzbekistan.uz/hotels</loc>
+    <lastmod>2025-08-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  <url>
-    <loc>https://tourism-uzbekistan.uz/services</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://tourism-uzbekistan.uz/documents</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://tourism-uzbekistan.uz/maps</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
+
   <url>
     <loc>https://tourism-uzbekistan.uz/services/clinics</loc>
+    <lastmod>2025-08-31</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.8</priority>
   </url>
+
   <url>
     <loc>https://tourism-uzbekistan.uz/services/tours</loc>
+    <lastmod>2025-08-31</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.8</priority>
   </url>
+
   <url>
     <loc>https://tourism-uzbekistan.uz/services/banks</loc>
+    <lastmod>2025-08-31</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.8</priority>
   </url>
+
   <url>
     <loc>https://tourism-uzbekistan.uz/services/airplanes</loc>
+    <lastmod>2025-08-31</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.8</priority>
   </url>
+
   <url>
     <loc>https://tourism-uzbekistan.uz/services/tour-bus</loc>
+    <lastmod>2025-08-31</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.8</priority>
   </url>
+
   <url>
     <loc>https://tourism-uzbekistan.uz/media/news</loc>
+    <lastmod>2025-08-31</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.8</priority>
   </url>
+    <url>
+    <loc>https://tourism-uzbekistan.uz/hotels/51-wyndham-garden</loc>
+    <lastmod>2025-08-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+      <url>
+    <loc>https://tourism-uzbekistan.uz/services/tour-bus/2-tashkent-city-tour</loc>
+    <lastmod>2025-08-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
 </urlset>

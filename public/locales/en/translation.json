@@ -237,15 +237,21 @@
   },
   "mapLabel": {
     "H": "Hotels",
-  "A": "Airports",
-  "D": "Embassies",
-  "R": "Restaurants",
-  "M": "Clinics",
-  "E": "Exhibitions",
-  "P": "Partners",
-  "B": "Banks",
-  "Sh": "Boutiques",
-  "S": "Schools",
-  "T": "Tour Operators"
+    "A": "Airports",
+    "D": "Embassies",
+    "R": "Restaurants",
+    "M": "Clinics",
+    "E": "Exhibitions",
+    "P": "Partners",
+    "B": "Banks",
+    "Sh": "Boutiques",
+    "S": "Schools",
+    "T": "Tour Operators"
+  },
+  "seo": {
+    "about": {
+      "title": "About Us — Tourism Uzbekistan",
+      "description": "Uzbekistan Tourism Center: learn about our company, address, partners, and services."
+    }
   }
 }

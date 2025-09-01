@@ -73,8 +73,8 @@ const Home: React.FC = () => {
       className={`relative min-h-screen overflow-x-hidden font-sans bg-white dark:bg-[oklch(22%_0.06_265/0.9)]`}
     >
       <Helmet>
-        <title>Eng yaxshi sayohat, turizm va xizmatlar – MySite</title>
-        <meta name="description" content="MySite orqali mehmonxonalar, turistik joylar, transport va boshqa xizmatlarni toping. Sayohatlaringizni rejalashtiring va eng yaxshi xizmatlardan foydalaning." />
+        <title>Eng yaxshi sayohat, turizm va xizmatlar – Tourism Uzbekistan Journal</title>
+        <meta name="description" content="Sayt mehmonxonalar, turistik joylar, transport va boshqa xizmatlarni toping. Sayohatlaringizni rejalashtiring va eng yaxshi xizmatlardan foydalaning." />
         <meta property="og:title" content="Eng yaxshi sayohat, turizm va xizmatlar – MySite" />
         <meta property="og:description" content="MySite orqali mehmonxonalar, turistik joylar, transport va boshqa xizmatlarni toping. Sayohatlaringizni rejalashtiring va eng yaxshi xizmatlardan foydalaning." />
         <meta property="og:type" content="website" />

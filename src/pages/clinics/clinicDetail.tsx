@@ -39,13 +39,16 @@ const ClinicDetail: React.FC = () => {
       : mockImage.map((img, index) => ({ id: index, photo: img }));
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const pageTitle = clinic?.name || t("services.clinic");
-  
+
   const pageImage =
     images && images.length > 0 ? `${MEDIA_URL}${images[0].photo}` : IMAGE;
-
+  const pageDescription = stripHtmlTags(
+    getLocalizedText(normalizeDescription(clinic!.description), lang) ||
+    t("seo.default_description")
+  );
   const keywords = [
     getLocalizedText(clinic?.name, lang),
-    
+
     t("services.clinic"),
   ].join(", ");
   // Auto-slide for image carousel
@@ -83,34 +86,37 @@ const ClinicDetail: React.FC = () => {
       className="w-full px-4 md:px-[80px] pt-[30px] pb-16 max-w-[1100px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
     >
       <Helmet>
+        {/* Title va description */}
         <title>{pageTitle}</title>
-        <meta name="description" />
+        <meta name="description" content={pageDescription} />
         <meta name="keywords" content={keywords} />
+        <link rel="canonical" href={window.location.href} />
 
         {/* Open Graph */}
         <meta property="og:title" content={pageTitle} />
-        <meta property="og:description"  />
+        <meta property="og:description" content={pageDescription} />
         <meta property="og:image" content={pageImage} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={window.location.href} />
 
-        {/* Twitter Card */}
+        {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description"  />
+        <meta name="twitter:description" content={pageDescription} />
         <meta name="twitter:image" content={pageImage} />
 
-        {/* Structured Data - JSON-LD */}
-        {clinic && clinic.latitude && clinic.longitude && (
+        {/* JSON-LD Schema.org */}
+        {clinic && (
           <script type="application/ld+json">
             {JSON.stringify({
               "@context": "https://schema.org",
               "@type": "MedicalBusiness",
               name: clinic.name,
               image: pageImage,
-              description: 'Descr',
+              description: pageDescription,
               address: {
                 "@type": "PostalAddress",
+
                 addressCountry: "UZ",
               },
               geo: {

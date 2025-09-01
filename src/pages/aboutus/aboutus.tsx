@@ -9,8 +9,9 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import { useGetBrandListQuery, useGetAboutImageQuery } from '@/services/api';
 import PartnersSlider from './slider';
-import { t } from 'i18next';
-
+import i18next, { t } from 'i18next';
+import { Helmet } from 'react-helmet-async';
+import place1 from '/images/place1.png'
 // Leaflet ikon xatolarini oldini olish
 delete (L.Icon.Default.prototype as unknown as { _getIconUrl?: () => string })._getIconUrl;
 
@@ -69,9 +70,37 @@ const AboutUs: React.FC = () => {
       openGoogleMaps(lat, lng, name);
     }
   };
-
+  const defaultImage = imageList.length ? imageList[0] : place1 ;
+  const currentUrl = `https://sayting.uz/${i18next.language}/about`;
   return (
     <div className="min-h-screen">
+      <Helmet>
+        {/* HTML til kodi */}
+        <html lang={i18next.language} />
+
+        {/* Title & Description */}
+        <title>{t("seo.about.title")}</title>
+        <meta name="description" content={t("seo.about.description")} />
+        <meta name="robots" content="index, follow" />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={t("seo.about.title")} />
+        <meta property="og:description" content={t("seo.about.description")} />
+        <meta property="og:image" content={defaultImage} />
+        <meta property="og:url" content={currentUrl} />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter Cards */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={t("seo.about.title")} />
+        <meta name="twitter:description" content={t("seo.about.description")} />
+        <meta name="twitter:image" content={defaultImage} />
+
+      
+
+        {/* Canonical */}
+        <link rel="canonical" href={currentUrl} />
+      </Helmet>
       <div className="max-w-7xl mx-auto px-6 py-5">
         {/* Slayder */}
         <div className="relative w-full mx-auto mb-8 overflow-hidden shadow-lg">
@@ -95,7 +124,7 @@ const AboutUs: React.FC = () => {
                   src={imageList[index]}
                   alt={`Slide ${index + 1}`}
                   className="w-full h-[60vh] object-cover"
-              
+
                 />
               </AnimatePresence>
 

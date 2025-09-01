@@ -108,7 +108,7 @@ const staticServices: Service[] = [
   { id: 4, key: "services.banks", link: "/services/banks", titleEn: "Banks" },
   { id: 5, key: "services.clinic", link: "/services/clinics", titleEn: "Medical Clinics" },
   { id: 6, key: "services.market", link: "/services/market", titleEn: "Market" },
-  { id: 7, key: 'services.airplane', link: "/services/airplanes", titleEn: "Helicopters " },
+  { id: 7, key: 'services.airplane', link: "/services/airplanes", titleEn: "Helicopters" },
   { id: 8, key: 'services.tourbus', link: '/services/tour-bus', titleEn: 'Transport Services' }
 ];
 

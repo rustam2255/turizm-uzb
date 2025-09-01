@@ -66,30 +66,79 @@ const BankDetail: React.FC = () => {
       className="w-full px-4 md:px-[80px] pt-[30px] pb-16 max-w-[1100px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
     >
       <Helmet>
-        <title>{bank.name} - {t("services.banks")}</title>
-        <meta name="description" content={"O'zbekistondagi banklar"} />
-        <meta name="keywords" content={"bank of uzbekistan, o'zbekistondagi banklar"} />
+        {/* HTML lang */}
+        <html lang={i18n.language} />
+
+        {/* Title & Meta Description */}
+        <title>{`${bank.name} — ${t("services.banks")}`}</title>
+        <meta
+          name="description"
+          content={stripHtmlTags(getLocalizedText(bank.description, lang)) || t("seo.banks.description")}
+        />
+        <meta
+          name="keywords"
+          content={`bank, ${bank.name}, ${t("services.banks")}, Uzbekistan banks`}
+        />
+        <meta name="robots" content="index, follow" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={`${bank.name} — ${t("services.banks")}`} />
+        <meta
+          property="og:description"
+          content={stripHtmlTags(getLocalizedText(bank.description, lang)) || t("seo.banks.description")}
+        />
+        <meta
+          property="og:image"
+          content={
+            bank.images.length > 0
+              ? `${MEDIA_URL}${bank.images[0].photo}`
+              : IMAGE
+          }
+        />
+        <meta property="og:url" content={window.location.href} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${bank.name} — ${t("services.banks")}`} />
+        <meta
+          name="twitter:description"
+          content={stripHtmlTags(getLocalizedText(bank.description, lang)) || t("seo.banks.description")}
+        />
+        <meta
+          name="twitter:image"
+          content={
+            bank.images.length > 0
+              ? `${MEDIA_URL}${bank.images[0].photo}`
+              : IMAGE
+          }
+        />
+
         <link rel="canonical" href={window.location.href} />
+
+        {/* Structured Data (Schema.org) */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BankOrCreditUnion",
             "name": bank.name,
+            "description": stripHtmlTags(getLocalizedText(bank.description, lang)),
             "image": bank.images.length > 0 ? `${MEDIA_URL}${bank.images[0].photo}` : IMAGE,
             "address": {
               "@type": "PostalAddress",
               "streetAddress": getLocalizedText(bank.address, lang),
-              
+              "addressCountry": "UZ"
             },
             "geo": {
               "@type": "GeoCoordinates",
               "latitude": bank.latitude,
               "longitude": bank.longitude
             },
-            "url": window.location.href
+            "url": window.location.href,
           })}
         </script>
       </Helmet>
+
       {/* Breadcrumb */}
       <div
         className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"

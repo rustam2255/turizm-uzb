@@ -65,7 +65,7 @@
   "article": {
     "title": "Maqolalar",
     "readTime": "2 daqiqa o‘qish"
-  },  
+  },
   "resort": {
     "title": "Top Dam Olish Maskanlari",
     "see": "Barcha dam olish maskanlarini ko'rish"
@@ -91,7 +91,7 @@
     "ts": "Tavsif",
     "see": "Ko'rish uchun bosing",
     "title_home": "2025-yil Jurnallari",
-    "allsee": "Ko'proq jurnallar bu yerda"    
+    "allsee": "Ko'proq jurnallar bu yerda"
   },
   "hotels": {
     "title": "Mehmonxonalar",
@@ -245,7 +245,11 @@
     "Sh": "Butiklar",
     "S": "Maktablar",
     "T": "Turoperatorlar"
-
+  },
+  "seo": {
+    "about": {
+      "title": "Biz haqimizda — Tourism Uzbekistan",
+      "description": "O‘zbekiston turizm markazi: kompaniyamiz haqida ma'lumot, manzil, hamkorlar va xizmatlarimiz bilan tanishing."
+    }
   }
-  
 }
