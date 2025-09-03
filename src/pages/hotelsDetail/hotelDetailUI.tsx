@@ -95,7 +95,7 @@ const HotelDetailsPage: React.FC = () => {
   return (
     <div className="grid grid-cols-12 gap-6 py-5 md:py-7.5">
       <div
-        className="col-span-9 md:ml-5 mx-auto"
+        className="md:col-span-9 col-span-12 md:ml-5 mx-auto"
       >
         <Helmet>
           {/* Basic SEO */}
@@ -288,7 +288,7 @@ const HotelDetailsPage: React.FC = () => {
           />
         }
       </div>
-      <aside className="col-span-3 space-y-4">
+      <aside className="md:col-span-3 max-md:hidden col-span-12 space-y-4">
         <div className="bg-gray-100 h-100 p-2 rounded">
           <p>Reklama 1</p>
           {/* Banner yoki AdSense kodini joylashtirasan */}
