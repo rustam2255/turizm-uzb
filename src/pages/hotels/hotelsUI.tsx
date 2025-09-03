@@ -244,9 +244,7 @@ const HotelUI: React.FC = () => {
     return buttons;
   };
 
-  const seoTitle = selectedCity
-    ? `${t("hotels.title")} in ${cities.find(c => c.id === selectedCity)?.name || ""}`
-    : t("hotels.title");
+  const seoTitle = "O'zbekistondagi mehmonxonalar"
   const seoDescription = `Explore hotels${selectedCity ? ` in ${cities.find(c => c.id === selectedCity)?.name || ""}` : ""}.`;
   const imageArray = Array.isArray(hotelsData?.results?.[0]?.images)
     ? hotelsData.results[0].images

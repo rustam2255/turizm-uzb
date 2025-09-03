@@ -51,7 +51,7 @@ const DocumentUI: React.FC = () => {
       className="px-4 sm:px-6 lg:px-8 py-8 max-w-[1200px] ml-5    min-h-screen bg-gradient-to-br  relative overflow-hidden"
     >
       <Helmet>
-        <title>{"Turistlar uchun jujjatlar"}</title>
+        <title>Turistlar uchun jujjatlar</title>
         <meta name="description" content={metaDescription} />
         <meta name="keywords" content={metaKeywords} />
         <link rel="canonical" href={window.location.href} />

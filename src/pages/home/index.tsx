@@ -74,7 +74,7 @@ const Home: React.FC = () => {
     >
       <Helmet>
         <title>Eng yaxshi sayohat, turizm va xizmatlar – Tourism Uzbekistan Journal</title>
-        <meta name="description" content="Sayt mehmonxonalar, turistik joylar, transport va boshqa xizmatlarni toping. Sayohatlaringizni rejalashtiring va eng yaxshi xizmatlardan foydalaning." />
+        <meta name="description" content="Sayt mehmonxonalar, turistik joylar, transport va boshqa xizmatlarni toping. Sayohatlaringizni rejalashtiring va eng yaxshi xizmatlardan foydalaning, Tourism Uzbekistan Journal, Turizm Uzbeksitan, O'zbekiston turizm xizmatlari, O'zbekistondagi mehmonxonalar, O'zbekistondagi tur firmalar" />
         <meta property="og:title" content="Eng yaxshi sayohat, turizm va xizmatlar – MySite" />
         <meta property="og:description" content="MySite orqali mehmonxonalar, turistik joylar, transport va boshqa xizmatlarni toping. Sayohatlaringizni rejalashtiring va eng yaxshi xizmatlardan foydalaning." />
         <meta property="og:type" content="website" />

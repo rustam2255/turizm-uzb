@@ -265,7 +265,7 @@ const Airplane: React.FC = () => {
       className="max-w-[1600px] md:px-[80px] mx-auto px-4  py-6 md:py-10 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
     >
       <Helmet>
-        <title>{t("services.airplane")} - Uzbekistan | O'zbekiston</title>
+        <title>O'zbekistondagi Aviafirmalar  - Uzbekistan | O'zbekiston</title>
         <meta name="description" content={seoDescription} />
         <meta name="keywords" content={seoKeywords} />
         <link rel="canonical" href={window.location.href} />

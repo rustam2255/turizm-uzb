@@ -261,7 +261,7 @@ const Banks: React.FC = () => {
       className="max-w-[1600px] md:px-[80px] mx-auto px-4  py-6 md:py-10 bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
     >
       <Helmet>
-        <title>{t("services.banks")} - MySite</title>
+        <title>O'zbekistondagi banklar - Uzbekistan | O'zbekiston</title>
         <meta name="description" content={`List of banks in different cities. Search and filter banks by city or name.`} />
         <meta name="keywords" content="banks, bank in city, bank services, online banking, {t('services.banks')}" />
         <link rel="canonical" href={window.location.href} />

@@ -82,7 +82,7 @@ const Magazine: React.FC = () => {
   return (
     <div className="max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-30 mb-20 min-h-screen">
       <Helmet>
-        <title>{ "Jurnallar | Rasmiy sayti"}</title>
+        <title>Jurnallar | Rasmiy sayti, Tourism Uzbekistan Journal</title>
         <meta
           name="description"
           content={t(

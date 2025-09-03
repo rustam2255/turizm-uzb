@@ -157,7 +157,7 @@ const Clinics = () => {
   const totalPages = Math.ceil((dataClinics?.count || 0) / 10);
   const isLoading = loadingClinis || loadingCities;
     // SEO ma'lumotlari
-  const pageTitle = t("services.clinic") + " - " + t("services.title");
+  const pageTitle = "O'zbekistondagi shifoxonalar";
   const pageDescription =
     dataClinic[0]
       ? getLocalizedText(dataClinic[0].name, lang).slice(0, 160)
