@@ -57,7 +57,7 @@ const Magazine: React.FC = () => {
             className="overflow-hidden"
           >
             <div
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mt-6"
+              className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 space-y-4 lg:grid-cols-5 md:gap-6 mt-6"
             >
               {items.map((mag) => (
                 <div
@@ -160,7 +160,7 @@ const Magazine: React.FC = () => {
           </div>
         ) : isLoading ? (
           <div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mt-5"
+            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 md:gap-6  mt-5"
           >
             {Array(10)
               .fill(0)

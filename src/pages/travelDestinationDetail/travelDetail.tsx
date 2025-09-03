@@ -48,7 +48,7 @@ const TravelPlaceDetail: React.FC<TravelPlaceDetailProps> = ({ place, nextImage,
   
   return (
     <div
-      className="w-full px-4 md:px-[80px] pt-[50px] pb-16 max-w-[1100px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
+      className="w-full px-4 md:px-[80px] pt-[50px] pb-16 max-w-[1250px] md:ml-5 mx-auto bg-gradient-to-b from-white to-[#4DC7E8]/5 min-h-screen"
     >
       <Helmet>
         <title>{place.name} | Uzbekistan Tours</title>

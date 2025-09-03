@@ -93,200 +93,213 @@ const HotelDetailsPage: React.FC = () => {
   const pageImage = images[0]?.image || IMAGE;
 
   return (
-    <div
-      className="max-w-[1000px] md:ml-5 mx-auto py-5 md:py-7.5 "
-    >
-      <Helmet>
-        {/* Basic SEO */}
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-
-        {/* Open Graph */}
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:image" content={pageImage} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={pageDescription} />
-        <meta name="twitter:image" content={pageImage} />
-      </Helmet>
-      {/* breadcrumb */}
+    <div className="grid grid-cols-12 gap-6 py-5 md:py-7.5">
       <div
-        className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
+        className="col-span-9 md:ml-5 mx-auto"
       >
-        <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">
-          {t("breadcrumb.home")}
-        </Link>
-        <span>&gt;</span>
-        <span className="text-[rgba(25,110,150,255)] font-semibold">{t("breadcrumb.hotels")}</span>
-      </div>
+        <Helmet>
+          {/* Basic SEO */}
+          <title>{pageTitle}</title>
+          <meta name="description" content={pageDescription} />
 
-      {/* title */}
-      <p
-        className="text-[20px] md:text-[24px] text-[#131313] leading-[100%] mb-2 mt-4 md:mt-5 md:mb-5 font-bold"
-      >
-        {hotel.name}
-      </p>
+          {/* Open Graph */}
+          <meta property="og:title" content={pageTitle} />
+          <meta property="og:description" content={pageDescription} />
+          <meta property="og:image" content={pageImage} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={window.location.href} />
 
-      <div
-        className="grid grid-cols-1 lg:grid-cols-3 gap-8"
-      >
-        {/* left side */}
+          {/* Twitter Card */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={pageTitle} />
+          <meta name="twitter:description" content={pageDescription} />
+          <meta name="twitter:image" content={pageImage} />
+        </Helmet>
+        {/* breadcrumb */}
         <div
-          className="lg:col-span-2"
+          className="flex items-center text-[14px] md:text-[16px] font-medium gap-2 text-[#131313]"
         >
-          {/* image slider */}
+          <Link to="/" className="hover:text-[#4DC7E8] transition-colors duration-200">
+            {t("breadcrumb.home")}
+          </Link>
+          <span>&gt;</span>
+          <span className="text-[rgba(25,110,150,255)] font-semibold">{t("breadcrumb.hotels")}</span>
+        </div>
+
+        {/* title */}
+        <p
+          className="text-[20px] md:text-[24px] text-[#131313] leading-[100%] mb-2 mt-4 md:mt-5 md:mb-5 font-bold"
+        >
+          {hotel.name}
+        </p>
+
+        <div
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+        >
+          {/* left side */}
           <div
-            className="relative mb-3 md:mb-5 border "
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            className="lg:col-span-2"
           >
-            <img
-              src={images[currentImageIndex].image}
-              alt={hotel.name}
-              loading="lazy"
-              className="w-full h-[400px]  object-cover cursor-pointer"
-              onClick={openModal}
-            />
-            {isHovered && (
-              <div
-                className="absolute inset-0 flex items-center justify-center bg-black/30"
-                onClick={openModal}
-              >
-                <ZoomIn className="w-10 h-10 text-white bg-[rgba(25,110,150,0.7)] p-2 rounded-full" />
-              </div>
-            )}
-            {images.length > 1 && (
-              <>
-                <button
-                  onClick={prevImage}
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md"
-                >
-                  <ChevronLeft className="w-5 h-5 text-[rgba(25,110,150,255)]" />
-                </button>
-                <button
-                  onClick={nextImage}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md"
-                >
-                  <ChevronRight className="w-5 h-5 text-[rgba(25,110,150,255)]" />
-                </button>
-              </>
-            )}
-          </div>
-
-          {/* description */}
-          <div className="text-gray-700" >
-            <p className="text-lg font-semibold mb-2 text-[#131313] leading-relaxed">{hotel.description?.[lang]}</p>
-          </div>
-          <div className="text-gray-700" >
-            <p className="whitespace-pre-line">{stripHtmlTags(hotel.body?.[lang])}</p>
-          </div>
-        </div>
-
-        {/* right side */}
-        <div className="lg:col-span-1" >
-          {/* amenities */}
-          <div className="bg-white mb-4 p-4  shadow-md border">
-            <h2 className="text-[20px] md:text-[24px] text-[rgba(25,110,150,255)] mb-4 font-semibold">
-              {t("hotelDetail.amenities")}
-            </h2>
-            <ul className="space-y-3">
-              {hotel.amenities.length > 0 ? (
-                hotel.amenities.map((amenity) => {
-                  const key = amenity.name.en?.toLowerCase().replace(/\s+/g, "") || "";
-                  const Icon = amenityIcons[key] || Award;
-                  return (
-                    <li key={amenity.id} className="flex items-center gap-3">
-                      <Icon className="w-5 h-5 text-[rgba(25,110,150,255)]" />
-                      <p className="text-[14px] md:text-[18px] font-medium text-[#131313]">
-                        {amenity.name[lang]}
-                      </p>
-                    </li>
-                  );
-                })
-              ) : (
-                <p className="text-sm text-gray-500">{t("no_amenities")}</p>
-              )}
-            </ul>
-          </div>
-
-          {/* map */}
-          <div className="bg-white p-4   border">
-            <h2 className="text-[15px] md:text-[18px] font-medium text-[rgba(25,110,150,255)] mb-1">
-              {t("hotelDetail.location_map")}
-            </h2>
-            <div className="h-64 bg-[#4DC7E8]/10 overflow-hidden ">
-              <iframe
-                title="map"
-                width="100%"
-                height="100%"
-                loading="lazy"
-                src={`https://maps.google.com/maps?q=${hotel.latitude},${hotel.longitude}&z=15&output=embed`}
-              ></iframe>
-            </div>
+            {/* image slider */}
             <div
-              className="flex flex-col gap-2 mb-3 mt-4"
+              className="relative mb-3 md:mb-5 border "
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
             >
-              <div className="flex gap-2">
-                <button
-                  onClick={() => openNativeMap(hotel.latitude, hotel.longitude, hotel.name)}
-                  className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
+              <img
+                src={images[currentImageIndex].image}
+                alt={hotel.name}
+                loading="lazy"
+                className="w-full h-[400px]  object-cover cursor-pointer"
+                onClick={openModal}
+              />
+              {isHovered && (
+                <div
+                  className="absolute inset-0 flex items-center justify-center bg-black/30"
+                  onClick={openModal}
                 >
-                  📱 Navigator
-                </button>
-                <button
-                  onClick={() => openGoogleMaps(hotel.latitude, hotel.longitude, hotel.name)}
-                  className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
-                >
-                  🗺️ Google
-                </button>
-              </div>
-              <button
-                onClick={() => openYandexMaps(hotel.latitude, hotel.longitude)}
-                className="w-full bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
-              >
-                🗺️ Yandex Maps
-              </button>
+                  <ZoomIn className="w-10 h-10 text-white bg-[rgba(25,110,150,0.7)] p-2 rounded-full" />
+                </div>
+              )}
+              {images.length > 1 && (
+                <>
+                  <button
+                    onClick={prevImage}
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md"
+                  >
+                    <ChevronLeft className="w-5 h-5 text-[rgba(25,110,150,255)]" />
+                  </button>
+                  <button
+                    onClick={nextImage}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md"
+                  >
+                    <ChevronRight className="w-5 h-5 text-[rgba(25,110,150,255)]" />
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* description */}
+            <div className="text-gray-700" >
+              <p className="text-lg font-semibold mb-2 text-[#131313] leading-relaxed">{hotel.description?.[lang]}</p>
+            </div>
+            <div className="text-gray-700" >
+              <p className="whitespace-pre-line">{stripHtmlTags(hotel.body?.[lang])}</p>
             </div>
           </div>
 
-          {/* contact */}
-          <div className="bg-white mt-2 md:mt-4 p-4  shadow-md border">
-            <h2 className="text-[15px] md:text-[18px] font-medium text-[rgba(25,110,150,255)] mb-2">
-              {t("hotelDetail.contact")}
-            </h2>
-            <div className="space-y-2 font-medium text-[15px] md:text-[18px]">
-              <p className="flex items-start gap-2">
-                <MapPin className="w-5 h-5 text-[rgba(25,110,150,255)] mt-0.5" />
-                <span>{hotel.address?.[lang]}</span>
-              </p>
-              <p className="flex items-center gap-2">
-                <Phone className="w-5 h-5 text-[rgba(25,110,150,255)]" />
-                <a href={`tel:${hotel.phone?.replace(/[^0-9+]/g, "")}`} className="hover:text-[#4DC7E8]">
-                  {hotel.phone}
-                </a>
-              </p>
+          {/* right side */}
+          <div className="lg:col-span-1" >
+            {/* amenities */}
+            <div className="bg-white mb-4 p-4  shadow-md border">
+              <h2 className="text-[20px] md:text-[24px] text-[rgba(25,110,150,255)] mb-4 font-semibold">
+                {t("hotelDetail.amenities")}
+              </h2>
+              <ul className="space-y-3">
+                {hotel.amenities.length > 0 ? (
+                  hotel.amenities.map((amenity) => {
+                    const key = amenity.name.en?.toLowerCase().replace(/\s+/g, "") || "";
+                    const Icon = amenityIcons[key] || Award;
+                    return (
+                      <li key={amenity.id} className="flex items-center gap-3">
+                        <Icon className="w-5 h-5 text-[rgba(25,110,150,255)]" />
+                        <p className="text-[14px] md:text-[18px] font-medium text-[#131313]">
+                          {amenity.name[lang]}
+                        </p>
+                      </li>
+                    );
+                  })
+                ) : (
+                  <p className="text-sm text-gray-500">{t("no_amenities")}</p>
+                )}
+              </ul>
+            </div>
+
+            {/* map */}
+            <div className="bg-white p-4   border">
+              <h2 className="text-[15px] md:text-[18px] font-medium text-[rgba(25,110,150,255)] mb-1">
+                {t("hotelDetail.location_map")}
+              </h2>
+              <div className="h-64 bg-[#4DC7E8]/10 overflow-hidden ">
+                <iframe
+                  title="map"
+                  width="100%"
+                  height="100%"
+                  loading="lazy"
+                  src={`https://maps.google.com/maps?q=${hotel.latitude},${hotel.longitude}&z=15&output=embed`}
+                ></iframe>
+              </div>
+              <div
+                className="flex flex-col gap-2 mb-3 mt-4"
+              >
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => openNativeMap(hotel.latitude, hotel.longitude, hotel.name)}
+                    className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
+                  >
+                    📱 Navigator
+                  </button>
+                  <button
+                    onClick={() => openGoogleMaps(hotel.latitude, hotel.longitude, hotel.name)}
+                    className="flex-1 bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
+                  >
+                    🗺️ Google
+                  </button>
+                </div>
+                <button
+                  onClick={() => openYandexMaps(hotel.latitude, hotel.longitude)}
+                  className="w-full bg-[rgba(25,110,150,255)] hover:bg-[#3AA8C7] text-white font-bold py-2 px-3 rounded text-sm transition-all duration-300 shadow-sm shadow-[#4DC7E8]/20 hover:shadow-[#4DC7E8]/40"
+                >
+                  🗺️ Yandex Maps
+                </button>
+              </div>
+            </div>
+
+            {/* contact */}
+            <div className="bg-white mt-2 md:mt-4 p-4  shadow-md border">
+              <h2 className="text-[15px] md:text-[18px] font-medium text-[rgba(25,110,150,255)] mb-2">
+                {t("hotelDetail.contact")}
+              </h2>
+              <div className="space-y-2 font-medium text-[15px] md:text-[18px]">
+                <p className="flex items-start gap-2">
+                  <MapPin className="w-5 h-5 text-[rgba(25,110,150,255)] mt-0.5" />
+                  <span>{hotel.address?.[lang]}</span>
+                </p>
+                <p className="flex items-center gap-2">
+                  <Phone className="w-5 h-5 text-[rgba(25,110,150,255)]" />
+                  <a href={`tel:${hotel.phone?.replace(/[^0-9+]/g, "")}`} className="hover:text-[#4DC7E8]">
+                    {hotel.phone}
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
+
+        <NearHotels hotelId={hotel.id.toString()} />
+
+        {/* ✅ Modal portal */}
+        {isModalOpen &&
+          <GalleryModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            images={images}
+            title={hotel.name}
+          />
+        }
       </div>
+      <aside className="col-span-3 space-y-4">
+        <div className="bg-gray-100 h-100 p-2 rounded">
+          <p>Reklama 1</p>
+          {/* Banner yoki AdSense kodini joylashtirasan */}
+        </div>
+        <div className="bg-gray-100 h-100 p-2 rounded">
+          <p>Reklama 2</p>
+        </div>
+      </aside>
+    
+    </div >
 
-      <NearHotels hotelId={hotel.id.toString()} />
-
-      {/* ✅ Modal portal */}
-      {isModalOpen &&
-        <GalleryModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          images={images}
-          title={hotel.name}
-        />
-      }
-    </div>
   );
 };
 

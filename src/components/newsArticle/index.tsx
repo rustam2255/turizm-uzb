@@ -111,7 +111,7 @@ const NewsArticle: React.FC = () => {
                 </div>
               </div>
 
-              <div className="md:col-span-1 max-md:mr-20">
+              <div className="md:col-span-1 ">
                 <div className="md:pt-0 opacity-100 animate-slide-in-right" style={{ animationDelay: '600ms' }}>
                   <h3 className="text-[24px] leading-[100%] text-[rgba(25,110,150,255)] font-normal mb-1.5 md:mb-3 hover:text-sky-200 transition-colors duration-300">
                     {t("newsArticle.article")}
